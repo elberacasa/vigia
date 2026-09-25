@@ -6,6 +6,14 @@ All notable changes to Vigía are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-25
+
+### Fixed
+- The dollar panel's 90-day chart puts BCV and Yadio on one date axis and one price axis; a short Yadio history is
+  no longer stretched across 90 days (it looked like a fall that did not happen).
+
+Release notes: [docs/releases/v0.1.2.md](docs/releases/v0.1.2.md).
+
 ## [0.1.1] - 2026-09-25
 
 ### Fixed

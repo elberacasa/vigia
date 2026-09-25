@@ -379,6 +379,68 @@ function OfficialCard({ rate, big, eur }: { rate: OfficialRate; big: boolean; eu
 	);
 }
 
+/** Both series on one date axis and one price axis, so they can be compared; a short history stays short. */
+function RateChart(props: { official: readonly DayPoint[]; yadio: readonly DayPoint[]; lang: "es" | "en" }) {
+	const { official, yadio } = props;
+	if (official.length < 2) return null;
+	const width = 240;
+	const height = 56;
+	const pad = 3;
+	const day = (d: string) => Date.parse(`${d}T00:00:00Z`);
+	const t0 = day(official[0]?.date ?? "");
+	const t1 = Math.max(day(official.at(-1)?.date ?? ""), day(yadio.at(-1)?.date ?? "1970-01-01"));
+	const all = [...official, ...yadio].map((p) => p.vesPerUsd);
+	const min = Math.min(...all);
+	const max = Math.max(...all);
+	const x = (d: string) => pad + ((day(d) - t0) / Math.max(1, t1 - t0)) * (width - 2 * pad);
+	const y = (v: number) => pad + (1 - (v - min) / (max - min || 1)) * (height - 2 * pad);
+	const path = (pts: readonly DayPoint[]) =>
+		pts
+			.filter((p) => day(p.date) >= t0)
+			.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)} ${y(p.vesPerUsd).toFixed(1)}`)
+			.join("");
+	const line = path(official);
+	const area = `${line}L${x(official.at(-1)?.date ?? "").toFixed(1)} ${height}L${x(official[0]?.date ?? "").toFixed(1)} ${height}Z`;
+	const yadioLine = yadio.length > 1 ? path(yadio) : "";
+	const lastY = yadio.at(-1);
+	const yadioShort = yadio.length > 0 && day(yadio[0]?.date ?? "") - t0 > 7 * 86_400_000;
+	return (
+		<>
+			<figure class="spark spark--signal rate-chart">
+				<svg
+					viewBox={`0 0 ${width} ${height}`}
+					preserveAspectRatio="none"
+					aria-hidden="true"
+					focusable="false"
+				>
+					<path d={area} class="spark__area" />
+					<path d={line} class="spark__line" vector-effect="non-scaling-stroke" />
+					{yadioLine ? (
+						<path d={yadioLine} class="rate-chart__yadio" vector-effect="non-scaling-stroke" />
+					) : null}
+					{lastY ? (
+						<circle cx={x(lastY.date)} cy={y(lastY.vesPerUsd)} r={2.5} class="rate-chart__yadio-dot" />
+					) : null}
+				</svg>
+				<figcaption class="sr-only">
+					{t(
+						`Tasa oficial del BCV de ${num(official[0]?.vesPerUsd ?? 0, 2, props.lang)} a ${num(official.at(-1)?.vesPerUsd ?? 0, 2, props.lang)} Bs; Yadio en la misma escala.`,
+						`BCV official rate from ${num(official[0]?.vesPerUsd ?? 0, 2, props.lang)} to ${num(official.at(-1)?.vesPerUsd ?? 0, 2, props.lang)} Bs; Yadio on the same scale.`,
+					)}
+				</figcaption>
+			</figure>
+			{yadioShort ? (
+				<p class="note rate-chart__note">
+					{t(
+						`Yadio: historial desde el ${dayLabel(yadio[0]?.date ?? "", props.lang)} (desde que este equipo lo registra).`,
+						`Yadio: history since ${dayLabel(yadio[0]?.date ?? "", props.lang)} (since this computer started recording it).`,
+					)}
+				</p>
+			) : null}
+		</>
+	);
+}
+
 export function MoneyPanel() {
 	const view = panels.value.money as MoneyView | undefined;
 	const l = lang.value;
@@ -482,22 +544,7 @@ export function MoneyPanel() {
 							<span class="legend legend--signal">BCV</span>
 							<span class="legend legend--info">Yadio</span>
 						</p>
-						<div class="chart-stack">
-							<Sparkline
-								values={officialSeries.map((p) => p.vesPerUsd)}
-								summary={t(
-									`Tasa oficial del BCV, de ${num(officialSeries[0]?.vesPerUsd ?? 0, 2, l)} a ${num(officialSeries.at(-1)?.vesPerUsd ?? 0, 2, l)} Bs en 90 días`,
-									`BCV official rate, from ${num(officialSeries[0]?.vesPerUsd ?? 0, 2, l)} to ${num(officialSeries.at(-1)?.vesPerUsd ?? 0, 2, l)} Bs in 90 days`,
-								)}
-							/>
-							{yadioSeries.length > 1 ? (
-								<Sparkline
-									tone="info"
-									values={yadioSeries.map((p) => p.vesPerUsd)}
-									summary={t("Índice Yadio en el mismo período", "Yadio index over the same period")}
-								/>
-							) : null}
-						</div>
+						<RateChart official={officialSeries} yadio={yadioSeries} lang={l} />
 						{officialSeries.length ? (
 							<p class="chart-block__axis note data">
 								<span>{dayLabel(officialSeries[0]?.date ?? "", l)}</span>

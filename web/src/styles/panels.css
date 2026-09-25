@@ -936,3 +936,16 @@ fieldset.topic-chips {
 	border: 1px solid var(--line);
 	background: var(--surface-2);
 }
+
+/* The dollar panel's 90-day chart: BCV and Yadio on one date axis and one price axis (Money.tsx RateChart). */
+.rate-chart__yadio {
+	fill: none;
+	stroke: var(--info);
+	stroke-width: 1.75px;
+}
+.rate-chart__yadio-dot {
+	fill: var(--info);
+}
+.rate-chart__note {
+	margin: 2px 0 0;
+}

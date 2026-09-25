@@ -1,50 +1,52 @@
-VIGÍA · Venezuela now                               Sep 25, 11:58 · Caracas time
+VIGÍA · Venezuela now                               Sep 25, 13:49 · Caracas time
 ────────────────────────────────────────────────────────────────────────────────
-NOW    Possible blackout in Guárico (IODA and press, last signal 6 min ago) ·
-       Storms forecast in 7 capitals · BCV dollar Bs 855.66, Yadio +11.1%
+NOW    Possible blackout in Guárico (IODA and press, last signal 3 min ago) ·
+       Storms forecast in 6 capitals · BCV dollar Bs 855.66, Yadio +10.5%
 
 DOLLAR
-  BCV official        855.66 Bs  +0.14% in 24 h                   BCV · 11 h ago
-  Yadio (P2P)         951.06 Bs  gap +11.1%                    Yadio · 3 min ago
+  BCV official        855.66 Bs  +0.14% in 24 h                   BCV · 13 h ago
+  Yadio (P2P)         945.11 Bs  gap +10.5%                    Yadio · 5 min ago
 
 INTERNET BY STATE (IODA, WORST FIRST)
-  Normal (23), % of normal for this hour:
-  Nueva Esparta 91%         Monagas 94%               Mérida 96%
-  Lara 97%                  Falcón 97%                Miranda 98%
-  Zulia 98%                 Distrito Capital 99%      Anzoátegui 100%
-  Delta Amacuro 100%        Bolívar 100%              Sucre 101%
-  Aragua 102%               La Guaira 103%            Cojedes 104%
-  Barinas 106%              Portuguesa 106%           Apure 109%
-  Trujillo 110%             Carabobo 113%             Táchira 113%
-  Yaracuy 114%              Guárico 117%
-  No data (2): Amazonas, Dependencias Federales
-  IODA, Georgia Tech · 18 min ago
+  Normal (24), % of normal for this hour:
+  Monagas 86%               Apure 92%                 Guárico 94%
+  Miranda 94%               Nueva Esparta 96%         Zulia 97%
+  Anzoátegui 99%            Falcón 99%                Bolívar 99%
+  Amazonas 100%             Carabobo 100%             Cojedes 100%
+  Delta Amacuro 100%        Distrito Capital 100%     La Guaira 100%
+  Lara 100%                 Mérida 100%               Portuguesa 100%
+  Sucre 100%                Táchira 100%              Trujillo 100%
+  Yaracuy 100%              Aragua 100%               Barinas 101%
+  No data (1): Dependencias Federales
+  IODA, Georgia Tech · 20 min ago
 
 EARTHQUAKES, 24 H, VENEZUELA AND NEARBY
-  M3.4  En el mar, a 31 km al ESE de Güiria (Sucre)           FUNVISIS · 8 h ago
-  M3.4  En el mar, a 33 km al ENE de Río Caribe (Sucre)      FUNVISIS · 10 h ago
-  M3.2  a 12 km al ESE de Palmasola (Yaracuy)                 FUNVISIS · 9 h ago
-  M3.2  a 14 km al SSO de Yaguaraparo (Sucre)                FUNVISIS · 12 h ago
-  M3.0  a 15 km al NO de Campo Elías (Trujillo)              FUNVISIS · 22 h ago
-  and 7 more
+  M3.4  En el mar, a 31 km al ESE de Güiria (Sucre)          FUNVISIS · 10 h ago
+  M3.4  En el mar, a 33 km al ENE de Río Caribe (Sucre)      FUNVISIS · 12 h ago
+  M3.2  a 12 km al ESE de Palmasola (Yaracuy)                FUNVISIS · 11 h ago
+  M3.2  a 14 km al SSO de Yaguaraparo (Sucre)                FUNVISIS · 14 h ago
+  M2.7  Colombia, a 83 km al NO de Casigua El Cubo (Zulia)    FUNVISIS · 8 h ago
+  and 6 more
 
 INCIDENTS (INDEPENDENT SOURCES THAT AGREE)
   ● Possible blackout in Guárico                                     since 08:43
-    2 independent sources · IODA, press                           last 6 min ago
+    2 independent sources · IODA, press                           last 3 min ago
 
 PRESS REPORTS ONLY (NO MEASUREMENT)
-  ○ Possible blackout in Aragua                                      since 08:43
-    reports only, 2 outlets, no measurement                       last 8 min ago
-  ○ Possible blackout in Mérida                                      since 03:31
-    reports only, 4 outlets, no measurement                       last 8 min ago
-  ○ Possible blackout in Zulia                                       since 06:50
-    reports only, 7 outlets, no measurement                       last 8 min ago
   ○ Possible blackout in Lara                                        since 09:10
-    reports only, 3 outlets, no measurement                      last 18 min ago
-  ○ Possible blackout in Distrito Capital                            since 08:27
+    reports only, 4 outlets, no measurement                      last 39 min ago
+  ○ Possible blackout in Portuguesa                                  since 11:40
     reports only, 2 outlets, no measurement                         last 1 h ago
-  and 1 more
-  12 ended in the last 48 h
+  ○ Possible blackout in Aragua                                      since 08:43
+    reports only, 2 outlets, no measurement                         last 1 h ago
+  ○ Possible blackout in Mérida                                      since 03:31
+    reports only, 4 outlets, no measurement                         last 1 h ago
+  ○ Possible blackout in Zulia                                       since 06:50
+    reports only, 7 outlets, no measurement                         last 1 h ago
+
+UNCORROBORATED SIGNALS (ONE MEASURED SOURCE)
+  · Connectivity drop in Yaracuy · IODA                           last 3 min ago
+  14 ended in the last 48 h
 
 ────────────────────────────────────────────────────────────────────────────────
 Each line: source · age of the data. Numbers computed by code, no AI.

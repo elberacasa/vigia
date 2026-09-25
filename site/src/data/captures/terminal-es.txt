@@ -1,50 +1,52 @@
-VIGÍA · Venezuela ahora                         25 sept, 11:58 · hora de Caracas
+VIGÍA · Venezuela ahora                         25 sept, 13:49 · hora de Caracas
 ────────────────────────────────────────────────────────────────────────────────
-AHORA  Posible apagón en Guárico (IODA y prensa, última señal hace 6 min) ·
-       Tormentas previstas en 7 capitales · Dólar BCV 855,66 Bs, Yadio +11,1 %
+AHORA  Posible apagón en Guárico (IODA y prensa, última señal hace 3 min) ·
+       Tormentas previstas en 6 capitales · Dólar BCV 855,66 Bs, Yadio +10,5 %
 
 DÓLAR
-  BCV oficial         855,66 Bs  +0,14 % en 24 h                 BCV · hace 11 h
-  Yadio (P2P)         951,06 Bs  brecha +11,1 %               Yadio · hace 3 min
+  BCV oficial         855,66 Bs  +0,14 % en 24 h                 BCV · hace 13 h
+  Yadio (P2P)         945,11 Bs  brecha +10,5 %               Yadio · hace 5 min
 
 INTERNET POR ESTADO (IODA, PEOR PRIMERO)
-  Normales (23), % de lo normal a esta hora:
-  Nueva Esparta 91%         Monagas 94%               Mérida 96%
-  Lara 97%                  Falcón 97%                Miranda 98%
-  Zulia 98%                 Distrito Capital 99%      Anzoátegui 100%
-  Delta Amacuro 100%        Bolívar 100%              Sucre 101%
-  Aragua 102%               La Guaira 103%            Cojedes 104%
-  Barinas 106%              Portuguesa 106%           Apure 109%
-  Trujillo 110%             Carabobo 113%             Táchira 113%
-  Yaracuy 114%              Guárico 117%
-  Sin datos (2): Amazonas, Dependencias Federales
-  IODA, Georgia Tech · hace 18 min
+  Normales (24), % de lo normal a esta hora:
+  Monagas 86%               Apure 92%                 Guárico 94%
+  Miranda 94%               Nueva Esparta 96%         Zulia 97%
+  Anzoátegui 99%            Falcón 99%                Bolívar 99%
+  Amazonas 100%             Carabobo 100%             Cojedes 100%
+  Delta Amacuro 100%        Distrito Capital 100%     La Guaira 100%
+  Lara 100%                 Mérida 100%               Portuguesa 100%
+  Sucre 100%                Táchira 100%              Trujillo 100%
+  Yaracuy 100%              Aragua 100%               Barinas 101%
+  Sin datos (1): Dependencias Federales
+  IODA, Georgia Tech · hace 20 min
 
 SISMOS, 24 H, VENEZUELA Y CERCA
-  M3,4  En el mar, a 31 km al ESE de Güiria (Sucre)          FUNVISIS · hace 8 h
-  M3,4  En el mar, a 33 km al ENE de Río Caribe (Sucre)     FUNVISIS · hace 10 h
-  M3,2  a 12 km al ESE de Palmasola (Yaracuy)                FUNVISIS · hace 9 h
-  M3,2  a 14 km al SSO de Yaguaraparo (Sucre)               FUNVISIS · hace 12 h
-  M3,0  a 15 km al NO de Campo Elías (Trujillo)             FUNVISIS · hace 22 h
-  y 7 más
+  M3,4  En el mar, a 31 km al ESE de Güiria (Sucre)         FUNVISIS · hace 10 h
+  M3,4  En el mar, a 33 km al ENE de Río Caribe (Sucre)     FUNVISIS · hace 12 h
+  M3,2  a 12 km al ESE de Palmasola (Yaracuy)               FUNVISIS · hace 11 h
+  M3,2  a 14 km al SSO de Yaguaraparo (Sucre)               FUNVISIS · hace 14 h
+  M2,7  Colombia, a 83 km al NO de Casigua El Cubo (Zulia)   FUNVISIS · hace 8 h
+  y 6 más
 
 INCIDENTES (FUENTES INDEPENDIENTES QUE COINCIDEN)
   ● Posible apagón en Guárico                                        desde 08:43
-    2 fuentes independientes · IODA, prensa                    última hace 6 min
+    2 fuentes independientes · IODA, prensa                    última hace 3 min
 
 SOLO REPORTES DE PRENSA (SIN MEDICIÓN)
-  ○ Posible apagón en Aragua                                         desde 08:43
-    solo reportes de 2 medios, sin medición                    última hace 8 min
-  ○ Posible apagón en Mérida                                         desde 03:31
-    solo reportes de 4 medios, sin medición                    última hace 8 min
-  ○ Posible apagón en Zulia                                          desde 06:50
-    solo reportes de 7 medios, sin medición                    última hace 8 min
   ○ Posible apagón en Lara                                           desde 09:10
-    solo reportes de 3 medios, sin medición                   última hace 18 min
-  ○ Posible apagón en Distrito Capital                               desde 08:27
+    solo reportes de 4 medios, sin medición                   última hace 39 min
+  ○ Posible apagón en Portuguesa                                     desde 11:40
     solo reportes de 2 medios, sin medición                      última hace 1 h
-  y 1 más
-  12 terminados en 48 h
+  ○ Posible apagón en Aragua                                         desde 08:43
+    solo reportes de 2 medios, sin medición                      última hace 1 h
+  ○ Posible apagón en Mérida                                         desde 03:31
+    solo reportes de 4 medios, sin medición                      última hace 1 h
+  ○ Posible apagón en Zulia                                          desde 06:50
+    solo reportes de 7 medios, sin medición                      última hace 1 h
+
+SEÑALES SIN CORROBORAR (UNA SOLA FUENTE MEDIDA)
+  · Caída de conectividad en Yaracuy · IODA                    última hace 3 min
+  14 terminados en 48 h
 
 ────────────────────────────────────────────────────────────────────────────────
 Cada línea: fuente · edad del dato. Números calculados por código, sin IA. Todo,
