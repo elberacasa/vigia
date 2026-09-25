@@ -91,7 +91,7 @@ export function Numbers({ lang }: { lang: Lang }) {
 				{t(" (hora de Caracas), versión ", " (Caracas time), version ")}
 				{facts.version}
 				{t(" · el guion: ", " · the script: ")}
-				<a className="link" href={blob("scripts/site-data.ts")} rel="noopener">
+				<a className="link" href={blob("scripts/site-data.ts")} target="_blank" rel="noopener noreferrer">
 					scripts/site-data.ts
 				</a>
 			</p>

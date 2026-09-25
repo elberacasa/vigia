@@ -51,7 +51,7 @@ function Anatomy({ lang }: { lang: Lang }) {
 							<dt className="text-[0.8125rem] text-text-3">{k}</dt>
 							<dd className="data min-w-0 break-words text-[0.8125rem] text-text">
 								{href ? (
-									<a className="link" href={href} rel="noopener">
+									<a className="link" href={href} target="_blank" rel="noopener noreferrer">
 										{v}
 									</a>
 								) : (

@@ -93,7 +93,7 @@ export function Licence({ lang }: { lang: Lang }) {
 					"Si lo compartes, incluye la licencia y su aviso. Este resumen no es la licencia: ",
 					"If you share it, pass on the licence and its notice. This summary is not the licence: ",
 				)}
-				<a className="link" href={blob("LICENSE")} rel="noopener">
+				<a className="link" href={blob("LICENSE")} target="_blank" rel="noopener noreferrer">
 					LICENSE
 				</a>
 				{t(
@@ -122,11 +122,11 @@ export function FinalCta({ lang }: { lang: Lang }) {
 					)}
 				</p>
 				<div className="mt-9 flex flex-wrap justify-center gap-3">
-					<a href={`${REPO}/releases/latest`} className="btn btn-primary" rel="noopener">
+					<a href={`${REPO}/releases/latest`} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
 						<Download />
 						{t("Descargar", "Download")}
 					</a>
-					<a href={REPO} className="btn btn-ghost" rel="noopener">
+					<a href={REPO} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
 						<GitHubIcon />
 						{t("Ver en GitHub", "View on GitHub")}
 					</a>
@@ -191,7 +191,7 @@ export function Footer({ lang }: { lang: Lang }) {
 										<a
 											href={href}
 											className="text-[0.875rem] text-text-3 transition-colors hover:text-text"
-											rel="noopener"
+											target="_blank" rel="noopener noreferrer"
 										>
 											{label}
 										</a>
@@ -204,7 +204,7 @@ export function Footer({ lang }: { lang: Lang }) {
 				<div className="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-[0.8125rem] text-text-3 sm:flex-row sm:items-center sm:justify-between">
 					<p>
 						{t("Hecho por ", "Made by ")}
-						<a className="link" href="https://github.com/elberacasa" rel="noopener">
+						<a className="link" href="https://github.com/elberacasa" target="_blank" rel="noopener noreferrer">
 							elberacasa
 						</a>
 						{t(

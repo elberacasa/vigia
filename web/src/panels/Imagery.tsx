@@ -3,8 +3,10 @@ import { addStyles } from "../lib/css.ts";
 import { panels } from "../lib/data.ts";
 import { num, pct } from "../lib/format.ts";
 import { lang, t } from "../lib/i18n.ts";
+import { jumpTo } from "../lib/keys.ts";
 import { PANEL_META } from "../lib/panel-meta.ts";
-import { SatelliteControls } from "../map/underlays.tsx";
+import { SatelliteControls, satelliteFrame } from "../map/underlays.tsx";
+import { setLayer, shading } from "../map/view.ts";
 import panelsCss from "../styles/panels.css?inline";
 import { Panel } from "../ui/Panel.tsx";
 import { SourceTag } from "../ui/Source.tsx";
@@ -62,6 +64,26 @@ export interface NightlightsView {
 	caveats: string[];
 }
 
+/** The frame the loop is on, shown in the panel itself so play visibly moves even when the map shows another layer. */
+function SatellitePreview({ view }: { view: SatelliteView }) {
+	const n = view.frames.length;
+	const frame = view.frames[Math.min(satelliteFrame.value ?? n - 1, n - 1)];
+	if (!frame) return null;
+	return (
+		<img
+			class="sat-preview"
+			src={frame.url}
+			alt={t(
+				`Imagen del satélite GOES-19 sobre Venezuela, ${new Date(frame.observedAt).toISOString().slice(11, 16)} UTC`,
+				`GOES-19 satellite image over Venezuela, ${new Date(frame.observedAt).toISOString().slice(11, 16)} UTC`,
+			)}
+			width={427}
+			height={384}
+			decoding="async"
+		/>
+	);
+}
+
 export function SatellitePanel() {
 	const view = panels.value.satellite as SatelliteView | undefined;
 	return (
@@ -78,11 +100,24 @@ export function SatellitePanel() {
 				<>
 					<p class="note">
 						{t(
-							"Imagen GeoColor del GOES-19 sobre el mapa (capa «Satélite»). Muévela con el control o dale a reproducir para ver las últimas horas.",
-							"GOES-19 GeoColor image on the map (“Satellite” layer). Scrub with the control or press play to see the last hours.",
+							"Imagen GeoColor del GOES-19 de las últimas horas. Dale a reproducir o mueve el control; «Ver en el mapa» la pone sobre los estados.",
+							"GOES-19 GeoColor imagery from the last hours. Press play or scrub; “Show on the map” lays it over the states.",
 						)}
 					</p>
+					<SatellitePreview view={view} />
 					<SatelliteControls />
+					{shading.value !== "satellite" ? (
+						<button
+							type="button"
+							class="link-button"
+							onClick={() => {
+								setLayer("satellite");
+								jumpTo("mapa");
+							}}
+						>
+							{t("Ver en el mapa →", "Show on the map →")}
+						</button>
+					) : null}
 					{view.nightNote ? <p class="note warn-text">{view.nightNote}</p> : null}
 					<SourceTag
 						source={{

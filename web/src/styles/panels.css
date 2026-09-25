@@ -923,3 +923,16 @@ fieldset.topic-chips {
 .tag--place::before {
 	content: "⌖ ";
 }
+
+/* The satellite loop's current frame, in the panel itself (the images are 427×384, plain lon/lat, north up). */
+.sat-preview {
+	display: block;
+	width: 100%;
+	max-width: 480px;
+	height: auto;
+	aspect-ratio: 427 / 384;
+	margin: var(--s-2) 0;
+	border-radius: var(--r-md);
+	border: 1px solid var(--line);
+	background: var(--surface-2);
+}

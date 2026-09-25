@@ -66,11 +66,11 @@ export function Hero({ lang }: { lang: Lang }) {
 						)}
 					</p>
 					<div className="mt-9 flex flex-wrap items-center gap-3">
-						<a href={`${REPO}/releases/latest`} className="btn btn-primary" rel="noopener">
+						<a href={`${REPO}/releases/latest`} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
 							<Download />
 							{t("Descargar", "Download")}
 						</a>
-						<a href={REPO} className="btn btn-ghost" rel="noopener">
+						<a href={REPO} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
 							<GitHubIcon />
 							{t("Ver en GitHub", "View on GitHub")}
 						</a>

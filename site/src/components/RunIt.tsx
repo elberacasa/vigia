@@ -204,7 +204,7 @@ export function RunIt({ lang }: { lang: Lang }) {
 			after: (
 				<p>
 					{t("Detalles: ", "Details: ")}
-					<a className="link" href={blob("docs/OPERATIONS.md")} rel="noopener">
+					<a className="link" href={blob("docs/OPERATIONS.md")} target="_blank" rel="noopener noreferrer">
 						docs/OPERATIONS.md
 					</a>
 				</p>
@@ -238,7 +238,7 @@ export function RunIt({ lang }: { lang: Lang }) {
 							`Archivos de ${num(lang, Math.min(...sizes))} a ${num(lang, Math.max(...sizes))} MB, sin instalar nada más; cada uno trae una carpeta con el programa, LICENSE y NOTICE. Windows y macOS son nuevos: cada archivo arranca y responde en una prueba automática en su sistema antes de publicarse, pero aún pocas personas los han usado. Si algo falla, `,
 							`Files of ${num(lang, Math.min(...sizes))} to ${num(lang, Math.max(...sizes))} MB, nothing else to install; each holds a folder with the program, LICENSE and NOTICE. Windows and macOS are new: every file starts and answers in an automated test on its own system before it is published, but few people have used them yet. If something fails, `,
 						)}
-						<a className="link" href={`${REPO}/issues`} rel="noopener">
+						<a className="link" href={`${REPO}/issues`} target="_blank" rel="noopener noreferrer">
 							{t("abre un issue", "open an issue")}
 						</a>
 						{t(" con lo que imprime la terminal.", " with what the terminal prints.")}
@@ -271,7 +271,7 @@ export function RunIt({ lang }: { lang: Lang }) {
 							</li>
 							<li>
 								{t("Guía completa: ", "Full guide: ")}
-								<a className="link" href={blob("docs/SETUP.md")} rel="noopener">
+								<a className="link" href={blob("docs/SETUP.md")} target="_blank" rel="noopener noreferrer">
 									docs/SETUP.md
 								</a>
 							</li>
@@ -311,7 +311,7 @@ export function RunIt({ lang }: { lang: Lang }) {
 						)}
 					</p>
 					<p className="mt-3 text-[0.9375rem] text-text-2">
-						<a className="link" href={blob("docs/API.md")} rel="noopener">
+						<a className="link" href={blob("docs/API.md")} target="_blank" rel="noopener noreferrer">
 							docs/API.md
 						</a>
 					</p>
