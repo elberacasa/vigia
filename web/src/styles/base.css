@@ -680,3 +680,11 @@ button {
 	padding: var(--s-4) 0;
 	text-align: center;
 }
+
+/* Native dropdown lists: some browsers (Chromium on Linux) draw the open list with the system's light background and
+   ignore color-scheme, so options inherit the theme's light text and vanish. Give options explicit colours. */
+select option,
+select optgroup {
+	background-color: var(--surface-1);
+	color: var(--text);
+}

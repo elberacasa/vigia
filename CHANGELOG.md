@@ -6,6 +6,13 @@ All notable changes to Vigía are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-09-25
+
+### Fixed
+- Native dropdown lists are readable in the dark theme on browsers that draw them with a light background.
+
+Release notes: [docs/releases/v0.1.5.md](docs/releases/v0.1.5.md).
+
 ## [0.1.4] - 2026-09-25
 
 ### Added
