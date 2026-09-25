@@ -651,3 +651,17 @@ test("/api/meta: each licence sent once, a strong ETag, 304 on If-None-Match, ca
 	// Stable between requests (no clock in the body), so revalidation actually hits.
 	expect((await get()).headers.get("etag")).toBe(etag);
 });
+
+test("GET /api/session says whether this browser may change settings, and why not", async () => {
+	const { app } = setup();
+	const get = (cookie: string | null, ip = "127.0.0.1") =>
+		app.fetch(
+			new Request("http://localhost:7722/api/session", {
+				headers: { host: "localhost:7722", ...(cookie ? { cookie } : {}) },
+			}),
+			ip,
+		);
+	expect(await (await get(COOKIE)).json()).toEqual({ canChange: true, why: null });
+	expect(await (await get(null)).json()).toEqual({ canChange: false, why: "session" });
+	expect(((await (await get(COOKIE, "192.168.1.9")).json()) as { why: string }).why).toBe("remote");
+});

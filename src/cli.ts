@@ -16,6 +16,7 @@ Uso:
   vigia --no-fetch      Muestra lo guardado sin consultar ninguna fuente (para trabajar en el diseño)
   vigia fetch <fuente>  Consulta una fuente una vez y muestra el resultado
   vigia sources         Lista las fuentes y si necesitan clave
+  vigia enlace          Muestra y abre otra vez el enlace que permite cambiar claves y ajustes
   vigia paths           Muestra dónde se guardan datos y claves
   vigia verify          Comprueba que el archivo sellado no cambió (cadena de resúmenes SHA-256)
   vigia verify <archivo>  Comprueba un archivo de evidencia guardado desde Vigía
@@ -102,6 +103,25 @@ async function main(argv: string[]): Promise<number> {
 		} catch {
 			return 1;
 		}
+	}
+
+	if (command === "enlace" || command === "link") {
+		// The link that lets this computer's browser change keys and settings, printed and opened again (the first one
+		// is only shown when Vigía starts). It never leaves this machine.
+		const { loadSessionToken } = await import("./config/session.ts");
+		const at = argv.indexOf("--port");
+		const port = Number((at === -1 ? undefined : argv[at + 1]) ?? process.env.VIGIA_PORT ?? 7722);
+		const url = `http://localhost:${port}/?token=${loadSessionToken(resolvePaths().config)}`;
+		const running = await fetch(`http://127.0.0.1:${port}/api/health`, { signal: AbortSignal.timeout(2000) })
+			.then((r) => r.ok)
+			.catch(() => false);
+		console.log(
+			`\n  ${url}\n  (ábrelo en el navegador de este equipo para poder cambiar claves y ajustes; no lo compartas)\n`,
+		);
+		if (!running)
+			console.log(`  Vigía no parece estar abierto en el puerto ${port}: inícialo con \`vigia\`.\n`);
+		if (running && !argv.includes("--no-open")) openBrowser(url);
+		return 0;
 	}
 
 	if (command === "verify" || command === "status") {

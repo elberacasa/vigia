@@ -80,7 +80,7 @@ export const PUBLIC_REFUSAL =
 
 /** Shown by the UI as is when a write arrives without the session cookie. */
 export const SESSION_REFUSAL =
-	"Abre Vigía desde el enlace que muestra la terminal: este navegador no tiene permiso para cambiar ajustes.";
+	"Este navegador aún no tiene permiso para cambiar ajustes. En la terminal escribe «vigia enlace» y abre el enlace que muestra (solo hace falta una vez).";
 
 /**
  * "En vivo" (web/src/panels/LiveTv.tsx) is the only third-party content: YouTube's official player, framed from
@@ -472,6 +472,21 @@ export function createApp(deps: AppDeps): App {
 
 		if (path.startsWith("/api/")) {
 			if (!apiLimiter.take(ip)) return problem(429, "Demasiadas solicitudes. Espera un momento.");
+
+			// Whether this browser may change keys and settings, so a page can say so before a click is refused.
+			if (method === "GET" && path === "/api/session") {
+				const why =
+					mode === "public"
+						? "public"
+						: !isLoopback(ip)
+							? "remote"
+							: !sameToken(deps.sessionToken, readCookie(request.headers.get("cookie"), cookieName))
+								? "session"
+								: null;
+				return new Response(JSON.stringify({ canChange: why === null, why }), {
+					headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
+				});
+			}
 
 			if (method === "GET" && path === "/api/meta") {
 				const personal = visible(request).personal;

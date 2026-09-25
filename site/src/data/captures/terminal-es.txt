@@ -1,11 +1,11 @@
-VIGÍA · Venezuela ahora                         25 sept, 13:49 · hora de Caracas
+VIGÍA · Venezuela ahora                         25 sept, 13:55 · hora de Caracas
 ────────────────────────────────────────────────────────────────────────────────
-AHORA  Posible apagón en Guárico (IODA y prensa, última señal hace 3 min) ·
+AHORA  Posible apagón en Guárico (IODA y prensa, última señal hace 6 min) ·
        Tormentas previstas en 6 capitales · Dólar BCV 855,66 Bs, Yadio +10,5 %
 
 DÓLAR
   BCV oficial         855,66 Bs  +0,14 % en 24 h                 BCV · hace 13 h
-  Yadio (P2P)         945,11 Bs  brecha +10,5 %               Yadio · hace 5 min
+  Yadio (P2P)         945,11 Bs  brecha +10,5 %               Yadio · hace 6 min
 
 INTERNET POR ESTADO (IODA, PEOR PRIMERO)
   Normales (24), % de lo normal a esta hora:
@@ -18,7 +18,7 @@ INTERNET POR ESTADO (IODA, PEOR PRIMERO)
   Sucre 100%                Táchira 100%              Trujillo 100%
   Yaracuy 100%              Aragua 100%               Barinas 101%
   Sin datos (1): Dependencias Federales
-  IODA, Georgia Tech · hace 20 min
+  IODA, Georgia Tech · hace 26 min
 
 SISMOS, 24 H, VENEZUELA Y CERCA
   M3,4  En el mar, a 31 km al ESE de Güiria (Sucre)         FUNVISIS · hace 10 h
@@ -30,22 +30,22 @@ SISMOS, 24 H, VENEZUELA Y CERCA
 
 INCIDENTES (FUENTES INDEPENDIENTES QUE COINCIDEN)
   ● Posible apagón en Guárico                                        desde 08:43
-    2 fuentes independientes · IODA, prensa                    última hace 3 min
+    2 fuentes independientes · IODA, prensa                    última hace 6 min
 
 SOLO REPORTES DE PRENSA (SIN MEDICIÓN)
   ○ Posible apagón en Lara                                           desde 09:10
-    solo reportes de 4 medios, sin medición                   última hace 39 min
+    solo reportes de 4 medios, sin medición                   última hace 45 min
   ○ Posible apagón en Portuguesa                                     desde 11:40
     solo reportes de 2 medios, sin medición                      última hace 1 h
   ○ Posible apagón en Aragua                                         desde 08:43
-    solo reportes de 2 medios, sin medición                      última hace 1 h
+    solo reportes de 2 medios, sin medición                      última hace 2 h
   ○ Posible apagón en Mérida                                         desde 03:31
-    solo reportes de 4 medios, sin medición                      última hace 1 h
+    solo reportes de 4 medios, sin medición                      última hace 2 h
   ○ Posible apagón en Zulia                                          desde 06:50
-    solo reportes de 7 medios, sin medición                      última hace 1 h
+    solo reportes de 8 medios, sin medición                      última hace 2 h
 
 SEÑALES SIN CORROBORAR (UNA SOLA FUENTE MEDIDA)
-  · Caída de conectividad en Yaracuy · IODA                    última hace 3 min
+  · Caída de conectividad en Yaracuy · IODA                    última hace 6 min
   14 terminados en 48 h
 
 ────────────────────────────────────────────────────────────────────────────────

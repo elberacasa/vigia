@@ -207,6 +207,50 @@ function OptInRow({ id }: { id: string }) {
 	);
 }
 
+/** Whether this browser may change keys and settings (GET /api/session); null until known. */
+const session = signal<{ canChange: boolean; why: string | null } | null>(null);
+
+/** Says, before any click is refused, what this browser needs to change settings. */
+function SessionNotice() {
+	useEffect(() => {
+		void fetch("/api/session", { cache: "no-store" })
+			.then((r) => (r.ok ? r.json() : null))
+			.then((v) => {
+				session.value = v as { canChange: boolean; why: string | null } | null;
+			})
+			.catch(() => {});
+	}, []);
+	const s = session.value;
+	if (!s || s.canChange) return null;
+	return (
+		<div class="notice notice--warn guide__session" role="status">
+			{s.why === "session" ? (
+				<>
+					<strong>
+						{t("Este navegador aún no puede cambiar ajustes.", "This browser can't change settings yet.")}
+					</strong>{" "}
+					{t(
+						"Por seguridad, solo el enlace que muestra la terminal da ese permiso. Escribe en la terminal:",
+						"For safety, only the link the terminal shows grants it. Type in the terminal:",
+					)}{" "}
+					<code>vigia enlace</code>{" "}
+					{t(
+						"y abre el enlace que aparece (solo hace falta una vez).",
+						"and open the link it shows (only needed once).",
+					)}
+				</>
+			) : s.why === "remote" ? (
+				t(
+					"Las claves y fuentes solo se cambian desde el equipo donde corre Vigía.",
+					"Keys and sources can only be changed from the computer running Vigía.",
+				)
+			) : (
+				t("Este es un espejo público de solo lectura.", "This is a read-only public mirror.")
+			)}
+		</div>
+	);
+}
+
 export function GuidePage() {
 	useEffect(() => {
 		void loadKeys();
@@ -226,6 +270,7 @@ export function GuidePage() {
 	const l = lang.value;
 	return (
 		<main class="page guide">
+			<SessionNotice />
 			<header class="page__head guide__head">
 				<div>
 					<p class="caps page__kicker">{t("Guía de configuración", "Setup guide")}</p>

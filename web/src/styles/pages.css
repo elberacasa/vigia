@@ -422,3 +422,20 @@
 	font-size: var(--fs-sm);
 	margin-bottom: var(--s-2);
 }
+
+/* The guide's notice when this browser can't change settings yet (GET /api/session). */
+.guide__session {
+	margin: 0 0 var(--s-4);
+	padding: var(--s-3) var(--s-4);
+	border: 1px solid color-mix(in srgb, var(--warn) 45%, var(--line));
+	border-radius: var(--r-md);
+	background: color-mix(in srgb, var(--warn) 8%, var(--surface-1));
+	font-size: var(--fs-sm);
+	line-height: 1.5;
+}
+.guide__session code {
+	padding: 1px 6px;
+	border-radius: 4px;
+	background: var(--surface-2);
+	font-family: var(--font-data);
+}
