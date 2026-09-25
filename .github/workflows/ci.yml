@@ -48,4 +48,4 @@ jobs:
       # Format, lint, types and the static Next.js build, as Vercel builds it.
       - run: bun run check:site
         env:
-          SITE_URL: https://vigia-venezuela.vercel.app
+          SITE_URL: https://vigia.live
