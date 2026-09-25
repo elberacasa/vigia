@@ -165,3 +165,23 @@ Accessibility, best practices and SEO are 1.00 in every run.
   diagrams are styled by class and the code blocks are single strings to hold it there.
 - The recording no longer plays by itself on phones, coarse pointers, non-4G connections or Save-Data: 0 bytes of
   video until a tap (was 775 KB WebM on every phone).
+
+### Landing page: sources and changelog pages (2026-09-25)
+
+Lighthouse 12.8.2 (mobile, simulated slow 4G), `next start` on :7765, headless Chromium, one run each:
+
+| Page | Perf | A11y | BP | SEO | LCP | TBT | CLS |
+|---|---|---|---|---|---|---|---|
+| `/` | 0.96 | 1.00 | 1.00 | 1.00 | 2.8 s | 50 ms | 0 |
+| `/fuentes` | 0.99 | 1.00 | 1.00 | 1.00 | 2.1 s | 40 ms | 0 |
+| `/cambios` | 0.99 | 1.00 | 1.00 | 1.00 | 2.0 s | 30 ms | 0 |
+| `/en` | 0.98 | 1.00 | 1.00 | 1.00 | 2.3 s | 50 ms | 0 |
+| `/en/sources` | 0.99 | 1.00 | 1.00 | 1.00 | 2.1 s | 40 ms | 0 |
+| `/en/changelog` | 0.98 | 1.00 | 1.00 | 1.00 | 2.5 s | 40 ms | 0 |
+
+- HTML gzip: home 43.9 → 58.6 KB (the Fuentes section: four count-ups, the state map at 7.7 KB of simplified
+  outlines, 96 publisher names; each appears twice, in the HTML and the RSC payload). `/fuentes` 53 KB (all 313 rows
+  server-rendered; the filter only hides rows and folds each row's text for search on first use), `/cambios` 26 KB.
+- The map's outlines are the app's own geometry at a quarter scale, Douglas-Peucker to half a unit, relative
+  integer path commands: 55 KB of JSON rings become 7.7 KB of path data.
+- Phone 390 px: no horizontal overflow on any of the six pages, dark and light.

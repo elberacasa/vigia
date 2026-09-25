@@ -173,7 +173,7 @@ export function Developers({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="desarrolladores"
-			index="06"
+			index="07"
 			eyebrow={t("Para desarrolladores", "For developers")}
 			title={t(
 				"Un proceso, un contrato, cada fuente probada.",

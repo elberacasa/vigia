@@ -1,6 +1,6 @@
-import { blob, type Lang, REPO, tr } from "@/lib/i18n";
+import { blob, IDEAS, type Lang, PATHS, REPO, tr } from "@/lib/i18n";
 import { Mark, Wordmark } from "./Brand";
-import { Download, GitHubIcon } from "./Icons";
+import { Arrow, Download, GitHubIcon } from "./Icons";
 import { Reveal } from "./Reveal";
 import { Section } from "./Section";
 
@@ -23,7 +23,7 @@ export function Licence({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="licencia"
-			index="07"
+			index="08"
 			eyebrow={t("Licencia", "Licence")}
 			title={t(
 				"Código disponible, para todo uso no comercial.",
@@ -136,30 +136,56 @@ export function FinalCta({ lang }: { lang: Lang }) {
 						{t("Ver en GitHub", "View on GitHub")}
 					</a>
 				</div>
+				<div className="ideas mt-16 w-full max-w-2xl">
+					<p className="text-[0.9375rem] leading-relaxed text-text-2">
+						<span className="font-semibold text-text">
+							{t("Qué le falta a Vigía?", "What is Vigía missing?")}
+						</span>{" "}
+						{t(
+							"Propón ideas y vota las que quieres; las más votadas se construyen primero.",
+							"Propose ideas and vote for the ones you want; the most voted get built first.",
+						)}
+					</p>
+					<a
+						href={IDEAS}
+						className="group inline-flex shrink-0 items-center gap-1.5 rounded-md text-[0.9375rem] font-semibold text-text"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{t("Sugerir una idea", "Suggest an idea")}
+						<span className="transition-transform group-hover:translate-x-0.5">
+							<Arrow />
+						</span>
+					</a>
+				</div>
 			</div>
 		</section>
 	);
 }
 
-export function Footer({ lang }: { lang: Lang }) {
+export function Footer({ lang, ruled = false }: { lang: Lang; ruled?: boolean }) {
 	const t = tr(lang);
-	const cols = [
+	/** [href, label, internal]: internal pages open in place, everything else in a new tab. */
+	const cols: { title: string; links: [string, string, boolean?][] }[] = [
 		{
 			title: t("Proyecto", "Project"),
 			links: [
+				[PATHS.changelog[lang], t("Novedades", "Changelog"), true],
+				[IDEAS, t("Sugerir una idea", "Suggest an idea")],
+				[`${REPO}/releases`, t("Versiones y descargas", "Releases and downloads")],
+				[blob("CONTRIBUTING.md"), t("Contribuir", "Contributing")],
 				[REPO, "GitHub"],
 				["https://x.com/elberacasa", "X (@elberacasa)"],
-				[`${REPO}/releases`, t("Versiones", "Releases")],
-				[blob("CHANGELOG.md"), t("Cambios", "Changelog")],
-				[blob("CONTRIBUTING.md"), t("Contribuir", "Contributing")],
 			],
 		},
 		{
 			title: t("Datos", "Data"),
 			links: [
-				[blob("docs/DATA-SOURCES.md"), t("Todas las fuentes", "Every source")],
+				[PATHS.sources[lang], t("Fuentes", "Sources"), true],
+				[blob("docs/DATA-SOURCES.md"), t("Catálogo técnico", "Technical catalogue")],
 				[blob("docs/API.md"), "API"],
 				[blob("docs/EVIDENCIA.md"), t("Archivo verificable", "Verifiable archive")],
+				[PATHS.feed[lang], t("Novedades por RSS", "Changelog feed (RSS)"), true],
 			],
 		},
 		{
@@ -171,9 +197,9 @@ export function Footer({ lang }: { lang: Lang }) {
 				[blob("NOTICE"), t("Avisos de terceros", "Third-party notices")],
 			],
 		},
-	] as const;
+	];
 	return (
-		<footer className="pb-12 pt-16">
+		<footer className={ruled ? "border-t border-line pb-12 pt-16" : "pb-12 pt-16"}>
 			<div className="wrap">
 				<div className="grid gap-12 md:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,1fr))]">
 					<div>
@@ -192,13 +218,12 @@ export function Footer({ lang }: { lang: Lang }) {
 						<nav key={c.title} aria-label={c.title}>
 							<h2 className="text-[0.8125rem] font-semibold text-text">{c.title}</h2>
 							<ul className="mt-4 space-y-2.5">
-								{c.links.map(([href, label]) => (
+								{c.links.map(([href, label, internal]) => (
 									<li key={href}>
 										<a
 											href={href}
 											className="text-[0.875rem] text-text-3 transition-colors hover:text-text"
-											target="_blank"
-											rel="noopener noreferrer"
+											{...(internal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
 										>
 											{label}
 										</a>

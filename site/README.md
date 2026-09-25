@@ -43,7 +43,11 @@ Nothing on the page is typed by hand if the code can say it. Two scripts in the 
   publishers, panels, tests, licences, the app's first-load size from `scripts/build-web.ts`),
   `src/data/contracts.json` (the adapter contract as written in `src/core/types.ts`), `src/data/map.json` (the app's
   own state outlines plus a snapshot of connectivity, earthquakes and fires from a running Vigía), and
-  `src/data/captures/` (the terminal report and one API row, as the app printed them). `--no-live` keeps the
+  `src/data/captures/` (the terminal report and one API row, as the app printed them), `src/data/sources.json`
+  (every adapter with its atlas entry, grouped for /fuentes and the home page, and regional outlets per state for
+  the mini map) and `src/data/changelog.json` (CHANGELOG.md and each version's release notes, for /cambios and its
+  Atom feed /cambios.xml). A root test fails when changelog.json falls behind CHANGELOG.md: after adding a version,
+  run `bun scripts/site-data.ts --no-live --no-web`. `--no-live` keeps the
   previous snapshot; `--no-web` keeps the previous first-load size.
 - `bun scripts/site-capture.ts` (needs a running Vigía on :7722 and, for the map stills, this site on :7761; ffmpeg
   and ImageMagick): the screen recording (`public/media/hero.webm`, `hero.mp4`), its poster and chapters

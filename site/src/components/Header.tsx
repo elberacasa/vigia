@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { type Lang, REPO, tr } from "@/lib/i18n";
+import { IDEAS, type Lang, PATHS, type Page, REPO, tr } from "@/lib/i18n";
 import { Mark, Wordmark } from "./Brand";
 import { GitHubIcon } from "./Icons";
 import { ThemeToggle } from "./ThemeToggle";
 
-export function Header({ lang }: { lang: Lang }) {
+export function Header({ lang, page }: { lang: Lang; page: Page }) {
 	const t = tr(lang);
 	const [scrolled, setScrolled] = useState(false);
 	const [open, setOpen] = useState(false);
@@ -32,16 +32,18 @@ export function Header({ lang }: { lang: Lang }) {
 		};
 	}, [open]);
 
-	const links = [
-		["#que-muestra", t("Qué muestra", "What it shows")],
-		["#principios", t("Principios", "Principles")],
-		["#instalar", t("Instalar", "Install")],
-		["#desarrolladores", t("Desarrolladores", "Developers")],
-	] as const;
-	const other =
-		lang === "es"
-			? { href: "/en", label: "EN", name: "English" }
-			: { href: "/", label: "ES", name: "Español" };
+	// On the home page the sections are anchors; from the other pages they lead back to them.
+	const home = page === "home" ? "" : PATHS.home[lang];
+	const links: { href: string; label: string; current?: boolean; wide?: boolean }[] = [
+		{ href: `${home}#que-muestra`, label: t("Qué muestra", "What it shows") },
+		{ href: PATHS.sources[lang], label: t("Fuentes", "Sources"), current: page === "sources" },
+		{ href: `${home}#principios`, label: t("Principios", "Principles"), wide: true },
+		{ href: `${home}#instalar`, label: t("Instalar", "Install") },
+		{ href: `${home}#desarrolladores`, label: t("Desarrolladores", "Developers"), wide: true },
+		{ href: PATHS.changelog[lang], label: t("Novedades", "Changelog"), current: page === "changelog" },
+	];
+	const otherLang: Lang = lang === "es" ? "en" : "es";
+	const other = PATHS[page][otherLang];
 
 	return (
 		<header
@@ -62,43 +64,52 @@ export function Header({ lang }: { lang: Lang }) {
 			</a>
 			<div className="wrap flex h-16 items-center gap-6">
 				<a
-					href={lang === "es" ? "/" : "/en"}
-					className="flex items-center gap-2.5 rounded-md"
+					href={PATHS.home[lang]}
+					className="flex shrink-0 items-center gap-2.5 rounded-md"
 					aria-label={t("Vigía, inicio", "Vigía, home")}
 				>
-					<Mark size={30} />
+					<Mark size={30} intro={page === "home"} />
 					<Wordmark height={14} label={false} />
 				</a>
-				<nav aria-label={t("Secciones", "Sections")} className="hidden flex-1 md:block">
-					<ul className="flex items-center gap-1">
-						{links.map(([href, label]) => (
-							<li key={href}>
+				<nav aria-label={t("Secciones", "Sections")} className="hidden flex-1 lg:block">
+					<ul className="flex items-center gap-0.5">
+						{links.map((l) => (
+							<li key={l.href} className={l.wide ? "hidden xl:block" : undefined}>
 								<a
-									href={href}
-									className="whitespace-nowrap rounded-md px-3 py-2 text-[0.875rem] text-text-2 transition-colors hover:text-text"
+									href={l.href}
+									aria-current={l.current ? "page" : undefined}
+									className="nav-link whitespace-nowrap rounded-md px-3 py-2 text-[0.875rem] text-text-2 transition-colors hover:text-text"
 								>
-									{label}
+									{l.label}
 								</a>
 							</li>
 						))}
 					</ul>
 				</nav>
-				<div className="ml-auto flex items-center gap-1.5 md:ml-0">
+				<div className="ml-auto flex items-center gap-1.5 lg:ml-0">
 					<a
-						href={other.href}
-						hrefLang={other.href === "/en" ? "en" : "es"}
-						lang={other.href === "/en" ? "en" : "es"}
+						href={other}
+						hrefLang={otherLang}
+						lang={otherLang}
 						className="data grid h-9 min-w-9 place-items-center rounded-md px-2 text-[0.8125rem] text-text-2 transition-colors hover:bg-surface-2 hover:text-text"
 						onClick={(e) => {
-							// Keep the section the reader is on.
+							// Keep the section or version the reader is on (anchors are the same in both languages).
 							e.preventDefault();
-							window.location.assign(other.href + window.location.hash);
+							window.location.assign(other + window.location.hash);
 						}}
 					>
-						<span aria-hidden="true">{other.label}</span>
-						<span className="sr-only">{other.name}</span>
+						<span aria-hidden="true">{otherLang.toUpperCase()}</span>
+						<span className="sr-only">{otherLang === "en" ? "English" : "Español"}</span>
 					</a>
 					<ThemeToggle lang={lang} />
+					<a
+						href={IDEAS}
+						className="btn btn-ghost !h-9 !px-3 ml-1.5 hidden text-[0.875rem] xl:inline-flex"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{t("Sugerir una idea", "Suggest an idea")}
+					</a>
 					<a
 						href={REPO}
 						className="btn btn-ghost !h-9 !px-3 ml-1.5 hidden text-[0.875rem] sm:inline-flex"
@@ -110,7 +121,7 @@ export function Header({ lang }: { lang: Lang }) {
 					</a>
 					<button
 						type="button"
-						className="grid h-9 w-9 place-items-center rounded-md text-text-2 hover:bg-surface-2 hover:text-text md:hidden"
+						className="grid h-9 w-9 place-items-center rounded-md text-text-2 transition-colors hover:bg-surface-2 hover:text-text lg:hidden"
 						aria-expanded={open}
 						aria-controls="menu"
 						aria-label={t("Menú", "Menu")}
@@ -130,27 +141,28 @@ export function Header({ lang }: { lang: Lang }) {
 			<nav
 				id="menu"
 				aria-label={t("Secciones", "Sections")}
-				className={`border-t border-line md:hidden ${open ? "block" : "hidden"}`}
+				className={`max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line lg:hidden ${open ? "block" : "hidden"}`}
 			>
 				<ul className="wrap flex flex-col py-2">
-					{links.map(([href, label]) => (
-						<li key={href}>
+					{links.map((l) => (
+						<li key={l.href}>
 							<a
-								href={href}
-								className="block rounded-md py-3 text-[1.0625rem] text-text"
+								href={l.href}
+								aria-current={l.current ? "page" : undefined}
+								className="menu-link"
 								onClick={() => setOpen(false)}
 							>
-								{label}
+								{l.label}
 							</a>
 						</li>
 					))}
+					<li className="mt-2 border-t border-line pt-2">
+						<a href={IDEAS} className="menu-link" target="_blank" rel="noopener noreferrer">
+							{t("Sugerir una idea", "Suggest an idea")}
+						</a>
+					</li>
 					<li>
-						<a
-							href={REPO}
-							className="block rounded-md py-3 text-[1.0625rem] text-text"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<a href={REPO} className="menu-link" target="_blank" rel="noopener noreferrer">
 							GitHub
 						</a>
 					</li>

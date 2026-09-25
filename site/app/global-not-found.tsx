@@ -37,6 +37,23 @@ export default function GlobalNotFound() {
 								English home
 							</a>
 						</div>
+						<nav
+							aria-label="Vigía"
+							className="mt-10 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[0.875rem]"
+						>
+							<a className="link" href="/fuentes">
+								Fuentes
+							</a>
+							<a className="link" href="/cambios">
+								Novedades
+							</a>
+							<a className="link" href="/en/sources" lang="en" hrefLang="en">
+								Sources
+							</a>
+							<a className="link" href="/en/changelog" lang="en" hrefLang="en">
+								Changelog
+							</a>
+						</nav>
 					</div>
 				</main>
 			</body>

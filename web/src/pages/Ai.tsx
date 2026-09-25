@@ -142,8 +142,8 @@ export function AiPage() {
 				</h1>
 				<p class="page__lede">
 					{t(
-						"Vigía funciona completo sin IA. Aquí puedes activar modelos que clasifican noticias. Cada resultado dice qué modelo lo produjo, puede equivocarse, y su precisión está medida contra un conjunto de noticias etiquetadas a mano por revisores independientes. Ningún modelo produce cifras.",
-						"Vigía works fully without AI. Here you can turn on models that classify news. Every result names the model that produced it, may be wrong, and its accuracy is measured against news labelled by independent reviewers. No model produces figures.",
+						"Vigía funciona completo sin IA. Aquí puedes activar modelos que clasifican noticias. Cada resultado dice qué modelo lo produjo, puede equivocarse, y su precisión está medida contra un conjunto de noticias que etiquetaron por separado dos modelos de lenguaje, con un tercero que resolvió los desacuerdos (no personas). Ningún modelo produce cifras. Hoy la capa usa Jev con tu clave; si Vigía crece, el plan es entrenar Laya, un modelo propio y gratuito para todos.",
+						"Vigía works fully without AI. Here you can turn on models that classify news. Every result names the model that produced it, may be wrong, and its accuracy is measured against news labelled separately by two language models, with a third settling disagreements (not people). No model produces figures. Today the layer uses Jev with your key; if Vigía grows, the plan is to train Laya, our own model, free for everyone.",
 					)}
 				</p>
 			</header>

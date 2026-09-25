@@ -1,57 +1,57 @@
-VIGÍA · Venezuela now                               Sep 25, 15:48 · Caracas time
+VIGÍA · Venezuela now                               Sep 25, 16:49 · Caracas time
 ────────────────────────────────────────────────────────────────────────────────
-NOW    Possible blackout in Distrito Capital (IODA and press, last signal 4 min
-       ago) · Possible blackout in Guárico (IODA and press, last signal 4 min
+NOW    Possible blackout in Distrito Capital (IODA and press, last signal 7 min
+       ago) · Possible blackout in Guárico (IODA and press, last signal 7 min
        ago) · Severe internet drop in Amazonas and Táchira · Signal drop in
-       Apure · Storms forecast in 7 capitals
+       Apure · Storms forecast in 6 capitals
 
 DOLLAR
-  BCV official        855.66 Bs  +0.14% in 24 h                   BCV · 15 h ago
-  Yadio (P2P)         949.28 Bs  gap +10.9%                    Yadio · 8 min ago
+  BCV official        855.66 Bs  +0.14% in 24 h                   BCV · 16 h ago
+  Yadio (P2P)         953.57 Bs  gap +11.4%                    Yadio · 5 min ago
   Binance P2P, mediana de los 10 mejores anuncios (USDT/VE…  Binance · 4 min ago
 
 INTERNET BY STATE (IODA, WORST FIRST)
-  Amazonas             severe drop  42.9% of normal            IODA · 19 min ago
-  Táchira              severe drop  14.5% of normal            IODA · 19 min ago
-  Apure                drop         25.6% of normal            IODA · 19 min ago
+  Amazonas             severe drop  42.9% of normal            IODA · 20 min ago
+  Táchira              severe drop  31.1% of normal            IODA · 20 min ago
+  Apure                drop         25.6% of normal            IODA · 20 min ago
   Normal (21), % of normal for this hour:
-  Yaracuy 87%               Delta Amacuro 88%         Monagas 89%
-  Lara 93%                  Barinas 93%               La Guaira 95%
-  Nueva Esparta 95%         Distrito Capital 96%      Zulia 96%
-  Guárico 96%               Miranda 96%               Cojedes 97%
-  Trujillo 97%              Portuguesa 98%            Mérida 99%
-  Bolívar 99%               Anzoátegui 100%           Carabobo 100%
-  Falcón 100%               Sucre 100%                Aragua 100%
+  Guárico 85%               Monagas 90%               Lara 91%
+  Barinas 93%               Zulia 94%                 Delta Amacuro 94%
+  Anzoátegui 95%            Trujillo 96%              Distrito Capital 96%
+  Sucre 96%                 Portuguesa 97%            Bolívar 97%
+  Yaracuy 98%               Nueva Esparta 98%         Mérida 99%
+  La Guaira 99%             Carabobo 100%             Cojedes 100%
+  Falcón 100%               Miranda 100%              Aragua 100%
   No data (1): Dependencias Federales
-  IODA, Georgia Tech · 19 min ago
+  IODA, Georgia Tech · 20 min ago
 
 EARTHQUAKES, 24 H, VENEZUELA AND NEARBY
-  M3.4  En el mar, a 31 km al ESE de Güiria (Sucre)          FUNVISIS · 12 h ago
-  M3.4  En el mar, a 33 km al ENE de Río Caribe (Sucre)      FUNVISIS · 14 h ago
-  M3.2  a 12 km al ESE de Palmasola (Yaracuy)                FUNVISIS · 13 h ago
-  M3.2  a 14 km al SSO de Yaguaraparo (Sucre)                FUNVISIS · 16 h ago
-  M2.9  En el mar, a 27 km al SSE de Güiria (Sucre)           FUNVISIS · 1 h ago
-  and 9 more
+  M3.4  En el mar, a 80 km al NNE de Güiria (Sucre)           FUNVISIS · 1 h ago
+  M3.4  En el mar, a 31 km al ESE de Güiria (Sucre)          FUNVISIS · 13 h ago
+  M3.4  En el mar, a 33 km al ENE de Río Caribe (Sucre)      FUNVISIS · 15 h ago
+  M3.2  a 12 km al ESE de Palmasola (Yaracuy)                FUNVISIS · 14 h ago
+  M3.2  a 14 km al SSO de Yaguaraparo (Sucre)                FUNVISIS · 17 h ago
+  and 10 more
 
 INCIDENTS (INDEPENDENT SOURCES THAT AGREE)
   ● Possible blackout in Distrito Capital                            since 13:14
-    2 independent sources · IODA, press                           last 4 min ago
+    2 independent sources · IODA, press                           last 7 min ago
   ● Possible blackout in Guárico                                     since 08:43
-    2 independent sources · IODA, press                           last 4 min ago
+    2 independent sources · IODA, press                           last 7 min ago
   ● Possible blackout in Táchira                                     since 09:01
-    2 independent sources · IODA, press                           last 4 min ago
+    2 independent sources · IODA, press                           last 7 min ago
   ● Possible blackout in Zulia                                       since 06:50
-    2 independent sources · RIPE Atlas, press                    last 12 min ago
+    2 independent sources · RIPE Atlas, press                       last 1 h ago
 
 PRESS REPORTS ONLY (NO MEASUREMENT)
   ○ Possible blackout in Lara                                        since 09:10
-    reports only, 6 outlets, no measurement                      last 54 min ago
+    reports only, 6 outlets, no measurement                         last 1 h ago
 
 UNCORROBORATED SIGNALS (ONE MEASURED SOURCE)
-  · Connectivity drop in Apure · IODA                             last 4 min ago
-  · Connectivity drop in Mérida · IODA                            last 4 min ago
-  · Connectivity drop in Yaracuy · IODA                           last 4 min ago
-  · Connectivity drop in Amazonas · IODA                         last 19 min ago
+  · Connectivity drop in Apure · IODA                             last 7 min ago
+  · Connectivity drop in Mérida · IODA                            last 7 min ago
+  · Connectivity drop in Yaracuy · IODA                           last 7 min ago
+  · Connectivity drop in Amazonas · IODA                         last 20 min ago
   17 ended in the last 48 h
 
 ────────────────────────────────────────────────────────────────────────────────

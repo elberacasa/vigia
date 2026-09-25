@@ -7,6 +7,8 @@
  *   site/src/data/contracts.json  the Adapter and Observation interfaces as written in src/core/types.ts
  *   site/src/data/map.json        state outlines (the app's own map geometry) and, from a running Vigía, the live
  *                                 layers the hero map draws: connectivity by state, earthquakes, strongest fires
+ *   site/src/data/sources.json    every source with its atlas entry, grouped, and regional outlets per state
+ *   site/src/data/changelog.json  CHANGELOG.md and each version's release notes (the /cambios page and its feed)
  *   site/src/data/captures/       the terminal report (GET /ahora.txt) and one API row, as the app printed them
  *
  *   bun scripts/site-data.ts [--live http://localhost:7722] [--no-live] [--no-web]
@@ -19,8 +21,10 @@ import { join } from "node:path";
 import pkg from "../package.json" with { type: "json" };
 import { ADAPTERS } from "../src/adapters/registry.ts";
 import { FRAME, NEIGHBOURS, STATES } from "../web/src/map/geometry.gen.ts";
+import { changelog } from "./site/changelog.ts";
 import { contract, facts, licenceOf, releaseFiles } from "./site/facts.ts";
 import { type LiveMap, liveMap, rings } from "./site/map.ts";
+import { sources } from "./site/sources.ts";
 
 const ROOT = join(import.meta.dir, "..");
 const DATA = join(ROOT, "site", "src", "data");
@@ -71,6 +75,13 @@ writeJson(join(DATA, "contracts.json"), {
 	adapter: contract(ROOT, "Adapter"),
 	observation: contract(ROOT, "Observation"),
 });
+const src = sources(ADAPTERS, f.newsPublishers);
+writeJson(join(DATA, "sources.json"), src);
+const versions = changelog(ROOT);
+writeJson(join(DATA, "changelog.json"), versions);
+console.log(
+	`sources: ${src.rows.length} in ${src.groups.length} groups, ${src.states.filter((s) => s.outlets > 0).length} states with regional outlets; changelog: ${versions.map((v) => v.version).join(", ")}`,
+);
 console.log(
 	`facts: ${f.sources} sources (${f.keyless} keyless), ${f.newsPublishers} news publishers, ${f.panels} panels, ${f.tests} tests in ${f.testFiles} public files, first load ${kib} KiB gzip; release ${release.map((r) => `${r.target} ${r.mb} MB`).join(", ")}`,
 );

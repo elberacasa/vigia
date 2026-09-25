@@ -270,3 +270,9 @@ kbd {
 	background: var(--signal);
 	box-shadow: 0 0 0 2px var(--surface-0);
 }
+.prefs__idea {
+	display: block;
+	margin-top: var(--s-3);
+	font-size: var(--fs-sm);
+	color: var(--text);
+}

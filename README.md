@@ -34,6 +34,7 @@ core is written by an AI.
 
 - [Features](#features) · [Principles](#principles) · [Quick start](#quick-start) · [Keys](#keys-all-optional)
 - [Architecture](#architecture) · [Adapters](#the-adapter-contract) · [Data sources](#data-sources)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing) · [Licence](#licence)
 
 ## Features
@@ -220,6 +221,14 @@ with publisher, refresh interval, access and licence for each, is generated from
 Data belongs to its publishers under their own terms, shown with every figure and on the sources page
 (`/fuentes`). Sources whose terms do not allow redistribution are only used for figures Vigía derives from them,
 with attribution. Bundled data and libraries are listed in [NOTICE](NOTICE).
+
+## Roadmap
+
+- **Laya:** today the optional AI news layer uses Jev (TypeSafe) with your own key, plus an experimental local model.
+  If Vigía finds enough users to maintain and develop it, the plan is to train Laya, a model of our own that is
+  free for everyone and runs offline.
+- Ideas are proposed and voted in [Discussions › Ideas](https://github.com/elberacasa/vigia/discussions/categories/ideas);
+  the most-voted get built first.
 
 ## Contributing
 

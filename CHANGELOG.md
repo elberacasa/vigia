@@ -6,6 +6,17 @@ All notable changes to Vigía are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-09-25
+
+### Added
+- "Suggest an idea and vote" in the settings menu, linking to GitHub Discussions › Ideas.
+- Roadmap in the README: Laya, our own free model, if Vigía grows.
+
+### Fixed
+- The AI page said the evaluation labels were made by hand; they come from two language models and an adjudicator.
+
+Release notes: [docs/releases/v0.1.6.md](docs/releases/v0.1.6.md).
+
 ## [0.1.5] - 2026-09-25
 
 ### Fixed

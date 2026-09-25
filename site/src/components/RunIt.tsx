@@ -215,7 +215,7 @@ export function RunIt({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="instalar"
-			index="05"
+			index="06"
 			eyebrow={t("Córrelo tú", "Run it yourself")}
 			title={t("Un archivo. Sin cuenta. Sin claves.", "One file. No account. No keys.")}
 			lede={t(

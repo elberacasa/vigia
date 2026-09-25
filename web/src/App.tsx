@@ -141,6 +141,14 @@ function Header() {
 					>
 						{t("Restaurar diseño", "Reset layout")}
 					</button>
+					<a
+						class="prefs__idea"
+						href="https://github.com/elberacasa/vigia/discussions/categories/ideas"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{t("Sugerir una idea y votar →", "Suggest an idea and vote →")}
+					</a>
 					<p class="prefs__credit note">
 						Vigía ·{" "}
 						<a href="https://github.com/elberacasa" target="_blank" rel="noopener noreferrer">

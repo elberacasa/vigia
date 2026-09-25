@@ -60,7 +60,7 @@ export function Numbers({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="cifras"
-			index="04"
+			index="05"
 			eyebrow={t("En cifras", "By the numbers")}
 			title={t(
 				"Cifras que salen del código, no de un folleto.",
