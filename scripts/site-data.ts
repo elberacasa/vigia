@@ -102,6 +102,7 @@ if (live) {
 	};
 	writeFileSync(join(CAPTURES, "api-figure.json"), `${JSON.stringify(money.figures[0], null, 2)}\n`);
 	writeJson(join(CAPTURES, "meta.json"), { capturedAt: Date.now() });
+	console.log("map: new live layers; recapture the hero still (ONLY=mapstill bun scripts/site-capture.ts)");
 	console.log(
 		`live: ${layers.connectivity.states.length} states, ${layers.quakes.length} quakes, ${layers.fires.length} fires, as of ${new Date(layers.asOf).toISOString()}`,
 	);

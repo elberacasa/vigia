@@ -9,7 +9,8 @@
  * the history replay, the phone), poster.webp, still-desk.webp, still-phone.webp, crops/<panel>.webp (dark) and
  * crops/<panel>-light.webp; and site/src/data/media.json (recording time and chapters). docs/assets/demo.gif (800 px
  * wide) for the README.
- * From the built site (mapstill): map-still-<theme>-<640|960|1280>.webp, the hero map's first paint.
+ * From the built site (mapstill): map-still-<theme>-<640|960|1280>.webp, the hero map's first paint, and
+ * site/src/data/map-still.json (the map snapshot it shows). The site must serve the current map.json.
  * og: site/public/og.png (1200×630), rendered from site/scripts/og.html with the numbers in facts.json.
  * Last, every file under site/public/media gets a content-hashed name (scripts/site/media.ts) and
  * site/src/data/media-files.json maps the plain names to them, so a new capture is never hidden by a year-long cache.
@@ -571,6 +572,13 @@ try {
 			}
 			console.log(`map-still-${theme}-1280.webp ${kib(join(ASSETS, `map-still-${theme}-1280.webp`))}`);
 		}
+		// Which map snapshot the still shows: scripts/site/map-still.test.ts fails when map.json moves past it, so the
+		// first paint (and every phone's only view) never shows older data than the live scene.
+		const map = JSON.parse(readFileSync(join(DATA, "map.json"), "utf8")) as { live: { capturedAt: number } };
+		writeFileSync(
+			join(DATA, "map-still.json"),
+			`${JSON.stringify({ mapCapturedAt: map.live.capturedAt }, null, "\t")}\n`,
+		);
 	}
 } finally {
 	await browser?.close();
