@@ -1,0 +1,107 @@
+/* ---------- Energy: flaring at oil facilities (web/src/panels/Energy.tsx) ---------- */
+.energy__h {
+	margin: var(--s-4) 0 var(--s-2);
+	color: var(--text-3);
+	font-size: var(--fs-2xs);
+}
+.facilities {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--s-3);
+}
+.facility {
+	display: grid;
+	gap: 3px;
+	min-width: 0;
+}
+.facility__head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--s-2);
+	min-width: 0;
+}
+.facility__name {
+	color: var(--text);
+	font-weight: 600;
+	font-size: var(--fs-sm);
+	text-decoration: none;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.facility__name:hover,
+.facility__name:focus-visible {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+.facility__status {
+	flex: none;
+	font-size: var(--fs-sm);
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.facility__status--ok {
+	color: var(--text-2);
+}
+.facility__status--warn {
+	color: var(--warn);
+	font-weight: 600;
+}
+.facility__status--alert {
+	color: var(--alert);
+	font-weight: 600;
+}
+.facility__row {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: var(--s-3);
+}
+.facility__value {
+	min-width: 5.5ch;
+	text-align: right;
+	font-size: var(--fs-md);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+.facility__meta,
+.facility__note {
+	margin: 0;
+	color: var(--text-3);
+	font-size: var(--fs-sm);
+}
+.facility__note {
+	font-style: italic;
+}
+
+/* 30 nights, one cell each: lit cells in the signal colour, brightness from the server's figure. */
+.nights {
+	display: grid;
+	grid-template-columns: repeat(30, 1fr);
+	gap: 2px;
+	height: 14px;
+	min-width: 0;
+}
+.nights__cell {
+	display: block;
+	border-radius: 2px;
+	background: var(--surface-3);
+}
+.nights__cell--lit {
+	background: var(--signal);
+	box-shadow: 0 0 6px -1px var(--glow-signal);
+}
+.nights__cell--none {
+	background: repeating-linear-gradient(
+		135deg,
+		transparent 0 2px,
+		color-mix(in srgb, var(--text-3) 35%, transparent) 2px 3px
+	);
+}
+.figure__value--plain {
+	color: var(--text);
+}

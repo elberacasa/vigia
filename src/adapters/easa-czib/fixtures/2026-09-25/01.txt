@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xml:base="https://www.easa.europa.eu/endomains/air-operations/czibs">
+	<channel>
+		<title>Conflict Zones Advisories</title>
+		<link>https://www.easa.europa.eu/endomains/air-operations/czibs</link>
+		<description/>
+		<language>en</language>
+		<atom:link href="https://www.easa.europa.eu/domains/air-operations/czibs/feed.xml" rel="self" type="application/rss+xml"/>
+		
+		<item>
+  <title>Airspace of Jordan</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2026-08-r1</link>
+  <description/>
+  <pubDate>Wed, 22 Jul 2026 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">143944 on Wed, 22 Jul 2026 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of the Persian Gulf and Gulf of Oman</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2026-07r2</link>
+  <description/>
+  <pubDate>Tue, 14 Jul 2026 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">143899 on Tue, 14 Jul 2026 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Lebanon</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2026-06-r1</link>
+  <description/>
+  <pubDate>Wed, 08 Jul 2026 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">143863 on Wed, 08 Jul 2026 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Iraq</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2026-05-r1</link>
+  <description/>
+  <pubDate>Wed, 08 Jul 2026 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">143862 on Wed, 08 Jul 2026 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Iran</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2026-04-r1</link>
+  <description/>
+  <pubDate>Wed, 08 Jul 2026 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">143861 on Wed, 08 Jul 2026 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of the Middle East and Persian Gulf</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2026-03-r14</link>
+  <description/>
+  <pubDate>Sat, 28 Feb 2026 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">143294 on Sat, 28 Feb 2026 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Iran and neighbouring airspace</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2026-02-r1</link>
+  <description/>
+  <pubDate>Fri, 16 Jan 2026 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">143048 on Fri, 16 Jan 2026 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Venezuela and neighbouring airspace</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2026-01-r2</link>
+  <description/>
+  <pubDate>Sat, 03 Jan 2026 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">142977 on Sat, 03 Jan 2026 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Iran</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2025-03</link>
+  <description/>
+  <pubDate>Mon, 07 Jul 2025 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">142201 on Mon, 07 Jul 2025 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of the Middle East (Iran, Iraq, Israel, Jordan and Lebanon)</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2025-02-r2</link>
+  <description/>
+  <pubDate>Fri, 13 Jun 2025 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">142082 on Fri, 13 Jun 2025 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of the Russian Federation</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2025-01-r3</link>
+  <description/>
+  <pubDate>Wed, 08 Jan 2025 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">141480 on Wed, 08 Jan 2025 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Iran</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2024-03-r2</link>
+  <description/>
+  <pubDate>Wed, 02 Oct 2024 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">140484 on Wed, 02 Oct 2024 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Israel</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2024-02-r3</link>
+  <description/>
+  <pubDate>Sat, 28 Sep 2024 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">140425 on Sat, 28 Sep 2024 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Lebanon</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2024-01-r7</link>
+  <description/>
+  <pubDate>Sat, 28 Sep 2024 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">140424 on Sat, 28 Sep 2024 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of South Sudan</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2018-03r15</link>
+  <description/>
+  <pubDate>Mon, 14 Mar 2016 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">20597 on Mon, 14 Mar 2016 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Israel and neighbouring airspace</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2023-03-r3</link>
+  <description/>
+  <pubDate>Sun, 08 Oct 2023 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">138625 on Sun, 08 Oct 2023 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Egypt, North Sinai Governorate</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-09r13</link>
+  <description>Appendix 1
+Source: United Kingdom AIP ENR 1.1 Section 1.4
+
+Security - Hazardous Situation in Egypt </description>
+  <pubDate>Mon, 14 Mar 2016 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">20578 on Mon, 14 Mar 2016 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Sudan</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2023-01r8</link>
+  <description/>
+  <pubDate>Wed, 26 Apr 2023 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">137874 on Wed, 26 Apr 2023 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Ethiopia – Tigray Region</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/2022-02r2</link>
+  <description>Appendix 1
+Source:&amp;nbsp;AIC France 24/22 issued 24 November 2022
+From 17/11/2022 and until further notice, pilots in command of aircraft performing air services mentioned in paragraph 1.1 are requested:</description>
+  <pubDate>Fri, 30 Sep 2022 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">137114 on Fri, 30 Sep 2022 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Saudi Arabia – Jeddah Flight Information Region</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2018-01r9</link>
+  <description>Appendix 1
+Source: French DGAC AIC France 10/22 issued 12 May 2022
+From 20/05/2021 and until further notice, pilots in command of aircraft performing air services mentioned in paragraph 1.1 are requested:</description>
+  <pubDate>Wed, 10 Jan 2018 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">44846 on Wed, 10 Jan 2018 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Ukraine</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2022-01r14</link>
+  <description/>
+  <pubDate>Thu, 24 Feb 2022 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">136057 on Thu, 24 Feb 2022 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Iran</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2020-01r2</link>
+  <description>Appendix 1
+Source: United States Federal Aviation Administration
+Special Federal Aviation Regulation (SFAR) 117 – Prohibition Against Certain Flights in the Tehran Flight Information Region (FIR) (OIIX)</description>
+  <pubDate>Thu, 16 Jul 2020 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">108293 on Thu, 16 Jul 2020 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Kenya</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2016-01r4</link>
+  <description>Appendix 1
+Source: United Kingdom NOTAM AIP ENR 1.1
+United Kingdom Aeronautical Information Service 
+Risk to aircraft overflying Kenya at less than 25,000 feet.
+Hazardous Situation in Kenya
+Potential risk to aviation overflying Kenyan airspace and territory FIRs at less than 25,000 ft above ground level (agl) from dedicated antiaircraft weaponry.</description>
+  <pubDate>Mon, 29 Oct 2018 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">65355 on Mon, 29 Oct 2018 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of North Korea – Pyongyang Flight Information Region</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-06r2</link>
+  <description>Appendix 1
+Source: United Kingdom NOTAM V0012/17
+United Kingdom Aeronautical Information Service
+There is a risk to aircraft overflying ZKKP/Pyongyang FIR, and the Sea of Japan.</description>
+  <pubDate>Tue, 02 May 2017 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">22434 on Tue, 02 May 2017 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Pakistan – Baluchistan and Khyber Pakhtunkhwa provinces</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2018-02r21</link>
+  <description/>
+  <pubDate>Mon, 14 Mar 2016 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">20587 on Mon, 14 Mar 2016 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Afghanistan</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-08r19</link>
+  <description/>
+  <pubDate>Mon, 14 Mar 2016 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">20574 on Mon, 14 Mar 2016 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Yemen – Sana’a Flight Information Region</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-07r19</link>
+  <description/>
+  <pubDate>Mon, 14 Mar 2016 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">20602 on Mon, 14 Mar 2016 00:00:00 +0200</guid>
+    </item>
+<item>
+  <title>Airspace of Mali</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-01r20</link>
+  <description/>
+  <pubDate>Fri, 31 Mar 2017 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">20585 on Fri, 31 Mar 2017 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Libya</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-02r20</link>
+  <description/>
+  <pubDate>Fri, 31 Mar 2017 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">20582 on Fri, 31 Mar 2017 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Iraq</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-04r19</link>
+  <description/>
+  <pubDate>Fri, 31 Mar 2017 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">20581 on Fri, 31 Mar 2017 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Syria</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-03r19</link>
+  <description/>
+  <pubDate>Fri, 31 Mar 2017 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">20599 on Fri, 31 Mar 2017 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Somalia</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/czib-2017-05r19</link>
+  <description/>
+  <pubDate>Fri, 31 Mar 2017 00:00:00 +0300</pubDate>
+    <guid isPermaLink="false">20589 on Fri, 31 Mar 2017 00:00:00 +0300</guid>
+    </item>
+<item>
+  <title>Airspace of Eastern Ukraine</title>
+  <link>https://www.easa.europa.eu/domains/air-operations/czibs/sib-2014-21r1</link>
+  <description>Appendix 1
+Conflict zones within Ukrainian airspace (Temporary restricted area in the eastern part of Ukraine and UK-P35Z over temporary occupied territory of the Autonomous Republic of Crimea)
+
+
+
+
+
+</description>
+  <pubDate>Mon, 14 Mar 2016 00:00:00 +0200</pubDate>
+    <guid isPermaLink="false">20600 on Mon, 14 Mar 2016 00:00:00 +0200</guid>
+    </item>
+
+	</channel>
+</rss>

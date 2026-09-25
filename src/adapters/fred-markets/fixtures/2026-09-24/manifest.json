@@ -1,0 +1,30 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGASUSGULF&cosd=2024-09-25",
+    "status": 200,
+    "contentType": "application/csv",
+    "fetchedAt": 1790304842751
+  },
+  {
+    "file": "01.txt",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DDFUELUSGULF&cosd=2024-09-25",
+    "status": 200,
+    "contentType": "application/csv",
+    "fetchedAt": 1790304845618
+  },
+  {
+    "file": "02.txt",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DHHNGSP&cosd=2024-09-25",
+    "status": 200,
+    "contentType": "application/csv",
+    "fetchedAt": 1790304848342
+  },
+  {
+    "file": "03.txt",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DTWEXBGS&cosd=2024-09-25",
+    "status": 200,
+    "contentType": "application/csv",
+    "fetchedAt": 1790304851167
+  }
+]

@@ -1,0 +1,390 @@
+/*
+ * The wall's layout and chrome: grid per viewport, the map card's bezel, the phone tab bar and sheets, the
+ * first-run presets, hidden panels, density. Panel chrome itself lives in base.css; tokens in tokens.css.
+ */
+
+/* ---------- Wall ---------- */
+.wall {
+	display: grid;
+	gap: var(--gutter);
+	padding: var(--gutter);
+	grid-template-columns: minmax(0, 1fr);
+	width: 100%;
+	max-width: 1920px;
+	margin: 0 auto;
+}
+.wall__pulse {
+	min-width: 0;
+	display: grid;
+	gap: var(--gutter);
+}
+.wall__pulse .ahora {
+	margin: 0;
+	border-radius: var(--r-panel);
+}
+.wall__pulse .tile {
+	border-radius: var(--r-panel);
+}
+.wall__map {
+	container: wall-map / inline-size;
+	min-width: 0;
+}
+.wall__col,
+.wall__rows {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gutter);
+	min-width: 0;
+}
+.wall__col > *,
+.wall__rows > * {
+	flex: none;
+}
+.wall__note {
+	margin: 0;
+	padding: 2px 4px;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+
+/* The map card: sea fills the card, a hairline inner bezel frames the instrument. */
+.wall__map .panel--map {
+	background: var(--map-sea);
+}
+.wall__map .panel--map .panel__head {
+	background: var(--surface-1);
+	border-radius: var(--r-panel) var(--r-panel) 0 0;
+}
+.wall--wide .wall__map .panel--map .panel__body::after,
+.wall--mid .wall__map .panel--map .panel__body::after {
+	content: "";
+	position: absolute;
+	inset: 6px;
+	border: 1px solid var(--line);
+	border-radius: 4px;
+	pointer-events: none;
+}
+
+/* Wide (≥1500 px): one composition the height of the screen. Side columns scroll inside themselves. */
+body:has(.wall--wide) #app {
+	display: flex;
+	flex-direction: column;
+	height: 100dvh;
+}
+.wall--wide {
+	flex: 1;
+	min-height: 0;
+	margin-bottom: var(--statusbar-h);
+	grid-template-columns: minmax(340px, 0.9fr) minmax(0, 1.75fr) minmax(380px, 1fr);
+	grid-template-rows: auto minmax(0, 1fr);
+	grid-template-areas: "pulse pulse pulse" "left map right";
+	overflow: hidden;
+}
+.wall--wide .wall__pulse {
+	grid-area: pulse;
+}
+.wall--wide .wall__col--left {
+	grid-area: left;
+}
+.wall--wide .wall__col--right {
+	grid-area: right;
+}
+.wall--wide .wall__map {
+	grid-area: map;
+	min-height: 0;
+}
+.wall--wide .wall__col,
+.wall--mid .wall__col {
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: thin;
+	scrollbar-color: var(--line-strong) transparent;
+	padding-bottom: var(--s-6);
+	/* A 24 px fade says there is more below; the padding lets the last panel scroll clear of it. */
+	mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
+}
+.wall--wide .wall__map .panel,
+.wall--mid .wall__map .panel {
+	height: 100%;
+}
+.wall--wide .wall__map .panel__body,
+.wall--mid .wall__map .panel__body {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+.wall--wide .wall__map .map,
+.wall--mid .wall__map .map {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+}
+.wall--wide .wall__map .map__svg,
+.wall--mid .wall__map .map__svg {
+	width: 100%;
+	height: 100%;
+	max-height: none;
+}
+
+/* Mid (1000–1499 px): the map and the right column share one screen-high frame; the rest below, as masonry. */
+.wall--mid .wall__frame {
+	display: grid;
+	grid-template-columns: minmax(0, 1.55fr) minmax(360px, 1fr);
+	gap: var(--gutter);
+	height: calc(100dvh - var(--topbar-h) - var(--statusbar-h) - 2 * var(--gutter));
+	min-height: 560px;
+}
+.wall__more {
+	columns: 400px;
+	column-gap: var(--gutter);
+}
+.wall__more > * {
+	break-inside: avoid;
+	margin-bottom: var(--gutter);
+}
+.wall--mid .wall__more {
+	margin-bottom: calc(var(--statusbar-h) - var(--gutter));
+}
+
+/* Narrow and phone: one list in the reader's order. */
+@media (min-width: 720px) {
+	.wall--flow .wall__rows--more {
+		display: block;
+		columns: 2 320px;
+		column-gap: var(--gutter);
+	}
+	.wall--flow .wall__rows--more > * {
+		break-inside: avoid;
+		margin-bottom: var(--gutter);
+	}
+}
+.wall--phone {
+	padding-bottom: calc(var(--tabbar-h) + var(--gutter));
+}
+
+/* ---------- Hidden panels ---------- */
+.hidden-panels {
+	border: 1px dashed var(--line-strong);
+	border-radius: var(--r-panel);
+	padding: var(--s-2) var(--s-3);
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.hidden-panels summary {
+	cursor: pointer;
+	font-weight: 600;
+	min-height: 28px;
+	display: flex;
+	align-items: center;
+}
+.hidden-panels ul {
+	list-style: none;
+	margin: var(--s-2) 0 0;
+	padding: 0;
+	display: grid;
+	gap: 4px;
+}
+.hidden-panels li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--s-3);
+}
+
+/* ---------- Phone tab bar ---------- */
+.tabbar {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 12;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	height: var(--tabbar-h);
+	padding-bottom: env(safe-area-inset-bottom);
+	background: color-mix(in srgb, var(--surface-0) 94%, transparent);
+	backdrop-filter: blur(12px);
+	border-top: 1px solid var(--line);
+}
+.tabbar__tab {
+	position: relative;
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	gap: 3px;
+	font-size: var(--fs-2xs);
+	font-weight: 600;
+	color: var(--text-3);
+	-webkit-tap-highlight-color: transparent;
+}
+.tabbar__tab svg {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.6;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.tabbar__tab[aria-current="true"],
+.tabbar__tab[aria-expanded="true"] {
+	color: var(--text);
+}
+.tabbar__tab[aria-current="true"]::before {
+	content: "";
+	position: absolute;
+	top: -1px;
+	left: 30%;
+	right: 30%;
+	height: 2px;
+	border-radius: 0 0 2px 2px;
+	background: var(--signal);
+}
+
+/* ---------- Sheets: method (?), más, first run ---------- */
+.sheet {
+	border-radius: var(--r-panel);
+}
+.sheet__title--sm {
+	font-size: var(--fs-lg);
+	margin: 0;
+	align-self: center;
+}
+.sheet--more {
+	max-height: min(82dvh, 760px);
+}
+.sheet__handle {
+	height: 20px;
+	margin: calc(-1 * var(--s-3)) 0 var(--s-1);
+	touch-action: none;
+	cursor: grab;
+	display: grid;
+	place-items: center;
+}
+.sheet__handle::before {
+	content: "";
+	width: 40px;
+	height: 4px;
+	border-radius: 2px;
+	background: var(--line-strong);
+}
+.more-list {
+	list-style: none;
+	margin: var(--s-3) 0 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-panel);
+	overflow: hidden;
+}
+.more-list__row {
+	width: 100%;
+	min-height: 56px;
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--s-3);
+	padding: var(--s-2) var(--s-3);
+	background: var(--surface-1);
+	text-align: left;
+}
+.more-list__row:hover {
+	background: var(--surface-2);
+}
+.more-list__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--line-strong);
+}
+.more-list__dot--warn {
+	background: var(--warn);
+}
+.more-list__dot--alert {
+	background: var(--alert);
+}
+.more-list__text {
+	display: grid;
+	min-width: 0;
+}
+.more-list__name {
+	font-weight: 650;
+	font-size: var(--fs-sm);
+}
+.more-list__sum {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.more-list__go {
+	color: var(--text-3);
+	font-size: var(--fs-lg);
+}
+.more-h {
+	margin: var(--s-5) 0 0;
+	color: var(--text-3);
+}
+.more-pages {
+	list-style: none;
+	margin: var(--s-2) 0 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-2);
+}
+.more-pages a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 40px;
+	padding: 0 var(--s-4);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-pill);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+}
+@media (max-width: 640px) {
+	.sheet {
+		border-radius: 12px 12px 0 0;
+	}
+	.sheet[open] {
+		animation: sheet-up var(--t) var(--ease-out);
+	}
+	.sheet--more .sheet__inner {
+		padding-bottom: calc(var(--s-5) + env(safe-area-inset-bottom));
+	}
+}
+@keyframes sheet-up {
+	from {
+		transform: translateY(24px);
+		opacity: 0.4;
+	}
+}
+
+/* ---------- Prefs ---------- */
+.prefs__reset {
+	justify-content: center;
+	margin-top: var(--s-2);
+	height: 36px;
+}
+.prefs__reset:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+
+/* ---------- Density: Pared ---------- */
+:root[data-density="pared"] .wall--wide .wall__col,
+:root[data-density="pared"] .wall--mid .wall__col {
+	mask-image: none;
+}
+
+/* ---------- Panel header badge spacing (after base.css badge rules) ---------- */
+.panel__tools .badge {
+	margin-right: 4px;
+}
+.panel--collapsed .panel__tools .badge {
+	height: 20px;
+	margin-right: 2px;
+}

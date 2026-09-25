@@ -1,0 +1,675 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-ui);
+	font-size: var(--fs-md);
+	line-height: var(--lh);
+	font-feature-settings: "lnum" 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	min-height: 100dvh;
+}
+a {
+	color: inherit;
+	text-decoration: none;
+}
+button {
+	font: inherit;
+	color: inherit;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: var(--r-sm);
+}
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+/* Figures: the UI face with tabular lining numerals (a monospace face would pad the decimal comma). */
+.data {
+	font-family: var(--font-ui);
+	font-variant-numeric: tabular-nums lining-nums;
+	letter-spacing: 0;
+}
+/* Times and ages keep the monospace instrument feel. */
+.mono,
+.source__age,
+.badge,
+.topbar__clock time,
+.loop__time,
+.ahora__when .data {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums slashed-zero;
+}
+.caps {
+	text-transform: uppercase;
+	letter-spacing: var(--tracking-caps);
+	font-size: var(--fs-2xs);
+	font-weight: 600;
+}
+
+/* ---------- Logo ---------- */
+.mark__v {
+	fill: none;
+	stroke: var(--text);
+	stroke-width: 6.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.mark__dots circle {
+	fill: var(--signal);
+}
+.mark--intro .mark__v {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	animation: mark-draw var(--t-reveal) var(--ease-out) forwards;
+}
+.mark--intro .mark__dots circle {
+	opacity: 0;
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: mark-dot var(--t-slow) var(--ease-out) forwards;
+	animation-delay: calc(500ms + var(--i) * 70ms);
+}
+.mark:not(.mark--intro) .mark__dots circle {
+	animation: mark-blip 900ms var(--ease-out);
+	animation-delay: calc(var(--i) * 45ms);
+}
+@keyframes mark-draw {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes mark-dot {
+	0% {
+		opacity: 0;
+		transform: scale(0.2);
+	}
+	60% {
+		opacity: 1;
+		transform: scale(1.5);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+@keyframes mark-blip {
+	0%,
+	100% {
+		fill: var(--signal);
+	}
+	30% {
+		fill: var(--signal-2);
+		filter: drop-shadow(0 0 3px var(--signal));
+	}
+}
+.wordmark__letters {
+	fill: var(--text);
+}
+.wordmark__accent {
+	fill: var(--signal);
+}
+@media (prefers-reduced-motion: reduce) {
+	.mark--intro .mark__v,
+	.mark--intro .mark__dots circle,
+	.mark .mark__dots circle {
+		animation: none;
+		opacity: 1;
+		stroke-dashoffset: 0;
+	}
+}
+
+/* ---------- Panels ---------- */
+.panel {
+	background: var(--surface-1);
+	border: 1px solid var(--line);
+	border-radius: var(--r-panel);
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	position: relative;
+	scroll-margin-top: calc(var(--topbar-h) + var(--s-2));
+}
+/* Header: eyebrow over the question as headline, then age · ? · ⋯ on the right. 52 px, same on every panel. */
+.panel__head {
+	display: flex;
+	align-items: center;
+	gap: var(--s-2);
+	padding: 4px 6px 4px var(--s-3);
+	border-bottom: 1px solid var(--line);
+	min-height: 52px;
+}
+.panel__title {
+	margin: 0;
+	flex: 1;
+	min-width: 0;
+	font-size: inherit;
+	font-weight: inherit;
+}
+.panel__toggle,
+.panel__static {
+	display: grid;
+	grid-template-columns: 10px minmax(0, 1fr);
+	column-gap: var(--s-2);
+	row-gap: 1px;
+	align-items: center;
+	width: 100%;
+	min-width: 0;
+	padding: 5px 0;
+	text-align: left;
+	border-radius: 4px;
+}
+.panel__toggle > :not(.panel__chev) {
+	grid-column: 2;
+}
+.panel__static {
+	grid-template-columns: minmax(0, 1fr);
+}
+.panel__chev {
+	flex: none;
+	grid-row: 1 / span 2;
+	align-self: center;
+	fill: none;
+	stroke: var(--text-3);
+	stroke-width: 1.6;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	margin-left: -2px;
+	transform: rotate(90deg);
+	transition: transform var(--t) var(--ease-out);
+}
+.panel__toggle[aria-expanded="false"] .panel__chev {
+	transform: none;
+}
+.panel__toggle:hover .panel__chev {
+	stroke: var(--text);
+}
+.panel__eyebrow {
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.panel__question {
+	font-size: var(--fs-md);
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--text);
+	letter-spacing: -0.005em;
+	min-width: 0;
+}
+.panel__question--warn {
+	color: var(--warn);
+}
+.panel__question--alert {
+	color: var(--alert);
+}
+.panel__tools {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+	flex: none;
+}
+.panel__icon {
+	width: 28px;
+	height: 28px;
+	display: grid;
+	place-items: center;
+	border-radius: var(--r-sm);
+	color: var(--text-3);
+	font-size: var(--fs-sm);
+	font-weight: 700;
+	transition:
+		background var(--t-fast) var(--ease-out),
+		color var(--t-fast) var(--ease-out);
+}
+.panel__icon svg {
+	fill: currentColor;
+}
+.panel__icon:hover,
+.panel__icon[aria-expanded="true"] {
+	background: var(--surface-3);
+	color: var(--text);
+}
+.panel__help {
+	font-family: var(--font-ui);
+}
+.panel__menu-wrap {
+	position: relative;
+}
+.panel__menu {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 4px);
+	z-index: 30;
+	min-width: 232px;
+	display: grid;
+	padding: 4px;
+	background: var(--surface-2);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-panel);
+	box-shadow: var(--shadow-2);
+}
+.panel__menu button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--s-4);
+	min-height: 36px;
+	padding: 0 10px;
+	border-radius: var(--r-sm);
+	font-size: var(--fs-sm);
+	font-weight: 550;
+	text-align: left;
+}
+.panel__menu button:hover:not(:disabled),
+.panel__menu button:focus-visible {
+	background: var(--surface-3);
+}
+.panel__menu button:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+/* "Guardar evidencia" in every panel's ⋯ menu: a download link styled like the menu's buttons. */
+.panel__menu .panel__menu-link {
+	display: flex;
+	align-items: center;
+	min-height: 36px;
+	padding: 0 10px;
+	border-radius: var(--r-sm);
+	font-size: var(--fs-sm);
+	font-weight: 550;
+	color: var(--text);
+	text-decoration: none;
+}
+.panel__menu .panel__menu-link:hover,
+.panel__menu .panel__menu-link:focus-visible {
+	background: var(--surface-3);
+	outline: none;
+}
+.panel__menu kbd {
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.panel__body {
+	padding: var(--panel-pad);
+	flex: 1;
+	min-height: 0;
+	min-width: 0;
+}
+.panel__body--enter {
+	animation: panel-open var(--t) var(--ease-out);
+}
+@keyframes panel-open {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+}
+/* Out of date or unreachable: the last good data stays, 30 % desaturated, under a band that says so. */
+.panel--stale .panel__body,
+.panel--failing .panel__body {
+	filter: saturate(0.7);
+}
+.band {
+	margin: 0;
+	padding: 6px var(--s-3);
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	line-height: 1.35;
+	border-bottom: 1px solid;
+}
+.band--warn {
+	color: var(--warn);
+	background: var(--warn-soft);
+	border-color: color-mix(in srgb, var(--warn) 30%, transparent);
+}
+.band--alert {
+	color: var(--alert);
+	background: var(--alert-soft);
+	border-color: color-mix(in srgb, var(--alert) 30%, transparent);
+}
+/* Collapsed: a summary row that still answers the question. */
+.panel--collapsed .panel__head {
+	border-bottom: 0;
+	min-height: 56px;
+}
+/* The age and ⋯ sit on the eyebrow line, so the summary gets the full width below. */
+.panel--collapsed .panel__head {
+	position: relative;
+}
+.panel--collapsed .panel__tools {
+	position: absolute;
+	top: 7px;
+	right: 6px;
+}
+.panel--collapsed .panel__toggle {
+	padding-top: 8px;
+}
+/* The age badge sits over the row's toggle: a tap on it opens the row (review 4, L14), it is not a control. */
+.panel--collapsed .panel__tools .badge--age {
+	pointer-events: none;
+}
+.panel--collapsed .panel__question {
+	font-size: var(--fs-sm);
+	font-weight: 550;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.panel--collapsed.panel--tone-warn {
+	border-color: color-mix(in srgb, var(--warn) 35%, var(--line));
+	background: linear-gradient(90deg, var(--warn-soft), transparent 75%), var(--surface-1);
+}
+.panel--collapsed.panel--tone-alert {
+	border-color: color-mix(in srgb, var(--alert) 40%, var(--line));
+	background: linear-gradient(90deg, var(--alert-soft), transparent 75%), var(--surface-1);
+}
+.panel__figures {
+	display: flex;
+	gap: var(--s-5);
+	margin-top: 2px;
+}
+.panel__figure {
+	display: grid;
+	gap: 0;
+}
+.panel__figure-label {
+	font-size: var(--fs-2xs);
+	font-weight: 600;
+	color: var(--text-3);
+}
+.panel__figure-value {
+	font-size: var(--fs-xl);
+	font-weight: 650;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	color: var(--text);
+	white-space: nowrap;
+}
+/* Loading: static bars shaped like content, faded in after 160 ms so a fast load never flashes them. */
+.panel-skel,
+.locked__ghost {
+	display: grid;
+	gap: 10px;
+	padding: 2px 0 var(--s-2);
+}
+.panel-skel {
+	opacity: 0;
+	animation: skel-in 200ms var(--ease-out) 160ms forwards;
+}
+.panel-skel i,
+.locked__ghost i {
+	display: block;
+	height: 10px;
+	border-radius: 4px;
+	background: var(--surface-3);
+}
+.panel-skel i.panel-skel__big,
+.locked__ghost i.panel-skel__big {
+	height: 28px;
+	margin-bottom: 4px;
+}
+@keyframes skel-in {
+	to {
+		opacity: 1;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.panel-skel {
+		animation: none;
+		opacity: 1;
+	}
+	.panel__body--enter {
+		animation: none;
+	}
+}
+:root[data-motion="reduced"] .panel-skel {
+	animation: none;
+	opacity: 1;
+}
+:root[data-motion="reduced"] .panel__body--enter {
+	animation: none;
+}
+/* Needs a key: a blurred silhouette of the panel and the way to unlock it. */
+.locked {
+	position: relative;
+	min-height: 150px;
+}
+.locked__ghost {
+	filter: blur(3px);
+	opacity: 0.55;
+}
+.locked__cta {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: var(--s-3);
+	text-align: center;
+	padding: var(--s-3);
+}
+.locked__cta p {
+	margin: 0;
+	max-width: 36ch;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+
+/* ---------- State badges ---------- */
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 22px;
+	padding: 0 9px;
+	border-radius: var(--r-pill);
+	font-size: var(--fs-2xs);
+	font-weight: 600;
+	font-family: var(--font-data);
+	white-space: nowrap;
+}
+.badge::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: currentColor;
+}
+.badge--ok {
+	color: var(--text-2);
+	background: var(--muted-soft);
+}
+.badge--ok::before {
+	background: var(--ok);
+}
+.badge--stale,
+.badge--degraded {
+	color: var(--warn);
+	background: var(--warn-soft);
+}
+.badge--failing {
+	color: var(--alert);
+	background: var(--alert-soft);
+}
+.badge--locked,
+.badge--off,
+.badge--pending {
+	color: var(--text-2);
+	background: var(--muted-soft);
+}
+.badge--locked::before {
+	border-radius: 1px;
+}
+/* The age badge, coloured against the feed's own budget. */
+.badge--age.badge--late {
+	color: var(--warn);
+	background: var(--warn-soft);
+}
+.badge--age.badge--late::before {
+	background: var(--warn);
+}
+.badge--age.badge--old {
+	color: var(--alert);
+	background: var(--alert-soft);
+}
+.badge--age.badge--old::before {
+	background: var(--alert);
+}
+.badge--age.badge--muted::before {
+	background: var(--text-3);
+}
+
+/* ---------- Figures: every number with its source and age ---------- */
+.figure {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+.figure__label {
+	color: var(--text-2);
+	font-size: var(--fs-xs);
+	font-weight: 550;
+}
+.figure__value {
+	font-family: var(--font-ui);
+	font-variant-numeric: tabular-nums lining-nums;
+	font-size: var(--fs-2xl);
+	font-weight: 600;
+	line-height: var(--lh-tight);
+	letter-spacing: -0.03em;
+	transition: color var(--t-slow) var(--ease-out);
+}
+.figure__unit {
+	font-size: 0.5em;
+	color: var(--text-3);
+	margin-left: 0.25em;
+	font-weight: 500;
+	letter-spacing: 0;
+}
+.figure--changed .figure__value {
+	animation: figure-flash 1400ms var(--ease-out);
+}
+@keyframes figure-flash {
+	0% {
+		color: var(--signal-2);
+		text-shadow: 0 0 18px var(--signal-soft);
+	}
+	100% {
+		color: inherit;
+	}
+}
+
+.source {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	border-radius: var(--r-sm);
+	padding: 2px 0;
+	max-width: 100%;
+	text-align: left;
+}
+.source:hover {
+	color: var(--text-2);
+}
+.source__provider {
+	font-weight: 600;
+	color: var(--text-2);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.source__age {
+	font-family: var(--font-data);
+	white-space: nowrap;
+}
+.source--stale .source__age {
+	color: var(--warn);
+}
+.source--failing .source__age {
+	color: var(--alert);
+}
+.dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	flex: none;
+	background: var(--ok);
+}
+.dot--stale,
+.dot--degraded {
+	background: var(--warn);
+}
+.dot--failing {
+	background: var(--alert);
+}
+.dot--locked,
+.dot--off,
+.dot--pending {
+	background: var(--text-3);
+}
+
+/* ---------- Skeletons (loading) ---------- */
+.skeleton {
+	background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface-3) 50%, var(--surface-2) 100%);
+	background-size: 200% 100%;
+	animation: skeleton 1.4s linear infinite;
+	border-radius: var(--r-sm);
+	color: transparent;
+}
+@keyframes skeleton {
+	to {
+		background-position: -200% 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.skeleton {
+		animation: none;
+	}
+}
+
+/* ---------- Notes ---------- */
+.note {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	line-height: 1.4;
+}
+.note strong {
+	color: var(--text-2);
+	font-weight: 600;
+}
+.empty {
+	color: var(--text-3);
+	font-size: var(--fs-sm);
+	padding: var(--s-4) 0;
+	text-align: center;
+}

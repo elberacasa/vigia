@@ -1,0 +1,1 @@
+{"portal":"conatel","host":"www.conatel.gob.ve","at":1790301921799,"dns":{"addresses":["200.44.12.100"],"error":null,"ms":38},"http":{"status":403,"finalUrl":"https://www.conatel.gob.ve/","ms":988,"error":null},"tls":{"validTo":1800728070000,"authorized":true,"error":null}}

@@ -1,0 +1,16 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://www.easa.europa.eu/en/domains/air-operations/czibs/export-json?page&_format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "fetchedAt": 1790301783716
+  },
+  {
+    "file": "01.txt",
+    "url": "https://www.easa.europa.eu/en/domains/air-operations/czibs/feed.xml",
+    "status": 200,
+    "contentType": "application/rss+xml; charset=utf-8",
+    "fetchedAt": 1790301785684
+  }
+]

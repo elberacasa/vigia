@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://www.bcv.org.ve/sites/default/files/precios_consumidor/4_5_7.xls",
+    "status": 200,
+    "contentType": "application/vnd.ms-excel",
+    "fetchedAt": 1790293356524
+  }
+]

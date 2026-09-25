@@ -1,0 +1,30 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+	"vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"**",
+			"!**/fixtures",
+			"!**/*.geojson",
+			"!src/geo/data",
+			"!web/assets/generated",
+			"!web/static/sw.js",
+			"!src/ai/evaluation.ts",
+			"!scripts/ai/evaluation-counts.json",
+			"!site"
+		]
+	},
+	"formatter": { "enabled": true, "indentStyle": "tab", "lineWidth": 110 },
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended",
+			"style": { "noNonNullAssertion": "error", "useConst": "error" },
+			"suspicious": { "noExplicitAny": "error" },
+			"correctness": { "noUnusedVariables": "error", "noUnusedImports": "error" }
+		}
+	},
+	"javascript": { "formatter": { "quoteStyle": "double" } },
+	"assist": { "enabled": true, "actions": { "source": { "organizeImports": "on" } } }
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+    "status": 200,
+    "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "fetchedAt": 1790304855733
+  }
+]

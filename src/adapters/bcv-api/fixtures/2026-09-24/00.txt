@@ -1,0 +1,10 @@
+{
+  "bcv_usd": 855.6625,
+  "bcv_eur": 972.648677,
+  "fecha_valor": "2026-09-25",
+  "scraped_at": "2026-09-25T03:18:33.021Z",
+  "changed_at": "2026-09-24T19:36:45.700Z",
+  "age_seconds": 230,
+  "stale": false,
+  "source": "https://www.bcv.org.ve/"
+}

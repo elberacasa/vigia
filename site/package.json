@@ -1,0 +1,35 @@
+{
+	"name": "vigia-site",
+	"version": "0.1.0",
+	"private": true,
+	"description": "The Vigía landing page: a static Next.js site (App Router), Spanish first with English.",
+	"license": "PolyForm-Noncommercial-1.0.0",
+	"type": "module",
+	"packageManager": "bun@1.4.2",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"types": "tsc --noEmit -p .",
+		"lint": "biome check .",
+		"fmt": "biome format --write .",
+		"check": "biome check . && tsc --noEmit -p . && SITE_URL=http://localhost:3000 next build"
+	},
+	"dependencies": {
+		"earcut": "3.2.3",
+		"next": "16.3.6",
+		"ogl": "1.0.11",
+		"react": "19.3.0",
+		"react-dom": "19.3.0",
+		"server-only": "^0.0.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.14",
+		"@tailwindcss/postcss": "4.3.3",
+		"@types/node": "^26.6.2",
+		"@types/react": "19.3.0",
+		"@types/react-dom": "^19.3.0",
+		"tailwindcss": "4.3.3",
+		"typescript": "7.0.2"
+	}
+}

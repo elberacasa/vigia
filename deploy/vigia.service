@@ -1,0 +1,55 @@
+# systemd unit for a Vigía public mirror (docs/OPERATIONS.md). Install the executable at /usr/local/bin/vigia, then:
+#   sudo useradd --system --home-dir /var/lib/vigia --shell /usr/sbin/nologin vigia
+#   sudo cp deploy/vigia.service /etc/systemd/system/ && sudo systemctl daemon-reload
+#   sudo systemctl enable --now vigia
+# Keys (optional): /etc/vigia/env with lines like NASA_FIRMS_MAP_KEY=… (mode 600, owner root).
+[Unit]
+Description=Vigía, sala de situación abierta de Venezuela (espejo público de solo lectura)
+Documentation=https://github.com/elberacasa/vigia
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vigia
+Group=vigia
+Environment=VIGIA_HOME=/var/lib/vigia
+Environment=VIGIA_MODE=public
+Environment=VIGIA_HOST=127.0.0.1
+Environment=VIGIA_PORT=7722
+Environment=VIGIA_TRUST_PROXY=1
+Environment=VIGIA_LOG_FORMAT=json
+EnvironmentFile=-/etc/vigia/env
+ExecStart=/usr/local/bin/vigia
+StateDirectory=vigia
+StateDirectoryMode=0700
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+KillSignal=SIGTERM
+
+# Hardening: the process can write only its data directory.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
+# Bun's JavaScript engine compiles code at run time (JIT), so writable-executable memory must stay allowed.
+MemoryDenyWriteExecute=false
+SystemCallArchitectures=native
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

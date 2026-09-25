@@ -1,0 +1,1 @@
+{"portal":"patria","host":"www.patria.org.ve","at":1790301897715,"dns":{"addresses":["201.249.163.13"],"error":null,"ms":908},"http":{"status":null,"finalUrl":null,"ms":5115,"error":"tls"},"tls":{"validTo":null,"authorized":null,"error":"reset"}}

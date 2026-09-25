@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://www.datos.gov.co/resource/32sa-8pi3.json?%24select=valor%2Cunidad%2Cvigenciadesde%2Cvigenciahasta&%24where=vigenciadesde+%3E%3D+%272025-08-21T00%3A00%3A00%27&%24order=vigenciadesde+DESC&%24limit=1000",
+    "status": 200,
+    "contentType": "application/json;charset=utf-8",
+    "fetchedAt": 1790304864189
+  }
+]

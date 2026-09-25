@@ -1,0 +1,599 @@
+/*
+ * Red (network) panel and the "¿Está bloqueado?" page. Colours only from tokens: DNS blocks in the signal
+ * amber, TLS (SNI) blocks in info blue, TCP in warn; "no block" is a quiet dot, "few measurements" an empty cell,
+ * so absence of data never looks like "normal".
+ */
+
+.nw-tabs {
+	margin-bottom: var(--s-3);
+}
+.nw-tabs button {
+	flex: 1 1 0;
+	padding: 0 8px;
+}
+.nw-h {
+	margin: var(--s-4) 0 var(--s-2);
+	color: var(--text-2);
+}
+.nw-lead {
+	margin-bottom: var(--s-2);
+}
+
+/* Per-ISP method bars */
+.nw-bars {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 5px;
+}
+.nw-bars li {
+	display: grid;
+	grid-template-columns: 84px 1fr 40px;
+	align-items: center;
+	gap: var(--s-2);
+	font-size: var(--fs-sm);
+}
+.nw-bars__name {
+	color: var(--text-2);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.nw-bars__track {
+	display: flex;
+	height: 10px;
+	border-radius: var(--r-pill);
+	background: var(--surface-2);
+	overflow: hidden;
+}
+.nw-bars__track i {
+	display: block;
+	height: 100%;
+}
+.nw-bars__dns {
+	background: var(--signal);
+}
+.nw-bars__tls {
+	background: var(--info);
+}
+.nw-bars__tcp {
+	background: var(--warn);
+}
+.nw-bars__n {
+	text-align: right;
+	font-size: var(--fs-sm);
+	color: var(--text);
+}
+.nw-bars__none {
+	grid-column: 2 / 4;
+}
+
+/* Legend keys, shared by matrix and chart */
+.nw-legend {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px 6px;
+	margin: var(--s-3) 0 var(--s-2);
+}
+.nw-key {
+	display: inline-grid;
+	place-items: center;
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
+	font-family: var(--font-data);
+	font-size: 10px;
+	font-weight: 700;
+	font-style: normal;
+	vertical-align: -3px;
+}
+.nw-legend .nw-key:not(:first-child) {
+	margin-left: 8px;
+}
+.nw-key--dns {
+	background: var(--signal-soft);
+	color: var(--signal);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--signal) 45%, transparent);
+}
+.nw-key--tls {
+	background: var(--info-soft);
+	color: var(--info);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--info) 45%, transparent);
+}
+.nw-key--ok {
+	color: var(--text-3);
+}
+.nw-key--unclear {
+	color: var(--warn);
+	outline: 1px dashed color-mix(in srgb, var(--warn) 60%, transparent);
+	outline-offset: -1px;
+}
+.nw-key--few {
+	box-shadow: inset 0 0 0 1px var(--line);
+}
+.nw-key--band {
+	width: 18px;
+	height: 10px;
+	border-radius: 2px;
+	background: var(--info-soft);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--info) 30%, transparent);
+	vertical-align: -1px;
+}
+
+/* Domain × ISP matrix */
+.nw-matrix-wrap {
+	overflow-x: auto;
+	margin: 0 calc(-1 * var(--s-1));
+	padding: 0 var(--s-1);
+}
+.nw-matrix {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 2px 3px;
+	table-layout: fixed;
+	font-size: var(--fs-sm);
+}
+.nw-matrix th {
+	font-weight: 600;
+	color: var(--text-3);
+}
+.nw-matrix thead th {
+	font-family: var(--font-data);
+	font-size: 10px;
+	letter-spacing: 0;
+	text-align: center;
+	width: 30px;
+	padding-bottom: 2px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: clip;
+}
+.nw-matrix thead abbr {
+	text-decoration: none;
+}
+.nw-matrix thead th.nw-matrix__domain,
+.nw-matrix tbody th.nw-matrix__domain {
+	width: auto;
+	text-align: left;
+	font-family: var(--font-ui);
+	font-size: var(--fs-sm);
+	letter-spacing: 0;
+}
+.nw-matrix tbody th.nw-matrix__domain {
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 0;
+}
+.nw-matrix__domain a {
+	color: var(--text);
+	text-decoration: none;
+}
+.nw-matrix__domain a:hover,
+.nw-matrix__domain a:focus-visible {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+.nw-matrix td {
+	text-align: center;
+	padding: 0;
+}
+.nw-cell {
+	display: inline-grid;
+	place-items: center;
+	width: 22px;
+	height: 20px;
+	border-radius: 5px;
+	font-family: var(--font-data);
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--text-3);
+}
+.nw-cell--blocked.nw-cell--dns {
+	background: var(--signal-soft);
+	color: var(--signal);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--signal) 45%, transparent);
+}
+.nw-cell--blocked.nw-cell--tls {
+	background: var(--info-soft);
+	color: var(--info);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--info) 45%, transparent);
+}
+.nw-cell--blocked.nw-cell--tcp {
+	background: var(--warn-soft);
+	color: var(--warn);
+}
+.nw-cell--unclear {
+	color: var(--warn);
+	outline: 1px dashed color-mix(in srgb, var(--warn) 55%, transparent);
+	outline-offset: -1px;
+}
+.nw-cell--ok {
+	color: var(--text-3);
+	font-size: 16px;
+}
+.nw-cell--few {
+	box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* Inline "¿Está bloqueado?" form */
+.nw-search {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s-2);
+	margin: var(--s-4) 0 var(--s-2);
+	padding: var(--s-3);
+	border-radius: var(--r-md);
+	background: var(--surface-2);
+}
+.nw-search label {
+	font-weight: 650;
+	font-size: var(--fs-sm);
+	flex: 1 0 100%;
+}
+.nw-search input,
+.lk-form input {
+	flex: 1 1 160px;
+	min-width: 0;
+	height: 38px;
+	padding: 0 var(--s-3);
+	border-radius: var(--r-md);
+	border: 1px solid var(--line-strong);
+	background: var(--surface-0);
+	color: var(--text);
+	font-size: var(--fs-md);
+}
+.nw-search input:focus-visible,
+.lk-form input:focus-visible {
+	outline: 2px solid var(--focus);
+	outline-offset: 1px;
+}
+
+/* Tor chart */
+.nw-chart {
+	position: relative;
+	margin: var(--s-3) 0 0;
+	height: 96px;
+}
+.nw-chart svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+.nw-chart__band {
+	fill: var(--info-soft);
+	stroke: color-mix(in srgb, var(--info) 30%, transparent);
+	stroke-width: 0.5;
+}
+.nw-chart__line {
+	fill: none;
+	stroke: var(--text);
+	stroke-width: 1.6;
+	stroke-linejoin: round;
+}
+.nw-chart__dot {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	margin: -3.5px 0 0 -3.5px;
+	border-radius: 50%;
+	box-shadow: 0 0 0 2px var(--surface-1);
+}
+.nw-chart__dot--up {
+	background: var(--signal);
+}
+.nw-chart__dot--down {
+	background: var(--alert);
+}
+.nw-axis {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--s-2);
+	margin: var(--s-1) 0 var(--s-3);
+	font-size: var(--fs-2xs);
+}
+
+/* Event lists */
+.nw-events {
+	list-style: none;
+	margin: var(--s-3) 0;
+	padding: 0;
+	display: grid;
+	gap: var(--s-2);
+}
+.nw-event {
+	display: grid;
+	gap: 2px;
+	padding: var(--s-2) var(--s-3);
+	border-left: 3px solid var(--line-strong);
+	background: var(--surface-2);
+	border-radius: 0 var(--r-sm) var(--r-sm) 0;
+	font-size: var(--fs-sm);
+}
+.nw-event a {
+	color: var(--text);
+	font-weight: 600;
+}
+.nw-event--alert {
+	border-left-color: var(--alert);
+}
+.nw-event--warn {
+	border-left-color: var(--signal);
+}
+.nw-event--info {
+	border-left-color: var(--info);
+}
+
+/* Routing table */
+.nw-routes {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--fs-sm);
+}
+.nw-routes tr > th,
+.nw-routes tr > td {
+	padding: 5px 4px;
+	border-bottom: 1px solid var(--line);
+	text-align: left;
+	vertical-align: baseline;
+}
+.nw-routes thead th {
+	font-size: var(--fs-2xs);
+	font-weight: 600;
+	color: var(--text-3);
+	text-transform: uppercase;
+	letter-spacing: var(--tracking-caps);
+}
+.nw-routes tbody th {
+	font-weight: 600;
+}
+.nw-routes .num {
+	text-align: right;
+	white-space: nowrap;
+}
+.nw-hot {
+	color: var(--alert);
+	font-weight: 700;
+}
+
+/* Portals */
+.nw-vantage {
+	margin: 0 0 var(--s-3);
+	padding: var(--s-2) var(--s-3);
+	border-left: 3px solid var(--warn);
+	background: var(--warn-soft);
+	border-radius: 0 var(--r-sm) var(--r-sm) 0;
+	font-size: var(--fs-sm);
+	color: var(--text);
+}
+.nw-portals {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.nw-portals li {
+	display: grid;
+	grid-template-columns: 10px minmax(96px, 0.8fr) 1.4fr;
+	align-items: baseline;
+	gap: var(--s-2);
+	padding: 7px 0;
+	border-bottom: 1px solid var(--line);
+	font-size: var(--fs-sm);
+}
+.nw-portals__name {
+	display: grid;
+	min-width: 0;
+}
+.nw-portals__name a {
+	color: var(--text);
+	font-weight: 650;
+	text-decoration: none;
+}
+.nw-portals__name .note,
+.nw-portals__state .note {
+	font-size: var(--fs-xs);
+}
+.nw-portals__state {
+	display: grid;
+	gap: 1px;
+}
+.nw-optin {
+	display: grid;
+	gap: var(--s-3);
+	justify-items: start;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.nw-optin p {
+	margin: 0;
+}
+
+/* ——— /bloqueos ——— */
+.lk {
+	max-width: 880px;
+}
+.lk-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-2);
+	margin: var(--s-5) 0 var(--s-4);
+}
+.lk-form input {
+	height: 46px;
+	font-size: var(--fs-lg);
+}
+.lk-form .button {
+	height: 46px;
+}
+.lk-domain {
+	font-size: var(--fs-xl);
+	letter-spacing: -0.01em;
+	margin: var(--s-5) 0 var(--s-1);
+	word-break: break-all;
+}
+.lk-verdict {
+	margin: 0 0 var(--s-4);
+	font-size: var(--fs-md);
+	font-weight: 650;
+}
+.lk-verdict--blocked {
+	color: var(--signal);
+}
+.lk-verdict--ok {
+	color: var(--ok);
+}
+.lk-verdict .note {
+	font-weight: 400;
+}
+.lk-section {
+	margin: var(--s-6) 0;
+}
+.lk-section h2 {
+	margin: 0 0 var(--s-2);
+	color: var(--text-2);
+}
+.lk-table-wrap {
+	overflow-x: auto;
+}
+.lk-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--fs-sm);
+}
+.lk-table tr > th,
+.lk-table tr > td {
+	text-align: left;
+	padding: 7px 6px;
+	border-bottom: 1px solid var(--line);
+	vertical-align: middle;
+}
+.lk-table thead th {
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	text-transform: uppercase;
+	letter-spacing: var(--tracking-caps);
+}
+.lk-cell {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--s-2);
+}
+.lk-history {
+	display: grid;
+	gap: 4px;
+}
+.lk-history__row {
+	display: grid;
+	grid-template-columns: 84px 1fr;
+	align-items: center;
+	gap: var(--s-2);
+	font-size: var(--fs-sm);
+}
+.lk-history__isp {
+	color: var(--text-2);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.lk-history__tiles {
+	display: grid;
+	grid-template-columns: repeat(var(--days), minmax(0, 1fr));
+	gap: 2px;
+}
+.lk-tile {
+	display: inline-block;
+	height: 14px;
+	min-width: 3px;
+	border-radius: 2px;
+	background: transparent;
+	box-shadow: inset 0 0 0 1px var(--line);
+}
+p .lk-tile {
+	width: 12px;
+	height: 12px;
+	vertical-align: -2px;
+	margin-left: 6px;
+}
+.lk-tile--blocked {
+	background: var(--signal);
+	box-shadow: none;
+}
+.lk-tile--unclear {
+	background: var(--warn-soft);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--warn) 55%, transparent);
+}
+.lk-tile--ok {
+	background: var(--surface-3);
+	box-shadow: none;
+}
+.lk-axis {
+	display: flex;
+	justify-content: space-between;
+	margin: var(--s-1) 0 var(--s-2) calc(84px + var(--s-2));
+	font-size: var(--fs-2xs);
+}
+.lk-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-4);
+}
+.lk-suggest {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-2);
+}
+
+@media (max-width: 480px) {
+	.nw-bars li {
+		grid-template-columns: 72px 1fr 36px;
+	}
+	.nw-cell {
+		width: 20px;
+	}
+	.nw-matrix thead th {
+		width: 26px;
+		font-size: 9px;
+	}
+	.nw-portals li {
+		grid-template-columns: 10px 1fr;
+	}
+	.nw-portals__state {
+		grid-column: 2;
+	}
+	.lk-history__row {
+		grid-template-columns: 64px 1fr;
+	}
+	.lk-axis {
+		margin-left: calc(64px + var(--s-2));
+	}
+}
+.nw-change {
+	display: block;
+	white-space: nowrap;
+}
+.lk-cell .nw-cell {
+	flex: none;
+}
+@media (max-width: 480px) {
+	.lk-table th,
+	.lk-table td {
+		padding: 6px 4px;
+		font-size: var(--fs-xs);
+	}
+}
+
+/* Last: the most specific .note rule (biome noDescendingSpecificity; no other rule reaches these cells). */
+.nw-routes tbody th .note {
+	display: block;
+	font-weight: 400;
+	font-size: var(--fs-2xs);
+}

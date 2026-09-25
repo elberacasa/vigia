@@ -1,0 +1,104 @@
+/* Clean view (V): loaded the first time it is turned on (lib/keys.ts, lib/css.ts). From live.css. */
+
+:root[data-view="clean"]
+:is(
+	.topbar__nav,
+	.topbar__status,
+	.prefs,
+	.palette-btn,
+	.statusbar,
+	.pulse,
+	.wall__col,
+	.wall__rows,
+	.wall__more,
+	.wall__note,
+	.hidden-panels,
+	.state-panel,
+	.tabbar,
+	.map-toolbar,
+	.offline
+) {
+	display: none;
+}
+:root[data-view="clean"] .topbar__clock {
+	display: flex;
+}
+/* One poster, centred: the width follows the height so the map, its legend and sources line fit one screen. */
+:root[data-view="clean"] .wall {
+	--clean-w: max(560px, min(1280px, calc((100dvh - 300px) * 1.13)));
+	display: grid;
+	grid-template-columns: minmax(0, var(--clean-w));
+	grid-template-areas: none;
+	grid-template-rows: auto;
+	justify-content: center;
+	height: auto;
+	overflow: visible;
+	margin-bottom: 0;
+}
+:root[data-view="clean"] .wall > *,
+:root[data-view="clean"] .wall--mid .wall__frame {
+	grid-area: auto;
+	grid-column: 1;
+}
+:root[data-view="clean"] .wall--mid .wall__frame {
+	display: block;
+	height: auto;
+}
+:root[data-view="clean"] body:has(.wall--wide) #app {
+	height: auto;
+}
+.clean-sources {
+	position: fixed;
+	left: 50%;
+	bottom: 10px;
+	transform: translateX(-50%);
+	width: max-content;
+	max-width: calc(100vw - 32px);
+	margin: 0;
+	text-align: center;
+	color: var(--text-3);
+	font-size: var(--fs-xs);
+}
+.clean-note {
+	position: fixed;
+	left: 50%;
+	bottom: 44px;
+	transform: translateX(-50%);
+	z-index: 12;
+	padding: 6px 14px;
+	border-radius: var(--r-pill);
+	background: var(--surface-3);
+	border: 1px solid var(--line-strong);
+	color: var(--text-2);
+	font-size: var(--fs-xs);
+	box-shadow: var(--shadow-2);
+	animation: clean-note 3.2s var(--ease-out) forwards;
+}
+@keyframes clean-note {
+	0%,
+	70% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+/* On touch there is no V key: the way out stays, small. */
+@media (pointer: coarse) {
+	.clean-sources {
+		position: fixed;
+		left: 50%;
+		bottom: 10px;
+		transform: translateX(-50%);
+		width: max-content;
+		max-width: calc(100vw - 32px);
+		margin: 0;
+		text-align: center;
+		color: var(--text-3);
+		font-size: var(--fs-xs);
+	}
+	.clean-note {
+		animation: none;
+		opacity: 0.8;
+	}
+}

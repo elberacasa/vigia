@@ -1,0 +1,1 @@
+{"portal":"bcv","host":"www.bcv.org.ve","at":1790301883112,"dns":{"addresses":["200.35.132.93"],"error":null,"ms":39},"http":{"status":200,"finalUrl":"https://www.bcv.org.ve/","ms":480,"error":null},"tls":{"validTo":1795219199000,"authorized":false,"error":"UNABLE_TO_VERIFY_LEAF_SIGNATURE"}}

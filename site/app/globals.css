@@ -1,0 +1,457 @@
+@import "tailwindcss";
+
+/*
+ * Vigía's design tokens (the same values as the app's web/src/styles/tokens.css). Dark is the signature theme;
+ * light is a full theme. Amber (--signal) has one meaning: live, sourced data (and the brand mark that stands for it).
+ */
+:root {
+	color-scheme: dark;
+	--bg: #07090e;
+	--surface-0: #0b0e14;
+	--surface-1: #10141c;
+	--surface-2: #161b25;
+	--surface-3: #1e2430;
+	--line: #232a37;
+	--line-strong: #333c4d;
+	--text: #edeff3;
+	--text-2: #aab2c0;
+	--text-3: #8a94a7;
+	--signal: #f6b532;
+	--signal-2: #ffd27a;
+	--signal-soft: rgb(246 181 50 / 0.12);
+	--info: #6cb4ff;
+	--ok: #3fd49a;
+	--warn: #ff9f43;
+	--alert: #ff5a5f;
+	--grid: rgb(108 180 255 / 0.045);
+	--glow: rgb(246 181 50 / 0.1);
+	--shadow-frame: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 40px 120px -20px rgb(0 0 0 / 0.8);
+	--focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--signal);
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+	--bg: #f4f1ea;
+	--surface-0: #fbf9f5;
+	--surface-1: #ffffff;
+	--surface-2: #f3f0e9;
+	--surface-3: #e8e4da;
+	--line: #e2ddd2;
+	--line-strong: #cbc4b5;
+	--text: #14181f;
+	--text-2: #4a5263;
+	--text-3: #5c6577;
+	--signal: #8a5a00;
+	--signal-2: #6f4800;
+	--signal-soft: rgb(184 120 0 / 0.1);
+	--info: #1a62bd;
+	--ok: #0b7a53;
+	--warn: #9a4c00;
+	--alert: #c8262c;
+	--grid: rgb(31 111 209 / 0.05);
+	--glow: rgb(184 120 0 / 0.08);
+	--shadow-frame: 0 1px 2px rgb(20 24 31 / 0.06), 0 30px 80px -20px rgb(20 24 31 / 0.25);
+}
+
+@media (prefers-color-scheme: light) {
+	:root:not([data-theme="dark"]) {
+		color-scheme: light;
+		--bg: #f4f1ea;
+		--surface-0: #fbf9f5;
+		--surface-1: #ffffff;
+		--surface-2: #f3f0e9;
+		--surface-3: #e8e4da;
+		--line: #e2ddd2;
+		--line-strong: #cbc4b5;
+		--text: #14181f;
+		--text-2: #4a5263;
+		--text-3: #5c6577;
+		--signal: #8a5a00;
+		--signal-2: #6f4800;
+		--signal-soft: rgb(184 120 0 / 0.1);
+		--info: #1a62bd;
+		--ok: #0b7a53;
+		--warn: #9a4c00;
+		--alert: #c8262c;
+		--grid: rgb(31 111 209 / 0.05);
+		--glow: rgb(184 120 0 / 0.08);
+		--shadow-frame: 0 1px 2px rgb(20 24 31 / 0.06), 0 30px 80px -20px rgb(20 24 31 / 0.25);
+	}
+}
+
+@theme inline {
+	--color-bg: var(--bg);
+	--color-surface-0: var(--surface-0);
+	--color-surface-1: var(--surface-1);
+	--color-surface-2: var(--surface-2);
+	--color-surface-3: var(--surface-3);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-text: var(--text);
+	--color-text-2: var(--text-2);
+	--color-text-3: var(--text-3);
+	--color-signal: var(--signal);
+	--color-signal-2: var(--signal-2);
+	--color-signal-soft: var(--signal-soft);
+	--color-info: var(--info);
+	--color-ok: var(--ok);
+	--color-warn: var(--warn);
+	--color-alert: var(--alert);
+	--font-sans: var(--font-archivo), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--font-mono: var(--font-chivo), ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+	html {
+		background: var(--bg);
+		color: var(--text);
+		-webkit-text-size-adjust: 100%;
+		text-rendering: optimizeLegibility;
+		scroll-behavior: smooth;
+		scroll-padding-top: 5rem;
+	}
+	body {
+		background: var(--bg);
+		font-family: var(--font-sans);
+		font-size: 1rem;
+		line-height: 1.6;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		overflow-x: clip;
+	}
+	::selection {
+		background: var(--signal-soft);
+		color: var(--text);
+	}
+	:focus-visible {
+		outline: none;
+		box-shadow: var(--focus);
+		border-radius: 6px;
+	}
+	code,
+	kbd,
+	pre,
+	samp {
+		font-family: var(--font-mono);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+		}
+	}
+}
+
+@layer components {
+	.wrap {
+		width: 100%;
+		max-width: 76rem;
+		margin-inline: auto;
+		padding-inline: clamp(1rem, 4vw, 2.5rem);
+	}
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--text-3);
+	}
+	.h-display {
+		font-weight: 700;
+		letter-spacing: -0.035em;
+		line-height: 0.98;
+		text-wrap: balance;
+	}
+	.h-section {
+		font-weight: 650;
+		font-size: clamp(2rem, 1.2rem + 2.6vw, 3.25rem);
+		letter-spacing: -0.03em;
+		line-height: 1.04;
+		text-wrap: balance;
+	}
+	.lede {
+		color: var(--text-2);
+		font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+		line-height: 1.55;
+		text-wrap: pretty;
+	}
+	.data {
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums slashed-zero;
+	}
+	/* The graticule behind the hero and the numbers: a map grid, not decoration for its own sake. */
+	.graticule {
+		background-image:
+			linear-gradient(var(--grid) 1px, transparent 1px),
+			linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+		background-size: 56px 56px;
+		background-position: center top;
+	}
+	.hairline {
+		border-color: var(--line);
+	}
+	.card {
+		background: var(--surface-1);
+		border: 1px solid var(--line);
+		border-radius: 1rem;
+	}
+	.frame {
+		background: var(--surface-0);
+		border: 1px solid var(--line-strong);
+		border-radius: 0.875rem;
+		box-shadow: var(--shadow-frame);
+		overflow: hidden;
+	}
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		height: 2.875rem;
+		padding-inline: 1.25rem;
+		border-radius: 0.625rem;
+		font-weight: 600;
+		font-size: 0.9375rem;
+		letter-spacing: -0.005em;
+		white-space: nowrap;
+		transition:
+			background-color 160ms var(--ease-out-expo),
+			border-color 160ms var(--ease-out-expo),
+			color 160ms var(--ease-out-expo),
+			transform 160ms var(--ease-out-expo);
+	}
+	.btn:active {
+		transform: translateY(1px);
+	}
+	.btn-primary {
+		background: var(--text);
+		color: var(--bg);
+	}
+	.btn-primary:hover {
+		background: color-mix(in oklab, var(--text) 86%, var(--bg));
+	}
+	.btn-ghost {
+		border: 1px solid var(--line-strong);
+		color: var(--text);
+		background: color-mix(in oklab, var(--surface-1) 60%, transparent);
+	}
+	.btn-ghost:hover {
+		border-color: var(--text-3);
+		background: var(--surface-2);
+	}
+	.link {
+		color: var(--text);
+		text-decoration: underline;
+		text-decoration-color: var(--line-strong);
+		text-underline-offset: 0.2em;
+		text-decoration-thickness: 1px;
+		transition: text-decoration-color 160ms;
+	}
+	.link:hover {
+		text-decoration-color: var(--text);
+	}
+	.chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		height: 1.75rem;
+		padding-inline: 0.625rem;
+		border-radius: 999px;
+		border: 1px solid var(--line);
+		background: var(--surface-1);
+		font-size: 0.8125rem;
+		color: var(--text-2);
+	}
+	.code {
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		line-height: 1.7;
+		tab-size: 2;
+	}
+	/* The architecture diagram (Developers.tsx). */
+	.arch {
+		font-family: var(--font-sans);
+	}
+	.arch rect {
+		fill: var(--surface-1);
+		stroke: var(--line-strong);
+	}
+	.arch .s rect {
+		stroke: var(--text-3);
+	}
+	.arch .t1 {
+		fill: var(--text);
+		font-size: 14px;
+		font-weight: 600;
+	}
+	.arch .t2 {
+		fill: var(--text-3);
+		font-size: 11.5px;
+		font-family: var(--font-mono);
+	}
+	.arch .ai {
+		opacity: 0.8;
+	}
+	.arch .ai rect {
+		fill: none;
+		stroke-dasharray: 4 4;
+	}
+	.arch .ai .t1 {
+		fill: var(--text-2);
+		font-size: 13px;
+	}
+	.arch .a {
+		fill: none;
+		stroke: var(--text-3);
+		stroke-width: 1.25;
+	}
+	.arch .d {
+		stroke-dasharray: 4 4;
+	}
+	.arch marker path {
+		fill: var(--text-3);
+	}
+	.term-rule {
+		display: block;
+		width: 80ch;
+		margin-block: 0.5rem;
+		border-top: 1px solid var(--line-strong);
+	}
+	.tok-k {
+		color: #c7a0ff;
+	}
+	.tok-t {
+		color: var(--info);
+	}
+	.tok-s {
+		color: var(--ok);
+	}
+	.tok-c {
+		color: var(--text-3);
+		font-style: italic;
+	}
+	.tok-p {
+		color: var(--text);
+	}
+	:root[data-theme="light"] .tok-k {
+		color: #6a3fb5;
+	}
+	@media (prefers-color-scheme: light) {
+		:root:not([data-theme="dark"]) .tok-k {
+			color: #6a3fb5;
+		}
+	}
+	/* Content for one theme only (the app's crops, captured in each theme). */
+	:root[data-theme="light"] .only-dark,
+	:root[data-theme="dark"] .only-light,
+	:root:not([data-theme]) .only-light {
+		display: none;
+	}
+	@media (prefers-color-scheme: light) {
+		:root:not([data-theme]) .only-light {
+			display: block;
+		}
+		:root:not([data-theme]) .only-dark {
+			display: none;
+		}
+	}
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+}
+
+/* ---------- The mark: the V draws, the eight points light up once. Reduced motion: static. ---------- */
+.mark__v {
+	fill: none;
+	stroke: var(--text);
+	stroke-width: 6.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+.mark__dots circle {
+	fill: var(--signal);
+}
+.mark--intro .mark__v {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	animation: mark-draw 900ms var(--ease-out-expo) forwards;
+}
+.mark--intro .mark__dots circle {
+	opacity: 0;
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: mark-dot 480ms var(--ease-out-expo) forwards;
+	animation-delay: calc(500ms + var(--i) * 70ms);
+}
+@keyframes mark-draw {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes mark-dot {
+	0% {
+		opacity: 0;
+		transform: scale(0.2);
+	}
+	60% {
+		opacity: 1;
+		transform: scale(1.5);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+.wordmark__letters {
+	fill: var(--text);
+}
+.wordmark__accent {
+	fill: var(--signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mark--intro .mark__v,
+	.mark--intro .mark__dots circle {
+		animation: none;
+		opacity: 1;
+		stroke-dashoffset: 0;
+	}
+}
+
+/*
+ * Reveal on scroll (Reveal.tsx): the hidden starting state applies only once RevealObserver has armed it (the
+ * `reveal-on` class), never without JavaScript, and never under reduced motion.
+ */
+.reveal-on .reveal:not(.is-in) {
+	opacity: 0;
+	transform: translateY(14px);
+}
+.reveal-on .reveal {
+	transition:
+		opacity 600ms var(--ease-out-expo) var(--reveal-delay, 0s),
+		transform 600ms var(--ease-out-expo) var(--reveal-delay, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+	.reveal-on .reveal:not(.is-in) {
+		opacity: 1;
+		transform: none;
+	}
+	.reveal-on .reveal {
+		transition: none;
+	}
+}

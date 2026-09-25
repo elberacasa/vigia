@@ -1,0 +1,185 @@
+/* ---------- Markets and cargo (web/src/panels/Markets.tsx) ---------- */
+.mk {
+	display: grid;
+	gap: var(--s-4);
+}
+.mk-group {
+	min-width: 0;
+}
+.mk-group__head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--s-2);
+	margin: 0 0 var(--s-2);
+}
+.mk-group__h {
+	margin: 0 0 var(--s-2);
+	color: var(--text-3);
+	font-size: var(--fs-2xs);
+}
+.mk-group__head .mk-group__h {
+	margin: 0;
+}
+.mk-tiles {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 0;
+	background: var(--surface-1);
+	border: 1px solid var(--line);
+	border-radius: var(--r-sm);
+	overflow: hidden;
+}
+.mk-tile {
+	display: grid;
+	align-content: start;
+	gap: 2px;
+	min-width: 0;
+	padding: var(--s-2) var(--s-3);
+	/* Hairlines between tiles; the list clips the outer ones, so an empty last cell shows no seam colour. */
+	box-shadow:
+		1px 0 0 var(--line),
+		0 1px 0 var(--line);
+}
+.mk-tile__label {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	/* Two lines before an ellipsis: "Gasolina, Golfo de EE. UU." must be readable on a 390 px phone. */
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	overflow: hidden;
+	overflow-wrap: anywhere;
+}
+.mk-tile__value {
+	margin: 0;
+	font-size: var(--fs-lg);
+	font-weight: 600;
+	color: var(--text);
+	line-height: 1.2;
+	white-space: nowrap;
+}
+.mk-tile__value .figure__unit {
+	margin-left: 4px;
+}
+.mk-tile__when,
+.mk-tile__next {
+	margin: 0;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.mk-tile__stale {
+	color: var(--warn);
+	font-weight: 600;
+}
+.mk-tile--stale .mk-tile__value {
+	color: var(--text-2);
+}
+.mk-tile__deltas {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px var(--s-2);
+	min-height: 1.2em;
+}
+.mk-tile .spark svg {
+	height: 28px;
+}
+.mk-tile__empty {
+	margin: var(--s-1) 0 0;
+	font-size: var(--fs-sm);
+	color: var(--text-3);
+}
+.mk-delta {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 3px;
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	font-size: var(--fs-2xs);
+	font-weight: 600;
+	color: var(--text-2);
+	white-space: nowrap;
+}
+.mk-delta [aria-hidden="true"] {
+	font-size: 0.8em;
+	color: var(--info);
+}
+.mk-delta--flat [aria-hidden="true"] {
+	color: var(--text-3);
+}
+.mk-delta__label {
+	/* Clearly apart from the figure: "−12,2 % · 7 d", never "−12,2 %7 d". */
+	margin-left: 4px;
+	color: var(--text-3);
+	font-weight: 500;
+	font-family: var(--font-ui);
+}
+
+.mk-ports {
+	display: grid;
+	gap: var(--s-2);
+}
+.mk-ports__figures {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+	gap: var(--s-3);
+}
+.mk-ports__cargo {
+	font-size: var(--fs-lg);
+}
+.mk-ports .spark svg {
+	height: 36px;
+}
+.mk-ports__axis {
+	display: flex;
+	justify-content: space-between;
+	margin: -4px 0 0;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.mk-portlist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+	gap: 2px var(--s-4);
+	font-size: var(--fs-sm);
+}
+.mk-portlist li {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--s-2);
+	min-width: 0;
+	padding: 3px 0;
+	border-bottom: 1px solid var(--line);
+}
+.mk-portlist__name {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--text);
+}
+.mk-portlist__n {
+	flex: none;
+	color: var(--text);
+	font-weight: 600;
+}
+.mk-portlist__tk {
+	color: var(--text-3);
+	font-weight: 500;
+}
+.mk-ports__caveat {
+	margin: 0;
+}
+.mk-attrib {
+	margin: 0;
+	padding-left: 1.1em;
+	font-size: var(--fs-sm);
+}

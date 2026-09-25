@@ -1,0 +1,42 @@
+# A public, read-only Vigía mirror (docs/OPERATIONS.md). Put a TLS reverse proxy (Caddy, nginx) in front of it;
+# the port is bound to this machine only.
+#
+#   docker compose up -d
+#   docker compose exec vigia vigia backup /data/respaldos/manual.sqlite
+services:
+  vigia:
+    build: .
+    image: vigia:local
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:7722:7722"
+    environment:
+      VIGIA_MODE: public
+      # The reverse proxy's address (here: any container on a Docker network), so rate limits are per visitor.
+      VIGIA_TRUST_PROXY: "172.16.0.0/12"
+      VIGIA_LOG_FORMAT: json
+      # Optional keys (free, no card): NASA_FIRMS_MAP_KEY. Put them in a .env file next to this one, never here.
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - vigia-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    user: "10001:10001"
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 15s
+    mem_limit: 768m
+    pids_limit: 128
+    healthcheck:
+      test: ["CMD", "vigia", "healthcheck"]
+      interval: 30s
+      timeout: 6s
+      start_period: 20s
+      retries: 3
+
+volumes:
+  vigia-data:

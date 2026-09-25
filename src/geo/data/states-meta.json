@@ -1,0 +1,541 @@
+{
+ "meta": {
+  "generatedAt": "2026-09-24T23:19:28Z",
+  "sources": {
+   "cod-ab-ven": {
+    "title": "Venezuela - Subnational Administrative Boundaries (COD-AB) v01",
+    "url": "https://data.humdata.org/dataset/cod-ab-ven",
+    "licence": "CC BY-IGO 3.0",
+    "attribution": "Instituto Nacional de Estadística (INE) Venezuela; OCHA Venezuela; OCHA FIS / HDX"
+   },
+   "geonames": {
+    "title": "GeoNames VE dump + VE alternate names",
+    "url": "https://download.geonames.org/export/dump/VE.zip",
+    "licence": "CC BY 4.0",
+    "attribution": "GeoNames (https://www.geonames.org), CC BY 4.0"
+   }
+  }
+ },
+ "states": [
+  {
+   "code": "VE01",
+   "iso3166_2": "VE-A",
+   "name": "Distrito Capital",
+   "labelPoint": {
+    "lat": 10.4832,
+    "lon": -66.98277
+   },
+   "centroid": {
+    "lat": 10.46971,
+    "lon": -66.99453
+   },
+   "centroidInside": true,
+   "areaKm2": 376.3,
+   "capital": {
+    "name": "Caracas",
+    "geonamesId": 3646738,
+    "lat": 10.48801,
+    "lon": -66.87919
+   }
+  },
+  {
+   "code": "VE02",
+   "iso3166_2": "VE-Z",
+   "name": "Amazonas",
+   "labelPoint": {
+    "lat": 2.88326,
+    "lon": -65.74633
+   },
+   "centroid": {
+    "lat": 3.36385,
+    "lon": -65.94418
+   },
+   "centroidInside": true,
+   "areaKm2": 180066.1,
+   "capital": {
+    "name": "Puerto Ayacucho",
+    "geonamesId": 3629710,
+    "lat": 5.66049,
+    "lon": -67.58343
+   }
+  },
+  {
+   "code": "VE03",
+   "iso3166_2": "VE-B",
+   "name": "Anzoátegui",
+   "labelPoint": {
+    "lat": 9.52353,
+    "lon": -64.55517
+   },
+   "centroid": {
+    "lat": 8.94113,
+    "lon": -64.42571
+   },
+   "centroidInside": true,
+   "areaKm2": 46706.1,
+   "capital": {
+    "name": "Barcelona",
+    "geonamesId": 3648559,
+    "lat": 10.1384,
+    "lon": -64.68769
+   }
+  },
+  {
+   "code": "VE04",
+   "iso3166_2": "VE-C",
+   "name": "Apure",
+   "labelPoint": {
+    "lat": 7.04519,
+    "lon": -68.58524
+   },
+   "centroid": {
+    "lat": 7.13224,
+    "lon": -68.8056
+   },
+   "centroidInside": true,
+   "areaKm2": 73407.1,
+   "capital": {
+    "name": "San Fernando de Apure",
+    "geonamesId": 3805673,
+    "lat": 7.88963,
+    "lon": -67.47181
+   }
+  },
+  {
+   "code": "VE05",
+   "iso3166_2": "VE-D",
+   "name": "Aragua",
+   "labelPoint": {
+    "lat": 10.18338,
+    "lon": -67.35321
+   },
+   "centroid": {
+    "lat": 9.96781,
+    "lon": -67.12813
+   },
+   "centroidInside": true,
+   "areaKm2": 7118.7,
+   "capital": {
+    "name": "Maracay",
+    "geonamesId": 3632998,
+    "lat": 10.24972,
+    "lon": -67.59475
+   }
+  },
+  {
+   "code": "VE06",
+   "iso3166_2": "VE-E",
+   "name": "Barinas",
+   "labelPoint": {
+    "lat": 8.29406,
+    "lon": -70.24453
+   },
+   "centroid": {
+    "lat": 8.14821,
+    "lon": -69.85594
+   },
+   "centroidInside": true,
+   "areaKm2": 36814.7,
+   "capital": {
+    "name": "Barinas",
+    "geonamesId": 3648546,
+    "lat": 8.62064,
+    "lon": -70.23105
+   }
+  },
+  {
+   "code": "VE07",
+   "iso3166_2": "VE-F",
+   "name": "Bolívar",
+   "labelPoint": {
+    "lat": 6.14326,
+    "lon": -63.30891
+   },
+   "centroid": {
+    "lat": 6.23411,
+    "lon": -63.52468
+   },
+   "centroidInside": true,
+   "areaKm2": 250723.8,
+   "capital": {
+    "name": "Ciudad Bolívar",
+    "geonamesId": 3645532,
+    "lat": 8.12366,
+    "lon": -63.54694
+   }
+  },
+  {
+   "code": "VE08",
+   "iso3166_2": "VE-G",
+   "name": "Carabobo",
+   "labelPoint": {
+    "lat": 10.25387,
+    "lon": -68.07517
+   },
+   "centroid": {
+    "lat": 10.17186,
+    "lon": -68.03304
+   },
+   "centroidInside": true,
+   "areaKm2": 4847.5,
+   "capital": {
+    "name": "Valencia",
+    "geonamesId": 3625549,
+    "lat": 10.16153,
+    "lon": -68.00044
+   }
+  },
+  {
+   "code": "VE09",
+   "iso3166_2": "VE-H",
+   "name": "Cojedes",
+   "labelPoint": {
+    "lat": 9.51953,
+    "lon": -68.36906
+   },
+   "centroid": {
+    "lat": 9.33639,
+    "lon": -68.349
+   },
+   "centroidInside": true,
+   "areaKm2": 13822.2,
+   "capital": {
+    "name": "San Carlos",
+    "geonamesId": 3628503,
+    "lat": 9.66415,
+    "lon": -68.58659
+   }
+  },
+  {
+   "code": "VE10",
+   "iso3166_2": "VE-Y",
+   "name": "Delta Amacuro",
+   "labelPoint": {
+    "lat": 8.97683,
+    "lon": -61.39361
+   },
+   "centroid": {
+    "lat": 8.77433,
+    "lon": -61.31428
+   },
+   "centroidInside": true,
+   "areaKm2": 38486.9,
+   "capital": {
+    "name": "Tucupita",
+    "geonamesId": 3625929,
+    "lat": 9.06263,
+    "lon": -62.05208
+   }
+  },
+  {
+   "code": "VE11",
+   "iso3166_2": "VE-I",
+   "name": "Falcón",
+   "labelPoint": {
+    "lat": 11.09914,
+    "lon": -69.26057
+   },
+   "centroid": {
+    "lat": 11.06828,
+    "lon": -69.77521
+   },
+   "centroidInside": true,
+   "areaKm2": 28155.4,
+   "capital": {
+    "name": "Coro",
+    "geonamesId": 3645213,
+    "lat": 11.40769,
+    "lon": -69.67822
+   }
+  },
+  {
+   "code": "VE12",
+   "iso3166_2": "VE-J",
+   "name": "Guárico",
+   "labelPoint": {
+    "lat": 8.61154,
+    "lon": -66.12501
+   },
+   "centroid": {
+    "lat": 8.82297,
+    "lon": -66.53044
+   },
+   "centroidInside": true,
+   "areaKm2": 64861.5,
+   "capital": {
+    "name": "San Juan de los Morros",
+    "geonamesId": 3628053,
+    "lat": 9.91246,
+    "lon": -67.35398
+   }
+  },
+  {
+   "code": "VE13",
+   "iso3166_2": "VE-K",
+   "name": "Lara",
+   "labelPoint": {
+    "lat": 10.17397,
+    "lon": -69.73731
+   },
+   "centroid": {
+    "lat": 10.14545,
+    "lon": -69.78498
+   },
+   "centroidInside": true,
+   "areaKm2": 19463.9,
+   "capital": {
+    "name": "Barquisimeto",
+    "geonamesId": 3648522,
+    "lat": 10.0647,
+    "lon": -69.35703
+   }
+  },
+  {
+   "code": "VE14",
+   "iso3166_2": "VE-L",
+   "name": "Mérida",
+   "labelPoint": {
+    "lat": 8.4337,
+    "lon": -71.37859
+   },
+   "centroid": {
+    "lat": 8.50911,
+    "lon": -71.26318
+   },
+   "centroidInside": true,
+   "areaKm2": 11856.7,
+   "capital": {
+    "name": "Mérida",
+    "geonamesId": 3632308,
+    "lat": 8.57899,
+    "lon": -71.16922
+   }
+  },
+  {
+   "code": "VE15",
+   "iso3166_2": "VE-M",
+   "name": "Miranda",
+   "labelPoint": {
+    "lat": 10.25901,
+    "lon": -66.63167
+   },
+   "centroid": {
+    "lat": 10.23749,
+    "lon": -66.37929
+   },
+   "centroidInside": true,
+   "areaKm2": 8896.2,
+   "capital": {
+    "name": "Los Teques",
+    "geonamesId": 3633622,
+    "lat": 10.34954,
+    "lon": -67.04266
+   }
+  },
+  {
+   "code": "VE16",
+   "iso3166_2": "VE-N",
+   "name": "Monagas",
+   "labelPoint": {
+    "lat": 9.47539,
+    "lon": -63.03867
+   },
+   "centroid": {
+    "lat": 9.41353,
+    "lon": -63.02062
+   },
+   "centroidInside": true,
+   "areaKm2": 28055.9,
+   "capital": {
+    "name": "Maturín",
+    "geonamesId": 3778045,
+    "lat": 9.74569,
+    "lon": -63.18323
+   }
+  },
+  {
+   "code": "VE17",
+   "iso3166_2": "VE-O",
+   "name": "Nueva Esparta",
+   "labelPoint": {
+    "lat": 11.02742,
+    "lon": -63.90166
+   },
+   "centroid": {
+    "lat": 10.98409,
+    "lon": -64.0492
+   },
+   "centroidInside": true,
+   "areaKm2": 1025.8,
+   "capital": {
+    "name": "La Asunción",
+    "geonamesId": 3480908,
+    "lat": 11.03333,
+    "lon": -63.86278
+   }
+  },
+  {
+   "code": "VE18",
+   "iso3166_2": "VE-P",
+   "name": "Portuguesa",
+   "labelPoint": {
+    "lat": 9.11442,
+    "lon": -69.25933
+   },
+   "centroid": {
+    "lat": 9.02207,
+    "lon": -69.27255
+   },
+   "centroidInside": true,
+   "areaKm2": 17425.2,
+   "capital": {
+    "name": "Guanare",
+    "geonamesId": 3640226,
+    "lat": 9.03934,
+    "lon": -69.73364
+   }
+  },
+  {
+   "code": "VE19",
+   "iso3166_2": "VE-R",
+   "name": "Sucre",
+   "labelPoint": {
+    "lat": 10.46155,
+    "lon": -63.08586
+   },
+   "centroid": {
+    "lat": 10.40998,
+    "lon": -63.34958
+   },
+   "centroidInside": true,
+   "areaKm2": 11087.1,
+   "capital": {
+    "name": "Cumaná",
+    "geonamesId": 3644768,
+    "lat": 10.4639,
+    "lon": -64.17859
+   }
+  },
+  {
+   "code": "VE20",
+   "iso3166_2": "VE-S",
+   "name": "Táchira",
+   "labelPoint": {
+    "lat": 7.82943,
+    "lon": -72.03968
+   },
+   "centroid": {
+    "lat": 7.8992,
+    "lon": -72.01923
+   },
+   "centroidInside": true,
+   "areaKm2": 9959.6,
+   "capital": {
+    "name": "San Cristóbal",
+    "geonamesId": 3628473,
+    "lat": 7.76593,
+    "lon": -72.23576
+   }
+  },
+  {
+   "code": "VE21",
+   "iso3166_2": "VE-T",
+   "name": "Trujillo",
+   "labelPoint": {
+    "lat": 9.42766,
+    "lon": -70.48347
+   },
+   "centroid": {
+    "lat": 9.44171,
+    "lon": -70.51426
+   },
+   "centroidInside": true,
+   "areaKm2": 8347.7,
+   "capital": {
+    "name": "Trujillo",
+    "geonamesId": 3625979,
+    "lat": 9.36587,
+    "lon": -70.43659
+   }
+  },
+  {
+   "code": "VE22",
+   "iso3166_2": "VE-U",
+   "name": "Yaracuy",
+   "labelPoint": {
+    "lat": 10.3115,
+    "lon": -68.70297
+   },
+   "centroid": {
+    "lat": 10.26007,
+    "lon": -68.7395
+   },
+   "centroidInside": true,
+   "areaKm2": 6080.9,
+   "capital": {
+    "name": "San Felipe",
+    "geonamesId": 3628423,
+    "lat": 10.3401,
+    "lon": -68.74297
+   }
+  },
+  {
+   "code": "VE23",
+   "iso3166_2": "VE-V",
+   "name": "Zulia",
+   "labelPoint": {
+    "lat": 10.49321,
+    "lon": -72.2638
+   },
+   "centroid": {
+    "lat": 9.89525,
+    "lon": -72.08593
+   },
+   "centroidInside": true,
+   "areaKm2": 44711.6,
+   "capital": {
+    "name": "Maracaibo",
+    "geonamesId": 3633009,
+    "lat": 10.64232,
+    "lon": -71.61089
+   }
+  },
+  {
+   "code": "VE24",
+   "iso3166_2": "VE-X",
+   "name": "La Guaira",
+   "labelPoint": {
+    "lat": 10.48592,
+    "lon": -67.22349
+   },
+   "centroid": {
+    "lat": 10.54384,
+    "lon": -66.8997
+   },
+   "centroidInside": false,
+   "areaKm2": 1170.1,
+   "capital": {
+    "name": "La Guaira",
+    "geonamesId": 3637721,
+    "lat": 10.60156,
+    "lon": -66.93293
+   }
+  },
+  {
+   "code": "VE25",
+   "iso3166_2": "VE-W",
+   "name": "Dependencias Federales",
+   "labelPoint": {
+    "lat": 10.93093,
+    "lon": -65.31091
+   },
+   "centroid": {
+    "lat": 11.40989,
+    "lon": -65.49665
+   },
+   "centroidInside": false,
+   "areaKm2": 343.2,
+   "capital": null
+  }
+ ]
+}

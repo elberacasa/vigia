@@ -1,0 +1,62 @@
+/* ---------- Personalizar: the first-load part (header button, hidden dollar blocks) ---------- */
+/* The sheet, the toasts and the news switch carry their own styles in their lazy chunks. */
+
+.custom-open {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	position: relative;
+	color: var(--text-2);
+}
+.custom-open:hover {
+	color: var(--text);
+	border-color: var(--text-3);
+}
+.custom-open__badge {
+	display: inline-grid;
+	place-items: center;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 5px;
+	border-radius: var(--r-pill);
+	background: var(--signal);
+	color: var(--text-inverse);
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1;
+}
+@media (max-width: 1180px) {
+	.custom-open__label {
+		display: none;
+	}
+	.custom-open {
+		width: 32px;
+		justify-content: center;
+		padding: 0;
+	}
+	.custom-open__badge {
+		position: absolute;
+		top: -6px;
+		right: -8px;
+	}
+}
+
+.link-button {
+	color: var(--info);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	font-size: inherit;
+}
+.link-button:disabled {
+	color: var(--text-3);
+	text-decoration: none;
+	cursor: default;
+}
+
+/* Dollar blocks the reader hid (lib/panelprefs.ts sets the attribute; the official rate is never hidden). */
+[data-money-hide~="yadio"] #dinero .rates > .rate:not(.rate--big),
+[data-money-hide~="p2p"] #dinero .p2p,
+[data-money-hide~="chart"] #dinero .chart-block,
+[data-money-hide~="inflation"] #dinero .inflation {
+	display: none;
+}

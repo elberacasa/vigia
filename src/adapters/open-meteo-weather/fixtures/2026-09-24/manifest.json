@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://api.open-meteo.com/v1/forecast?latitude=10.48801%2C5.66049%2C10.1384%2C7.88963%2C10.24972%2C8.62064%2C8.12366%2C10.16153%2C9.66415%2C9.06263%2C11.40769%2C9.91246%2C10.0647%2C8.57899%2C10.34954%2C9.74569%2C11.03333%2C9.03934%2C10.4639%2C7.76593%2C9.36587%2C10.3401%2C10.64232%2C10.60156&longitude=-66.87919%2C-67.58343%2C-64.68769%2C-67.47181%2C-67.59475%2C-70.23105%2C-63.54694%2C-68.00044%2C-68.58659%2C-62.05208%2C-69.67822%2C-67.35398%2C-69.35703%2C-71.16922%2C-67.04266%2C-63.18323%2C-63.86278%2C-69.73364%2C-64.17859%2C-72.23576%2C-70.43659%2C-68.74297%2C-71.61089%2C-66.93293&current=temperature_2m%2Capparent_temperature%2Crelative_humidity_2m%2Cprecipitation%2Cweather_code%2Cwind_speed_10m%2Cwind_gusts_10m%2Cis_day&hourly=temperature_2m%2Capparent_temperature%2Cprecipitation%2Cprecipitation_probability%2Cweather_code%2Cwind_gusts_10m&forecast_hours=24&timeformat=unixtime&timezone=GMT&wind_speed_unit=kmh&precipitation_unit=mm",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790293105089
+  }
+]

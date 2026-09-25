@@ -1,0 +1,51 @@
+name: New data source
+description: Propose a public source Vigía should read.
+labels: [source]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vigía only adds sources that are public, attributable, and whose terms allow the use. See docs/ADAPTERS.md
+        and docs/ETHICS.md. Sources that track individual people, or leaked or hacked data, are out of scope.
+  - type: input
+    id: name
+    attributes:
+      label: Source and publisher
+      placeholder: e.g. "Seismic catalogue, FUNVISIS"
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Endpoint or page URL
+    validations:
+      required: true
+  - type: textarea
+    id: signal
+    attributes:
+      label: What it measures, and why it matters for Venezuela
+    validations:
+      required: true
+  - type: input
+    id: licence
+    attributes:
+      label: Licence or terms of use
+      description: Link to the terms. Say if they are unclear or forbid automated access.
+    validations:
+      required: true
+  - type: dropdown
+    id: access
+    attributes:
+      label: Access
+      options: [No key, Free key (no card), Free key (card required), Paid]
+    validations:
+      required: true
+  - type: input
+    id: cadence
+    attributes:
+      label: How often it updates, and any rate limit
+  - type: textarea
+    id: sample
+    attributes:
+      label: A sample response (trimmed)
+      render: text

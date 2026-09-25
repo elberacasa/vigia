@@ -1,0 +1,31 @@
+{
+	"recordedAt": 1790336292065,
+	"duration": 35.3,
+	"chapters": [
+		{
+			"at": 0,
+			"es": "El muro",
+			"en": "The wall"
+		},
+		{
+			"at": 2.4,
+			"es": "Un estado",
+			"en": "A state"
+		},
+		{
+			"at": 8,
+			"es": "Búsqueda Ctrl K",
+			"en": "Ctrl K search"
+		},
+		{
+			"at": 15,
+			"es": "Historial",
+			"en": "History"
+		},
+		{
+			"at": 23.9,
+			"es": "En el teléfono",
+			"en": "On a phone"
+		}
+	]
+}

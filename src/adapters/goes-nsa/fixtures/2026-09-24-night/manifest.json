@@ -1,0 +1,10 @@
+[
+  {
+    "file": "00.jpg",
+    "url": "https://cdn.star.nesdis.noaa.gov/GOES19/ABI/SECTOR/nsa/GEOCOLOR/20262672330_GOES19-ABI-nsa-GEOCOLOR-1800x1080.jpg",
+    "status": 200,
+    "contentType": "image/jpeg",
+    "fetchedAt": 1790293627308,
+    "encoding": "base64"
+  }
+]

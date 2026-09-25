@@ -1,0 +1,1 @@
+{"portal":"cantv","host":"www.cantv.com.ve","at":1790301920681,"dns":{"addresses":["161.196.43.73"],"error":null,"ms":38},"http":{"status":null,"finalUrl":null,"ms":378,"error":"bad-response"},"tls":{"validTo":1805849196000,"authorized":true,"error":null}}

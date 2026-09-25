@@ -1,0 +1,44 @@
+{
+	"name": "vigia",
+	"version": "0.1.0",
+	"description": "Sala de situación abierta de Venezuela: tasas, sismos, incendios, conectividad, apagones y noticias, con fuente y hora en cada cifra.",
+	"license": "PolyForm-Noncommercial-1.0.0",
+	"private": true,
+	"packageManager": "bun@1.4.2",
+	"type": "module",
+	"bin": {
+		"vigia": "src/cli.ts"
+	},
+	"scripts": {
+		"start": "bun src/cli.ts",
+		"dev": "bun --watch src/cli.ts --dev",
+		"build:web": "bun scripts/build-web.ts",
+		"build:bin": "bun scripts/build-bin.ts",
+		"package:release": "bun scripts/package-release.ts",
+		"fmt": "biome format --write .",
+		"lint": "biome check .",
+		"types": "tsc --noEmit -p .",
+		"test": "bun test src web scripts",
+		"check": "biome check . && tsc --noEmit -p . && bun test src web scripts && bun scripts/build-web.ts",
+		"hooks": "git config core.hooksPath scripts/git-hooks",
+		"a11y": "bun scripts/a11y.ts",
+		"site:data": "bun scripts/site-data.ts",
+		"check:site": "cd site && bun install --frozen-lockfile && bun run check"
+	},
+	"dependencies": {
+		"@anthropic-ai/sdk": "^0.128.0",
+		"@preact/signals": "^2.11.2",
+		"fast-png": "8.0.0",
+		"fast-xml-parser": "^5.11.1",
+		"jpeg-js": "0.4.4",
+		"preact": "^10.29.8",
+		"zod": "^4.6.5"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.14",
+		"@types/bun": "^1.4.2",
+		"axe-core": "4",
+		"playwright-core": "^1.63.0",
+		"typescript": "^7.0.2"
+	}
+}

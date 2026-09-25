@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://www.fao.org/media/docs/worldfoodsituationlibraries/default-document-library/food_price_indices_data.csv?sfvrsn=523ebd2a_83&download=true",
+    "status": 200,
+    "contentType": "text/csv",
+    "fetchedAt": 1790304860411
+  }
+]

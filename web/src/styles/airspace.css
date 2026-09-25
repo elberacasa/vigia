@@ -1,0 +1,87 @@
+/* ---------- Airspace: official notices (web/src/panels/Airspace.tsx) ---------- */
+.air-status {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--s-2);
+	margin: 0 0 var(--s-3);
+	font-size: var(--fs-md);
+	font-weight: 600;
+	line-height: var(--lh-tight);
+}
+.air-status__dot {
+	flex: none;
+	width: 10px;
+	height: 10px;
+	margin-top: 0.3em;
+	border-radius: 50%;
+	background: var(--text-3);
+}
+.air-status--none .air-status__dot {
+	background: var(--ok);
+}
+.air-status--advisory {
+	color: var(--alert);
+}
+.air-status--advisory .air-status__dot {
+	background: var(--alert);
+	box-shadow: 0 0 0 3px var(--alert-soft);
+}
+.air-status--unknown {
+	color: var(--text-2);
+}
+.air__h {
+	margin: var(--s-4) 0 var(--s-2);
+	color: var(--text-3);
+	font-size: var(--fs-2xs);
+}
+.air-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--s-2);
+}
+.air-item {
+	display: grid;
+	gap: 2px;
+	font-size: var(--fs-sm);
+}
+.air-item a {
+	color: var(--text);
+	text-decoration: none;
+}
+.air-item a:hover,
+.air-item a:focus-visible,
+.air-near a:hover,
+.air-near a:focus-visible {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+.air-near {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 4px;
+	font-size: var(--fs-sm);
+}
+.air-near li {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--s-3);
+	min-width: 0;
+}
+.air-near a {
+	color: var(--text);
+	text-decoration: none;
+	flex: none;
+}
+.air-near__codes {
+	color: var(--text-3);
+	font-size: var(--fs-xs);
+	text-align: right;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

@@ -1,0 +1,203 @@
+site,domain,abandoned,category,CANTV,Movistar,Digitel,Inter,Netuno,Airtek,G-Network,Thundernet
+Tunnelbear,tunnelbear.com,active,ANON,DNS+HTTP/HTTPS,DNS,DNS,DNS,DNS,ok,DNS,ND
+Psiphon,psiphon.ca,active,ANON,DNS+TCP IP,DNS,ok,DNS,DNS,ok,DNS,ND
+Tunnelbear,api.tunnelbear.com,active,ANON,DNS,DNS,ok,ok,DNS,ok,ok,ND
+Hidemyass,www.hidemyass.com,active,ANON,ok,ok,ok,ok,DNS,ok,ok,ND
+Windscribe,windscribe.com,active,ANON,DNS+HTTP/HTTPS,DNS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Proton VPN,protonvpn.com,active,ANON,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Proton VPN,vpn-api.proton.me,active,ANON,ok,ok,DNS,DNS,ok,ok,ok,ND
+Surfshark,surfshark.com,active,ANON,ok,ok,DNS,DNS,DNS,ok,DNS,ND
+ExpressVPN para Android,www.expressvpn.com,active,ANON,ok,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Hotspot Shield,www.hotspotshield.com,active,ANON,TCP IP,DNS,DNS,DNS,ok,HTTP/HTTPS,DNS,ND
+Navegador Tor,www.torproject.org,active,ANON,TCP IP,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+VPN Brave,brave.com,active,ANON,ok,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Tor,bridges.torproject.org,active,ANON,ok,DNS,DNS,DNS,DNS,ok,DNS,ND
+NordVPN,nordvpn.com,active,ANON,DNS,DNS,DNS,DNS,ok,HTTP/HTTPS,DNS,ND
+IPVanish,www.ipvanish.com,active,ANON,DNS+TCP IP,DNS+HTTP/HTTPS,DNS,DNS,ok,HTTP/HTTPS,DNS,ND
+PureVPN,www.purevpn.com,active,ANON,DNS+TCP IP,DNS,DNS,DNS,ok,HTTP/HTTPS,DNS,ND
+iTop VPN,www.itopvpn.com,active,ANON,ok,ok,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Urban VPN Proxy,www.urban-vpn.com,active,ANON,DNS,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+VPN Super Unlimited Proxy,www.vpnsuper.com,active,ANON,ok,ok,ok,ok,ok,ok,DNS,ND
+Hide.me,hide.me,active,ANON,DNS+TCP IP,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+PandaVPN Pro,pandavpnpro.com,active,ANON,DNS,DNS+HTTP/HTTPS,DNS,DNS,ok,HTTP/HTTPS,DNS,ND
+Speedify,speedify.com,active,ANON,DNS,DNS,DNS,DNS,DNS,HTTPS,DNS,ND
+Torguard,torguard.net,active,ANON,DNS+TCP IP,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Ultra VPN,ultravpn.com,active,ANON,DNS+TCP IP,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Betternet,www.betternet.co,active,ANON,DNS,DNS,DNS,DNS,ok,HTTP/HTTPS,DNS,ND
+Browsec,www.browsec.com,active,ANON,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,DNS,ND
+CyberGhost VPN,www.cyberghostvpn.com,active,ANON,DNS+TCP IP,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Hola VPN,www.hola.org,active,ANON,DNS,DNS,DNS,DNS,ok,HTTP/HTTPS,DNS,ND
+ZoogVPN,www.zoogvpn.com,active,ANON,DNS,ok,DNS,DNS,DNS,HTTPS,DNS,ND
+Mullvad,mullvad.net,active,ANON,DNS+TCP IP,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Strong VPN,strongvpn.com,active,ANON,DNS+TCP IP,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Airtm,www.airtm.io,active,COMM,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Airtm,www.airtm0.com,active,COMM,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Airtm,airtm.com,active,COMM,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Airtm,www.airtm.com,active,COMM,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+FlujoTV,apkflujotv.com,active,COMM,TCP IP+HTTP/HTTPS,ok,TCP IP+HTTP/HTTPS,DNS,ok,ok,TCP IP+HTTP/HTTPS,ND
+FlujoTV,descargarflujotv.com,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujo-tv.me,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujoapk.com,active,COMM,TCP IP+HTTP/HTTPS,ok,TCP IP+HTTP/HTTPS,DNS,ok,ok,TCP IP+HTTP/HTTPS,ND
+FlujoTV,flujoapp.com,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotv.ai,abandoned,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotv.co,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotv.com.co,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotv.la,active,COMM,TCP IP+HTTP/HTTPS,ok,TCP IP+HTTP/HTTPS,DNS,ok,ok,TCP IP+HTTP/HTTPS,ND
+FlujoTV,flujotv.tv,active,COMM,TCP IP+HTTP/HTTPS,ok,TCP IP+HTTP/HTTPS,DNS,ok,ok,TCP IP+HTTP/HTTPS,ND
+FlujoTV,flujotv.vip,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotvecuador.com,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotvlat.com,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotvoficial.net,active,COMM,TCP IP+HTTP/HTTPS,ok,TCP IP+HTTP/HTTPS,DNS+TCP IP,ok,ok,TCP IP+HTTP/HTTPS,ND
+FlujoTV,flujotvperu.org,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,flujotvpro.com,active,COMM,ok,ok,ok,DNS,ok,ok,ok,ND
+FlujoTV,tvflujolatino.com,active,COMM,TCP IP+HTTP/HTTPS,ok,ok,DNS,ok,ok,ok,ND
+MagisTV,www.magistv-pc.com,active,COMM,ok,ok,ok,DNS,DNS,ok,ok,ND
+MagisTV,www.magistv.cool,active,COMM,ok,ok,ok,DNS,DNS,ok,ok,ND
+MagisTV,www.magistv.info,abandoned,COMM,ok,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,DNS+TCP IP,ND
+MagisTV,www.magistv.pro,active,COMM,TCP IP+HTTP/HTTPS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,DNS,ND
+Signal,signal.org,active,COMT,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,DNS,ND
+Aguacate Verde,aguacateverde1.blogspot.com,active,ECON,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Statista,es.statista.com,active,ECON,DNS,DNS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Yadio,yadio.io,active,ECON,DNS+HTTPS,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Monitor Dolar Venezuela,monitordolarvenezuela.com,abandoned,ECON,DNS+TCP IP,DNS+HTTP/HTTPS,DNS,DNS,DNS,DNS+TCP IP,DNS+TCP IP,ND
+Reddit,www.reddit.com,active,GRP,ok,DNS,ok,ok,ok,ok,ok,ok
+X,abs-0.twimg.com,active,GRP,ok,ok,ok,ok,ok,ok,ok,ok
+X,abs.twimg.com,active,GRP,ok,ok,ok,ok,ok,ok,ok,ok
+X,pbs.twimg.com,active,GRP,ok,ok,ok,ok,ok,ok,ok,ok
+X,video-0.twimg.com,active,GRP,ok,ok,ok,ok,ok,ok,ok,ok
+X,video.twimg.com,active,GRP,ok,ok,ok,ok,ok,ok,ok,ok
+X,t.co,active,GRP,DNS,ok,ok,ok,ok,ok,ok,ok
+Que Lacreo,quelacreo.com,abandoned,HATE,DNS+HTTPS,DNS,DNS,DNS,DNS,ok,ok,ND
+Change.org,www.change.org,active,HUMR,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Caracas Mi Convive,miconvive.com,active,HUMR,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Caracas Mi Convive,miconvive.org,active,HUMR,DNS,ok,ok,ok,ok,ok,ok,ND
+Salario Digno,salariodignovzla.com,abandoned,HUMR,DNS,HTTP/HTTPS,DNS,DNS,ok,ok,ok,ND
+Observatorio de Finanzas,observatoriodefinanzas.com,active,HUMR,DNS,DNS+HTTP/HTTPS,DNS,DNS,ok,ok,ok,ND
+IPYS Venezuela,ipysvenezuela.org,active,HUMR,DNS,HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Espacio Público,espaciopublico.ong,active,HUMR,DNS,ok,ok,ok,ok,HTTP/HTTPS,ok,ND
+VE Sin Filtro,vesinfiltro.com,active,HUMR,DNS,HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Media Analísis,www.medianalisis.org,active,HUMR,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Vendata,vendata.org,active,HUMR,ok,DNS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Zello,zello.com,active,MMED,DNS,DNS,DNS,ok,ok,ok,ok,ND
+Livestream,livestream.com,active,MMED,DNS,ok,DNS,DNS,DNS,ok,ok,ND
+SoundCloud,soundcloud.com,active,MMED,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Dolar Today,dolartoday.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+VPITV,vpitv.com,active,NEWS,DNS,ok,DNS,DNS,DNS,ok,ok,ND
+VPITV,www.vpitv.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+El Liberal Venezolano,liberal-venezolano.blogspot.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Vivo Play,vivoplay.net,active,NEWS,ok,DNS,DNS,ok,DNS,ok,ok,ND
+Dolar Paralelo,dolarparalelo.biz,abandoned,NEWS,DNS,ok,DNS,ok,DNS,ok,ok,ND
+El Pitazo,elpitazo.com,active,NEWS,unblocked,unblocked,unblocked,ok,unblocked,ok,ok,unblocked
+El Pitazo,elpitazo.info,active,NEWS,unblocked,unblocked,unblocked,ok,unblocked,ok,ok,ok
+El Pitazo,elpitazo.net,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+Noticia Al Día,noticiaaldia.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Alek Boyd,alekboyd.blogspot.co.uk,active,NEWS,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Maduradas,maduradas.com,active,NEWS,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Minuto 30,minuto30.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Infobae,www.infobae.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+WN,noticias.com,abandoned,NEWS,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Minuto 30,www.minuto30.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Infobae,www.infobae.media,active,NEWS,DNS+HTTPS,DNS,DNS,DNS,DNS,ok,ok,ND
+El Tiempo,www.eltiempo.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,ok
+Diario 2001,www.2001.com.ve,active,NEWS,ok,ok,ok,ok,ok,DNS,ok,ND
+Noticias Venezuela,noticiasvenezuela.org,abandoned,NEWS,ok,DNS,DNS,DNS,DNS,ok,ok,ND
+Dolar Paralelo,dollarparalelovenezuela.com,abandoned,NEWS,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Aguacate Verde,www.aguacateverde.com,abandoned,NEWS,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Dolar Paralelo,dolarparalelovenezuela.com,abandoned,NEWS,DNS,ok,DNS,ok,DNS,ok,ok,ND
+dollar.nu,dollar.nu,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+NTN24,www.ntn24.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Noticia Al Día,noticialdia.com,active,NEWS,DNS,DNS,ok,DNS,DNS,ok,ok,ND
+CronicaUno,cronica.uno,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,ok
+Efecto Cocuyo,efectococuyo.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+EVTV,evtv.online,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+EVTV,evtvmiami.com,abandoned,NEWS,ok,DNS,DNS,DNS,DNS,HTTPS,ok,ND
+Punto de Corte,puntodecorte.com,abandoned,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ok
+Punto de Corte,puntodecorte.net,active,NEWS,DNS,DNS,ok,DNS,DNS,ok,ok,ok
+TV Venezuela,www.tvvenezuela.tv,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Alberto News,albertonews.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+Alberto News,awsveanews.com,abandoned,NEWS,DNS,ok,ok,ok,ok,ok,ok,ND
+Alberto News,b1tly4n3s.com,abandoned,NEWS,DNS,ok,ok,ok,ok,ok,ok,ND
+Dolar Paralelo,dolarparalelo.net,abandoned,NEWS,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Dolar Paralelo,dolarparalelo.org,abandoned,NEWS,DNS+HTTPS,DNS,DNS,DNS,DNS,ok,ok,ND
+Dolar Paralelo,dolarparalelo.tk,abandoned,NEWS,DNS,DNS,DNS,ok,DNS,ok,ok,ND
+Runrunes,runrun.es,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+Noticiero Digital,www.noticierodigital.com,active,NEWS,unblocked,ok,ok,ok,ok,ok,ok,ok
+Maduradas,www.maduradas.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Monitoreamos,monitoreamos.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,ok
+ArmandoInfo,armando.info,active,NEWS,DNS,DNS,DNS,DNS,ok,HTTP/HTTPS,ok,ND
+Infobae,infob.ae,active,NEWS,DNS,DNS,DNS,HTTP,DNS,ok,ok,ND
+6to Poder,6topoder.com,abandoned,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Diario La Región,diariolaregion.net,active,NEWS,DNS,DNS,ok,DNS,DNS,ok,ok,ND
+Venezuela al Día,venezuelaaldia.com,abandoned,NEWS,ok,DNS,ok,DNS,DNS,ok,ok,ND
+Venezuela al Día,www.venezuelaaldia.com,abandoned,NEWS,ok,DNS,DNS,DNS,DNS,ok,ok,ND
+Dolar Today,bit.ly/venezuela911,active,NEWS,ok,HTTP,ok,ok,ok,ok,ok,ND
+Alek Boyd,alekboyd.blogspot.com,active,NEWS,ok,DNS,DNS,ok,DNS,ok,ok,ND
+Al Navío,alnavio.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,ok
+Dolar Today,dolartoday.info,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Dolar Today,dolartoday.org,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+El Dolar Parelo,eldolarparalelo.info,abandoned,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Aporrea,www.aporrea.org,active,NEWS,ok,DNS,ok,ok,ok,DNS+HTTPS,ok,ND
+Caraota Digital,www.caraotadigital.net,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+La Patilla,lapatilla.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Caraota Digital,caraotadigital.news,abandoned,NEWS,ok,DNS,ok,DNS,DNS,ok,ok,ND
+Caraota Digital,caraotadigital.xyz,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,ok
+La Manada Digital,lamananadigital.com,active,NEWS,DNS,ok,ok,ok,ok,ok,ok,ND
+Opinión y Noticias,www.opinionynoticias.com,active,NEWS,ok,HTTP/HTTPS,DNS,ok,ok,ok,ok,ND
+Primer Informe,primerinforme.com,active,NEWS,DNS,DNS,ok,DNS,DNS,ok,ok,ND
+El Nacional,www.el-nacional.com,active,NEWS,ok,HTTP/HTTPS,ok,ok,ok,ok,ok,ok
+El Nacional,www.elnacional.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Noticia y Punto,noticiaypunto.com,active,NEWS,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Foco Informativo,focoinformativo.com,active,NEWS,ok,unblocked,ok,ok,ok,ok,ok,ok
+El Carabobeño,www.el-carabobeno.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+Dolar Paralelo,ww38.dollarparalelovenezuela.com,abandoned,NEWS,ok,DNS,DNS,DNS,DNS,ok,ok,ND
+El Político,elpolitico.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Impacto Venezuela,Impactovenezuela.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Semana,www.semana.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+La Gran Aldea,www.lagranaldea.com,active,NEWS,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Cazadores de Fake News,cazadoresdefakenews.info,active,NEWS,DNS,DNS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Observatorio Venezolano de Fake News,fakenewsvenezuela.org,active,NEWS,DNS,HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Es Paja,www.espaja.com,active,NEWS,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+El Estímulo,elestimulo.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,ok,unblocked
+Analítica,www.analitica.com,active,NEWS,DNS,HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Noticiero Venevisión,www.noticierovenevision.net,active,NEWS,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Noticiero Venevisión,noticiasvenevision.com,active,NEWS,ok,ok,ok,ok,ok,ok,ok,ND
+Tal Cual,www.talcualdigital.com,active,NEWS,DNS,HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Elecciones 2024 Venezuela,elecciones2024venezuela.com,abandoned,NEWS,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+La Prensa Lara,www.laprensalara.com.ve,active,NEWS,ok,ok,ok,ok,ok,HTTP/HTTPS,ok,ok
+The Wall Street Journal,www.wsj.com,active,NEWS,DNS,DNS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+La República,larepublica.pe,active,NEWS,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+EFE,efe.com,active,NEWS,unblocked,unblocked,unblocked,unblocked,unblocked,ok,DNS+TCP IP,unblocked
+Servicio de Información Pública ,serviciodeinformacionpublica.com,active,NEWS,TCP IP,ok,ok,ok,ok,ok,ok,ND
+Su Noticiero,sunoticiero.com,active,NEWS,DNS,DNS+HTTP/HTTPS,DNS,ok,ok,ok,ok,ok
+Radio Fe y Alegría,www.radiofeyalegrianoticias.com,active,NEWS,ok,HTTP/HTTPS,ok,ok,ok,ok,ok,ND
+Voz de América ,www.voanoticias.com,active,NEWS,ok,HTTP/HTTPS,ok,ok,ok,ok,ok,ND
+vdebate,vdebate.blogspot.com,active,POLR,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Venezuela Aid Live,venezuelaaidlive.com,active,POLR,ok,DNS,DNS,DNS,DNS,ok,ok,ND
+Infodio,infodio.com,active,POLR,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+Presidencia VE,presidenciave.com,active,POLR,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+PVenezuela,pvenezuela.com,abandoned,POLR,DNS,DNS,DNS,DNS,DNS,ok,ok,ND
+MDI Venezuela,www.mdivenezuela.org,abandoned,POLR,DNS,DNS,DNS,DNS,ok,ok,ok,ND
+Buscador primarias 2023,d1zjwmfdso4x7i.cloudfront.net,abandoned,POLR,DNS,DNS,DNS,DNS,ok,ok,ok,ND
+Buscador primarias 2023,d3l0kqj5h9z9zs.cloudfront.net,abandoned,POLR,DNS,DNS,DNS,ok,ok,ok,ok,ND
+Hugo Carvajal,hugocarvajal.com,abandoned,POLR,DNS,DNS,ok,DNS,DNS,ok,ok,ND
+Buscador primarias 2023,buscadorprimaria2023.com,abandoned,POLR,DNS,HTTP/HTTPS,DNS,DNS,DNS,ok,ok,ND
+Comisión primarias 2023,comisiondeprimariave.org,abandoned,POLR,DNS,DNS,DNS,ok,ok,ok,ok,ND
+La Venezuela del Encuentro,lavenezueladelencuentro.com,abandoned,POLR,DNS,DNS,DNS,ok,ok,ok,ok,ND
+Vente Venezuela,www.ventevenezuela.org,active,POLR,ok,ok,ok,DNS,ok,HTTP/HTTPS,ok,ND
+Resultados Presidenciales 2024,resultadospresidencialesvenezuela2024.com,abandoned,POLR,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Resultados Presidenciales 2024,ganovzla.com,abandoned,POLR,ok,DNS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Resultados CONVZLA,resultadosconvzla.com,active,POLR,DNS,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+De Macedonia Con Amor,www.demacedoniaconamor.com,active,POLR,DNS+TCP IP,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+Regionales Macedonia,regionales.macedoniadelnorte.com,active,POLR,DNS+TCP IP,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,DNS,ND
+CNE Voto,cne.voto,active,POLR,TCP IP,ok,ok,ok,ok,ok,TCP IP,ND
+Pornhub,www.pornhub.com,active,PORN,DNS+TCP IP,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+xvideos,www.xvideos.com,active,PORN,DNS+TCP IP,DNS+HTTP/HTTPS,DNS,DNS,DNS,HTTP/HTTPS,ok,ND
+Youporn,www.youporn.com,active,PORN,DNS+TCP IP,ok,ok,ok,ok,HTTP/HTTPS,ok,ND
+Xhamster,xhamster.com,active,PORN,DNS+TCP IP,DNS+HTTP/HTTPS,DNS,ok,DNS,HTTP/HTTPS,ok,ND
+HDzog,hdzog.com,active,PORN,ok,ok,ok,ok,ok,HTTP/HTTPS,ok,ND
+Petardas,www.petardas.com,active,PORN,ok,ok,ok,ok,ok,HTTP/HTTPS,ok,ND
+Tube8,www.tube8.com,active,PORN,ok,ok,ok,ok,ok,HTTP/HTTPS,ok,ND
+XNXX,www.xnxx.com,active,PORN,DNS+TCP IP,ok,ok,ok,ok,HTTP/HTTPS,ok,ND
+Hustler,hustler.com,active,PORN,DNS+TCP IP,ok,ok,ok,ok,ok,ok,ND
+Coronavirus Venezuela,coronavirusvenezuela.info,abandoned,PUBH,DNS+HTTPS,DNS,DNS,HTTP,DNS,ok,ok,ND
+Public Brocasting Service,www.pbs.org,active,NEWS,ok,DNS+HTTP/HTTPS,DNS,DNS,DNS,ok,DNS,ok

@@ -1,0 +1,63 @@
+/* The first-run preset sheet: loaded with ui/Onboarding.tsx (lib/css.ts). From layout.css. */
+
+.sheet--onboard {
+	width: min(760px, calc(100vw - 24px));
+}
+.presets {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	gap: var(--s-3);
+	margin-top: var(--s-5);
+}
+.preset {
+	display: grid;
+	align-content: start;
+	gap: 6px;
+	padding: var(--s-4);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-panel);
+	background: var(--surface-0);
+	text-align: left;
+	transition: border-color var(--t-fast) var(--ease-out);
+}
+.preset:hover {
+	border-color: var(--signal);
+}
+.preset__mini {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-auto-rows: 9px;
+	gap: 3px;
+	margin-bottom: var(--s-2);
+}
+.preset__mini i {
+	border-radius: 2px;
+	background: var(--surface-3);
+	opacity: 0.45;
+}
+.preset__mini i.is-on {
+	opacity: 1;
+	background: var(--line-strong);
+}
+.preset__mini i.preset__map {
+	grid-column: span 2;
+	grid-row: span 2;
+	opacity: 1;
+	background: color-mix(in srgb, var(--signal) 45%, var(--surface-3));
+}
+.preset__name {
+	font-weight: 700;
+	font-size: var(--fs-md);
+}
+.preset__count {
+	font-size: var(--fs-xs);
+	color: var(--signal);
+	font-weight: 600;
+}
+.preset__blurb {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.presets__foot {
+	margin: var(--s-4) 0 0;
+}

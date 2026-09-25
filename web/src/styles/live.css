@@ -1,0 +1,272 @@
+/*
+ * The "alive only when Venezuela is" layer: status bar, command palette, shortcuts, rolling digits and "nuevo"
+ * markers. Every animation here is a response to data arriving or to the reader's own action; nothing loops.
+ * Reduced motion (the OS setting or the in-app preference) removes the movement and keeps the information.
+ */
+
+/* --statusbar-h (tokens.css) reserves the bar's 28 px from 1000 px up; the clock moves into it there. */
+@media (min-width: 1000px) {
+	.topbar__clock {
+		display: none;
+	}
+}
+
+/* Jump targets (1–9, the palette) clear the sticky header, and flash once where they landed. */
+.panel {
+	scroll-margin-top: 72px;
+}
+.panel:focus {
+	outline: none;
+}
+.panel.is-target {
+	animation: panel-target 900ms var(--ease-out);
+}
+@keyframes panel-target {
+	0% {
+		box-shadow: var(--glow-signal);
+	}
+	100% {
+		box-shadow: var(--shadow-1);
+	}
+}
+
+kbd {
+	font-family: var(--font-data);
+	font-size: 0.92em;
+	min-width: 1.6em;
+	padding: 0 4px;
+	border: 1px solid var(--line-strong);
+	border-bottom-width: 2px;
+	border-radius: 4px;
+	color: var(--text-2);
+	background: var(--surface-2);
+	display: inline-block;
+	text-align: center;
+	line-height: 1.35;
+}
+
+/* The site credit in the ⚙ menu (its status-bar twin is in statusbar.css). */
+.prefs__credit {
+	margin: var(--s-2) 0 0;
+}
+
+/* ---------- Search button in the header ---------- */
+.palette-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	height: 32px;
+	min-width: 32px;
+	padding: 0 8px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-pill);
+	color: var(--text-2);
+	font-size: var(--fs-xs);
+	flex: none;
+}
+.palette-btn:hover {
+	color: var(--text);
+	border-color: var(--text-3);
+}
+.palette-btn__text,
+.palette-btn__kbd {
+	display: none;
+}
+@media (min-width: 1000px) {
+	.palette-btn {
+		padding: 0 6px 0 12px;
+		min-width: 150px;
+		justify-content: flex-start;
+		background: var(--surface-1);
+	}
+	.palette-btn__text {
+		display: inline;
+		margin-right: auto;
+	}
+	.palette-btn__kbd {
+		display: inline-block;
+	}
+}
+
+/* ---------- Rolling digits ---------- */
+.digits {
+	display: inline-block;
+	font-variant-numeric: tabular-nums lining-nums;
+	white-space: nowrap;
+}
+.digits--changed {
+	animation: digits-settle 1.6s var(--ease-out);
+}
+@keyframes digits-settle {
+	0%,
+	25% {
+		color: var(--signal-2);
+	}
+}
+.dg {
+	display: inline-block;
+	position: relative;
+}
+.dg--roll {
+	clip-path: inset(0 -0.1em);
+}
+.dg__now {
+	display: inline-block;
+	animation: dg-in 200ms var(--ease-out) both;
+	animation-delay: var(--d, 0ms);
+}
+.dg__was {
+	position: absolute;
+	inset: 0;
+	text-align: center;
+	animation: dg-out 200ms var(--ease-out) both;
+	animation-delay: var(--d, 0ms);
+}
+@keyframes dg-in {
+	from {
+		transform: translateY(-100%);
+	}
+	to {
+		transform: none;
+	}
+}
+@keyframes dg-out {
+	from {
+		transform: none;
+		opacity: 1;
+	}
+	to {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+}
+
+/* ---------- "Nuevo": rows that just arrived ---------- */
+.is-new {
+	position: relative;
+}
+.story.is-new::before,
+.quake-row.is-new::before,
+.events > li.is-new::before,
+.news-card.is-new::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 0 -10px;
+	border-left: 2px solid var(--signal);
+	background: linear-gradient(90deg, var(--signal-soft), transparent 75%);
+	pointer-events: none;
+	animation: new-fade 20s linear forwards;
+}
+@keyframes new-fade {
+	0%,
+	60% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+.new-tag {
+	display: inline-block;
+	margin-right: 6px;
+	padding: 0 5px;
+	border-radius: 3px;
+	background: var(--signal);
+	color: var(--text-inverse);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	line-height: 16px;
+	vertical-align: 2px;
+	animation: new-tag 20s linear forwards;
+}
+@keyframes new-tag {
+	0%,
+	70% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+/* ---------- The mark as a meter ---------- */
+.mark__dots circle.is-off {
+	fill: var(--text-3);
+	opacity: 0.45;
+}
+
+/* ---------- Reduced motion: information stays, movement goes ---------- */
+:root[data-motion="reduced"]
+:is(.digits--changed, .dg__now, .dg__was, .tick.is-new, .palette[open], .panel.is-target) {
+	animation: none;
+}
+:root[data-motion="reduced"] .dg__was {
+	display: none;
+}
+:root[data-motion="reduced"] :is(.is-new::before, .new-tag) {
+	animation: none;
+}
+:root[data-motion="reduced"] .mark .mark__dots circle {
+	animation: none;
+	opacity: 1;
+}
+:root[data-motion="reduced"] .mark--intro .mark__v {
+	animation: none;
+	stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+	.digits--changed,
+	.dg__now,
+	.dg__was,
+	.tick.is-new,
+	.palette[open],
+	.panel.is-target,
+	.is-new::before,
+	.new-tag {
+		animation: none;
+	}
+	.dg__was {
+		display: none;
+	}
+}
+
+/* Phones: the search button joins the header, so the clock drops its "Caracas" label (the Ahora line is timed). */
+@media (max-width: 480px) {
+	.topbar__clock .caps {
+		display: none;
+	}
+	.palette-btn {
+		width: 36px;
+		height: 36px;
+	}
+}
+
+/* "N nuevos" in a panel header: one amber pill, only while rows are fresh. */
+.new-pill {
+	height: 22px;
+	padding: 0 8px;
+	border-radius: var(--r-pill);
+	background: var(--signal-soft);
+	color: var(--signal-2);
+	border: 1px solid color-mix(in srgb, var(--signal) 45%, transparent);
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	white-space: nowrap;
+}
+.new-pill:hover {
+	background: var(--signal);
+	color: var(--text-inverse);
+}
+.tabbar__new {
+	position: absolute;
+	top: 8px;
+	left: calc(50% + 9px);
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--signal);
+	box-shadow: 0 0 0 2px var(--surface-0);
+}

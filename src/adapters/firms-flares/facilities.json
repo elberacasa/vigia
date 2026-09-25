@@ -1,0 +1,1150 @@
+{
+	"builtAt": "2026-09-24",
+	"rule": "Refinerías y complejos: dentro del contorno de OpenStreetMap o a ≤ 1 km de su borde. Campos: a ≤ 1.5 km de un sitio de quema del Banco Mundial (GFMR, 2012–2025). Si un punto cae en dos, cuenta para el más cercano.",
+	"sources": [
+		{
+			"label": "World Bank GFMR, flare volume estimates by individual flare location 2012-2025",
+			"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+		},
+		{
+			"label": "OpenStreetMap contributors (ODbL)",
+			"url": "https://www.openstreetmap.org/copyright"
+		}
+	],
+	"facilities": [
+		{
+			"id": "amuay",
+			"nameEs": "Refinería Amuay (CRP)",
+			"nameEn": "Amuay refinery (CRP)",
+			"kind": "refinery",
+			"state": "VE-I",
+			"operatorEs": "PDVSA",
+			"centroid": {
+				"lat": 11.7487,
+				"lon": -70.2018
+			},
+			"outline": [
+				[11.7416, -70.1829],
+				[11.7485, -70.1854],
+				[11.7595, -70.1919],
+				[11.7581, -70.1948],
+				[11.7574, -70.196],
+				[11.758, -70.199],
+				[11.7581, -70.1993],
+				[11.7588, -70.2006],
+				[11.7588, -70.2009],
+				[11.7585, -70.2016],
+				[11.7568, -70.2041],
+				[11.7555, -70.2038],
+				[11.7547, -70.2049],
+				[11.7542, -70.2054],
+				[11.754, -70.2056],
+				[11.7527, -70.2061],
+				[11.7483, -70.2104],
+				[11.748, -70.2118],
+				[11.746, -70.2123],
+				[11.7458, -70.2119],
+				[11.745, -70.2111],
+				[11.7456, -70.2102],
+				[11.7442, -70.2084],
+				[11.7426, -70.2063],
+				[11.7421, -70.2046],
+				[11.7415, -70.2024],
+				[11.7385, -70.2006],
+				[11.7322, -70.2002],
+				[11.7321, -70.1998],
+				[11.7324, -70.1992],
+				[11.7416, -70.1829]
+			],
+			"bufferKm": 1,
+			"sources": [
+				{
+					"label": "OpenStreetMap way 102819548 (ODbL)",
+					"url": "https://www.openstreetmap.org/way/102819548"
+				}
+			]
+		},
+		{
+			"id": "cardon",
+			"nameEs": "Refinería Cardón (CRP)",
+			"nameEn": "Cardón refinery (CRP)",
+			"kind": "refinery",
+			"state": "VE-I",
+			"operatorEs": "PDVSA",
+			"centroid": {
+				"lat": 11.629,
+				"lon": -70.2267
+			},
+			"outline": [
+				[11.6187, -70.2284],
+				[11.619, -70.2259],
+				[11.6175, -70.2245],
+				[11.6192, -70.2217],
+				[11.6207, -70.2171],
+				[11.6207, -70.2171],
+				[11.6227, -70.2175],
+				[11.6227, -70.2159],
+				[11.6227, -70.2155],
+				[11.6237, -70.2161],
+				[11.6247, -70.2143],
+				[11.6244, -70.2138],
+				[11.6334, -70.21],
+				[11.6354, -70.2143],
+				[11.6358, -70.2145],
+				[11.6359, -70.2146],
+				[11.6362, -70.214],
+				[11.6367, -70.2131],
+				[11.6383, -70.2141],
+				[11.6417, -70.2162],
+				[11.6395, -70.2202],
+				[11.6396, -70.2207],
+				[11.642, -70.2217],
+				[11.6423, -70.2228],
+				[11.6401, -70.227],
+				[11.6404, -70.2272],
+				[11.6401, -70.2281],
+				[11.6415, -70.2305],
+				[11.6401, -70.2314],
+				[11.6406, -70.2323],
+				[11.6376, -70.2336],
+				[11.6338, -70.2364],
+				[11.6313, -70.2362],
+				[11.6308, -70.236],
+				[11.6306, -70.2377],
+				[11.631, -70.2382],
+				[11.6299, -70.238],
+				[11.6299, -70.238],
+				[11.6305, -70.2381],
+				[11.6308, -70.2358],
+				[11.6298, -70.2359],
+				[11.6278, -70.2343],
+				[11.6268, -70.2379],
+				[11.6278, -70.2338],
+				[11.626, -70.2321],
+				[11.6242, -70.2352],
+				[11.624, -70.2352],
+				[11.6258, -70.232],
+				[11.623, -70.231],
+				[11.6222, -70.2305],
+				[11.6223, -70.2301],
+				[11.6205, -70.2331],
+				[11.6223, -70.2299],
+				[11.6209, -70.2298],
+				[11.6198, -70.2291],
+				[11.6198, -70.2287],
+				[11.6189, -70.229],
+				[11.6175, -70.2328],
+				[11.6187, -70.2284]
+			],
+			"bufferKm": 1,
+			"sources": [
+				{
+					"label": "OpenStreetMap relation 3438667 (ODbL)",
+					"url": "https://www.openstreetmap.org/relation/3438667"
+				}
+			]
+		},
+		{
+			"id": "el-palito",
+			"nameEs": "Refinería El Palito",
+			"nameEn": "El Palito refinery",
+			"kind": "refinery",
+			"state": "VE-G",
+			"operatorEs": "PDVSA",
+			"noteEs": "La planta eléctrica TermoCarabobo, ~2 km al oeste, también aparece caliente de noche: queda fuera del contorno.",
+			"centroid": {
+				"lat": 10.4808,
+				"lon": -68.1223
+			},
+			"outline": [
+				[10.4751, -68.1132],
+				[10.4729, -68.1125],
+				[10.4724, -68.1126],
+				[10.4712, -68.1129],
+				[10.4711, -68.1152],
+				[10.4725, -68.1156],
+				[10.4733, -68.1151],
+				[10.4747, -68.1157],
+				[10.4734, -68.1225],
+				[10.4742, -68.1232],
+				[10.4745, -68.1254],
+				[10.4724, -68.1268],
+				[10.4709, -68.1269],
+				[10.4699, -68.1268],
+				[10.4714, -68.1307],
+				[10.4724, -68.1312],
+				[10.482, -68.1327],
+				[10.4828, -68.1319],
+				[10.4841, -68.1309],
+				[10.4838, -68.1298],
+				[10.4836, -68.1286],
+				[10.4844, -68.1252],
+				[10.4859, -68.1236],
+				[10.4865, -68.1235],
+				[10.4872, -68.1236],
+				[10.4878, -68.1244],
+				[10.487, -68.125],
+				[10.4883, -68.1249],
+				[10.4886, -68.1237],
+				[10.4889, -68.1236],
+				[10.4906, -68.1234],
+				[10.4911, -68.1242],
+				[10.4907, -68.1245],
+				[10.4907, -68.1246],
+				[10.4918, -68.124],
+				[10.4912, -68.1229],
+				[10.4893, -68.1232],
+				[10.4822, -68.1121],
+				[10.4799, -68.1116],
+				[10.4787, -68.1113],
+				[10.4751, -68.1132]
+			],
+			"bufferKm": 1,
+			"sources": [
+				{
+					"label": "OpenStreetMap way 157032682 (ODbL)",
+					"url": "https://www.openstreetmap.org/way/157032682"
+				}
+			]
+		},
+		{
+			"id": "puerto-la-cruz",
+			"nameEs": "Refinería Puerto La Cruz",
+			"nameEn": "Puerto La Cruz refinery",
+			"kind": "refinery",
+			"state": "VE-B",
+			"operatorEs": "PDVSA",
+			"centroid": {
+				"lat": 10.2196,
+				"lon": -64.6214
+			},
+			"outline": [
+				[10.2173, -64.6256],
+				[10.2178, -64.626],
+				[10.2256, -64.6283],
+				[10.2277, -64.6257],
+				[10.2318, -64.6197],
+				[10.229, -64.6188],
+				[10.2255, -64.6153],
+				[10.224, -64.6146],
+				[10.2204, -64.6154],
+				[10.2143, -64.613],
+				[10.2097, -64.619],
+				[10.2108, -64.6201],
+				[10.2128, -64.6219],
+				[10.2139, -64.6269],
+				[10.2159, -64.6266],
+				[10.2173, -64.6256]
+			],
+			"bufferKm": 1,
+			"sources": [
+				{
+					"label": "OpenStreetMap way 218817950 (ODbL)",
+					"url": "https://www.openstreetmap.org/way/218817950"
+				}
+			]
+		},
+		{
+			"id": "jose",
+			"nameEs": "Complejo José Antonio Anzoátegui (mejoradores y petroquímica)",
+			"nameEn": "José Antonio Anzoátegui complex (upgraders, petrochemicals)",
+			"kind": "complex",
+			"state": "VE-B",
+			"operatorEs": "PDVSA, Pequiven y empresas mixtas",
+			"centroid": {
+				"lat": 10.0665,
+				"lon": -64.8673
+			},
+			"outline": [
+				[10.0541, -64.8398],
+				[10.0541, -64.8452],
+				[10.0632, -64.8452],
+				[10.0632, -64.8516],
+				[10.0632, -64.8523],
+				[10.0537, -64.8523],
+				[10.0537, -64.8536],
+				[10.0516, -64.8553],
+				[10.0515, -64.8569],
+				[10.0521, -64.8569],
+				[10.0523, -64.8599],
+				[10.0513, -64.86],
+				[10.0513, -64.8654],
+				[10.0677, -64.8656],
+				[10.0703, -64.8815],
+				[10.0696, -64.8814],
+				[10.0682, -64.8814],
+				[10.0678, -64.882],
+				[10.0593, -64.8819],
+				[10.0577, -64.8826],
+				[10.0551, -64.8853],
+				[10.055, -64.8889],
+				[10.0548, -64.8891],
+				[10.0546, -64.8893],
+				[10.0554, -64.8904],
+				[10.0553, -64.8939],
+				[10.0604, -64.8964],
+				[10.0615, -64.897],
+				[10.0678, -64.8992],
+				[10.072, -64.9013],
+				[10.0733, -64.9003],
+				[10.0844, -64.8999],
+				[10.0838, -64.8964],
+				[10.0873, -64.8956],
+				[10.0872, -64.8947],
+				[10.0837, -64.8953],
+				[10.0834, -64.8941],
+				[10.0821, -64.8942],
+				[10.0811, -64.8919],
+				[10.0797, -64.8908],
+				[10.0853, -64.8883],
+				[10.0826, -64.8687],
+				[10.0758, -64.8697],
+				[10.0757, -64.8681],
+				[10.0749, -64.8633],
+				[10.0794, -64.8626],
+				[10.0785, -64.8445],
+				[10.0748, -64.8444],
+				[10.0747, -64.8433],
+				[10.0718, -64.8432],
+				[10.0714, -64.8419],
+				[10.0695, -64.841],
+				[10.066, -64.8357],
+				[10.0639, -64.8297],
+				[10.0632, -64.8275],
+				[10.0608, -64.8275],
+				[10.0614, -64.8294],
+				[10.0588, -64.8294],
+				[10.0572, -64.8297],
+				[10.0612, -64.84],
+				[10.0541, -64.8398]
+			],
+			"bufferKm": 1,
+			"sources": [
+				{
+					"label": "OpenStreetMap way 265071557 (ODbL)",
+					"url": "https://www.openstreetmap.org/way/265071557"
+				}
+			]
+		},
+		{
+			"id": "carito-mulata",
+			"nameEs": "Carito–Mulata (Punta de Mata)",
+			"nameEn": "Carito–Mulata (Punta de Mata)",
+			"kind": "oil-field",
+			"state": "VE-N",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Carito-Mulata"],
+			"centroid": {
+				"lat": 9.6517,
+				"lon": -63.5495
+			},
+			"sites": [
+				[9.6536, -63.5332],
+				[9.646, -63.5646],
+				[9.6506, -63.5274],
+				[9.6426, -63.5544],
+				[9.6532, -63.5657],
+				[9.6396, -63.5362],
+				[9.6535, -63.5406],
+				[9.6387, -63.5983],
+				[9.674, -63.5428],
+				[9.6652, -63.5315]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 3533.4,
+				"2025": 4095.4
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "santa-barbara",
+			"nameEs": "Santa Bárbara–Pirital",
+			"nameEn": "Santa Bárbara–Pirital",
+			"kind": "oil-field",
+			"state": "VE-N",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Bush Grande", "Pirital", "Santa Barbara", "Santa Barbara Sur"],
+			"centroid": {
+				"lat": 9.6403,
+				"lon": -63.6695
+			},
+			"sites": [
+				[9.6146, -63.6946],
+				[9.6267, -63.6946],
+				[9.6327, -63.6837],
+				[9.6248, -63.568],
+				[9.6173, -63.6832],
+				[9.6506, -63.6284],
+				[9.653, -63.6235],
+				[9.6593, -63.668],
+				[9.6176, -63.7089],
+				[9.6557, -63.6793],
+				[9.6225, -63.7733],
+				[9.6254, -63.7787],
+				[9.6214, -63.7606],
+				[9.6336, -63.7026],
+				[9.6319, -63.6769],
+				[9.6205, -63.7252],
+				[9.6323, -63.6394],
+				[9.7106, -63.6773],
+				[9.711, -63.6883],
+				[9.6995, -63.6763],
+				[9.6308, -63.7461],
+				[9.6695, -63.6834],
+				[9.6866, -63.6802],
+				[9.5958, -63.6752],
+				[9.6318, -63.5833],
+				[9.662, -63.6541],
+				[9.6866, -63.6494],
+				[9.6583, -63.6432],
+				[9.5629, -63.6311],
+				[9.6197, -63.6485],
+				[9.6448, -63.6538],
+				[9.6394, -63.6636],
+				[9.6223, -63.6623],
+				[9.6203, -63.6679],
+				[9.6216, -63.633],
+				[9.703, -63.6648],
+				[9.699, -63.6542],
+				[9.6902, -63.6675],
+				[9.6322, -63.7658],
+				[9.5779, -63.6573],
+				[9.5889, -63.6213],
+				[9.6639, -63.7012],
+				[9.7142, -63.6557],
+				[9.7102, -63.6455],
+				[9.5766, -63.6052],
+				[9.6016, -63.6188],
+				[9.592, -63.5986],
+				[9.5717, -63.6731]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 5895.7,
+				"2025": 5852.8
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "jusepin-furrial",
+			"nameEs": "Jusepín–El Furrial",
+			"nameEn": "Jusepín–El Furrial",
+			"kind": "oil-field",
+			"state": "VE-N",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Cotoperi", "El Corozo", "El Furrial", "Jusepin Deep"],
+			"centroid": {
+				"lat": 9.7367,
+				"lon": -63.4954
+			},
+			"sites": [
+				[9.7357, -63.4752],
+				[9.7291, -63.4601],
+				[9.7014, -63.4606],
+				[9.6708, -63.4801],
+				[9.7412, -63.5873],
+				[9.7028, -63.529],
+				[9.7429, -63.4299],
+				[9.6809, -63.4743],
+				[9.7816, -63.4086],
+				[9.6875, -63.5329],
+				[9.7438, -63.5772],
+				[9.8067, -63.4662],
+				[9.7533, -63.5669],
+				[9.7613, -63.5351],
+				[9.7489, -63.5298],
+				[9.8036, -63.4435],
+				[9.6967, -63.4945],
+				[9.7188, -63.4084],
+				[9.7458, -63.5089],
+				[9.6967, -63.4193],
+				[9.713, -63.5433],
+				[9.7676, -63.5226],
+				[9.7572, -63.5221],
+				[9.7611, -63.5096],
+				[9.769, -63.4999]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 1478.4,
+				"2025": 951.9
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "orocual-quiriquire",
+			"nameEs": "Orocual–Boquerón–Quiriquire",
+			"nameEn": "Orocual–Boquerón–Quiriquire",
+			"kind": "oil-field",
+			"state": "VE-N",
+			"operatorEs": "BoquerÃ³n, PDVSA, Petroquiriquire",
+			"fieldsEs": ["Boqueron", "Orocual", "Somero/Quiriquire Shallow"],
+			"centroid": {
+				"lat": 9.847,
+				"lon": -63.3256
+			},
+			"sites": [
+				[9.7758, -63.2681],
+				[9.8422, -63.3162],
+				[9.847, -63.311],
+				[9.8317, -63.3409],
+				[9.8735, -63.3119],
+				[9.9772, -63.1814],
+				[9.8546, -63.3392],
+				[9.8342, -63.3596],
+				[9.8287, -63.3551],
+				[9.8243, -63.4063],
+				[9.8282, -63.3921]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 434.7,
+				"2025": 402.6
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "anaco-santa-rosa",
+			"nameEs": "Santa Rosa (gas, Anaco)",
+			"nameEn": "Santa Rosa (gas, Anaco)",
+			"kind": "gas-field",
+			"state": "VE-B",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Santa Rosa"],
+			"centroid": {
+				"lat": 9.4079,
+				"lon": -64.4815
+			},
+			"sites": [
+				[9.4731, -64.39],
+				[9.3746, -64.5332],
+				[9.3738, -64.5228],
+				[9.4694, -64.3969],
+				[9.3873, -64.5463],
+				[9.3693, -64.4999]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 676.9,
+				"2025": 623.3
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "faja-carabobo",
+			"nameEs": "Faja del Orinoco: Carabobo",
+			"nameEn": "Orinoco Belt: Carabobo",
+			"kind": "oil-field",
+			"state": "VE-B",
+			"operatorEs": "PDVSA, Petro Victoria, PetroIndependencia, Petrocarabobo, Petrolera Sinovensa",
+			"fieldsEs": [
+				"Bitor",
+				"Carabobo Project 1",
+				"Carabobo Project 2",
+				"Carabobo Project 3",
+				"Morichal",
+				"Petromonagas(Cerro Negro)"
+			],
+			"centroid": {
+				"lat": 8.6822,
+				"lon": -63.0541
+			},
+			"sites": [
+				[8.674, -63.2586],
+				[8.6902, -63.2303],
+				[8.6673, -62.9857],
+				[8.7434, -63.0501],
+				[8.6145, -63.107],
+				[8.3544, -62.848],
+				[8.6614, -63.0058],
+				[8.8389, -63.1155],
+				[8.7269, -62.9093],
+				[8.6869, -63.1548],
+				[8.6965, -63.2394],
+				[8.761, -62.8736],
+				[8.7538, -62.9251]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 593.6,
+				"2025": 556.1
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "faja-junin-ayacucho",
+			"nameEs": "Faja del Orinoco: Junín y Ayacucho",
+			"nameEn": "Orinoco Belt: Junín and Ayacucho",
+			"kind": "oil-field",
+			"state": "VE-B",
+			"operatorEs": "PDVSA, Petrolera Indovenezolana, Venangocupetto",
+			"fieldsEs": [
+				"Bare",
+				"Carina",
+				"Miga",
+				"Oveja",
+				"Petro San Felix",
+				"Petrocedeno (Sincor)",
+				"Petropiar (Hamaca)",
+				"San Cristobal",
+				"Yopales Central"
+			],
+			"centroid": {
+				"lat": 8.5129,
+				"lon": -64.4568
+			},
+			"sites": [
+				[8.4043, -64.7921],
+				[8.7514, -64.4247],
+				[8.4162, -64.7586],
+				[8.4427, -64.6539],
+				[8.6149, -63.8931],
+				[8.4385, -64.7023],
+				[8.3233, -65.0579],
+				[8.3075, -64.9017],
+				[8.4447, -64.8429],
+				[8.6941, -64.1229],
+				[8.3813, -64.9579],
+				[8.5399, -63.9637],
+				[8.5272, -64.072],
+				[8.5578, -64.1352],
+				[8.6761, -64.8204],
+				[8.5622, -63.9302],
+				[8.3691, -64.1262],
+				[8.7784, -64.2258],
+				[8.5808, -63.9665],
+				[8.4482, -64.7886]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 339.9,
+				"2025": 520.2
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "san-tome",
+			"nameEs": "Distrito San Tomé (Oficina)",
+			"nameEn": "San Tomé district (Oficina)",
+			"kind": "oil-field",
+			"state": "VE-B",
+			"operatorEs": "Bielovenezolana, PDVSA, Petrocuragua, PetrokariÃ±a, Petrolera Kaki, Petrolera Sinovenezolana, Petroritupano, Petroven-Bras, Petrozumano",
+			"fieldsEs": [
+				"Acema 200",
+				"Acema 300",
+				"Acema A",
+				"Acema Oeste",
+				"Aguasay Norte",
+				"Aguasay Sur",
+				"Bucaral",
+				"Cantaura",
+				"Chimire",
+				"Dacion",
+				"El Toco",
+				"Guico",
+				"Inca",
+				"Kaki Inemaka",
+				"La Ceibita",
+				"La Florida",
+				"Mata 12",
+				"Nardo",
+				"Nipa",
+				"Oficina",
+				"Oritupano Norte",
+				"Oritupano Sur",
+				"Oscurote Norte",
+				"Santa Ana",
+				"Soto Norte",
+				"Tacata",
+				"Zapatos",
+				"Zorro"
+			],
+			"centroid": {
+				"lat": 9.1773,
+				"lon": -64.1064
+			},
+			"sites": [
+				[9.1025, -64.1414],
+				[9.2287, -64.6696],
+				[9.2696, -64.7176],
+				[8.9355, -63.925],
+				[9.2741, -64.0434],
+				[8.9399, -63.8152],
+				[9.2219, -64.51],
+				[9.2251, -64.516],
+				[9.2329, -64.3018],
+				[9.2208, -64.3148],
+				[9.1841, -64.8694],
+				[9.2276, -64.0588],
+				[9.6289, -63.9885],
+				[9.1998, -63.6875],
+				[8.9084, -63.8028],
+				[9.2693, -64.2262],
+				[9.2393, -63.7285],
+				[9.0925, -64.2369],
+				[9.1096, -64.2443],
+				[9.296, -63.8996],
+				[9.2488, -63.4641],
+				[9.1819, -63.9153],
+				[9.1816, -63.9079],
+				[9.379, -63.535],
+				[9.1072, -64.1464],
+				[8.857, -64.2988],
+				[9.1348, -63.9296],
+				[9.025, -64.2744],
+				[9.1071, -63.3738],
+				[9.242, -64.5681],
+				[9.1997, -63.2899],
+				[9.2703, -64.0321],
+				[9.0921, -64.0472],
+				[9.004, -64.5767],
+				[8.8542, -64.2839],
+				[9.2304, -64.6758],
+				[9.2733, -64.728],
+				[9.1632, -63.7799],
+				[9.6074, -63.9453],
+				[8.9968, -64.3319],
+				[9.2031, -63.6287],
+				[9.3778, -63.7762],
+				[9.2635, -64.0779],
+				[9.0844, -64.0891],
+				[9.2653, -64.381],
+				[9, -64.1417]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 261.7,
+				"2025": 320.5
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "zulia",
+			"nameEs": "Lago de Maracaibo y Boscán",
+			"nameEn": "Lake Maracaibo and Boscán",
+			"kind": "oil-field",
+			"state": "VE-V",
+			"operatorEs": "PDVSA, PetroboscÃ¡n, PetroperijÃ¡, Petroregional del Lago",
+			"fieldsEs": ["Alpuf", "Boscan", "Ensanada", "Urdaneta (DZO)", "Urdaneta Oeste"],
+			"noteEs": "El sitio «Ensanada» del Banco Mundial está junto a las plantas Termozulia: una detección ahí puede ser de la planta eléctrica.",
+			"centroid": {
+				"lat": 10.3451,
+				"lon": -71.8447
+			},
+			"sites": [
+				[10.4886, -71.6345],
+				[10.4932, -71.644],
+				[10.4948, -71.6517],
+				[10.1844, -71.8978],
+				[10.1417, -72.1652],
+				[10.082, -71.7924],
+				[10.3884, -72.0177],
+				[10.4875, -71.9546]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 65.1,
+				"2025": 61.6
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-N",
+			"nameEs": "Otros campos: a 13 km al SO de Temblador (Monagas)",
+			"nameEn": "Other fields: a 13 km al SO de Temblador (Monagas)",
+			"kind": "oil-field",
+			"state": "VE-N",
+			"operatorEs": "PDVSA, Petrodelta (Venezuela)",
+			"fieldsEs": ["El Salto", "Pilon", "Temblador", "Uracoa"],
+			"centroid": {
+				"lat": 9.0537,
+				"lon": -62.9318
+			},
+			"sites": [
+				[8.9815, -62.5316],
+				[8.9861, -62.5377],
+				[9.0144, -63.171],
+				[9.0048, -63.1924],
+				[9.0144, -63.2065],
+				[8.9473, -62.8474],
+				[9.0192, -63.1794],
+				[9.7219, -63.6442],
+				[8.9742, -62.7699],
+				[9.0165, -62.4531],
+				[8.9106, -62.7162]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 11.9,
+				"2025": 16.2
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-U",
+			"nameEs": "Otros campos: en Yaritagua (Yaracuy)",
+			"nameEn": "Other fields: en Yaritagua (Yaracuy)",
+			"kind": "oil-field",
+			"state": "VE-U",
+			"operatorEs": "",
+			"fieldsEs": [],
+			"centroid": {
+				"lat": 10.0295,
+				"lon": -69.1318
+			},
+			"sites": [[10.0295, -69.141], [10.0059, -69.105], [10.053, -69.1494]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 1.2,
+				"2025": 0.9
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-B",
+			"nameEs": "Otros campos: a 11 km al NO de El Chaparro (Anzoátegui)",
+			"nameEn": "Other fields: a 11 km al NO de El Chaparro (Anzoátegui)",
+			"kind": "oil-field",
+			"state": "VE-B",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Caro", "La Ceiba (Quiamare)", "Quiamare"],
+			"centroid": {
+				"lat": 9.4167,
+				"lon": -64.2812
+			},
+			"sites": [
+				[9.6618, -64.2626],
+				[8.3468, -62.8517],
+				[9.1231, -64.6601],
+				[9.8623, -64.3535],
+				[9.8631, -64.3379],
+				[9.8496, -64.4055],
+				[9.2099, -65.097]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0.7,
+				"2025": 4.3
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-T",
+			"nameEs": "Otros campos: a 6 km al NE de Santa Apolonia (Trujillo)",
+			"nameEn": "Other fields: a 6 km al NE de Santa Apolonia (Trujillo)",
+			"kind": "oil-field",
+			"state": "VE-T",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Ceiba"],
+			"centroid": {
+				"lat": 9.5143,
+				"lon": -70.9798
+			},
+			"sites": [[9.5143, -70.9798]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 11.1,
+				"2025": 13.9
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-G",
+			"nameEs": "Otros campos: en Morón (Carabobo)",
+			"nameEn": "Other fields: en Morón (Carabobo)",
+			"kind": "gas-field",
+			"state": "VE-G",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Lechoso"],
+			"centroid": {
+				"lat": 10.4882,
+				"lon": -68.1794
+			},
+			"sites": [[10.4882, -68.1794]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0.6,
+				"2025": 1.6
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-J",
+			"nameEs": "Otros campos: a 20 km al S de Altagracia de Orituco (Guárico)",
+			"nameEn": "Other fields: a 20 km al S de Altagracia de Orituco (Guárico)",
+			"kind": "gas-field",
+			"state": "VE-J",
+			"operatorEs": "Gas GuÃ¡rico, Ypergas",
+			"fieldsEs": ["Copa Macoya Deep Gas", "Yucal-Placer"],
+			"centroid": {
+				"lat": 9.65,
+				"lon": -66.0831
+			},
+			"sites": [
+				[9.8736, -66.3194],
+				[9.6821, -66.3985],
+				[9.5128, -65.4614],
+				[9.8508, -66.2865],
+				[9.3011, -65.674],
+				[9.6795, -66.3587]
+			],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 9.3,
+				"2025": 13.5
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-E",
+			"nameEs": "Otros campos: a 18 km al S de Obispos (Barinas)",
+			"nameEn": "Other fields: a 18 km al S de Obispos (Barinas)",
+			"kind": "oil-field",
+			"state": "VE-E",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Borburata", "Silvan"],
+			"centroid": {
+				"lat": 8.4766,
+				"lon": -70.1925
+			},
+			"sites": [[8.5078, -70.2731], [8.4454, -70.112]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0.7,
+				"2025": 2.9
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-C",
+			"nameEs": "Otros campos: a 44 km al SSO de El Cantón (Barinas)",
+			"nameEn": "Other fields: a 44 km al SSO de El Cantón (Barinas)",
+			"kind": "oil-field",
+			"state": "VE-C",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["La Victoria"],
+			"centroid": {
+				"lat": 7.0991,
+				"lon": -71.4085
+			},
+			"sites": [[7.0991, -71.4085]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0,
+				"2025": 0
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-offshore",
+			"nameEs": "Otros campos: costa afuera",
+			"nameEn": "Other fields: offshore",
+			"kind": "oil-field",
+			"state": null,
+			"operatorEs": "Cardon IV, PetroSucre",
+			"fieldsEs": ["Corocoro", "Perla"],
+			"centroid": {
+				"lat": 10.6885,
+				"lon": -65.0207
+			},
+			"sites": [[10.0845, -62.2623], [10.0072, -62.2388], [11.9739, -70.5611]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 11.8,
+				"2025": 19.5
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-F",
+			"nameEs": "Otros campos: a 20 km al OSO de Ciudad Guayana (Bolívar)",
+			"nameEn": "Other fields: a 20 km al OSO de Ciudad Guayana (Bolívar)",
+			"kind": "gas-field",
+			"state": "VE-F",
+			"operatorEs": "PDVSA",
+			"fieldsEs": ["Caro"],
+			"centroid": {
+				"lat": 8.2882,
+				"lon": -62.8069
+			},
+			"sites": [[8.2882, -62.8069]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0,
+				"2025": 0.1
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-S",
+			"nameEs": "Otros campos: en Lobatera (Táchira)",
+			"nameEn": "Other fields: en Lobatera (Táchira)",
+			"kind": "oil-field",
+			"state": "VE-S",
+			"operatorEs": "",
+			"fieldsEs": [],
+			"centroid": {
+				"lat": 7.9418,
+				"lon": -72.2813
+			},
+			"sites": [[7.9418, -72.2813]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0,
+				"2025": 0
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-I",
+			"nameEs": "Otros campos: en Puerto Cumarebo (Falcón)",
+			"nameEn": "Other fields: en Puerto Cumarebo (Falcón)",
+			"kind": "gas-field",
+			"state": "VE-I",
+			"operatorEs": "Cardon IV",
+			"fieldsEs": ["Perla"],
+			"centroid": {
+				"lat": 11.4801,
+				"lon": -69.3138
+			},
+			"sites": [[11.4801, -69.3138]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0,
+				"2025": 0
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		},
+		{
+			"id": "other-VE-Y",
+			"nameEs": "Otros campos: en Pedernales (Delta Amacuro)",
+			"nameEn": "Other fields: en Pedernales (Delta Amacuro)",
+			"kind": "oil-field",
+			"state": "VE-Y",
+			"operatorEs": "",
+			"fieldsEs": [],
+			"centroid": {
+				"lat": 9.9865,
+				"lon": -62.2615
+			},
+			"sites": [[9.9865, -62.2615]],
+			"siteRadiusKm": 1.5,
+			"ggfrMillionM3": {
+				"2024": 0,
+				"2025": 0
+			},
+			"sources": [
+				{
+					"label": "Banco Mundial GFMR: sitios de quema 2012–2025",
+					"url": "https://www.worldbank.org/en/programs/gasflaringreduction/global-flaring-data"
+				}
+			]
+		}
+	]
+}

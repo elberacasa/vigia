@@ -1,0 +1,1 @@
+{"portal":"movilnet","host":"www.movilnet.com.ve","at":1790301921343,"dns":{"addresses":["190.76.240.244"],"error":null,"ms":38},"http":{"status":null,"finalUrl":null,"ms":211,"error":"tls"},"tls":{"validTo":null,"authorized":null,"error":"tls"}}

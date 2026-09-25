@@ -1,0 +1,23 @@
+{
+  "panel": "money",
+  "path": "official.usd.current.vesPerUnit",
+  "label": null,
+  "value": 855.6625,
+  "feed": "bcv-official",
+  "sourceUrl": "https://www.bcv.org.ve/",
+  "observedAt": 1790308800000,
+  "fetchedAt": 1790298435420,
+  "stale": false,
+  "licence": "bcv-attribution-nc",
+  "licenceUrl": "https://www.bcv.org.ve/terminos-condiciones",
+  "attribution": "Fuente: Banco Central de Venezuela (bcv.org.ve)",
+  "panelSources": [
+    "bcv-official",
+    "bcv-api",
+    "bcv-history",
+    "yadio",
+    "binance-p2p",
+    "bybit-p2p",
+    "bcv-inpc"
+  ]
+}

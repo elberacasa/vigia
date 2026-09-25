@@ -1,0 +1,308 @@
+/* Incidents panel: fused evidence cards. Owned by the intel-fusion branch. */
+
+.incidents {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--s-2);
+}
+
+.incident {
+	border: 1px solid var(--line);
+	border-left: 3px solid var(--warn);
+	border-radius: var(--r-md);
+	background: var(--surface-2);
+	padding: var(--s-3);
+	display: grid;
+	gap: var(--s-2);
+	min-width: 0;
+}
+.incident--reports {
+	border-left-style: dashed;
+	border-left-color: var(--text-3);
+	background: var(--surface-1);
+}
+.incident--ended {
+	border-left-color: var(--line-strong);
+	background: var(--surface-1);
+}
+
+.incident__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--s-1) var(--s-3);
+}
+.incident__title {
+	font-size: var(--fs-md);
+	font-weight: 700;
+	line-height: var(--lh-tight);
+	margin: 0;
+	display: flex;
+	align-items: baseline;
+	gap: var(--s-2);
+}
+.incident__dot {
+	flex: none;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--warn);
+	transform: translateY(-1px);
+}
+.incident__dot--reports {
+	background: transparent;
+	box-shadow: inset 0 0 0 2px var(--text-3);
+}
+.incident__dot--ended {
+	background: var(--line-strong);
+}
+
+.incident__strength {
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	border-radius: var(--r-pill);
+	padding: 2px 8px;
+	white-space: nowrap;
+}
+.incident__strength--measured {
+	color: var(--warn);
+	background: var(--warn-soft);
+}
+.incident__strength--reports {
+	color: var(--text-2);
+	border: 1px dashed var(--line-strong);
+	white-space: normal;
+}
+
+.incident__when {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	margin: 0;
+}
+
+/* The evidence timeline: one row per source family, marks placed by time. */
+.itl {
+	margin: 0;
+	display: grid;
+	gap: 3px;
+}
+.itl__row {
+	display: grid;
+	grid-template-columns: 5.5rem minmax(0, 1fr);
+	align-items: center;
+	gap: var(--s-2);
+	min-height: 14px;
+}
+.itl__label {
+	font-size: var(--fs-2xs);
+	font-weight: 600;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.itl__track {
+	position: relative;
+	height: 10px;
+	border-radius: var(--r-pill);
+	background: var(--muted-soft);
+}
+.itl__dot,
+.itl__bar {
+	position: absolute;
+	top: 50%;
+}
+.itl__dot {
+	width: 8px;
+	height: 8px;
+	margin: -4px 0 0 -4px;
+	border-radius: 50%;
+}
+.itl__bar {
+	height: 6px;
+	margin-top: -3px;
+	border-radius: var(--r-pill);
+}
+.itl__mark--measure {
+	background: var(--info);
+}
+.itl__mark--report {
+	background: var(--signal);
+}
+.itl__mark--context {
+	background: transparent;
+	box-shadow: inset 0 0 0 1.5px var(--text-3);
+}
+.itl__axis {
+	display: flex;
+	justify-content: space-between;
+	margin-left: calc(5.5rem + var(--s-2));
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.itl__axis .data {
+	font-family: var(--font-data);
+}
+
+.incident-group summary:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: var(--r-sm);
+}
+.evidence {
+	list-style: none;
+	margin: var(--s-2) 0 0;
+	padding: 0;
+	display: grid;
+	gap: 6px;
+}
+.evidence__item {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr);
+	gap: var(--s-2);
+	align-items: baseline;
+	font-size: var(--fs-sm);
+}
+.evidence__time {
+	font-family: var(--font-data);
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.evidence__family {
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	border-radius: var(--r-sm);
+	padding: 1px 5px;
+	white-space: nowrap;
+}
+.evidence__family--measure {
+	color: var(--info);
+	background: var(--info-soft);
+}
+.evidence__family--report {
+	color: var(--signal);
+	background: var(--signal-soft);
+}
+.evidence__family--context {
+	color: var(--text-3);
+	box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+.evidence__text {
+	color: var(--text);
+	text-decoration: underline;
+	text-decoration-color: var(--line-strong);
+	text-underline-offset: 2px;
+	overflow-wrap: anywhere;
+}
+.evidence__text:hover {
+	text-decoration-color: var(--text-2);
+}
+.evidence__context-title {
+	margin: var(--s-3) 0 0;
+	color: var(--text-3);
+}
+
+.incident-group {
+	margin-top: var(--s-3);
+}
+.incident-group > summary {
+	cursor: pointer;
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text-2);
+	margin-bottom: var(--s-2);
+}
+.incidents__none {
+	font-size: var(--fs-sm);
+	margin: 0;
+}
+.incidents__rules {
+	margin: 0;
+	padding-left: 1.1em;
+	display: grid;
+	gap: var(--s-1);
+	font-size: var(--fs-sm);
+	line-height: var(--lh);
+}
+
+.incident__foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s-1) var(--s-3);
+}
+.incident__foot .link-button {
+	display: inline-flex;
+	align-items: center;
+	margin-left: 0;
+	font-size: var(--fs-sm);
+	min-height: 32px;
+}
+.incident__toggle {
+	margin-right: auto;
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text-2);
+	min-height: 32px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.incident__toggle:focus-visible,
+.incidents__more:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: var(--r-sm);
+}
+.incidents__more {
+	margin-top: var(--s-2);
+	width: 100%;
+	min-height: 36px;
+	border: 1px dashed var(--line-strong);
+	border-radius: var(--r-md);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text-2);
+}
+
+.incidents__evidence-note {
+	margin: var(--s-3) 0 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	line-height: var(--lh);
+}
+
+/* Late corroboration: said plainly, under the times. */
+.incident__late {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	margin: 0;
+}
+
+/* "Señales sin corroborar": plain lines, deliberately quieter than incidents. */
+.watches {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.watch {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px 8px;
+	padding: 6px 0;
+	border-top: 1px solid var(--line);
+	font-size: var(--fs-sm);
+}
+.watch__title {
+	color: var(--text);
+}
+.watch__meta {
+	color: var(--text-3);
+}

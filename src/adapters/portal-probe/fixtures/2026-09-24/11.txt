@@ -1,0 +1,1 @@
+{"portal":"an","host":"www.asambleanacional.gob.ve","at":1790301934460,"dns":{"addresses":["190.202.87.221"],"error":null,"ms":37},"http":{"status":200,"finalUrl":"https://www.asambleanacional.gob.ve/","ms":631,"error":null},"tls":{"validTo":1797748859000,"authorized":true,"error":null}}

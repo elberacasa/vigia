@@ -1,0 +1,1 @@
+{"portal":"seniat","host":"www.seniat.gob.ve","at":1790301884189,"dns":{"addresses":["190.202.2.88","190.202.89.202","200.11.221.10"],"error":null,"ms":38},"http":{"status":null,"finalUrl":null,"ms":5118,"error":"tls"},"tls":{"validTo":null,"authorized":null,"error":"reset"}}

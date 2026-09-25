@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://api.yadio.io/rate/VES/XXX",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790292903000
+  }
+]

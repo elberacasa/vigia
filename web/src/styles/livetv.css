@@ -1,0 +1,315 @@
+/*
+ * "En vivo: TV y radio" (web/src/panels/LiveTv.tsx). Text cards, no logos. Colours only from tokens: "EN VIVO" in
+ * the alert red broadcasters use for "on air" (a still dot: it moves only when a new check changes it), scheduled
+ * in info blue, not live and unmeasured in quiet greys, an old check in warn amber so it never reads as current.
+ */
+
+.ltv {
+	display: grid;
+	gap: var(--s-3);
+}
+.ltv .stat-row {
+	margin: 0;
+}
+.ltv-optin {
+	display: grid;
+	gap: var(--s-3);
+	justify-items: start;
+	padding: var(--s-3);
+	border: 1px dashed var(--line-strong);
+	border-radius: var(--r-md);
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.ltv-optin p {
+	margin: 0;
+}
+.ltv-controls {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--s-2);
+}
+
+/* ---------- The list ---------- */
+.ltv-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	border-top: 1px solid var(--line);
+}
+.ltv-card {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--s-3);
+	padding: 10px 0 10px 12px;
+	border-bottom: 1px solid var(--line);
+	position: relative;
+}
+/* A thin rail on the left: red while measured live, nothing otherwise. */
+.ltv-card::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 10px;
+	bottom: 10px;
+	width: 3px;
+	border-radius: 2px;
+	background: transparent;
+}
+.ltv-card--live::before {
+	background: var(--alert);
+}
+.ltv-card--soon::before {
+	background: var(--info);
+}
+.ltv-card.is-playing {
+	background: var(--surface-2);
+}
+.ltv-card__main {
+	display: grid;
+	gap: 3px;
+	min-width: 0;
+}
+.ltv-card__name {
+	font-weight: 600;
+	font-size: var(--fs-md);
+	color: var(--text);
+	line-height: var(--lh-tight);
+}
+.ltv-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px 10px;
+	font-size: var(--fs-sm);
+	color: var(--text-3);
+}
+.ltv-card__kind,
+.ltv-card__lang {
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	color: var(--text-2);
+	align-self: center;
+}
+.ltv-card__lang {
+	color: var(--text-3);
+}
+/* State and government-funded media: said in words, set apart so it is read. */
+.ltv-card__owner {
+	color: var(--text);
+	font-weight: 600;
+}
+.ltv-card__warn {
+	color: var(--warn);
+}
+.ltv-card__title {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none;
+}
+.ltv-card__title:hover,
+.ltv-card__title:focus-visible {
+	color: var(--text);
+	text-decoration: underline;
+}
+
+/* ---------- The measured state ---------- */
+.ltv-state {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px var(--s-2);
+	font-size: var(--fs-sm);
+}
+.ltv-state__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 600;
+}
+.ltv-state__label::before {
+	content: "";
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: currentColor;
+	flex: none;
+	transform: translateY(-0.5px);
+}
+.ltv-state__when {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.ltv-state--live .ltv-state__label {
+	color: var(--alert);
+	letter-spacing: 0.02em;
+}
+.ltv-state--soon .ltv-state__label {
+	color: var(--info);
+}
+.ltv-state--off .ltv-state__label,
+.ltv-state--muted .ltv-state__label {
+	color: var(--text-3);
+}
+.ltv-state--muted .ltv-state__label::before {
+	background: transparent;
+	box-shadow: inset 0 0 0 1.5px var(--text-3);
+}
+.ltv-state--old .ltv-state__label {
+	color: var(--warn);
+}
+.ltv-state--old .ltv-state__when {
+	color: var(--warn);
+}
+
+/* ---------- Play ---------- */
+.ltv-play {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	justify-content: center;
+	min-height: 40px;
+	min-width: 96px;
+	padding: 0 12px;
+	border-radius: var(--r-md);
+	border: 1px solid var(--line-strong);
+	background: var(--surface-1);
+	color: var(--text);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+}
+.ltv-play svg {
+	fill: currentColor;
+	flex: none;
+}
+.ltv-play:hover {
+	border-color: var(--text-3);
+}
+.ltv-play.is-on {
+	background: var(--text);
+	border-color: var(--text);
+	color: var(--text-inverse);
+}
+
+/* ---------- The player ---------- */
+.ltv-inline {
+	padding: var(--s-2) 0 var(--s-3);
+	border-bottom: 1px solid var(--line);
+}
+.ltv-player {
+	display: grid;
+	gap: var(--s-2);
+	padding: var(--s-3);
+	background: var(--surface-2);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+}
+.ltv-player__frame,
+.ltv-tile__frame {
+	position: relative;
+	aspect-ratio: 16 / 9;
+	background: var(--bg);
+	border-radius: var(--r-sm);
+	overflow: hidden;
+}
+.ltv-player__frame iframe,
+.ltv-tile__frame iframe {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+.ltv-player__audio {
+	width: 100%;
+	height: 40px;
+}
+.ltv-player__bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--s-2);
+}
+.ltv-player__name {
+	font-weight: 600;
+}
+.ltv-player .note {
+	margin: 0;
+}
+
+/* ---------- 2×2 wall (desk only) ---------- */
+.ltv-wall {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--s-2);
+}
+.ltv-tile {
+	display: grid;
+	gap: 6px;
+	min-width: 0;
+}
+.ltv-tile__head select {
+	width: 100%;
+	height: 32px;
+	padding: 0 8px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	background: var(--surface-1);
+	color: var(--text);
+	font: inherit;
+	font-size: var(--fs-sm);
+}
+.ltv-tile__load {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: 4px;
+	width: 100%;
+	background: var(--surface-1);
+	color: var(--text-2);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	border: 1px solid var(--line);
+	border-radius: var(--r-sm);
+}
+.ltv-tile__load svg {
+	fill: currentColor;
+}
+.ltv-tile__load:hover {
+	color: var(--text);
+	border-color: var(--line-strong);
+}
+.ltv-tile__load .note {
+	font-weight: 400;
+}
+
+/* Phone: a compact list, one line per fact. */
+@media (max-width: 480px) {
+	.ltv-card {
+		gap: var(--s-2);
+		padding: 8px 0 8px 10px;
+	}
+	.ltv-card::before {
+		top: 8px;
+		bottom: 8px;
+	}
+	.ltv-card__name {
+		font-size: var(--fs-sm);
+	}
+	.ltv-play {
+		min-width: 88px;
+		padding: 0 10px;
+	}
+}
+.ltv-controls fieldset {
+	margin: 0;
+	min-inline-size: 0;
+}

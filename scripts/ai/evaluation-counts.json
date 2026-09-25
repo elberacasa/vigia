@@ -1,0 +1,89 @@
+{
+	"date": "2026-09-24",
+	"goldItems": 400,
+	"randomItems": 300,
+	"command": "bun scripts/ai/train-local.ts --model src/ai/local/news-model.bin --write-eval",
+	"methods": {
+		"rules": {
+			"about": null,
+			"blackoutAll": {
+				"tp": 22,
+				"fp": 3,
+				"fn": 1
+			},
+			"blackoutRandom": {
+				"tp": 5,
+				"fp": 0,
+				"fn": 1
+			},
+			"topics": {
+				"tp": 142,
+				"fp": 25,
+				"fn": 183
+			},
+			"event": null,
+			"stateSpecific": {
+				"k": 93,
+				"n": 108
+			}
+		},
+		"jev-1.13.0": {
+			"about": {
+				"k": 291,
+				"n": 300
+			},
+			"blackoutAll": {
+				"tp": 23,
+				"fp": 0,
+				"fn": 0
+			},
+			"blackoutRandom": {
+				"tp": 6,
+				"fp": 0,
+				"fn": 0
+			},
+			"topics": {
+				"tp": 295,
+				"fp": 84,
+				"fn": 30
+			},
+			"event": {
+				"k": 235,
+				"n": 300
+			},
+			"stateSpecific": {
+				"k": 102,
+				"n": 108
+			}
+		},
+		"vigia-local-news-1": {
+			"about": {
+				"k": 268,
+				"n": 300
+			},
+			"blackoutAll": {
+				"tp": 21,
+				"fp": 1,
+				"fn": 2
+			},
+			"blackoutRandom": {
+				"tp": 5,
+				"fp": 0,
+				"fn": 1
+			},
+			"topics": {
+				"tp": 264,
+				"fp": 91,
+				"fn": 61
+			},
+			"event": {
+				"k": 207,
+				"n": 300
+			},
+			"stateSpecific": {
+				"k": 90,
+				"n": 108
+			}
+		}
+	}
+}

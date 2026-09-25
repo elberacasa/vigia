@@ -1,0 +1,41 @@
+/*
+ * Review 3 web fixes: one feed count on desktop, an honest history pill, and a mid layout (1000–1499 px) whose right
+ * column flows with the page instead of scrolling inside a screen-high frame.
+ */
+
+/* The status bar carries the feed count from 1000 px up; the header copy is for narrower screens only (M9). */
+@media (min-width: 1000px) {
+	.topbar__status {
+		display: none;
+	}
+}
+
+/* The history strip's pill when the feed behind the map is past its budget: the right end is the last datum. */
+.live-button.is-late {
+	background: none;
+	color: var(--warn);
+	border-color: color-mix(in srgb, var(--warn) 45%, var(--line-strong));
+	letter-spacing: 0.02em;
+	cursor: default;
+}
+
+/*
+ * Mid (1000–1499 px): the map stays pinned beside the right column while the page scrolls; the column is part of the
+ * page (no scroller inside a scroller, so the wheel moves the page and News is reached by scrolling it).
+ */
+.wall--mid .wall__frame {
+	height: auto;
+	min-height: 0;
+	align-items: start;
+}
+.wall--mid .wall__map {
+	position: sticky;
+	top: calc(var(--topbar-h) + var(--gutter));
+	height: calc(100dvh - var(--topbar-h) - var(--statusbar-h) - 2 * var(--gutter));
+	min-height: 560px;
+}
+.wall--mid .wall__col {
+	overflow: visible;
+	mask-image: none;
+	padding-bottom: 0;
+}

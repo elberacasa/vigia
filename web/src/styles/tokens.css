@@ -1,0 +1,238 @@
+/*
+ * Vigía design tokens. The only place colours, type, spacing, radii, elevation and motion are defined.
+ * Dark is the signature theme; light is a full theme, not an inversion.
+ *
+ * Colour roles:
+ *   --signal   lookout amber: the brand, live data, focus. Never used for "bad".
+ *   --info     cool data blue: neutral series, links.
+ *   --ok / --warn / --alert: feed and event states. Paired with icons and text, never colour alone.
+ */
+
+@font-face {
+	font-family: "Archivo";
+	src: url("/fonts/archivo-2.woff2") format("woff2");
+	font-weight: 400 800;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Chivo Mono";
+	src: url("/fonts/chivo-mono-1.woff2") format("woff2");
+	font-weight: 400 700;
+	font-display: swap;
+}
+
+:root {
+	color-scheme: dark;
+
+	/* Surfaces: night sky over the Caribbean, from deepest to raised. */
+	--bg: #07090e;
+	--surface-0: #0b0e14;
+	--surface-1: #10141c;
+	--surface-2: #161b25;
+	--surface-3: #1e2430;
+	--line: #232a37;
+	--line-strong: #333c4d;
+
+	/* Text */
+	--text: #edeff3;
+	--text-2: #aab2c0;
+	--text-3: #8a94a7;
+	--text-inverse: #0b0e14;
+
+	/* Roles */
+	--signal: #f6b532;
+	--signal-2: #ffd27a;
+	--signal-soft: rgb(246 181 50 / 0.14);
+	--info: #6cb4ff;
+	--info-soft: rgb(108 180 255 / 0.14);
+	--ok: #3fd49a;
+	--ok-soft: rgb(63 212 154 / 0.14);
+	--warn: #ff9f43;
+	--warn-soft: rgb(255 159 67 / 0.16);
+	--alert: #ff5a5f;
+	--alert-soft: rgb(255 90 95 / 0.16);
+	--muted-soft: rgb(170 178 192 / 0.1);
+
+	/* Map */
+	--map-sea: #07090e;
+	--map-land: #151c29;
+	--map-land-hover: #1c2535;
+	--map-border: #2e384b;
+	--map-neighbour: #0e131b;
+	--map-grid: rgb(108 180 255 / 0.05);
+
+	/* Type */
+	--font-ui: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--font-data: "Chivo Mono", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+	--fs-2xs: 0.6875rem; /* 11 */
+	--fs-xs: 0.75rem; /* 12 */
+	--fs-sm: 0.8125rem; /* 13 */
+	--fs-md: 0.9375rem; /* 15 */
+	--fs-lg: 1.125rem; /* 18 */
+	--fs-xl: 1.5rem; /* 24 */
+	--fs-2xl: 2rem; /* 32 */
+	--fs-3xl: 2.75rem; /* 44 */
+	--lh-tight: 1.1;
+	--lh: 1.45;
+	--tracking-caps: 0.08em;
+
+	/* Space: 4-pt scale */
+	--s-1: 4px;
+	--s-2: 8px;
+	--s-3: 12px;
+	--s-4: 16px;
+	--s-5: 20px;
+	--s-6: 24px;
+	--s-8: 32px;
+	--s-10: 40px;
+	--s-12: 48px;
+
+	--r-sm: 6px;
+	--r-md: 10px;
+	--r-lg: 14px;
+	--r-pill: 999px;
+
+	/* Layout: a tight, square "control room" grid. */
+	--r-panel: 8px;
+	--gutter: 8px;
+	--panel-pad: 16px;
+	--topbar-h: 53px;
+	/* Room for the desktop status bar (fixed, 28 px); none on phones, where the tab bar takes its place. */
+	--statusbar-h: 0px;
+	--tabbar-h: 0px;
+
+	--shadow-1: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 1px 2px rgb(0 0 0 / 0.4);
+	--shadow-2: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 8px 24px rgb(0 0 0 / 0.45);
+	--glow-signal: 0 0 0 1px rgb(246 181 50 / 0.35), 0 0 24px rgb(246 181 50 / 0.18);
+
+	/* Motion: fast, calm, only when data changes. */
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--t-fast: 120ms;
+	--t: 220ms;
+	--t-slow: 480ms;
+	--t-reveal: 900ms;
+
+	--focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--signal);
+}
+
+:root[data-theme="light"] {
+	color-scheme: light;
+	--bg: #f4f1ea;
+	--surface-0: #fbf9f5;
+	--surface-1: #ffffff;
+	--surface-2: #f3f0e9;
+	--surface-3: #e8e4da;
+	--line: #e2ddd2;
+	--line-strong: #cbc4b5;
+	--text: #14181f;
+	--text-2: #4a5263;
+	--text-3: #5c6577;
+	--text-inverse: #ffffff;
+	--signal: #8a5a00;
+	--signal-2: #6f4800;
+	--signal-soft: rgb(184 120 0 / 0.12);
+	--info: #1a62bd;
+	--info-soft: rgb(31 111 209 / 0.1);
+	--ok: #0b7a53;
+	--ok-soft: rgb(15 138 95 / 0.1);
+	--warn: #9a4c00;
+	--warn-soft: rgb(184 92 0 / 0.12);
+	--alert: #c8262c;
+	--alert-soft: rgb(200 38 44 / 0.1);
+	--muted-soft: rgb(74 82 99 / 0.08);
+	--map-sea: #e9eef2;
+	--map-land: #fbf9f5;
+	--map-land-hover: #f1ede4;
+	--map-border: #bdb6a6;
+	--map-neighbour: #f1eee7;
+	--map-grid: rgb(31 111 209 / 0.05);
+	--shadow-1: 0 1px 2px rgb(20 24 31 / 0.06);
+	--shadow-2: 0 8px 24px rgb(20 24 31 / 0.08);
+	--glow-signal: 0 0 0 1px rgb(184 120 0 / 0.35);
+}
+
+@media (prefers-color-scheme: light) {
+	:root:not([data-theme="dark"]) {
+		color-scheme: light;
+		--bg: #f4f1ea;
+		--surface-0: #fbf9f5;
+		--surface-1: #ffffff;
+		--surface-2: #f3f0e9;
+		--surface-3: #e8e4da;
+		--line: #e2ddd2;
+		--line-strong: #cbc4b5;
+		--text: #14181f;
+		--text-2: #4a5263;
+		--text-3: #5c6577;
+		--text-inverse: #ffffff;
+		--signal: #8a5a00;
+		--signal-2: #6f4800;
+		--signal-soft: rgb(184 120 0 / 0.12);
+		--info: #1a62bd;
+		--info-soft: rgb(31 111 209 / 0.1);
+		--ok: #0b7a53;
+		--ok-soft: rgb(15 138 95 / 0.1);
+		--warn: #9a4c00;
+		--warn-soft: rgb(184 92 0 / 0.12);
+		--alert: #c8262c;
+		--alert-soft: rgb(200 38 44 / 0.1);
+		--muted-soft: rgb(74 82 99 / 0.08);
+		--map-sea: #e9eef2;
+		--map-land: #fbf9f5;
+		--map-land-hover: #f1ede4;
+		--map-border: #bdb6a6;
+		--map-neighbour: #f1eee7;
+		--map-grid: rgb(31 111 209 / 0.05);
+		--shadow-1: 0 1px 2px rgb(20 24 31 / 0.06);
+		--shadow-2: 0 8px 24px rgb(20 24 31 / 0.08);
+		--glow-signal: 0 0 0 1px rgb(184 120 0 / 0.35);
+	}
+}
+
+@media (min-width: 1000px) {
+	:root {
+		--statusbar-h: 28px;
+	}
+}
+@media (max-width: 640px) {
+	:root {
+		--tabbar-h: calc(58px + env(safe-area-inset-bottom));
+	}
+}
+
+/* Density (prefs): Compacto tightens spacing and type; Pared scales everything up for a screen across a room. */
+:root[data-density="compacto"] {
+	--s-1: 3px;
+	--s-2: 6px;
+	--s-3: 9px;
+	--s-4: 12px;
+	--s-5: 15px;
+	--s-6: 18px;
+	--s-8: 24px;
+	--panel-pad: 10px;
+	--fs-md: 0.8125rem;
+	--fs-lg: 1rem;
+	--fs-xl: 1.3125rem;
+	--fs-2xl: 1.625rem;
+	--gutter: 6px;
+}
+:root[data-density="pared"] {
+	font-size: 125%;
+	--topbar-h: 57px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--t-fast: 0ms;
+		--t: 0ms;
+		--t-slow: 0ms;
+		--t-reveal: 0ms;
+	}
+}
+:root[data-motion="reduced"] {
+	--t-fast: 0ms;
+	--t: 0ms;
+	--t-slow: 0ms;
+	--t-reveal: 0ms;
+}

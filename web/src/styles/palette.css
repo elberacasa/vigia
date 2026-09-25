@@ -1,0 +1,198 @@
+/* The command palette dialog: loaded with ui/PaletteSearch.tsx (lib/css.ts). From live.css. */
+
+/* ---------- Command palette ---------- */
+.palette {
+	margin: 12vh auto auto;
+	padding: 0;
+	width: min(600px, calc(100vw - 24px));
+	max-height: min(640px, 76dvh);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	background: var(--surface-2);
+	color: var(--text);
+	box-shadow: 0 24px 64px rgb(0 0 0 / 0.5);
+	overflow: hidden;
+}
+.palette[open] {
+	display: flex;
+	flex-direction: column;
+	animation: palette-in 160ms var(--ease-out);
+}
+@keyframes palette-in {
+	from {
+		opacity: 0;
+		transform: translateY(-6px) scale(0.99);
+	}
+}
+.palette::backdrop {
+	background: rgb(3 5 9 / 0.6);
+	backdrop-filter: blur(3px);
+}
+.palette__inner {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	flex: 1;
+}
+.palette__field {
+	display: flex;
+	align-items: center;
+	gap: var(--s-3);
+	padding: 0 var(--s-4);
+	border-bottom: 1px solid var(--line);
+	color: var(--text-3);
+}
+.palette__input {
+	flex: 1;
+	min-width: 0;
+	height: 52px;
+	border: 0;
+	background: none;
+	color: var(--text);
+	font: inherit;
+	font-size: var(--fs-lg);
+	outline: none;
+}
+.palette__input:focus-visible {
+	box-shadow: none;
+}
+.palette__input::placeholder {
+	color: var(--text-3);
+}
+.palette__esc {
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	border: 1px solid var(--line-strong);
+	border-radius: 4px;
+	padding: 1px 6px;
+}
+.palette__list {
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: var(--s-2) 0;
+	flex: 1;
+	min-height: 0;
+	scrollbar-width: thin;
+}
+.palette__group + .palette__group {
+	margin-top: var(--s-1);
+}
+.palette__group-label {
+	margin: 0;
+	padding: var(--s-2) var(--s-4) var(--s-1);
+	color: var(--text-3);
+}
+.palette__item {
+	display: flex;
+	align-items: center;
+	gap: var(--s-3);
+	min-height: 40px;
+	padding: 6px var(--s-4);
+	cursor: pointer;
+	border-left: 2px solid transparent;
+}
+.palette__item.is-active {
+	background: var(--surface-3);
+	border-left-color: var(--signal);
+}
+.palette__dot {
+	width: 8px;
+	height: 8px;
+	flex: none;
+	border-radius: 50%;
+}
+.palette__dot.level-dot {
+	margin: 0;
+}
+.palette__label {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s-2);
+	min-width: 0;
+	flex: 1 1 auto;
+}
+.palette__name {
+	font-size: var(--fs-md);
+	font-weight: 550;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.palette__sub {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.palette__live {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s-2);
+	flex: none;
+	max-width: 58%;
+	font-size: var(--fs-xs);
+}
+.palette__figure {
+	color: var(--text-2);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-variant-numeric: tabular-nums;
+}
+.palette__age {
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.palette__empty {
+	margin: 0;
+	padding: var(--s-6) var(--s-4);
+	color: var(--text-3);
+	font-size: var(--fs-sm);
+	text-align: center;
+}
+.palette__foot {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--s-3);
+	margin: 0;
+	padding: var(--s-2) var(--s-4);
+	border-top: 1px solid var(--line);
+	color: var(--text-3);
+	font-size: var(--fs-2xs);
+}
+@media (max-width: 640px) {
+	.palette {
+		margin: 8px auto auto;
+		width: calc(100vw - 16px);
+		max-height: calc(100dvh - 16px);
+	}
+	.palette__item {
+		min-height: 48px;
+		flex-wrap: wrap;
+		row-gap: 0;
+	}
+	.palette__label {
+		flex-direction: column;
+		gap: 0;
+	}
+	.palette__live {
+		max-width: 50%;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0;
+	}
+	.palette__foot span:first-child {
+		display: none;
+	}
+}
+
+/* Reduced motion, repeated from live.css: these rules now load after it. */
+@media (prefers-reduced-motion: reduce) {
+	.palette[open] {
+		animation: none;
+	}
+}

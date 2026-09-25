@@ -1,0 +1,37 @@
+VIGÍA · Venezuela ahora                         25 sept, 07:24 · hora de Caracas
+────────────────────────────────────────────────────────────────────────────────
+AHORA  Internet sin caídas por estado · Tormentas previstas en 7 capitales ·
+       Dólar BCV 855,66 Bs, Yadio +11,4 %
+
+DÓLAR
+  BCV oficial         855,66 Bs  +0,25 % en 24 h                  BCV · hace 7 h
+  Yadio (P2P)         953,18 Bs  brecha +11,4 %               Yadio · hace 4 min
+
+INTERNET POR ESTADO (IODA, PEOR PRIMERO)
+  Normales (24), % de lo normal a esta hora:
+  Lara 88%                  Guárico 90%               Miranda 96%
+  Zulia 96%                 Falcón 97%                Bolívar 97%
+  Carabobo 98%              La Guaira 99%             Distrito Capital 100%
+  Amazonas 100%             Anzoátegui 100%           Apure 100%
+  Cojedes 100%              Delta Amacuro 100%        Mérida 100%
+  Monagas 100%              Nueva Esparta 100%        Portuguesa 100%
+  Sucre 100%                Táchira 100%              Trujillo 100%
+  Yaracuy 100%              Aragua 100%               Barinas 100%
+  Sin datos (1): Dependencias Federales
+  IODA, Georgia Tech · hace 24 min
+
+SISMOS, 24 H, VENEZUELA Y CERCA
+  M3,4  En el mar, a 31 km al ESE de Güiria (Sucre)          FUNVISIS · hace 4 h
+  M3,4  En el mar, a 33 km al ENE de Río Caribe (Sucre)      FUNVISIS · hace 6 h
+  M3,2  a 12 km al ESE de Palmasola (Yaracuy)                FUNVISIS · hace 5 h
+  M3,2  a 14 km al SSO de Yaguaraparo (Sucre)                FUNVISIS · hace 8 h
+  M3,0  a 15 km al NO de Campo Elías (Trujillo)             FUNVISIS · hace 17 h
+  y 9 más
+
+INCIDENTES (FUENTES INDEPENDIENTES QUE COINCIDEN)
+  Ninguna coincidencia ahora (no significa que no pase nada).
+  11 terminados en 48 h
+
+────────────────────────────────────────────────────────────────────────────────
+Cada línea: fuente · edad del dato. Números calculados por código, sin IA. Todo,
+con enlaces y reglas: http://localhost:7722/ · ?lang=en ?color=1

@@ -1,0 +1,93 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://www.bcv.org.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301883915
+  },
+  {
+    "file": "01.txt",
+    "url": "https://www.cne.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301884189
+  },
+  {
+    "file": "02.txt",
+    "url": "https://www.seniat.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301894461
+  },
+  {
+    "file": "03.txt",
+    "url": "https://www.saime.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301897715
+  },
+  {
+    "file": "04.txt",
+    "url": "https://www.patria.org.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301908852
+  },
+  {
+    "file": "05.txt",
+    "url": "https://www.ivss.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301919121
+  },
+  {
+    "file": "06.txt",
+    "url": "https://www.corpoelec.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301920681
+  },
+  {
+    "file": "07.txt",
+    "url": "https://www.cantv.com.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301921343
+  },
+  {
+    "file": "08.txt",
+    "url": "https://www.movilnet.com.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301921799
+  },
+  {
+    "file": "09.txt",
+    "url": "https://www.conatel.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301924192
+  },
+  {
+    "file": "10.txt",
+    "url": "https://www.tsj.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301934460
+  },
+  {
+    "file": "11.txt",
+    "url": "https://www.asambleanacional.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301935459
+  },
+  {
+    "file": "12.txt",
+    "url": "https://www.ine.gob.ve/",
+    "status": 200,
+    "contentType": "application/vnd.vigia.probe+json",
+    "fetchedAt": 1790301942026
+  }
+]

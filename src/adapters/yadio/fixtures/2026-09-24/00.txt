@@ -1,0 +1,1 @@
+{"rate":957.499994,"timestamp":1790292913674,"request":"rate:VES/USD"}

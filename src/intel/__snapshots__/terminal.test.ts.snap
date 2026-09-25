@@ -1,0 +1,85 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`the report, in Spanish (snapshot) 1`] = `
+"VIGÍA · Venezuela ahora                         24 sept, 21:30 · hora de Caracas
+────────────────────────────────────────────────────────────────────────────────
+AHORA  Posible apagón en Lara (IODA y prensa, última señal hace 25 min) ·
+       Posible apagón en Zulia (2 mediciones independientes: IODA y luces
+       nocturnas de NASA, última señal hace 25 min) · Sismo M3,6 a 13 km al O de
+       Irapa (Sucre) · Dólar BCV 853,50 Bs
+
+DÓLAR
+  BCV oficial         853,50 Bs  +0,42 % en 24 h                  BCV · hace 1 d
+  Yadio (P2P)         958,80 Bs  brecha +12,3 %    Yadio · hace 38 min (retraso)
+
+INTERNET POR ESTADO (IODA, PEOR PRIMERO)
+  Lara                 caída        75,6 % de lo normal       IODA · hace 20 min
+  Normales (2), % de lo normal a esta hora:
+  Distrito Capital 97%      Zulia 101%
+  Sin datos (1): Dependencias Federales
+  IODA, Georgia Tech · hace 20 min
+
+SISMOS, 24 H, VENEZUELA Y CERCA
+  M3,6  a 13 km al O de Irapa (Sucre)                        FUNVISIS · hace 5 h
+
+INCIDENTES (FUENTES INDEPENDIENTES QUE COINCIDEN)
+  ● Posible apagón en Lara                                           desde 15:30
+    2 fuentes independientes · IODA, prensa                   última hace 25 min
+  ● Posible apagón en Zulia                                          desde 15:30
+    2 fuentes independientes · IODA, NASA                     última hace 25 min
+    corroborado después por luces nocturnas (dato publicado 38 h después)       
+
+SOLO REPORTES DE PRENSA (SIN MEDICIÓN)
+  ○ Posible apagón en Distrito Capital con un nombre muy largo que…  desde 15:30
+    solo reportes de 7 medios, sin medición                   última hace 25 min
+
+SEÑALES SIN CORROBORAR (UNA SOLA FUENTE MEDIDA)
+  · Caída de conectividad en Mérida · IODA                    última hace 25 min
+
+────────────────────────────────────────────────────────────────────────────────
+Cada línea: fuente · edad del dato. Números calculados por código, sin IA. Todo,
+con enlaces y reglas: http://localhost:7722/ · ?lang=en ?color=1
+"
+`;
+
+exports[`the report, in English (snapshot) 1`] = `
+"VIGÍA · Venezuela now                               Sep 24, 21:30 · Caracas time
+────────────────────────────────────────────────────────────────────────────────
+NOW    Possible blackout in Lara (IODA and press, last signal 25 min ago) ·
+       Possible blackout in Zulia (2 independent measurements: IODA and NASA
+       night lights, last signal 25 min ago) · M3.6 quake a 13 km al O de Irapa
+       (Sucre) · BCV dollar Bs 853.50
+
+DOLLAR
+  BCV official        853.50 Bs  +0.42% in 24 h                    BCV · 1 d ago
+  Yadio (P2P)         958.80 Bs  gap +12.3%            Yadio · 38 min ago (late)
+
+INTERNET BY STATE (IODA, WORST FIRST)
+  Lara                 drop         75.6% of normal            IODA · 20 min ago
+  Normal (2), % of normal for this hour:
+  Distrito Capital 97%      Zulia 101%
+  No data (1): Dependencias Federales
+  IODA, Georgia Tech · 20 min ago
+
+EARTHQUAKES, 24 H, VENEZUELA AND NEARBY
+  M3.6  a 13 km al O de Irapa (Sucre)                         FUNVISIS · 5 h ago
+
+INCIDENTS (INDEPENDENT SOURCES THAT AGREE)
+  ● Possible blackout in Lara                                        since 15:30
+    2 independent sources · IODA, press                          last 25 min ago
+  ● Possible blackout in Zulia                                       since 15:30
+    2 independent sources · IODA, NASA                           last 25 min ago
+    corroborated later by night lights (published 38 h after)                   
+
+PRESS REPORTS ONLY (NO MEASUREMENT)
+  ○ Possible blackout in Distrito Capital con un nombre muy largo …  since 15:30
+    reports only, 7 outlets, no measurement                      last 25 min ago
+
+UNCORROBORATED SIGNALS (ONE MEASURED SOURCE)
+  · Connectivity drop in Mérida · IODA                           last 25 min ago
+
+────────────────────────────────────────────────────────────────────────────────
+Each line: source · age of the data. Numbers computed by code, no AI.
+Everything, with links and rules: http://localhost:7722/ · ?lang=es ?color=1
+"
+`;

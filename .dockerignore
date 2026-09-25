@@ -1,0 +1,15 @@
+# Only what the build needs goes into the image's build context.
+.git
+.env
+.env.*
+node_modules
+runs
+data
+dist
+web/dist
+docs
+**/fixtures
+**/*.test.ts
+**/__snapshots__
+*.sqlite
+*.sqlite-*

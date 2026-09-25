@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_South_America_7d.csv",
+    "status": 200,
+    "contentType": "text/csv",
+    "fetchedAt": 1790301510003
+  }
+]

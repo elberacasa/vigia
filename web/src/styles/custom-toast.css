@@ -1,0 +1,74 @@
+/* Alert toasts (lazy, with ui/custom/Toasts.tsx). */
+/* An alert that fired during this visit: data arrived, so it may appear; it never repeats or loops. */
+.alert-toasts {
+	position: fixed;
+	right: var(--s-4);
+	bottom: calc(var(--statusbar-h) + var(--tabbar-h) + var(--s-4) + env(safe-area-inset-bottom));
+	z-index: 30;
+	display: grid;
+	gap: var(--s-2);
+	width: min(380px, calc(100vw - 2 * var(--s-4)));
+}
+.alert-toast {
+	position: relative;
+	background: var(--surface-1);
+	border: 1px solid var(--line-strong);
+	border-left: 3px solid var(--signal);
+	border-radius: var(--r-panel);
+	box-shadow: var(--shadow-2);
+	padding: var(--s-3) var(--s-4);
+	animation: toast-in var(--t) var(--ease-out);
+}
+.alert-toast p {
+	margin: 0;
+}
+.alert-toast__kicker {
+	color: var(--signal);
+	font-size: var(--fs-2xs);
+}
+.alert-toast__title {
+	font-weight: 700;
+	font-size: var(--fs-md);
+	line-height: 1.3;
+	margin-top: 2px;
+	padding-right: var(--s-6);
+}
+.alert-toast__meta {
+	color: var(--text-2);
+	font-size: var(--fs-xs);
+	margin-top: 2px;
+}
+.alert-toast__actions {
+	display: flex;
+	gap: var(--s-4);
+	align-items: center;
+	margin-top: var(--s-2);
+	font-size: var(--fs-sm);
+}
+.alert-toast__close {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	color: var(--text-3);
+}
+.alert-toast__close:hover {
+	color: var(--text);
+	background: var(--muted-soft);
+}
+@keyframes toast-in {
+	from {
+		transform: translateY(8px);
+		opacity: 0;
+	}
+}
+[data-motion="reduced"] .alert-toast {
+	animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+	.alert-toast {
+		animation: none;
+	}
+}

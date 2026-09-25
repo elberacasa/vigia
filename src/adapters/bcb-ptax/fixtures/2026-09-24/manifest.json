@@ -1,0 +1,9 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@dataInicial=%2708-20-2025%27&@dataFinalCotacao=%2709-24-2026%27&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao",
+    "status": 200,
+    "contentType": "application/json;charset=UTF-8;odata.metadata=minimal",
+    "fetchedAt": 1790304867334
+  }
+]

@@ -1,0 +1,35 @@
+name: Feed broken or stale
+description: A source stopped updating, returns errors, or its figures look wrong.
+labels: [feed-broken]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Source id
+      description: As shown on the status page (/estado) or by `vigia sources`, e.g. `usgs-quakes`.
+    validations:
+      required: true
+  - type: dropdown
+    id: symptom
+    attributes:
+      label: Symptom
+      options:
+        - Stale badge / no new data
+        - Errors on the status page
+        - Wrong or implausible figures
+        - Source changed its format or URL
+        - Source blocked us or changed its terms
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: Details
+      description: The error on /estado, the output of `vigia fetch <source-id>`, and since when it happens.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version

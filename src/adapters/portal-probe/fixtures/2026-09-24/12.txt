@@ -1,0 +1,1 @@
+{"portal":"ine","host":"www.ine.gob.ve","at":1790301935459,"dns":{"addresses":["201.249.206.177"],"error":null,"ms":37},"http":{"status":200,"finalUrl":"https://ine.gob.ve/","ms":6265,"error":null},"tls":{"validTo":1797945872000,"authorized":true,"error":null}}

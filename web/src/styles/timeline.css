@@ -1,0 +1,209 @@
+/* The Internet layer's history strip, loaded with map/TimeSlider.tsx (the space it takes and its placeholder stay
+   in map.css). From map.css, in source order. */
+
+.timeline-strip__head {
+	display: flex;
+	align-items: center;
+	gap: var(--s-2);
+	min-width: 0;
+}
+.range-chips {
+	display: inline-flex;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-pill);
+	padding: 2px;
+	margin: 0;
+	gap: 2px;
+	flex: none;
+}
+.range-chip {
+	font: inherit;
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	color: var(--text-2);
+	background: none;
+	border: 0;
+	border-radius: var(--r-pill);
+	height: 24px;
+	padding: 0 10px;
+	cursor: pointer;
+}
+.range-chip[aria-pressed="true"] {
+	background: var(--surface-3);
+	color: var(--text);
+}
+.timeline-strip__play {
+	flex: none;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	border: 1px solid var(--line-strong);
+	background: var(--surface-2);
+	color: var(--text);
+	font-size: 11px;
+	cursor: pointer;
+	display: grid;
+	place-items: center;
+}
+.timeline-strip__play:hover:not(:disabled) {
+	border-color: var(--signal);
+}
+.timeline-strip__status {
+	flex: 1;
+	min-width: 0;
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: var(--fs-xs);
+}
+.timeline-strip__past {
+	color: var(--signal);
+	font-weight: 650;
+	font-size: var(--fs-sm);
+}
+.live-button {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 28px;
+	padding: 0 10px;
+	border-radius: var(--r-pill);
+	border: 1px solid var(--signal);
+	background: var(--signal);
+	color: var(--text-inverse);
+	font: inherit;
+	font-size: var(--fs-2xs);
+	font-weight: 750;
+	letter-spacing: 0.08em;
+	cursor: pointer;
+}
+.live-button.is-live {
+	background: none;
+	color: var(--ok);
+	border-color: color-mix(in srgb, var(--ok) 45%, var(--line-strong));
+	cursor: default;
+}
+.live-button__dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: currentColor;
+}
+.timeline-strip__track {
+	position: relative;
+	height: 34px;
+}
+.timeline-strip__bars {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.tl-bar {
+	fill: var(--line-strong);
+	transition: fill var(--t) var(--ease-out);
+}
+.tl-bar--ok {
+	fill: color-mix(in srgb, var(--text-3) 45%, transparent);
+}
+.tl-bar--drop {
+	fill: var(--warn);
+}
+.tl-bar--severe {
+	fill: var(--alert);
+}
+.tl-bar--nodata {
+	fill: var(--surface-3);
+}
+.tl-bar--live {
+	fill: color-mix(in srgb, var(--ok) 30%, transparent);
+}
+.timeline-strip__cursor {
+	position: absolute;
+	top: -3px;
+	bottom: -3px;
+	width: 2px;
+	margin-left: -1px;
+	background: var(--text);
+	border-radius: 1px;
+	pointer-events: none;
+	transition: left var(--t-fast) var(--ease-out);
+}
+.timeline-strip__cursor::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -4px;
+	border: 5px solid transparent;
+	border-top-color: var(--text);
+}
+.timeline-strip.is-past .timeline-strip__cursor {
+	background: var(--signal);
+}
+.timeline-strip.is-past .timeline-strip__cursor::before {
+	border-top-color: var(--signal);
+}
+.timeline-strip__range {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	background: transparent;
+	appearance: none;
+	-webkit-appearance: none;
+	cursor: pointer;
+}
+.timeline-strip__range::-webkit-slider-runnable-track {
+	height: 100%;
+	background: transparent;
+}
+.timeline-strip__range::-moz-range-track {
+	height: 100%;
+	background: transparent;
+}
+.timeline-strip__range::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 12px;
+	height: 34px;
+	background: transparent;
+	border: 0;
+}
+.timeline-strip__range::-moz-range-thumb {
+	width: 12px;
+	height: 34px;
+	background: transparent;
+	border: 0;
+}
+.timeline-strip__range:focus-visible {
+	box-shadow: var(--focus);
+	border-radius: 2px;
+}
+.timeline-strip__axis {
+	display: flex;
+	justify-content: space-between;
+	font-family: var(--font-data);
+	font-size: 10px;
+	color: var(--text-3);
+}
+.timeline-strip__axis a {
+	color: var(--text-3);
+	text-decoration: none;
+}
+.timeline-strip__axis a:hover {
+	color: var(--text-2);
+	text-decoration: underline;
+}
+.timeline-strip.is-past {
+	background: color-mix(in srgb, var(--signal) 7%, var(--surface-1));
+}
+@container mapbody (max-width: 719px) {
+	/* On a phone the banner over the map carries the "Viendo" line; the strip keeps only its controls. */
+	.timeline-strip__status {
+		visibility: hidden;
+	}
+}

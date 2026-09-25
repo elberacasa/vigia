@@ -1,0 +1,16 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://bloqueos.vesinfiltro.org/",
+    "status": 200,
+    "contentType": "text/html",
+    "fetchedAt": 1790293551512
+  },
+  {
+    "file": "01.txt",
+    "url": "https://bloqueos.vesinfiltro.org/static/blocking-data.csv",
+    "status": 200,
+    "contentType": "text/csv",
+    "fetchedAt": 1790293556280
+  }
+]

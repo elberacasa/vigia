@@ -1,0 +1,49 @@
+name: Bug
+description: Something in Vigía is wrong, broken or misleading.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please do not paste API keys, the contents of `keys.json`, or personal data.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead. A wrong or stale figure counts as a bug.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `vigia` …
+        2. Open …
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The first line of `vigia --help`, or the commit if you run from source.
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: System
+      options: [Linux, macOS, Windows, Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: how
+    attributes:
+      label: How you run it
+      options: [Release binary, From source (bun), Other]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Output or screenshot
+      description: Terminal output, or a screenshot of the page (the status page at /estado helps).
+      render: text

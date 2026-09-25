@@ -1,0 +1,1 @@
+{"portal":"ivss","host":"www.ivss.gob.ve","at":1790301908852,"dns":{"addresses":["200.109.237.57"],"error":null,"ms":37},"http":{"status":null,"finalUrl":null,"ms":5115,"error":"tls"},"tls":{"validTo":null,"authorized":null,"error":"reset"}}

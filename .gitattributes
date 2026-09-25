@@ -1,0 +1,16 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.woff2 binary
+*.bin binary
+*.xls binary
+*.xlsx binary
+# Generated files: collapsed in diffs and excluded from language statistics.
+bun.lock linguist-generated
+NOTICE linguist-generated
+docs/DATA-SOURCES.md linguist-generated
+src/server/embedded.gen.ts linguist-generated
+web/src/**/*.gen.ts linguist-generated
+src/ai/evaluation.ts linguist-generated
+src/geo/data/** linguist-generated
+src/adapters/*/fixtures/** linguist-vendored

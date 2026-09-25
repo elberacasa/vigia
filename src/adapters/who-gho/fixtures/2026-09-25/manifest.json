@@ -1,0 +1,44 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://ghoapi.azureedge.net/api/MALARIA_CONF_CASES?$filter=SpatialDim%20eq%20%27VEN%27",
+    "status": 200,
+    "contentType": "application/json; odata.metadata=minimal; odata.streaming=true; charset=utf-8",
+    "fetchedAt": 1790309140049
+  },
+  {
+    "file": "01.txt",
+    "url": "https://ghoapi.azureedge.net/api/MALARIA_EST_CASES?$filter=SpatialDim%20eq%20%27VEN%27",
+    "status": 200,
+    "contentType": "application/json; odata.metadata=minimal; odata.streaming=true; charset=utf-8",
+    "fetchedAt": 1790309140734
+  },
+  {
+    "file": "02.txt",
+    "url": "https://ghoapi.azureedge.net/api/WHS3_62?$filter=SpatialDim%20eq%20%27VEN%27",
+    "status": 200,
+    "contentType": "application/json; odata.metadata=minimal; odata.streaming=true; charset=utf-8",
+    "fetchedAt": 1790309142147
+  },
+  {
+    "file": "03.txt",
+    "url": "https://ghoapi.azureedge.net/api/WHS3_41?$filter=SpatialDim%20eq%20%27VEN%27",
+    "status": 200,
+    "contentType": "application/json; odata.metadata=minimal; odata.streaming=true; charset=utf-8",
+    "fetchedAt": 1790309142847
+  },
+  {
+    "file": "04.txt",
+    "url": "https://ghoapi.azureedge.net/api/WHS8_110?$filter=SpatialDim%20eq%20%27VEN%27",
+    "status": 200,
+    "contentType": "application/json; odata.metadata=minimal; odata.streaming=true; charset=utf-8",
+    "fetchedAt": 1790309143726
+  },
+  {
+    "file": "05.txt",
+    "url": "https://ghoapi.azureedge.net/api/WHS4_100?$filter=SpatialDim%20eq%20%27VEN%27",
+    "status": 200,
+    "contentType": "application/json; odata.metadata=minimal; odata.streaming=true; charset=utf-8",
+    "fetchedAt": 1790309144736
+  }
+]

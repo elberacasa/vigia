@@ -1,0 +1,16 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU&cosd=2024-09-24",
+    "status": 200,
+    "contentType": "application/csv",
+    "fetchedAt": 1790293492484
+  },
+  {
+    "file": "01.txt",
+    "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILWTICO&cosd=2024-09-24",
+    "status": 200,
+    "contentType": "application/csv",
+    "fetchedAt": 1790293495337
+  }
+]

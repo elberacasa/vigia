@@ -1,0 +1,82 @@
+/* The source and method sheets: loaded with ui/SourceSheet.tsx (lib/css.ts). From app.css and layout.css. */
+
+.sheet__facts {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2px;
+	margin: var(--s-5) 0;
+	font-size: var(--fs-sm);
+}
+.sheet__facts dt {
+	color: var(--text-3);
+	font-size: var(--fs-xs);
+	margin-top: var(--s-3);
+}
+.sheet__facts dd {
+	margin: 0;
+}
+.sheet__age {
+	color: var(--text-3);
+}
+.sheet__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-2);
+}
+.method__body {
+	margin-top: var(--s-4);
+	display: grid;
+	gap: var(--s-2);
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.method__body > * {
+	display: block;
+	margin: 0;
+}
+.method__h {
+	margin: var(--s-5) 0 var(--s-2);
+	color: var(--text-3);
+}
+.method__feeds {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-panel);
+	overflow: hidden;
+}
+.method__feed {
+	background: var(--surface-0);
+	padding: var(--s-3);
+	display: grid;
+	gap: 2px;
+}
+.method__feed .note {
+	margin: 0;
+}
+.method__feed-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--s-3);
+}
+.method__feed-name {
+	font-weight: 650;
+	font-size: var(--fs-sm);
+	text-align: left;
+	text-decoration: underline;
+	text-decoration-color: var(--line-strong);
+	text-underline-offset: 3px;
+}
+.method__feed-name:disabled {
+	text-decoration: none;
+	cursor: default;
+}
+.sheet--method {
+	max-height: min(86dvh, 820px);
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vigía · Venezuela en vivo</title>
+<meta name="description" content="Sala de situación abierta de Venezuela: tasas, sismos, incendios, conectividad y noticias, con fuente y hora en cada cifra.">
+<meta name="theme-color" content="#07090e">
+<link rel="icon" href="./assets/brand/favicon.svg" type="image/svg+xml">
+<style>
+/* Static shell: the wall's shape before any script runs, so a slow connection shows the product, not a blank page. */
+:root{--b:#07090e;--s:#10141c;--l:#232a37;--k:#151c29;--w:#07090e;--t:#edeff3;--m:#8a94a7;--a:#f6b532}
+@media (prefers-color-scheme:light){:root{--b:#f4f1ea;--s:#fff;--l:#e2ddd2;--k:#fbf9f5;--w:#e9eef2;--t:#14181f;--m:#6d7688;--a:#b87800}}
+body{margin:0;background:var(--b);color:var(--t);font-family:system-ui,sans-serif}
+.boot__top{height:52px;border-bottom:1px solid var(--l);display:flex;align-items:center;gap:10px;padding:0 16px}
+.boot__word{font-weight:800;letter-spacing:.14em;font-size:15px}
+.boot__msg{margin-left:auto;color:var(--m);font-size:13px}
+.boot__wall{display:grid;gap:8px;padding:8px;grid-template-areas:"a" "d" "i" "m" "r";max-width:1920px;margin:0 auto}
+.boot__wall>*{background:var(--s);border:1px solid var(--l);border-radius:8px}
+.boot__a{grid-area:a;height:128px;border-color:color-mix(in srgb,var(--a) 30%,var(--l))}
+.boot__d{grid-area:d;height:78px}.boot__i{grid-area:i;height:56px}
+.boot__m{grid-area:m;display:grid;place-items:center;padding:12px;background:var(--w);min-height:0}
+.boot__m svg{width:100%;max-height:100%}.boot__m path{fill:var(--k);stroke:var(--l)}.boot__r,.boot__l{overflow:hidden;min-height:0}
+.boot__r{grid-area:r;border:0;background:none;display:grid;gap:8px;align-content:start}
+.boot__r i,.boot__l i{display:block;height:56px;background:var(--s);border:1px solid var(--l);border-radius:8px}
+.boot__t,.boot__l{display:none}
+@media (min-width:1000px){
+.boot__wall{height:calc(100vh - 53px - 28px);box-sizing:border-box;grid-template-columns:minmax(0,1.55fr) minmax(360px,1fr);grid-template-rows:84px 86px minmax(0,1fr);grid-template-areas:"a a" "t t" "m r"}
+.boot__a{height:auto}.boot__d,.boot__i{display:none}
+.boot__t{display:grid;grid-area:t;grid-template-columns:repeat(7,1fr);gap:8px;border:0;background:none}
+.boot__t i{background:var(--s);border:1px solid var(--l);border-radius:8px}
+.boot__r i{height:220px}}
+@media (min-width:1500px){
+.boot__wall{grid-template-columns:minmax(340px,.9fr) minmax(0,1.75fr) minmax(380px,1fr);grid-template-rows:62px 86px minmax(0,1fr);grid-template-areas:"a a a" "t t t" "l m r"}
+.boot__l{display:grid;grid-area:l;gap:8px;align-content:start;border:0;background:none}
+.boot__l i{height:300px}}
+</style>
+</head>
+<body>
+<div id="app"><div class="boot" aria-busy="true"><div class="boot__top"><svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><path d="M15.5 24.4L32 53L48.5 24.4" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/><g fill="#f6b532"><circle cx="8.6" cy="16.9" r="2.5"/><circle cx="14.2" cy="13.8" r="2.5"/><circle cx="20.1" cy="11.6" r="2.5"/><circle cx="26" cy="10.4" r="2.5"/><circle cx="32" cy="10" r="2.5"/><circle cx="38" cy="10.4" r="2.5"/><circle cx="43.9" cy="11.6" r="2.5"/><circle cx="49.8" cy="13.8" r="2.5"/></g></svg><span class="boot__word">VIGÍA</span><span class="boot__msg" role="status">Cargando la sala de situación…</span></div><div class="boot__wall" aria-hidden="true"><div class="boot__a"></div><div class="boot__t"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="boot__d"></div><div class="boot__i"></div><div class="boot__l"><i></i><i></i></div><div class="boot__m"><svg viewBox="0 0 140 124" aria-hidden="true"><path d="M35 7L37 8L39 14L47 14L52 17L54 24L73 22L76 26L85 28L88 28L93 25L92 22L116 22L112 24L108 23L111 29L114 29L116 31L119 30L122 33L126 34L128 38L128 40L129 44L134 43L138 46L136 47L135 49L132 51L129 51L128 54L129 57L132 58L132 60L123 62L124 67L122 69L122 70L128 77L129 80L126 82L125 84L120 85L120 86L114 88L110 87L110 89L108 89L108 92L106 94L103 90L95 90L94 88L89 88L90 90L94 93L93 98L95 100L95 104L101 105L101 108L95 109L95 112L92 116L90 115L90 116L84 118L84 120L82 120L81 122L80 122L80 119L72 122L67 117L63 105L60 101L57 101L62 96L61 92L59 90L57 84L57 76L59 74L59 71L61 70L61 67L57 66L56 67L41 68L35 59L32 60L29 58L26 59L15 59L14 56L11 54L11 49L12 49L12 47L12 45L9 43L8 38L6 38L6 37L2 37L6 32L7 24L11 18L14 18L16 12L18 12L16 13L16 16L20 19L19 22L22 21L22 19L34 16L35 13L34 13L33 10ZM20 24L16 28L15 32L18 35L18 38L20 38L25 36L25 31ZM36 12L35 14L38 15L38 12ZM96 18L98 19L96 20L96 22ZM22 11L22 12L20 12L18 12ZM94 23L94 24L96 24L96 23ZM82 19L83 20L81 20ZM69 11L68 12L68 11Z" stroke-width=".4"/></svg></div><div class="boot__r"><i></i><i></i><i></i><i></i><i></i></div></div></div></div>
+<script type="module" src="./src/main.tsx"></script>
+</body>
+</html>

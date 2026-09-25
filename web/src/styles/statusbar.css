@@ -1,0 +1,234 @@
+/* Desktop status bar and the shortcuts sheet: loaded with ui/StatusBarView.tsx (lib/css.ts). From live.css. */
+
+/* ---------- Status bar (desktop) ---------- */
+.statusbar {
+	display: none;
+}
+@media (min-width: 1000px) {
+	.statusbar {
+		position: fixed;
+		inset: auto 0 0 0;
+		z-index: 9;
+		height: var(--statusbar-h);
+		display: flex;
+		align-items: center;
+		gap: var(--s-4);
+		padding: 0 var(--s-3);
+		background: color-mix(in srgb, var(--surface-0) 95%, transparent);
+		backdrop-filter: blur(8px);
+		border-top: 1px solid var(--line);
+		font-size: var(--fs-2xs);
+		color: var(--text-3);
+		white-space: nowrap;
+	}
+}
+.statusbar__health {
+	display: flex;
+	gap: var(--s-3);
+	align-items: center;
+	color: var(--text-2);
+	flex: none;
+	padding: 2px 4px;
+}
+.statusbar__health > span {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+.statusbar__health:hover {
+	color: var(--text);
+}
+.statusbar__ticker {
+	flex: 1 1 auto;
+	min-width: 0;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--s-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 100%);
+}
+.tick {
+	flex: none;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	position: relative;
+}
+.tick__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 2px 4px;
+	color: var(--text-2);
+	font-size: var(--fs-2xs);
+}
+.tick__dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--text-3);
+	flex: none;
+}
+.tick--quake .tick__dot {
+	background: var(--info);
+}
+.tick--outage .tick__dot,
+.tick--alert .tick__dot {
+	background: var(--warn);
+}
+.tick--outage-end .tick__dot,
+.tick--unblock .tick__dot {
+	background: var(--ok);
+}
+.tick--block .tick__dot {
+	background: var(--alert);
+}
+.tick__time,
+.tick__src {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	color: var(--text-3);
+}
+.tick__text {
+	color: var(--text-2);
+	font-weight: 550;
+	max-width: 34ch;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.tick__btn:hover .tick__text {
+	color: var(--text);
+}
+.tick + .tick::before {
+	content: "";
+	position: absolute;
+	left: calc(var(--s-4) / -2);
+	top: 8px;
+	bottom: 8px;
+	width: 1px;
+	background: var(--line);
+}
+/* A new event slides in at the right edge once (its width grows, so the older ones step left). */
+.tick.is-new {
+	animation: tick-in 320ms var(--ease-out) both;
+}
+.tick.is-new .tick__text {
+	color: var(--text);
+}
+.tick.is-new .tick__dot {
+	box-shadow: 0 0 0 3px var(--signal-soft);
+}
+@keyframes tick-in {
+	from {
+		max-width: 0;
+		opacity: 0;
+	}
+	to {
+		max-width: 480px;
+		opacity: 1;
+	}
+}
+.statusbar__hints {
+	display: none;
+	align-items: center;
+	flex: none;
+	gap: 2px;
+	padding-left: var(--s-3);
+	border-left: 1px solid var(--line);
+}
+@media (min-width: 1280px) {
+	.statusbar__hints {
+		display: flex;
+	}
+}
+.statusbar__hint {
+	color: var(--text-3);
+	font-size: var(--fs-2xs);
+	padding: 2px 4px;
+}
+.statusbar__hint:hover {
+	color: var(--text-2);
+}
+.statusbar__hint-close {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	color: var(--text-3);
+	font-size: 10px;
+}
+.statusbar__hint-close:hover {
+	color: var(--text);
+	background: var(--surface-3);
+}
+.statusbar__clock,
+.statusbar__newest {
+	flex: none;
+	color: var(--text-3);
+}
+.statusbar__credit {
+	flex: none;
+	padding-left: var(--s-3);
+	border-left: 1px solid var(--line);
+	color: var(--text-3);
+	text-decoration: none;
+}
+.statusbar__credit:hover,
+.statusbar__credit:focus-visible {
+	color: var(--text);
+	text-decoration: underline;
+}
+.statusbar__clock {
+	padding-left: var(--s-3);
+	border-left: 1px solid var(--line);
+	text-transform: uppercase;
+	letter-spacing: var(--tracking-caps);
+	font-weight: 600;
+}
+.statusbar__clock time {
+	color: var(--text);
+	letter-spacing: 0;
+	font-weight: 500;
+	margin-left: 4px;
+}
+.statusbar__newest .mono {
+	color: var(--text-2);
+}
+/* ---------- Shortcuts sheet ---------- */
+.keys-help {
+	width: min(560px, calc(100vw - 24px));
+}
+.keys-help__list {
+	display: grid;
+	gap: 6px;
+	margin: var(--s-4) 0 0;
+}
+.keys-help__list > div {
+	display: grid;
+	grid-template-columns: 7.5rem 1fr;
+	gap: var(--s-3);
+	align-items: baseline;
+	padding: 6px 0;
+	border-top: 1px solid var(--line);
+}
+.keys-help__list dt {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+.keys-help__list dd {
+	margin: 0;
+	color: var(--text-2);
+	font-size: var(--fs-sm);
+}
+
+/* Reduced motion, repeated from live.css: these rules now load after it. */
+@media (prefers-reduced-motion: reduce) {
+	.tick.is-new {
+		animation: none;
+	}
+}

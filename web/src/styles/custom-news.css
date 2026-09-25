@@ -1,0 +1,31 @@
+/* The news panel's "Mis fuentes" switch, filtered-by-you line and label (with ui/custom/NewsMine.tsx). */
+/* News: "Medios de Vigía / Mis fuentes", the filtered-by-you line, and the label on every hand-added item. */
+.news-source {
+	display: flex;
+	padding: 0;
+	min-inline-size: 0;
+	margin: 0 0 var(--s-3);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+	width: fit-content;
+	font-size: var(--fs-sm);
+}
+.news-source button {
+	padding: 6px var(--s-3);
+	color: var(--text-2);
+}
+.news-source button[aria-pressed="true"] {
+	background: var(--surface-3);
+	color: var(--text);
+	font-weight: 600;
+}
+.custom-filter {
+	margin: 0 0 var(--s-2);
+	font-size: var(--fs-xs);
+}
+.tag.tag--mine {
+	background: var(--info-soft);
+	color: var(--info);
+	font-weight: 600;
+}

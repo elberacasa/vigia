@@ -1,0 +1,149 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301962133
+  },
+  {
+    "file": "01.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301962310
+  },
+  {
+    "file": "02.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/pt.wikipedia.org/all-access/user/Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301962792
+  },
+  {
+    "file": "03.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Caracas/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301963298
+  },
+  {
+    "file": "04.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/Caracas/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301963794
+  },
+  {
+    "file": "05.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/pt.wikipedia.org/all-access/user/Caracas/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301964300
+  },
+  {
+    "file": "06.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Presidente_de_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301964803
+  },
+  {
+    "file": "07.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/President_of_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301965299
+  },
+  {
+    "file": "08.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/pt.wikipedia.org/all-access/user/Presidente_da_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301965792
+  },
+  {
+    "file": "09.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Crisis_en_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790301966300
+  },
+  {
+    "file": "10.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/Crisis_in_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302020868
+  },
+  {
+    "file": "11.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/pt.wikipedia.org/all-access/user/Crise_na_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302021386
+  },
+  {
+    "file": "12.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Petr%C3%B3leos_de_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302021877
+  },
+  {
+    "file": "13.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/PDVSA/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302022374
+  },
+  {
+    "file": "14.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/Venezuelan_bol%C3%ADvar/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302022875
+  },
+  {
+    "file": "15.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Bol%C3%ADvar_digital/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302023374
+  },
+  {
+    "file": "16.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Banco_Central_de_Venezuela/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302023872
+  },
+  {
+    "file": "17.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/Apagones_de_Venezuela_de_2019/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302024367
+  },
+  {
+    "file": "18.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/2019_Venezuelan_blackouts/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302024870
+  },
+  {
+    "file": "19.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/es.wikipedia.org/all-access/user/CANTV/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302025371
+  },
+  {
+    "file": "20.txt",
+    "url": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/CANTV/daily/20260727/20260925",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790302080955
+  }
+]

@@ -1,0 +1,1 @@
+{"portal":"saime","host":"www.saime.gob.ve","at":1790301894461,"dns":{"addresses":["200.11.208.72"],"error":null,"ms":38},"http":{"status":200,"finalUrl":"https://www.saime.gob.ve/","ms":2679,"error":null},"tls":{"validTo":1791719681000,"authorized":true,"error":null}}

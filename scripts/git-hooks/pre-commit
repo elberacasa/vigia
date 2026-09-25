@@ -1,0 +1,3 @@
+#!/bin/sh
+# Green before every commit: format, lint, types, tests, client build.
+QUIET=1 bun run check
