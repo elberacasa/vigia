@@ -1,35 +1,49 @@
-VIGÍA · Venezuela ahora                         25 sept, 07:24 · hora de Caracas
+VIGÍA · Venezuela ahora                         25 sept, 10:01 · hora de Caracas
 ────────────────────────────────────────────────────────────────────────────────
-AHORA  Internet sin caídas por estado · Tormentas previstas en 7 capitales ·
-       Dólar BCV 855,66 Bs, Yadio +11,4 %
+AHORA  Posible apagón en Guárico (IODA y prensa, última señal hace 9 min) ·
+       Tormentas previstas en 7 capitales · Dólar BCV 855,66 Bs, Yadio +11,6 %
 
 DÓLAR
-  BCV oficial         855,66 Bs  +0,25 % en 24 h                  BCV · hace 7 h
-  Yadio (P2P)         953,18 Bs  brecha +11,4 %               Yadio · hace 4 min
+  BCV oficial         855,66 Bs  +0,25 % en 24 h                 BCV · hace 10 h
+  Yadio (P2P)         955,33 Bs  brecha +11,6 %               Yadio · hace 1 min
 
 INTERNET POR ESTADO (IODA, PEOR PRIMERO)
   Normales (24), % de lo normal a esta hora:
-  Lara 88%                  Guárico 90%               Miranda 96%
-  Zulia 96%                 Falcón 97%                Bolívar 97%
-  Carabobo 98%              La Guaira 99%             Distrito Capital 100%
-  Amazonas 100%             Anzoátegui 100%           Apure 100%
-  Cojedes 100%              Delta Amacuro 100%        Mérida 100%
-  Monagas 100%              Nueva Esparta 100%        Portuguesa 100%
-  Sucre 100%                Táchira 100%              Trujillo 100%
-  Yaracuy 100%              Aragua 100%               Barinas 100%
+  Apure 77%                 Guárico 87%               Miranda 97%
+  Falcón 97%                Nueva Esparta 97%         Anzoátegui 98%
+  Zulia 98%                 Monagas 99%               Distrito Capital 99%
+  Aragua 99%                Lara 99%                  Amazonas 100%
+  Bolívar 100%              Carabobo 100%             Cojedes 100%
+  Delta Amacuro 100%        La Guaira 100%            Mérida 100%
+  Portuguesa 100%           Sucre 100%                Táchira 100%
+  Trujillo 100%             Yaracuy 100%              Barinas 100%
   Sin datos (1): Dependencias Federales
-  IODA, Georgia Tech · hace 24 min
+  IODA, Georgia Tech · hace 21 min
 
 SISMOS, 24 H, VENEZUELA Y CERCA
-  M3,4  En el mar, a 31 km al ESE de Güiria (Sucre)          FUNVISIS · hace 4 h
-  M3,4  En el mar, a 33 km al ENE de Río Caribe (Sucre)      FUNVISIS · hace 6 h
-  M3,2  a 12 km al ESE de Palmasola (Yaracuy)                FUNVISIS · hace 5 h
-  M3,2  a 14 km al SSO de Yaguaraparo (Sucre)                FUNVISIS · hace 8 h
-  M3,0  a 15 km al NO de Campo Elías (Trujillo)             FUNVISIS · hace 17 h
-  y 9 más
+  M3,4  En el mar, a 31 km al ESE de Güiria (Sucre)          FUNVISIS · hace 7 h
+  M3,4  En el mar, a 33 km al ENE de Río Caribe (Sucre)      FUNVISIS · hace 8 h
+  M3,2  a 12 km al ESE de Palmasola (Yaracuy)                FUNVISIS · hace 7 h
+  M3,2  a 14 km al SSO de Yaguaraparo (Sucre)               FUNVISIS · hace 10 h
+  M3,0  a 15 km al NO de Campo Elías (Trujillo)             FUNVISIS · hace 20 h
+  y 7 más
 
 INCIDENTES (FUENTES INDEPENDIENTES QUE COINCIDEN)
-  Ninguna coincidencia ahora (no significa que no pase nada).
+  ● Posible apagón en Guárico                                        desde 08:43
+    2 fuentes independientes · IODA, prensa                    última hace 9 min
+
+SOLO REPORTES DE PRENSA (SIN MEDICIÓN)
+  ○ Posible apagón en Distrito Capital                               desde 08:27
+    solo reportes de 2 medios, sin medición                    última hace 4 min
+  ○ Posible apagón en Lara                                           desde 09:10
+    solo reportes de 2 medios, sin medición                   última hace 24 min
+  ○ Posible apagón en Mérida                                         desde 03:31
+    solo reportes de 3 medios, sin medición                   última hace 31 min
+  ○ Posible apagón en Zulia                                          desde 06:50
+    solo reportes de 5 medios, sin medición                   última hace 31 min
+  ○ Posible apagón en Táchira                                        desde 06:50
+    solo reportes de 2 medios, sin medición                      última hace 1 h
+  y 1 más
   11 terminados en 48 h
 
 ────────────────────────────────────────────────────────────────────────────────

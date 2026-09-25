@@ -12,14 +12,14 @@ no Bun, Node or Docker. The archives are a quarter to a half of the program's si
 
 | System | Download | Size | How to run |
 |---|---|---|---|
-| Windows (x64) | `vigia-<version>-windows-x64.zip` | 42 MB | right-click → "Extract All", then double-click `vigia.exe` in the extracted folder |
-| macOS (Apple silicon) | `vigia-<version>-darwin-arm64.tar.xz` | 19 MB | `tar -xf vigia-<version>-darwin-arm64.tar.xz && ./vigia-<version>-darwin-arm64/vigia` |
-| macOS (Intel) | `vigia-<version>-darwin-x64.tar.xz` | 23 MB | `tar -xf vigia-<version>-darwin-x64.tar.xz && ./vigia-<version>-darwin-x64/vigia` |
-| Linux (x64) | `vigia-<version>-linux-x64.tar.xz` | 30 MB | `tar -xf vigia-<version>-linux-x64.tar.xz && ./vigia-<version>-linux-x64/vigia` |
-| Linux (ARM64) | `vigia-<version>-linux-arm64.tar.xz` | 28 MB | `tar -xf vigia-<version>-linux-arm64.tar.xz && ./vigia-<version>-linux-arm64/vigia` |
+| Windows (x64) | `vigia-<version>-windows-x64.zip` | 44 MB | right-click → "Extract All", then double-click `vigia.exe` in the extracted folder |
+| macOS (Apple silicon) | `vigia-<version>-darwin-arm64.tar.xz` | 20 MB | `tar -xf vigia-<version>-darwin-arm64.tar.xz && ./vigia-<version>-darwin-arm64/vigia` |
+| macOS (Intel) | `vigia-<version>-darwin-x64.tar.xz` | 24 MB | `tar -xf vigia-<version>-darwin-x64.tar.xz && ./vigia-<version>-darwin-x64/vigia` |
+| Linux (x64) | `vigia-<version>-linux-x64.tar.xz` | 31 MB | `tar -xf vigia-<version>-linux-x64.tar.xz && ./vigia-<version>-linux-x64/vigia` |
+| Linux (ARM64) | `vigia-<version>-linux-arm64.tar.xz` | 29 MB | `tar -xf vigia-<version>-linux-arm64.tar.xz && ./vigia-<version>-linux-arm64/vigia` |
 
 Each archive holds one folder with the program (its executable bit kept), `LICENSE` and `NOTICE`. The same
-programs are also published uncompressed (`vigia-<version>-<system>`, 70 to 93 MB; on Linux and macOS run
+programs are also published uncompressed (`vigia-<version>-<system>`, 73 to 97 MB; on Linux and macOS run
 `chmod +x` on them first) for scripts and servers that prefer a single file.
 
 The files are not signed by Apple or Microsoft yet, so the first run asks for confirmation:

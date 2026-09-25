@@ -1,35 +1,49 @@
-VIGÍA · Venezuela now                               Sep 25, 07:24 · Caracas time
+VIGÍA · Venezuela now                               Sep 25, 10:01 · Caracas time
 ────────────────────────────────────────────────────────────────────────────────
-NOW    No internet drops by state · Storms forecast in 7 capitals · BCV dollar
-       Bs 855.66, Yadio +11.4%
+NOW    Possible blackout in Guárico (IODA and press, last signal 9 min ago) ·
+       Storms forecast in 7 capitals · BCV dollar Bs 855.66, Yadio +11.6%
 
 DOLLAR
-  BCV official        855.66 Bs  +0.25% in 24 h                    BCV · 7 h ago
-  Yadio (P2P)         953.18 Bs  gap +11.4%                    Yadio · 4 min ago
+  BCV official        855.66 Bs  +0.25% in 24 h                   BCV · 10 h ago
+  Yadio (P2P)         955.33 Bs  gap +11.6%                    Yadio · 1 min ago
 
 INTERNET BY STATE (IODA, WORST FIRST)
   Normal (24), % of normal for this hour:
-  Lara 88%                  Guárico 90%               Miranda 96%
-  Zulia 96%                 Falcón 97%                Bolívar 97%
-  Carabobo 98%              La Guaira 99%             Distrito Capital 100%
-  Amazonas 100%             Anzoátegui 100%           Apure 100%
-  Cojedes 100%              Delta Amacuro 100%        Mérida 100%
-  Monagas 100%              Nueva Esparta 100%        Portuguesa 100%
-  Sucre 100%                Táchira 100%              Trujillo 100%
-  Yaracuy 100%              Aragua 100%               Barinas 100%
+  Apure 77%                 Guárico 87%               Miranda 97%
+  Falcón 97%                Nueva Esparta 97%         Anzoátegui 98%
+  Zulia 98%                 Monagas 99%               Distrito Capital 99%
+  Aragua 99%                Lara 99%                  Amazonas 100%
+  Bolívar 100%              Carabobo 100%             Cojedes 100%
+  Delta Amacuro 100%        La Guaira 100%            Mérida 100%
+  Portuguesa 100%           Sucre 100%                Táchira 100%
+  Trujillo 100%             Yaracuy 100%              Barinas 100%
   No data (1): Dependencias Federales
-  IODA, Georgia Tech · 24 min ago
+  IODA, Georgia Tech · 21 min ago
 
 EARTHQUAKES, 24 H, VENEZUELA AND NEARBY
-  M3.4  En el mar, a 31 km al ESE de Güiria (Sucre)           FUNVISIS · 4 h ago
-  M3.4  En el mar, a 33 km al ENE de Río Caribe (Sucre)       FUNVISIS · 6 h ago
-  M3.2  a 12 km al ESE de Palmasola (Yaracuy)                 FUNVISIS · 5 h ago
-  M3.2  a 14 km al SSO de Yaguaraparo (Sucre)                 FUNVISIS · 8 h ago
-  M3.0  a 15 km al NO de Campo Elías (Trujillo)              FUNVISIS · 17 h ago
-  and 9 more
+  M3.4  En el mar, a 31 km al ESE de Güiria (Sucre)           FUNVISIS · 7 h ago
+  M3.4  En el mar, a 33 km al ENE de Río Caribe (Sucre)       FUNVISIS · 8 h ago
+  M3.2  a 12 km al ESE de Palmasola (Yaracuy)                 FUNVISIS · 7 h ago
+  M3.2  a 14 km al SSO de Yaguaraparo (Sucre)                FUNVISIS · 10 h ago
+  M3.0  a 15 km al NO de Campo Elías (Trujillo)              FUNVISIS · 20 h ago
+  and 7 more
 
 INCIDENTS (INDEPENDENT SOURCES THAT AGREE)
-  Nothing agrees right now (it does not mean nothing is happening).
+  ● Possible blackout in Guárico                                     since 08:43
+    2 independent sources · IODA, press                           last 9 min ago
+
+PRESS REPORTS ONLY (NO MEASUREMENT)
+  ○ Possible blackout in Distrito Capital                            since 08:27
+    reports only, 2 outlets, no measurement                       last 4 min ago
+  ○ Possible blackout in Lara                                        since 09:10
+    reports only, 2 outlets, no measurement                      last 24 min ago
+  ○ Possible blackout in Mérida                                      since 03:31
+    reports only, 3 outlets, no measurement                      last 31 min ago
+  ○ Possible blackout in Zulia                                       since 06:50
+    reports only, 5 outlets, no measurement                      last 31 min ago
+  ○ Possible blackout in Táchira                                     since 06:50
+    reports only, 2 outlets, no measurement                         last 1 h ago
+  and 1 more
   11 ended in the last 48 h
 
 ────────────────────────────────────────────────────────────────────────────────

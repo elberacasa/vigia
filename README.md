@@ -82,11 +82,11 @@ extract it and run `vigia` (sizes for 0.1.0):
 
 | System | Download | Run |
 |---|---|---|
-| Windows | `vigia-<version>-windows-x64.zip` (42 MB) | "Extract All", then double-click `vigia.exe` |
-| macOS | `vigia-<version>-darwin-arm64.tar.xz` (Apple silicon, 19 MB) or `-darwin-x64.tar.xz` (Intel, 23 MB) | `tar -xf vigia-*-darwin-*.tar.xz && ./vigia-*-darwin-*/vigia` |
-| Linux | `vigia-<version>-linux-x64.tar.xz` (30 MB) or `-linux-arm64.tar.xz` (28 MB) | `tar -xf vigia-*-linux-*.tar.xz && ./vigia-*-linux-*/vigia` |
+| Windows | `vigia-<version>-windows-x64.zip` (44 MB) | "Extract All", then double-click `vigia.exe` |
+| macOS | `vigia-<version>-darwin-arm64.tar.xz` (Apple silicon, 20 MB) or `-darwin-x64.tar.xz` (Intel, 24 MB) | `tar -xf vigia-*-darwin-*.tar.xz && ./vigia-*-darwin-*/vigia` |
+| Linux | `vigia-<version>-linux-x64.tar.xz` (31 MB) or `-linux-arm64.tar.xz` (29 MB) | `tar -xf vigia-*-linux-*.tar.xz && ./vigia-*-linux-*/vigia` |
 
-Uncompressed single files (70 to 93 MB) are published too.
+Uncompressed single files (73 to 97 MB) are published too.
 The files are not signed yet: macOS asks you to allow it once (System Settings → Privacy & Security → "Open
 Anyway"), and Windows SmartScreen asks too ("More info" → "Run anyway"). Each release publishes `SHA256SUMS`;
 [docs/SETUP.md](docs/SETUP.md) shows how to check your download.
