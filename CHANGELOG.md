@@ -6,6 +6,24 @@ All notable changes to Vigía are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-25
+
+### Fixed
+- Satellite panel plays its loop in place; "show on the map" switches the layer.
+- Gas-flares layer keeps the layer list compact; map states selectable by keyboard.
+- Nine interaction bugs found by a full click-through (collapsed rows, focus under fixed bars, phone overflow during
+  replay, Pared density on phones, /fuentes filter bar, Más sheet focus, multi-word search, /guia errors).
+- SQLite files are released on close: backups on Windows and restores on macOS work.
+- The web client builds on Windows.
+
+### Changed
+- YouTube feeds, the YouTube live check and robots-excluded outlets are on by default, each with a note and a switch.
+- The Gaceta lists public officials' appointments, promotions and removals with names; private persons' matters and
+  every ID number stay withheld.
+- bcv-api (github.com/elberacasa/bcv-api) is a second route to the BCV rate on every instance (`VIGIA_BCV_API=0` turns it off).
+
+Release notes: [docs/releases/v0.1.1.md](docs/releases/v0.1.1.md).
+
 ## [0.1.0] - 2026-09-25
 
 First public release. Release notes, in Spanish and English: [docs/releases/v0.1.0.md](docs/releases/v0.1.0.md).
