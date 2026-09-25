@@ -9,9 +9,18 @@ import type { FiresView } from "../panels/Earth.tsx";
 import type { SatelliteView } from "../panels/Imagery.tsx";
 import type { NewsView } from "../panels/News.tsx";
 import type { QuakesView } from "../panels/Quakes.tsx";
-import { FlareRow } from "./FlareLayer.tsx";
+import { FlareLegend, FlareRow } from "./FlareLayer.tsx";
 import { QuakeLegend } from "./QuakeLayer.tsx";
-import { type Shading, setLayer, shading, showFires, showQuakes, toggleFires, toggleQuakes } from "./view.ts";
+import {
+	type Shading,
+	setLayer,
+	shading,
+	showFires,
+	showFlares,
+	showQuakes,
+	toggleFires,
+	toggleQuakes,
+} from "./view.ts";
 
 /** Newest datum of a feed (or last check for event feeds), as "hace 18 min"; null when never fetched. */
 function feedAge(feed: string): string | null {
@@ -219,6 +228,7 @@ export function LayerList(props: { legend: ComponentChildren; unit: number; foot
 						<span class="note">{t("borde más tenue = más antiguo", "fainter outline = older")}</span>
 					</div>
 				) : null}
+				{showFlares.value ? <FlareLegend /> : null}
 			</div>
 			{props.footer}
 		</nav>

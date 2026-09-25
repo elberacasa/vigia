@@ -925,3 +925,19 @@
 	font-size: var(--fs-xs);
 	line-height: 1.35;
 }
+
+/* Gas flares key under the layer list (FlareLegend): one line, wraps on narrow columns. */
+.layers__flares {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 10px;
+	margin-top: 6px;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+}
+.flare-key {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	white-space: nowrap;
+}

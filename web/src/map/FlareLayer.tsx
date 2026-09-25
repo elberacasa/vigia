@@ -85,14 +85,43 @@ export function FlareRow() {
 				) : null}
 				{at ? <span class="layer-row__age">{ago(now.value - at, l)}</span> : null}
 			</label>
-			{on ? (
-				<p class="layer-row__note note">
-					{t(
-						"Cifra: con llama en las últimas 7 noches, de las instalaciones seguidas. Tamaño: potencia media por noche. Ámbar: fuera de lo habitual; hueco rojo: sin llama; gris: sin datos o sin línea base aún.",
-						"Figure: lit in the last 7 nights, of the facilities followed. Size: mean power per night. Amber: unusual; hollow red: no flame; grey: no data or no baseline yet.",
-					)}
-				</p>
-			) : null}
 		</li>
+	);
+}
+
+/**
+ * The flares' key, shown under the layer list while the layer is on (a compact legend like the quakes', so the list
+ * never grows a paragraph). The full rule is in the energy panel's ? sheet.
+ */
+export function FlareLegend() {
+	const items: { tone: string; es: string; en: string }[] = [
+		{ tone: "", es: "con llama", en: "lit" },
+		{ tone: "warn", es: "inusual", en: "unusual" },
+		{ tone: "alert", es: "sin llama", en: "no flame" },
+		{ tone: "muted", es: "sin datos", en: "no data" },
+	];
+	return (
+		<div
+			class="layers__flares"
+			title={t(
+				"Cifra: instalaciones con llama en las últimas 7 noches. Tamaño: potencia media por noche. Ámbar: fuera de lo habitual; hueco rojo: sin llama; gris: sin datos o sin línea base aún.",
+				"Figure: facilities lit in the last 7 nights. Size: mean power per night. Amber: unusual; hollow red: no flame; grey: no data or no baseline yet.",
+			)}
+		>
+			{items.map((i) => (
+				<span class="flare-key" key={i.es}>
+					<svg
+						width="10"
+						height="10"
+						viewBox="-5 -5 10 10"
+						aria-hidden="true"
+						class={i.tone ? `flare-mark--${i.tone}` : ""}
+					>
+						<rect x="-3.2" y="-3.2" width="6.4" height="6.4" class="flare" transform="rotate(45)" />
+					</svg>
+					{t(i.es, i.en)}
+				</span>
+			))}
+		</div>
 	);
 }
