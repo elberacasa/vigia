@@ -473,16 +473,16 @@
 	color: var(--text-3);
 	letter-spacing: 0;
 }
-.ahora--replay {
-	flex-wrap: wrap;
-}
+/* Replaying the map's history: the note shares the row with the sentence instead of wrapping onto a new one, which
+   pushed the whole wall (map and columns) 102 px down at 1920 px every time the slider left "now". */
 .ahora--replay .ahora__text {
 	flex: 1 1 0;
 	min-width: 0;
 }
 .ahora__replay {
 	order: 3;
-	flex-basis: 100%;
+	flex: 1 1 0;
+	min-width: 0;
 	margin: 0;
 	font-size: 13px;
 	color: var(--warn);
@@ -501,6 +501,11 @@
 	.ahora {
 		flex-direction: column;
 		gap: var(--s-1);
+	}
+	/* Stacked, the replay note is one more row (with a 100% basis in a wrapping column it sat in a second column
+	   off the right edge of the phone: 78 px of horizontal overflow). */
+	.ahora__replay {
+		flex-basis: auto;
 	}
 }
 .tile--nodata .tile__value {

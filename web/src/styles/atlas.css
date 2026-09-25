@@ -579,7 +579,6 @@ button.hbar__item[aria-pressed="true"] {
 /* Sticky only where there is room: on a phone the open filters would cover the list. */
 .cat__bar {
 	position: relative;
-	top: var(--topbar-h);
 	z-index: 5;
 	margin: 0 calc(-1 * var(--s-4));
 	padding: var(--s-3) var(--s-4);
@@ -747,8 +746,11 @@ button.hbar__item[aria-pressed="true"] {
 	font-size: var(--fs-sm);
 }
 @media (min-width: 900px) {
+	/* Sticky only here: below 900 px the bar is static, and its offset used to shift it 53 px down over the first
+	   rows of the catalogue (the first feed could not be tapped on a phone). */
 	.cat__bar {
 		position: sticky;
+		top: var(--topbar-h);
 	}
 	.cat__more {
 		display: none;

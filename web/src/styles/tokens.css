@@ -217,9 +217,13 @@
 	--fs-2xl: 1.625rem;
 	--gutter: 6px;
 }
-:root[data-density="pared"] {
-	font-size: 125%;
-	--topbar-h: 57px;
+/* Pared is for a screen across a room: from 1000 px only (the wall's own rotation is off on phones too). On a phone
+   the larger type pushed the preferences menu 31 px past the right edge and wrapped the map's title four times. */
+@media (min-width: 1000px) {
+	:root[data-density="pared"] {
+		font-size: 125%;
+		--topbar-h: 57px;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

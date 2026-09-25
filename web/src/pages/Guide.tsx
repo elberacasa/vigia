@@ -5,6 +5,7 @@ import { health, meta, metaById, refreshHealth } from "../lib/data.ts";
 import { lang, t } from "../lib/i18n.ts";
 import pagesCss from "../styles/pages.css?inline";
 import panelsCss from "../styles/panels.css?inline";
+import { send } from "../ui/custom/api.ts";
 import { StateBadge } from "../ui/Source.tsx";
 
 addStyles(panelsCss);
@@ -176,11 +177,17 @@ function OptInRow({ id }: { id: string }) {
 	if (!m || !why) return null;
 	// Opt-in feeds start off; noted feeds start on (until the health list says otherwise).
 	const on = h ? h.state !== "off" : !m.optIn;
+	const [error, setError] = useState<string | null>(null);
 	return (
 		<article class="optin">
 			<div>
 				<h3 class="key-card__title">{m.name[l]}</h3>
 				<p class="note">{why[l]}</p>
+				{error ? (
+					<p class="key-form__error" role="alert">
+						{error}
+					</p>
+				) : null}
 			</div>
 			<button
 				type="button"
@@ -188,7 +195,9 @@ function OptInRow({ id }: { id: string }) {
 				aria-checked={on}
 				class={`switch${on ? " is-on" : ""}`}
 				onClick={async () => {
-					await post(`/api/feeds/${id}/enabled`, { on: !on });
+					// A refused write (no session from the terminal link) used to change nothing and say nothing.
+					const sent = await send("POST", `/api/feeds/${id}/enabled`, { on: !on });
+					setError(sent.ok ? null : sent.error);
 					await refreshHealth();
 				}}
 			>

@@ -8,6 +8,9 @@
 html {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
+	/* Focus and scroll-into-view stop clear of the sticky header and the fixed status bar or tab bar (a control
+	   Tabbed to at the foot of the screen used to land under the status bar). */
+	scroll-padding: var(--topbar-h) 0 calc(var(--statusbar-h) + var(--tabbar-h)) 0;
 }
 body {
 	margin: 0;
@@ -371,9 +374,13 @@ button {
 .panel--collapsed .panel__toggle {
 	padding-top: 8px;
 }
-/* The age badge sits over the row's toggle: a tap on it opens the row (review 4, L14), it is not a control. */
-.panel--collapsed .panel__tools .badge--age {
+/* The age badge sits over the row's toggle: a tap on it opens the row (review 4, L14), it is not a control. The
+   tools box lets taps through too (a tap on the badge used to land on the box and do nothing); its controls keep them. */
+.panel--collapsed .panel__tools {
 	pointer-events: none;
+}
+.panel--collapsed .panel__tools > :not(.badge--age) {
+	pointer-events: auto;
 }
 .panel--collapsed .panel__question {
 	font-size: var(--fs-sm);

@@ -390,7 +390,8 @@ export function VenezuelaMap(props: {
 								class={`map-state map-state--${fill?.tone ?? "none"}${selected ? " is-selected" : ""}`}
 								style={fill?.intensity !== undefined ? { "--k": fill.intensity.toFixed(3) } : undefined}
 								role="button"
-								tabIndex={0}
+								// Lowercase: Preact sets SVG attributes verbatim, and an SVG "tabIndex" attribute does nothing.
+								tabindex={0}
 								aria-label={`${s.name}${fill?.label ? `: ${fill.label}` : ""}`}
 								aria-pressed={selected}
 								onClick={() => select(selected ? null : s.iso)}

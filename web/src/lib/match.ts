@@ -72,11 +72,26 @@ export interface Searchable {
 
 /**
  * Lower is better; null = no match. 0: the label starts with the query; 1: a word of the label does; 2: the label
- * contains it; 3: a keyword starts with it; 4: a keyword contains it; +5 when only a synonym matched.
+ * contains it; 3: a keyword starts with it; 4: a keyword contains it; +5 when only a synonym matched. A query of
+ * several words that matches no item as a phrase matches when each word does (score: the weakest word's + 1).
  */
 export function score(item: { label: string; words: readonly string[] }, query: string): number | null {
 	const q = fold(query);
 	if (!q) return 0;
+	const whole = scoreWord(item, q);
+	if (whole !== null || !q.includes(" ")) return whole;
+	// Several words that are not one phrase ("capa satelite", "internet zulia"): every word must match somewhere,
+	// label or keyword; the item ranks by its weakest word, one step below a phrase match.
+	let worst = 0;
+	for (const w of q.split(" ")) {
+		const s = scoreWord(item, w);
+		if (s === null) return null;
+		worst = Math.max(worst, s);
+	}
+	return worst + 1;
+}
+
+function scoreWord(item: { label: string; words: readonly string[] }, q: string): number | null {
 	const direct = scoreOne(item, q);
 	if (direct !== null) return direct;
 	let best: number | null = null;

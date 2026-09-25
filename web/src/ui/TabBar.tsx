@@ -144,6 +144,9 @@ function MoreSheet() {
 		moreOpen.value = false;
 	};
 	const pick = (id: PanelId) => {
+		// Close the dialog now, not in the effect after the next render: its closing hands the focus back to "Más",
+		// and done later that undid reveal's move of the focus onto the picked panel.
+		ref.current?.close();
 		close();
 		reveal(id, true);
 	};
