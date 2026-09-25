@@ -5,11 +5,18 @@ import {
 	mkdirSync,
 	readFileSync,
 	renameSync,
-	rmSync,
 	statSync,
 	writeFileSync,
 } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
+import {
+	closeDatabase,
+	moveDatabase,
+	removeDatabase,
+	removePath,
+	retryBusy,
+	SIDECARS,
+} from "../core/sqlite-files.ts";
 import { SCHEMA_VERSION, Store } from "../core/store.ts";
 import { chain, verifyChain } from "../intel/chain.ts";
 import { acquireInstanceLock } from "./instance-lock.ts";
@@ -26,6 +33,10 @@ import { acquireInstanceLock } from "./instance-lock.ts";
  * Restore refuses while Vigía is running, verifies the file (and its manifest when present), keeps the current
  * database aside instead of deleting it, puts the copy in place, and verifies again from the restored location
  * (integrity, chain, row counts equal to the backup's); any failure puts the previous database back.
+ *
+ * Every connection is closed with `closeDatabase` before its file is moved or deleted, and a database always moves
+ * with its sidecars (see sqlite-files.ts): on Windows an open handle makes the delete fail (EBUSY), and on macOS a
+ * file moved from under an open connection reads back as "disk I/O error".
  *
  * Keys and settings are not in the archive and are never copied (they live in the config directory; see
  * `vigia paths`). Stored images (blobs) are a rolling cache with their own retention and are not included.
@@ -118,7 +129,7 @@ export function checkDatabase(path: string, scratchDir: string): BackupCheck {
 	} catch (error) {
 		problems.push(`No se pudo abrir como SQLite: ${error instanceof Error ? error.message : String(error)}`);
 	} finally {
-		db?.close();
+		closeDatabase(db);
 	}
 	if (problems.length) return { ok: false, problems, schema, tables, sealedDays: 0, chainHead: null };
 
@@ -140,7 +151,7 @@ export function checkDatabase(path: string, scratchDir: string): BackupCheck {
 			store.close();
 		}
 	} finally {
-		for (const suffix of ["", "-wal", "-shm"]) rmSync(`${scratch}${suffix}`, { force: true });
+		removeDatabase(scratch);
 	}
 	return { ok: problems.length === 0, problems, schema, tables, sealedDays, chainHead };
 }
@@ -171,22 +182,31 @@ export function backup(options: {
 	}
 	mkdirSync(dirname(dest), { recursive: true });
 	const source = new Database(dbPath, { readonly: true, strict: true });
+	let failed: unknown = null;
 	try {
 		source.run("PRAGMA busy_timeout = 10000");
 		source.run("VACUUM INTO ?", [dest]);
 	} catch (error) {
-		out(`No se pudo copiar: ${error instanceof Error ? error.message : String(error)}`);
-		rmSync(dest, { force: true });
-		return null;
+		failed = error;
 	} finally {
-		source.close();
+		closeDatabase(source);
 	}
-	const check = checkDatabase(dest, join(dirname(dest), ".verificando"));
-	rmSync(join(dirname(dest), ".verificando"), { recursive: true, force: true });
+	if (failed !== null) {
+		out(`No se pudo copiar: ${failed instanceof Error ? failed.message : String(failed)}`);
+		removeDatabase(dest);
+		return null;
+	}
+	const scratch = join(dirname(dest), ".verificando");
+	let check: BackupCheck;
+	try {
+		check = checkDatabase(dest, scratch);
+	} finally {
+		removePath(scratch);
+	}
 	if (!check.ok) {
 		for (const p of check.problems) out(`✗ ${p}`);
 		out("La copia no pasó la verificación; se borró.");
-		rmSync(dest, { force: true });
+		removeDatabase(dest);
 		return null;
 	}
 	const manifest: Manifest = {
@@ -218,7 +238,7 @@ function sealedDigests(path: string): Map<string, string> | null {
 	} catch {
 		return null;
 	} finally {
-		db?.close();
+		closeDatabase(db);
 	}
 }
 
@@ -296,12 +316,24 @@ function restoreLocked(options: {
 		out("✓ Huella SHA-256 igual a la del manifiesto");
 	} else out("(Sin manifiesto junto al archivo: se verifica solo su contenido.)");
 
+	// Only the file itself is copied into place: changes still waiting in a log beside it would be verified here and
+	// then lost. A backup made by `vigia backup` never has one.
+	if (existsSync(`${file}-wal`) && statSync(`${file}-wal`).size > 0) {
+		out(
+			`✗ ${file} tiene cambios sin consolidar en ${basename(file)}-wal: no es un archivo único. Cierre el programa que lo usa, o haga el respaldo con «vigia backup».`,
+		);
+		return done(1);
+	}
 	const scratch = join(dataDir, ".verificando");
-	const before = checkDatabase(file, scratch);
+	let before: BackupCheck;
+	try {
+		before = checkDatabase(file, scratch);
+	} finally {
+		removePath(scratch);
+	}
 	if (!before.ok) {
 		for (const p of before.problems) out(`✗ ${p}`);
 		out("El respaldo no pasó la verificación; no se cambió nada.");
-		rmSync(scratch, { recursive: true, force: true });
 		return done(1);
 	}
 	out(
@@ -343,32 +375,40 @@ function restoreLocked(options: {
 			);
 	}
 
-	// Keep the current database aside (checkpointed into one file first), never delete it.
+	// Keep the current database aside, never delete it. Folded into one self-contained file first (WAL checkpointed
+	// and turned off, every handle closed), so the copy aside opens on its own wherever it is later moved.
+	const when = stamp(options.now ?? Date.now());
 	let aside: string | null = null;
 	if (existsSync(dbPath)) {
+		let current: Database | null = null;
 		try {
-			const current = new Database(dbPath, { strict: true });
+			current = new Database(dbPath, { strict: true });
+			current.run("PRAGMA busy_timeout = 5000");
 			current.run("PRAGMA wal_checkpoint(TRUNCATE)");
-			current.close();
+			current.run("PRAGMA journal_mode = DELETE");
 		} catch {
-			// A damaged current database is exactly why one restores; move it aside as it is.
+			// A damaged current database is exactly why one restores; it moves aside as it is, sidecars included.
+		} finally {
+			closeDatabase(current);
 		}
-		aside = `${dbPath}.antes-de-restaurar-${stamp(options.now ?? Date.now())}`;
-		renameSync(dbPath, aside);
-		for (const suffix of ["-wal", "-shm"])
-			if (existsSync(`${dbPath}${suffix}`)) renameSync(`${dbPath}${suffix}`, `${aside}${suffix}`);
+		aside = `${dbPath}.antes-de-restaurar-${when}`;
+		moveDatabase(dbPath, aside);
+	} else if (SIDECARS.some((suffix) => existsSync(`${dbPath}${suffix}`))) {
+		// A log without its database would be replayed into the restored file and corrupt it: set it apart.
+		const orphans = `${dbPath}.huerfanos-${when}`;
+		for (const suffix of SIDECARS)
+			if (existsSync(`${dbPath}${suffix}`))
+				retryBusy(() => renameSync(`${dbPath}${suffix}`, `${orphans}${suffix}`));
+		out(`! Había archivos ${SIDECARS.join(", ")} sin su base de datos; se apartaron como ${orphans}-*.`);
 	}
 	const rollback = () => {
-		for (const suffix of ["", "-wal", "-shm"]) rmSync(`${dbPath}${suffix}`, { force: true });
-		if (aside) {
-			renameSync(aside, dbPath);
-			for (const suffix of ["-wal", "-shm"])
-				if (existsSync(`${aside}${suffix}`)) renameSync(`${aside}${suffix}`, `${dbPath}${suffix}`);
-		}
+		removeDatabase(dbPath);
+		if (aside) moveDatabase(aside, dbPath);
 	};
+	const incoming = `${dbPath}.restaurando`;
 	try {
-		copyFileSync(file, `${dbPath}.restaurando`);
-		renameSync(`${dbPath}.restaurando`, dbPath);
+		copyFileSync(file, incoming);
+		retryBusy(() => renameSync(incoming, dbPath));
 		const after = checkDatabase(dbPath, scratch);
 		const same =
 			JSON.stringify(after.tables) === JSON.stringify(before.tables) && after.chainHead === before.chainHead;
@@ -385,8 +425,8 @@ function restoreLocked(options: {
 		out("Se devolvió la base de datos anterior.");
 		return done(1);
 	} finally {
-		rmSync(scratch, { recursive: true, force: true });
-		rmSync(`${dbPath}.restaurando`, { force: true });
+		removePath(scratch);
+		removePath(incoming);
 	}
 	out("✓ Restaurado y verificado en su lugar: mismas filas por tabla y misma cabeza de la cadena");
 	if (aside) out(`La base de datos anterior quedó en ${aside} (bórrela cuando ya no la necesite).`);

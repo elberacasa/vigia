@@ -1,6 +1,7 @@
 import { Database } from "bun:sqlite";
 import { existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { closeDatabase } from "../core/sqlite-files.ts";
 
 /**
  * One Vigía per data directory (review 4 L5). A pid file is only a note: two servers started together both write
@@ -35,7 +36,7 @@ export function acquireInstanceLock(dataDir: string, pid = process.pid): LockRes
 				if (released) return;
 				released = true;
 				rmSync(pidFile, { force: true });
-				db.close();
+				closeDatabase(db);
 			},
 		},
 	};
@@ -46,7 +47,7 @@ export function lockHolder(dataDir: string): number | null | false {
 	if (!existsSync(join(dataDir, LOCK_FILE))) return false;
 	const probe = tryLock(dataDir, 0);
 	if (!probe) return readPid(dataDir);
-	probe.close();
+	closeDatabase(probe);
 	return false;
 }
 
@@ -66,7 +67,7 @@ function tryLock(dataDir: string, pid: number): Database | null {
 		db.run("COMMIT");
 		return db;
 	} catch {
-		db?.close();
+		closeDatabase(db);
 		return null;
 	}
 }

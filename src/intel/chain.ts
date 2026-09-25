@@ -467,7 +467,7 @@ export function* sealWork(store: Store, now: number): Generator<void, ChainEntry
 				.query<{ t: number | null }, [number]>("SELECT MIN(fetched_at) AS t FROM obs WHERE fetched_at >= ?")
 				.get(EARLIEST)?.t ?? null);
 	if (first === null) return [];
-	const insert = store.db.prepare(
+	const insert = store.db.query(
 		"INSERT INTO chain (day, rows, root, prev, digest, sealed_at, format, leaves) VALUES (?, ?, ?, ?, ?, ?, ?, 1)",
 	);
 	const sealed: ChainEntry[] = [];
@@ -548,8 +548,8 @@ export function* pruneWork(store: Store, before: number, now: number): Generator
 		if (!formats.has(day)) formats.set(day, chainEntry(store, day)?.format ?? null);
 		return formats.get(day) ?? null;
 	};
-	const tomb = store.db.prepare("INSERT OR IGNORE INTO chain_pruned (day, hash, pruned_at) VALUES (?, ?, ?)");
-	const del = store.db.prepare("DELETE FROM obs WHERE id = ?");
+	const tomb = store.db.query("INSERT OR IGNORE INTO chain_pruned (day, hash, pruned_at) VALUES (?, ?, ?)");
+	const del = store.db.query("DELETE FROM obs WHERE id = ?");
 	let deleted = 0;
 	for (let i = 0; i < ids.length; i += CHUNK) {
 		const rows = pick.all(JSON.stringify(ids.slice(i, i + CHUNK)));
@@ -597,8 +597,8 @@ export function redactRows(
 	const rows = store.db
 		.query<RawRow & { id: number }, [string]>(`SELECT id, ${ROW_COLUMNS} FROM obs WHERE source = ?`)
 		.all(source);
-	const tomb = store.db.prepare("INSERT OR IGNORE INTO chain_pruned (day, hash, pruned_at) VALUES (?, ?, ?)");
-	const del = store.db.prepare("DELETE FROM obs WHERE id = ?");
+	const tomb = store.db.query("INSERT OR IGNORE INTO chain_pruned (day, hash, pruned_at) VALUES (?, ?, ?)");
+	const del = store.db.query("DELETE FROM obs WHERE id = ?");
 	const formats = new Map<string, string | null>();
 	let rewritten = 0;
 	store.db.transaction(() => {

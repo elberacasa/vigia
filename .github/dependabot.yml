@@ -1,13 +1,8 @@
 version: 2
 updates:
-  - package-ecosystem: bun
-    directory: /
-    schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
-    groups:
-      dev-tools:
-        dependency-type: development
+  # No bun (npm) ecosystem entry: Dependabot cannot read bun.lock at lockfileVersion 2 yet (its bun support stops at
+  # version 1), so every scheduled run for it failed without opening a single pull request. Dependencies are updated
+  # by hand with `bun update` and `bun run check`; add the entry back once Dependabot reads lockfileVersion 2.
   - package-ecosystem: github-actions
     directory: /
     schedule:

@@ -1,8 +1,9 @@
 import { Database } from "bun:sqlite";
 import { afterEach, expect, test } from "bun:test";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { openFilesUnder, removePath } from "../core/sqlite-files.ts";
 import { Store } from "../core/store.ts";
 import type { Observation } from "../core/types.ts";
 import { chain, sealDays } from "../intel/chain.ts";
@@ -13,7 +14,12 @@ const HOUR = 3_600_000;
 const D1 = Date.UTC(2026, 8, 22, 10);
 const dirs: string[] = [];
 afterEach(() => {
-	for (const d of dirs.splice(0)) rmSync(d, { recursive: true, force: true });
+	for (const d of dirs.splice(0)) {
+		// Every connection must be closed by now: Windows refuses to delete an open file (EBUSY), and on Linux the
+		// open descriptors show it directly.
+		expect(openFilesUnder(d) ?? []).toEqual([]);
+		removePath(d);
+	}
 });
 
 const obs = (series: string, at: number, v: number): Observation => ({
@@ -127,10 +133,56 @@ test("restore: refuses while Vigía runs, verifies, keeps the old database aside
 	expect(restored.db.query<{ n: number }, []>("SELECT COUNT(*) AS n FROM obs").get()?.n).toBe(4);
 	expect(chain(restored).at(-1)?.digest).toBe(head);
 	restored.close();
-	// The previous database, with the late row, is kept.
-	const old = new Database(result.aside ?? "", { readonly: true });
-	expect(old.query<{ n: number }, []>("SELECT COUNT(*) AS n FROM obs").get()?.n).toBe(5);
-	old.close();
+	// The previous database, with the late row, is kept as one self-contained file: no log or shared memory beside
+	// it (macOS read an aside moved without them as "disk I/O error"), readable wherever it is copied alone.
+	const aside = result.aside ?? "";
+	for (const suffix of ["-wal", "-shm", "-journal"]) expect(existsSync(`${aside}${suffix}`)).toBe(false);
+	mkdirSync(join(dir, "elsewhere"));
+	const alone = join(dir, "elsewhere", "old.sqlite");
+	copyFileSync(aside, alone);
+	for (const path of [aside, alone]) {
+		const old = new Database(path, { readonly: true });
+		expect(old.query<{ n: number }, []>("SELECT COUNT(*) AS n FROM obs").get()?.n).toBe(5);
+		expect(old.query<{ ok: string }, []>("PRAGMA integrity_check").get()?.ok ?? "ok").toBe("ok");
+		old.close();
+	}
+	// Nothing temporary is left in the data directory.
+	expect(existsSync(join(dir, ".verificando"))).toBe(false);
+	expect(existsSync(`${db}.restaurando`)).toBe(false);
+});
+
+test("restore sets apart a log left without its database instead of replaying it into the restored file", () => {
+	const { dir, db } = seeded();
+	const made = backup({ dbPath: db, dest: join(dir, "copia.sqlite"), version: "test", out: () => {} });
+	if (!made) throw new Error("no backup");
+	removePath(db);
+	writeFileSync(`${db}-wal`, "not a log of this file");
+	const log = lines();
+	const result = restore({ file: made.path, dbPath: db, force: false, now: D1 + 90 * HOUR, out: log.push });
+	expect(result.code).toBe(0);
+	expect(result.aside).toBeNull();
+	expect(existsSync(`${db}.huerfanos-20260926-040000-wal`)).toBe(true);
+	expect(log.out.join("\n")).toContain("sin su base de datos");
+	const restored = new Store(db);
+	expect(restored.db.query<{ n: number }, []>("SELECT COUNT(*) AS n FROM obs").get()?.n).toBe(4);
+	restored.close();
+});
+
+test("restore refuses a database whose changes still sit in a log beside it", () => {
+	const { dir, db } = seeded();
+	// A live database copied with its WAL: the file alone would lose the logged rows.
+	const live = new Database(join(dir, "vivo.sqlite"), { create: true });
+	live.run("PRAGMA journal_mode = WAL");
+	live.run("PRAGMA wal_autocheckpoint = 0");
+	live.run("CREATE TABLE t (x)");
+	live.run("INSERT INTO t VALUES (1)");
+	copyFileSync(join(dir, "vivo.sqlite"), join(dir, "copia.sqlite"));
+	copyFileSync(join(dir, "vivo.sqlite-wal"), join(dir, "copia.sqlite-wal"));
+	live.close(true);
+	const log = lines();
+	expect(restore({ file: join(dir, "copia.sqlite"), dbPath: db, force: false, out: log.push }).code).toBe(1);
+	expect(log.out.join("\n")).toContain("copia.sqlite-wal");
+	expect(existsSync(db)).toBe(true);
 });
 
 test("restore refuses a tampered backup and changes nothing", () => {

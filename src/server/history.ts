@@ -246,7 +246,7 @@ export class LevelArchive {
 		const changedIn = db.query<{ series: string; t: number }, [number, number]>(
 			"SELECT series, MIN(observed_at) AS t FROM obs WHERE id > ? AND id <= ? AND +source = 'ioda-states' GROUP BY series",
 		);
-		const drop = db.prepare("DELETE FROM history_levels WHERE iso = ? AND at > ?");
+		const drop = db.query("DELETE FROM history_levels WHERE iso = ? AND at > ?");
 		for (let since = this.#meta(WATERMARK_KEY) ?? 0; since < top; ) {
 			const until = Math.min(top, since + chunk);
 			db.transaction(() => {
@@ -291,7 +291,7 @@ export class LevelArchive {
 	write(iso: string, rows: readonly (readonly [number, LevelCode])[]): void {
 		if (rows.length === 0) return;
 		const db = this.#store.db;
-		const put = db.prepare("INSERT OR REPLACE INTO history_levels (iso, at, code) VALUES (?, ?, ?)");
+		const put = db.query("INSERT OR REPLACE INTO history_levels (iso, at, code) VALUES (?, ?, ?)");
 		db.transaction(() => {
 			for (const [at, code] of rows) put.run(iso, at, code);
 		})();

@@ -1,4 +1,5 @@
 import { Database, type Statement } from "bun:sqlite";
+import { closeDatabase } from "./sqlite-files.ts";
 import type { Basis, GeoPoint, Json, Observation } from "./types.ts";
 
 /**
@@ -324,8 +325,9 @@ export class Store {
 		);
 	}
 
+	/** Releases the database's files now (every statement finalized), so they can be moved or deleted at once. */
 	close(): void {
-		this.db.close();
+		closeDatabase(this.db);
 	}
 }
 

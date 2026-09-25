@@ -1,6 +1,9 @@
 import { beforeAll, expect, test } from "bun:test";
 
 // layout.ts reads the viewport, storage and document at import: give it a minimal browser (a phone, empty storage).
+// Every test file runs in one process and a module is evaluated once, so when another file (views.test.ts, a desk)
+// imported layout.ts first, its viewport was measured there: tests that depend on the form set `viewport` themselves
+// (file order differs by OS: macOS ran views.test.ts first and this test failed there only).
 const store = new Map<string, string>();
 beforeAll(() => {
 	Object.assign(globalThis, {
@@ -40,8 +43,17 @@ test("a corrupt or outdated saved layout is repaired, never trusted", async () =
 });
 
 test("phones start collapsed; moves stay within the list and are saved", async () => {
-	const { isCollapsed, setCollapsed, movePanel, visibleOrder, hidePanel, hiddenPanels, resetLayout } =
-		await load();
+	const {
+		isCollapsed,
+		setCollapsed,
+		movePanel,
+		visibleOrder,
+		hidePanel,
+		hiddenPanels,
+		resetLayout,
+		viewport,
+	} = await load();
+	viewport.value = "phone";
 	resetLayout();
 	expect(isCollapsed("dinero")).toBe(true);
 	setCollapsed("dinero", false);
@@ -55,4 +67,18 @@ test("phones start collapsed; moves stay within the list and are saved", async (
 	expect(JSON.parse(store.get("vigia:layout:v1") ?? "{}").hidden).toEqual(["conectividad"]);
 	resetLayout();
 	expect(hiddenPanels()).toEqual([]);
+});
+
+test("desks start open; each form keeps its own collapsed state", async () => {
+	const { isCollapsed, setCollapsed, resetLayout, viewport } = await load();
+	resetLayout();
+	viewport.value = "mid";
+	expect(isCollapsed("dinero")).toBe(false);
+	setCollapsed("dinero", true);
+	viewport.value = "phone";
+	expect(isCollapsed("dinero")).toBe(true);
+	setCollapsed("dinero", false);
+	viewport.value = "mid";
+	expect(isCollapsed("dinero")).toBe(true);
+	resetLayout();
 });

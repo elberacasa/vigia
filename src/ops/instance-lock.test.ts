@@ -1,12 +1,17 @@
 import { afterEach, expect, test } from "bun:test";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { openFilesUnder, removePath } from "../core/sqlite-files.ts";
 import { acquireInstanceLock, lockHolder } from "./instance-lock.ts";
 
 const dirs: string[] = [];
 afterEach(() => {
-	for (const d of dirs.splice(0)) rmSync(d, { recursive: true, force: true });
+	for (const d of dirs.splice(0)) {
+		// A released lock holds nothing open (Windows cannot delete an open file; Linux shows the descriptors).
+		expect(openFilesUnder(d) ?? []).toEqual([]);
+		removePath(d);
+	}
 });
 const dir = () => {
 	const d = mkdtempSync(join(tmpdir(), "vigia-lock-"));
