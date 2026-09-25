@@ -66,7 +66,12 @@ export function Hero({ lang }: { lang: Lang }) {
 						)}
 					</p>
 					<div className="mt-9 flex flex-wrap items-center gap-3">
-						<a href={`${REPO}/releases/latest`} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+						<a
+							href={`${REPO}/releases/latest`}
+							className="btn btn-primary"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
 							<Download />
 							{t("Descargar", "Download")}
 						</a>

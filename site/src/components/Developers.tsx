@@ -196,7 +196,8 @@ export function Developers({ lang }: { lang: Lang }) {
 						<a
 							className="text-[0.75rem] text-text-3 transition-colors hover:text-text"
 							href={blob("src/core/types.ts")}
-							target="_blank" rel="noopener noreferrer"
+							target="_blank"
+							rel="noopener noreferrer"
 						>
 							{t("ver en GitHub", "view on GitHub")}
 						</a>
@@ -229,7 +230,8 @@ export function Developers({ lang }: { lang: Lang }) {
 						<a
 							className="group mt-5 inline-flex items-center gap-1.5 text-[0.9375rem] font-medium text-text"
 							href={blob("docs/ADAPTERS.md")}
-							target="_blank" rel="noopener noreferrer"
+							target="_blank"
+							rel="noopener noreferrer"
 						>
 							{t("La guía completa", "The full guide")}
 							<span className="transition-transform group-hover:translate-x-0.5">
@@ -252,18 +254,25 @@ export function Developers({ lang }: { lang: Lang }) {
 							<a
 								className="btn btn-ghost !h-10 text-[0.875rem]"
 								href={blob("CONTRIBUTING.md")}
-								target="_blank" rel="noopener noreferrer"
+								target="_blank"
+								rel="noopener noreferrer"
 							>
 								{t("Cómo contribuir", "How to contribute")}
 							</a>
 							<a
 								className="btn btn-ghost !h-10 text-[0.875rem]"
 								href={blob("docs/ARCHITECTURE.md")}
-								target="_blank" rel="noopener noreferrer"
+								target="_blank"
+								rel="noopener noreferrer"
 							>
 								{t("Arquitectura", "Architecture")}
 							</a>
-							<a className="btn btn-ghost !h-10 text-[0.875rem]" href={REPO} target="_blank" rel="noopener noreferrer">
+							<a
+								className="btn btn-ghost !h-10 text-[0.875rem]"
+								href={REPO}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								<GitHubIcon />
 								{t("Código", "Code")}
 							</a>

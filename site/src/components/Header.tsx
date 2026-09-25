@@ -102,7 +102,8 @@ export function Header({ lang }: { lang: Lang }) {
 					<a
 						href={REPO}
 						className="btn btn-ghost !h-9 !px-3 ml-1.5 hidden text-[0.875rem] sm:inline-flex"
-						target="_blank" rel="noopener noreferrer"
+						target="_blank"
+						rel="noopener noreferrer"
 					>
 						<GitHubIcon />
 						GitHub
@@ -144,7 +145,12 @@ export function Header({ lang }: { lang: Lang }) {
 						</li>
 					))}
 					<li>
-						<a href={REPO} className="block rounded-md py-3 text-[1.0625rem] text-text" target="_blank" rel="noopener noreferrer">
+						<a
+							href={REPO}
+							className="block rounded-md py-3 text-[1.0625rem] text-text"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
 							GitHub
 						</a>
 					</li>

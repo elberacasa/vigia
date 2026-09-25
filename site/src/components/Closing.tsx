@@ -122,7 +122,12 @@ export function FinalCta({ lang }: { lang: Lang }) {
 					)}
 				</p>
 				<div className="mt-9 flex flex-wrap justify-center gap-3">
-					<a href={`${REPO}/releases/latest`} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
+					<a
+						href={`${REPO}/releases/latest`}
+						className="btn btn-primary"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						<Download />
 						{t("Descargar", "Download")}
 					</a>
@@ -191,7 +196,8 @@ export function Footer({ lang }: { lang: Lang }) {
 										<a
 											href={href}
 											className="text-[0.875rem] text-text-3 transition-colors hover:text-text"
-											target="_blank" rel="noopener noreferrer"
+											target="_blank"
+											rel="noopener noreferrer"
 										>
 											{label}
 										</a>
@@ -204,7 +210,12 @@ export function Footer({ lang }: { lang: Lang }) {
 				<div className="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-[0.8125rem] text-text-3 sm:flex-row sm:items-center sm:justify-between">
 					<p>
 						{t("Hecho por ", "Made by ")}
-						<a className="link" href="https://github.com/elberacasa" target="_blank" rel="noopener noreferrer">
+						<a
+							className="link"
+							href="https://github.com/elberacasa"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
 							elberacasa
 						</a>
 						{t(
