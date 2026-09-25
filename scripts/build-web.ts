@@ -96,7 +96,7 @@ if (!result.success) {
 }
 // Static files (fonts with a version in the name, icons, manifest) are copied as-is; the page links them after the
 // build (Bun's HTML bundler would try to resolve absolute links).
-await Bun.$`cp -r ${join(root, "web", "static")}/. ${outdir}/`.quiet();
+cpSync(join(root, "web", "static"), outdir, { recursive: true });
 {
 	const indexPath = join(outdir, "index.html");
 	const html = await Bun.file(indexPath).text();
