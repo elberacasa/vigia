@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { ConfigError, clientAddress, loadConfig, unknownOptions } from "./config.ts";
+import { ConfigError, clientAddress, deployDisables, loadConfig, unknownOptions } from "./config.ts";
 import { toLine, useJsonLogs } from "./log.ts";
 
 test("defaults: local mode on loopback, CORS off, metrics for this machine, text logs", () => {
@@ -13,7 +13,22 @@ test("defaults: local mode on loopback, CORS off, metrics for this machine, text
 		trustProxy: [],
 		noFetch: false,
 		noOpen: false,
+		bcvApi: true,
 	});
+});
+
+test("bcv-api is on by default on every deployment, public mirrors included; VIGIA_BCV_API=0 turns it off", () => {
+	expect(loadConfig([], {}).bcvApi).toBe(true);
+	expect(loadConfig(["--public"], {}).bcvApi).toBe(true);
+	expect(loadConfig([], { VIGIA_BCV_API: "off" }).bcvApi).toBe(false);
+	expect(loadConfig(["--public"], { VIGIA_BCV_API: "0" }).bcvApi).toBe(false);
+	expect(loadConfig([], { VIGIA_BCV_API: "1" }).bcvApi).toBe(true);
+	expect(() => loadConfig([], { VIGIA_BCV_API: "quizás" })).toThrow(/VIGIA_BCV_API debe ser 1 o 0/);
+	// Only bcv-api is affected, and only when the deployment turned it off.
+	expect(deployDisables("bcv-api", { bcvApi: false })).toBe(true);
+	expect(deployDisables("bcv-api", { bcvApi: true })).toBe(false);
+	expect(deployDisables("bcv-api", undefined)).toBe(false);
+	expect(deployDisables("bcv-official", { bcvApi: false })).toBe(false);
 });
 
 test("public mode turns CORS on and never opens a browser; flags win over the environment", () => {

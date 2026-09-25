@@ -65,6 +65,9 @@ export const Source = z
 				.meta({ description: "Un dato más viejo que esto la marca atrasada (null: fuente de eventos)." }),
 		}),
 		optIn: Bilingual.nullable().meta({ description: "Apagada por defecto, y por qué." }),
+		note: Bilingual.nullable().meta({
+			description: "Encendida por defecto, con una nota sobre cómo la lee Vigía (se puede apagar).",
+		}),
 		panels: z.array(z.string()).meta({ description: "Paneles que la usan." }),
 		rawAvailable: z.boolean().meta({ description: "Si /sources/{id}/series publica sus filas." }),
 	})

@@ -21,10 +21,11 @@ import { type ActCategory, classifyAct, stripIds } from "./redact.ts";
  * Some older extraordinary issues have no sumario rows (e.g. N° 6.691 of 2022): they are kept with `actsListed`
  * false and the panel points to the PDF.
  *
- * Privacy (code review 4, H1): sumarios name people (appointments, pensions, delegations), often
- * private ones. A title is kept word for word only when `classifyAct` (redact.ts) finds an act form that names no
- * one and nothing that points at a person; every other act keeps only its category ("designación", "jubilación o
- * pensión"…), which the panel counts. Identity numbers are stripped from every stored string. This happens in
+ * Privacy (code review 4, H1; the project's decision of 2026-09-25): sumarios name people. Public officials acting
+ * in office are named as the gazette names them: appointments, transfers, delegations, promotions, removals,
+ * decorations, and other acts naming officials in their capacity are kept word for word. Pensions, retirements and any other personal benefit are about private individuals: those
+ * acts keep only their category ("jubilación o pensión"…), which the panel counts, as does any act `classifyAct`
+ * (redact.ts) cannot place (default deny). Identity numbers are stripped from every stored string. This happens in
  * `parseIssue`, before anything is stored, and `purgeStoredGaceta` re-applies it to rows stored by older versions.
  * The rows are not handed out raw (`raw: false`): only the panel's derived view is served. Raw pages carry the
  * names, so recorded fixtures stay internal (scripts/export/policy.ts) and a synthetic test covers the parser.
@@ -59,7 +60,10 @@ export type GacetaAct = {
 	organ: string;
 	/** The attached entity, when listed ("SERVICIO NACIONAL DE CONTRATACIONES"). */
 	entity: string | null;
-	/** The act's title word for word, only when its form names no one (`classifyAct`); otherwise null. */
+	/**
+	 * The act's title word for word (identity numbers stripped) when `classifyAct` lists it: an act of general scope
+	 * that names no one, or an act about public officials in office (appointment, promotion, removal…); otherwise null.
+	 */
 	title: string | null;
 	/** First word of the title when it names an instrument: "Decreto", "Resolución", "Ley"… */
 	instrument: string | null;

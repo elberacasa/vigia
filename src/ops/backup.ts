@@ -375,24 +375,27 @@ function restoreLocked(options: {
 			);
 	}
 
-	// Keep the current database aside, never delete it. Folded into one self-contained file first (WAL checkpointed
-	// and turned off, every handle closed), so the copy aside opens on its own wherever it is later moved.
+	// Keep the current database aside, never delete it. It is written as one self-contained file with VACUUM INTO
+	// (a complete copy whatever WAL or shared-memory files exist, on every system), then the original and its sidecars
+	// are removed. A database too damaged to copy that way is moved aside as it is, sidecars included.
 	const when = stamp(options.now ?? Date.now());
 	let aside: string | null = null;
 	if (existsSync(dbPath)) {
+		aside = `${dbPath}.antes-de-restaurar-${when}`;
 		let current: Database | null = null;
+		let copied = false;
 		try {
 			current = new Database(dbPath, { strict: true });
 			current.run("PRAGMA busy_timeout = 5000");
-			current.run("PRAGMA wal_checkpoint(TRUNCATE)");
-			current.run("PRAGMA journal_mode = DELETE");
+			current.run("VACUUM INTO ?", [aside]);
+			copied = true;
 		} catch {
-			// A damaged current database is exactly why one restores; it moves aside as it is, sidecars included.
+			removeDatabase(aside);
 		} finally {
 			closeDatabase(current);
 		}
-		aside = `${dbPath}.antes-de-restaurar-${when}`;
-		moveDatabase(dbPath, aside);
+		if (copied) removeDatabase(dbPath);
+		else moveDatabase(dbPath, aside);
 	} else if (SIDECARS.some((suffix) => existsSync(`${dbPath}${suffix}`))) {
 		// A log without its database would be replayed into the restored file and corrupt it: set it apart.
 		const orphans = `${dbPath}.huerfanos-${when}`;

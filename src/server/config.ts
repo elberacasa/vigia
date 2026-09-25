@@ -31,6 +31,12 @@ export interface DeployConfig {
 	readonly trustProxy: readonly string[];
 	readonly noFetch: boolean;
 	readonly noOpen: boolean;
+	/**
+	 * The second route to the BCV rate, the maintainer's public bcv-api service (the project's decision, 2026-09-25:
+	 * on by default on every deployment, public mirrors included; a read-only GET of a public endpoint that sends no
+	 * user data). `VIGIA_BCV_API=0` turns it off here whatever config.json says.
+	 */
+	readonly bcvApi: boolean;
 }
 
 export class ConfigError extends Error {
@@ -116,7 +122,17 @@ export function loadConfig(args: readonly string[], env: Env = process.env): Dep
 	const noOpen =
 		mode === "public" || args.includes("--no-open") || (bool("VIGIA_NO_OPEN", env.VIGIA_NO_OPEN) ?? false);
 
-	return { mode, port, host, cors, metrics, logFormat, trustProxy, noFetch, noOpen };
+	const bcvApi = bool("VIGIA_BCV_API", env.VIGIA_BCV_API) ?? true;
+
+	return { mode, port, host, cors, metrics, logFormat, trustProxy, noFetch, noOpen, bcvApi };
+}
+
+/** Feeds a deployment setting turns off whatever the user's settings say (today only `VIGIA_BCV_API=0`). */
+export function deployDisables(
+	adapterId: string,
+	deploy: { readonly bcvApi?: boolean } | undefined,
+): boolean {
+	return adapterId === "bcv-api" && deploy?.bcvApi === false;
 }
 
 const IPV4 = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;

@@ -235,6 +235,7 @@ export function createApp(deps: AppDeps): App {
 			intervalMs: a.intervalMs,
 			freshness: a.freshness,
 			optIn: a.optIn ?? null,
+			note: a.note ?? null,
 			...atlas(a.id),
 		})),
 		...(includePrivate ? (userFeeds?.list() ?? []) : []).map((f) => {
@@ -250,6 +251,7 @@ export function createApp(deps: AppDeps): App {
 				intervalMs: f.intervalMin * 60_000,
 				freshness: a?.freshness ?? null,
 				optIn: null,
+				note: null,
 				...userFeeds?.meta(f),
 			};
 		}),

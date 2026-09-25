@@ -133,11 +133,14 @@ export function FeedSheet({ row }: { row: Row }) {
 						</dd>
 					</div>
 				</dl>
-				{m.keys.length || m.optIn ? (
+				{m.keys.length || m.optIn || m.note ? (
 					<p class="fsheet__key">
 						{m.keys.length
 							? t("Esta fuente necesita una clave gratuita.", "This source needs a free key.")
-							: m.optIn?.[l]}{" "}
+							: (m.optIn ?? m.note)?.[l]}{" "}
+						{m.note && !m.optIn && !m.keys.length
+							? t("Puedes apagarla en la guía.", "You can turn it off in the guide.")
+							: null}{" "}
 						<a class="link" href={`${href("guide")}${m.keys[0] ? `#key-${m.keys[0]}` : ""}`}>
 							{t("Ver la guía", "Open the guide")}
 						</a>

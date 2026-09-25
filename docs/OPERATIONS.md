@@ -41,7 +41,14 @@ Las opciones de la línea de comandos ganan a las variables de entorno.
 | `--trust-proxy` | `VIGIA_TRUST_PROXY` | `1` (proxy en este equipo), o lista de direcciones y rangos IPv4 (`172.16.0.0/12,10.0.0.2`) | ninguno |
 | `--no-fetch` | `VIGIA_NO_FETCH` | `1`/`0` | `0` |
 | `--no-open` | `VIGIA_NO_OPEN` | `1`/`0` | `0` |
+| | `VIGIA_BCV_API` | `1`/`0` (`off` también vale) | `1`: la fuente `bcv-api` está activa |
 | | `VIGIA_HOME` | carpeta de datos y ajustes | según el sistema (`vigia paths`) |
+
+**`bcv-api`** es la segunda vía a la tasa oficial: un servicio público del mantenedor de Vigía
+(github.com/elberacasa/bcv-api) que lee bcv.org.ve. Está activa por defecto en toda instalación, espejos públicos
+incluidos (decisión del dueño, 2026-09-25): es una lectura GET de un punto público, sin claves y sin enviar ningún
+dato del usuario ni de los visitantes. Quien prefiera no usarla la apaga con `VIGIA_BCV_API=0` (gana a config.json)
+o con el interruptor de la fuente en /fuentes; la tasa sigue llegando por la vía directa (bcv.org.ve).
 
 **Detrás de un proxy inverso**, declare el proxy con `VIGIA_TRUST_PROXY`: así los límites de solicitudes son por
 visitante (se toma la última entrada de `X-Forwarded-For`, la que añade su proxy) y no un solo cubo compartido por

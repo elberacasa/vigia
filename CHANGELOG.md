@@ -12,7 +12,7 @@ First public release. Release notes, in Spanish and English: [docs/releases/v0.1
 
 ### Added
 
-- **303 sources, 260 of them with no key.** Every figure carries its source, licence, observed time and fetched
+- **303 sources, 299 of them with no key.** Every figure carries its source, licence, observed time and fetched
   time; the status page (`/estado`) shows each feed's health and freshness, and the sources page (`/fuentes`) and
   atlas list who publishes what, under which terms.
 - **Money and prices:** the BCV official rate with a second verification route (bcv-api), its history and
@@ -27,12 +27,14 @@ First public release. Release notes, in Spanish and English: [docs/releases/v0.1
   the Guri reservoir level from DAHITI altimetry (free key).
 - **Earth:** earthquakes (USGS, FUNVISIS), fires and gas flaring at named facilities (NASA FIRMS), weather by state
   (Open-Meteo), disasters (GDACS), tropical storms (NHC), and GOES satellite imagery.
-- **Society:** airspace notices (EASA, FAA), the Official Gazette's summaries (acts that name no one), attention
+- **Society:** airspace notices (EASA, FAA), the Official Gazette's summaries (general acts, and acts about public officials in office with their names: appointments, promotions, removals, decorations, credentials; pensions and private persons' matters only counted, ID numbers always removed), attention
   (Wikipedia page views), and a **Humanitario** panel: MPPS weekly epidemiological bulletins, WHO figures, R4V and
   UNHCR migration figures side by side, OCHA FTS plan funding, ReliefWeb reports.
 - **News:** 256 verified feeds from 221 publishers, regional outlets in 19 states, each outlet's stance labelled,
   located by a gazetteer of every state, municipality and city, grouped into stories; conditional GETs and
-  robots.txt respected. Official TV channels and radio streams (opt-in), click to play, one stream at a time.
+  robots.txt checked for every feed (the outlets' YouTube channels and four outlets whose robots.txt excludes feed
+  readers are read at a low rate by the project's decision, noted on `/fuentes`). Official TV channels and radio
+  streams, click to play, one stream at a time.
 - **Incidents** opened only when independent sensor families agree within a time window, with the rule shown in the
   UI and thresholds chosen by a pre-stated criterion over historical blackouts; a daily SHA-256 hash chain over the
   archive, verifiable evidence bundles, and `vigia verify`.

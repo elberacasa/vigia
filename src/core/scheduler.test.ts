@@ -122,6 +122,14 @@ test("opt-in feeds do not run until enabled", async () => {
 	expect(on.isEnabled(p2p)).toBe(true);
 });
 
+test("a feed with a note (e.g. robots.txt) is on by default and can be turned off", () => {
+	const store = new Store(":memory:");
+	const noted = adapter("yt", { note: { es: "Su robots.txt excluye lectores automáticos", en: "robots" } });
+	expect(new Scheduler([noted], { store, http, key: () => undefined }).isEnabled(noted)).toBe(true);
+	const off = new Scheduler([noted], { store, http, key: () => undefined, enabled: () => false });
+	expect(off.isEnabled(noted)).toBe(false);
+});
+
 test("a database failure while recording a run does not crash or wedge the scheduler", async () => {
 	const store = new Store(":memory:");
 	const logs: string[] = [];

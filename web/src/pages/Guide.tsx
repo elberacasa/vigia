@@ -172,13 +172,15 @@ function OptInRow({ id }: { id: string }) {
 	const l = lang.value;
 	const m = metaById.value.get(id);
 	const h = health.value.find((x) => x.id === id);
-	if (!m?.optIn) return null;
-	const on = h ? h.state !== "off" : false;
+	const why = m?.optIn ?? m?.note;
+	if (!m || !why) return null;
+	// Opt-in feeds start off; noted feeds start on (until the health list says otherwise).
+	const on = h ? h.state !== "off" : !m.optIn;
 	return (
 		<article class="optin">
 			<div>
 				<h3 class="key-card__title">{m.name[l]}</h3>
-				<p class="note">{m.optIn[l]}</p>
+				<p class="note">{why[l]}</p>
 			</div>
 			<button
 				type="button"
@@ -206,6 +208,7 @@ export function GuidePage() {
 	const pct = total ? active / total : 0;
 	const open = meta.value.filter((m) => m.keys.length === 0 && !m.optIn);
 	const optIns = meta.value.filter((m) => m.optIn);
+	const noted = meta.value.filter((m) => m.note && !m.optIn);
 	const free = (keys.value ?? []).filter((k) => k.cost !== "paid");
 	const paid = (keys.value ?? []).filter((k) => k.cost === "paid");
 	const sorted = [...free].sort(
@@ -337,6 +340,28 @@ export function GuidePage() {
 							<OptInRow id={m.id} key={m.id} />
 						))}
 					</div>
+				</section>
+			) : null}
+
+			{noted.length ? (
+				<section class="guide__step">
+					<h2 class="guide__step-title">
+						<span class="guide__num">+</span>
+						{t("Encendidas, con una nota (puedes apagarlas)", "On, with a note (you can turn them off)")}
+					</h2>
+					<details class="guide__outlets">
+						<summary>
+							{t(
+								`${noted.length} fuentes que Vigía lee a ritmo bajo por decisión del proyecto`,
+								`${noted.length} sources Vigía reads at a low rate by the project's decision`,
+							)}
+						</summary>
+						<div class="key-grid">
+							{noted.map((m) => (
+								<OptInRow id={m.id} key={m.id} />
+							))}
+						</div>
+					</details>
 				</section>
 			) : null}
 

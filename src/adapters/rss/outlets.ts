@@ -9,18 +9,13 @@ import type { OutletSpec } from "./factory.ts";
 const MIN = 60_000;
 
 /**
- * robots.txt of youtube.com lists `Disallow: /feeds/videos.xml` for every automated agent. The feed is the public one
- * that feed readers use, but Vigía polls from a server, so channels stay off until the user turns them on.
+ * The host's robots.txt excludes this feed for automated agents (YouTube's /feeds/videos.xml, and four outlets,
+ * often through an SEO template). On by default since 2026-09-25 by the project's decision: read at
+ * the entry's own interval with the per-host pacing of every feed, never faster, and the user can turn it off.
  */
-const ROBOTS_YOUTUBE = {
-	es: "El robots.txt de YouTube excluye su feed de videos para programas automáticos. Es el feed público que usan los lectores RSS; actívalo si aceptas leerlo así.",
-	en: "YouTube's robots.txt excludes its video feed for automated agents. It is the public feed RSS readers use; turn it on if you accept reading it that way.",
-} as const;
-
-/** The outlet's robots.txt excludes its feed for automated agents (often an SEO template); off until turned on. */
-const ROBOTS_FEED = {
-	es: "El robots.txt de este medio excluye su feed para programas automáticos (a menudo por una plantilla de SEO). Actívalo si aceptas leerlo como un lector RSS.",
-	en: "This outlet's robots.txt excludes its feed for automated agents (often an SEO template). Turn it on if you accept reading it as an RSS reader does.",
+export const ROBOTS_NOTE = {
+	es: "Su robots.txt excluye lectores automáticos; Vigía lo lee a ritmo bajo por decisión del proyecto.",
+	en: "Its robots.txt excludes automated readers; Vigía reads it at a low rate by the project's decision.",
 } as const;
 
 export const OUTLETS: readonly OutletSpec[] = [
@@ -123,7 +118,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "independent",
 		homepage: "https://eldiario.com/",
 		intervalMs: 20 * MIN,
-		optIn: ROBOTS_FEED,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "el-estimulo",
@@ -166,7 +161,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://espaciopublico.ong/",
 		intervalMs: 60 * MIN,
 		genre: "rights",
-		optIn: ROBOTS_FEED,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "foro-penal",
@@ -188,7 +183,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://www.globovision.com/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_FEED,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "impacto-ve",
@@ -250,7 +245,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://accesoalajusticia.org/",
 		intervalMs: 60 * MIN,
 		genre: "rights",
-		optIn: ROBOTS_FEED,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "radio-fe-y-alegria",
@@ -332,7 +327,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UCL1TMK6T2MpnLUk9mpvMdKQ",
 		intervalMs: 60 * MIN,
 		publisher: "efecto-cocuyo",
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-el-estimulo",
@@ -344,7 +339,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UC2V_WrmWpQ7jIwAWQprlIfw",
 		intervalMs: 60 * MIN,
 		publisher: "el-estimulo",
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-el-pitazo",
@@ -356,7 +351,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UCehmligXGWQbJGQF12cK9UA",
 		intervalMs: 60 * MIN,
 		publisher: "el-pitazo",
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-globovision",
@@ -368,7 +363,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UC0nGYg5JpX7tIeQw_-DQTLw",
 		intervalMs: 10 * MIN,
 		publisher: "globovision",
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-televen",
@@ -380,7 +375,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UCPxs1siPSF6YKGtKP_Zyvtw",
 		intervalMs: 20 * MIN,
 		publisher: "televen",
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-vtv",
@@ -392,7 +387,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UC_8sCVycu3FXidPNoZwOHqA",
 		intervalMs: 10 * MIN,
 		publisher: "vtv",
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "el-tiempo-anz",
@@ -485,7 +480,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UCVFiIRuxJ2GmJLUkHmlmj4w",
 		intervalMs: 10 * MIN,
 		publisher: "vpitv",
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "nuevo-dia",
@@ -707,7 +702,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UC_lEiu6917IJz03TnntWUaQ",
 		intervalMs: 10 * MIN,
 		onlyVenezuela: true,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-ntn24",
@@ -719,7 +714,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.youtube.com/channel/UCEJs1fTF3KszRJGxJY14VrA",
 		intervalMs: 10 * MIN,
 		onlyVenezuela: true,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "el-impulso",
@@ -2646,7 +2641,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		publisher: "bbc-mundo",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-dw-es",
@@ -2661,7 +2656,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		publisher: "dw-es",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-euronews-es",
@@ -2676,7 +2671,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		publisher: "euronews-es",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-la-republica-pe",
@@ -2691,7 +2686,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		publisher: "la-republica-pe-mundo",
 		onlyVenezuela: true,
 		intervalMs: 30 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-nmas-univision",
@@ -2705,7 +2700,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		country: "US",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-telemundo",
@@ -2719,7 +2714,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		country: "US",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-telesur-en",
@@ -2734,7 +2729,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		publisher: "telesur",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-todo-noticias",
@@ -2748,7 +2743,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		country: "AR",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	// YouTube channels of Venezuelan outlets verified by the YouTube research pass (one feed fetch each with the
 	// project User-Agent, newest video 2026-09-08..25); youtube.com's feed server then answered 404 to every re-probe.
@@ -2761,7 +2756,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "state",
 		homepage: "https://ciudadccs.info/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-trt",
@@ -2772,7 +2767,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://www.trt.gob.ve/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-noticia-al-dia",
@@ -2784,7 +2779,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://noticialdia.com/",
 		publisher: "noticia-al-dia",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-version-final",
@@ -2795,7 +2790,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://diarioversionfinal.com/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-evtv",
@@ -2807,7 +2802,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://evtvmiami.com/",
 		country: "US",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-ntn24ve",
@@ -2820,7 +2815,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		country: "CO",
 		publisher: "yt-ntn24",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-analitica",
@@ -2832,7 +2827,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.analitica.com/",
 		publisher: "analitica",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-antv",
@@ -2843,7 +2838,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "state",
 		homepage: "https://www.canalantv.com.ve/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-armando-info",
@@ -2855,7 +2850,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://armando.info/",
 		publisher: "armando-info",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-el-nacional",
@@ -2866,7 +2861,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://www.elnacional.com/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-impacto-ve",
@@ -2878,7 +2873,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://impactove.com/",
 		publisher: "impacto-ve",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-la-gran-aldea",
@@ -2890,7 +2885,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://lagranaldea.com/",
 		publisher: "la-gran-aldea",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-venevision-noticias",
@@ -2901,7 +2896,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://noticiasvenevision.com/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-radio-fe-y-alegria",
@@ -2913,7 +2908,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.radiofeyalegrianoticias.com/",
 		publisher: "radio-fe-y-alegria",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-rnv-noticias",
@@ -2925,7 +2920,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.rnv.gob.ve/",
 		publisher: "rnv",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-runrunes",
@@ -2937,7 +2932,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://runrun.es/",
 		publisher: "runrunes",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 	{
 		id: "yt-union-radio",
@@ -2948,6 +2943,6 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://unionradio.net/",
 		intervalMs: 60 * MIN,
-		optIn: ROBOTS_YOUTUBE,
+		note: ROBOTS_NOTE,
 	},
 ];

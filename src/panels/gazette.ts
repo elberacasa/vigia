@@ -11,11 +11,11 @@ import type { Panel } from "../server/panels.ts";
 
 /**
  * "¿Qué salió en la Gaceta?" The newest issues of the Official Gazette as the official index lists them: number,
- * ordinary or extraordinary, date, links to the page and the PDF, and each issue's acts. Only acts whose title has a
- * form that names no one are listed, in the index's own words; every other act (appointments, pensions,
- * delegations, transfers, and any wording the allowlist does not know) is counted per category, never shown
- * (adapters/gaceta-oficial/redact.ts). The rule is applied again here, so a row stored by an older version cannot
- * reach the page.
+ * ordinary or extraordinary, date, links to the page and the PDF, and each issue's acts, in the index's own words:
+ * acts of general scope first (laws, decrees, norms), then acts about public officials in office (appointments,
+ * transfers, delegations, promotions, removals, decorations…), with their names. Pensions and other personal matters, and any wording the rules do not know,
+ * are counted per category, never shown (adapters/gaceta-oficial/redact.ts). The rule is applied again here, so a
+ * row stored by an older version cannot reach the page.
  */
 
 const DAY = 86_400_000;
@@ -36,7 +36,7 @@ export type GazetteIssue = {
 	sourceUrl: string;
 	pdfUrl: string | null;
 	actsListed: boolean;
-	/** Acts that name no person, in the index's order (at most MAX_ACTS). */
+	/** Listed acts, general scope first, then acts about public posts, each in the index's order (at most MAX_ACTS). */
 	acts: GazetteAct[];
 	/** Further such acts beyond MAX_ACTS. */
 	moreActs: number;
@@ -67,12 +67,14 @@ export function gazetteIssue(
 	fetchedAt: number,
 	sourceUrl: string,
 ): GazetteIssue {
-	const general: { organ: string; title: string; instrument: string | null }[] = [];
+	const general: GazetteAct[] = [];
+	const named: GazetteAct[] = [];
 	const withheld = new Map<ActCategory, number>();
 	for (const a of v.acts) {
 		// Re-checked on read: a title is listed only if it is still listed under today's rule.
 		const c = typeof a.title === "string" && a.title ? classifyAct(a.title) : null;
-		if (c?.listed) general.push({ organ: a.organ, title: c.title, instrument: a.instrument });
+		if (c?.listed)
+			(c.named ? named : general).push({ organ: a.organ, title: c.title, instrument: a.instrument });
 		else {
 			const k = a.withheld ?? c?.category ?? "otro";
 			withheld.set(k, (withheld.get(k) ?? 0) + 1);
@@ -92,8 +94,8 @@ export function gazetteIssue(
 		sourceUrl,
 		pdfUrl: v.pdfUrl,
 		actsListed: v.actsListed,
-		acts: general.slice(0, MAX_ACTS),
-		moreActs: Math.max(0, general.length - MAX_ACTS),
+		acts: [...general, ...named].slice(0, MAX_ACTS),
+		moreActs: Math.max(0, general.length + named.length - MAX_ACTS),
 		withheld: [...withheld.entries()]
 			.map(([category, n]) => ({ category, n }))
 			.sort((a, b) => b.n - a.n || a.category.localeCompare(b.category)),

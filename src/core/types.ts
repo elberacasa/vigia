@@ -160,6 +160,11 @@ export interface Adapter<V extends Json = Json> {
 	 * about automated access). Everything else is on by default.
 	 */
 	readonly optIn?: { readonly es: string; readonly en: string };
+	/**
+	 * On by default, with a neutral note shown on /fuentes and in the guide about how Vigía reads it (e.g. a feed
+	 * the host's robots.txt excludes, read at a low rate by the project's decision). The user may turn it off.
+	 */
+	readonly note?: { readonly es: string; readonly en: string };
 	/** Retention for the images this adapter stores (see `FetchContext.blobs`). Absent: it stores none. */
 	readonly blobs?: BlobPolicy;
 	/** Network: fetch whatever raw responses are needed for one run. */

@@ -74,7 +74,7 @@ test("a page that is not the listing throws SchemaError", () => {
 	expect(() => gacetaOficial.normalise([at(LIST_URL, "<html>502</html>")])).toThrow(SchemaError);
 });
 
-test("parses an issue page: header, sumario rows (titles naming someone withheld as a category), PDF", () => {
+test("parses an issue page: header, sumario rows (appointments listed with names), PDF", () => {
 	const issue = parseIssue(ISSUE);
 	expect(issue.number).toBe(50001);
 	expect(issue.kind).toBe("ordinaria");
@@ -85,18 +85,21 @@ test("parses an issue page: header, sumario rows (titles naming someone withheld
 	expect(issue.acts[0]).toEqual({
 		organ: "MINISTERIO DEL PODER POPULAR PARA LA ENERGÍA ELÉCTRICA",
 		entity: null,
-		title: null,
+		title:
+			"Resolución mediante la cual se designa al ciudadano Pedro Ejemplo Inventado, como Director General de Planificación del Servicio Eléctrico.",
 		instrument: "Resolución",
-		withheld: "designacion",
+		withheld: null,
 	});
 	expect(issue.acts[1]?.instrument).toBe("Decreto");
 	expect(issue.acts[1]?.title).toBe(
 		"Decreto N° 9.999, mediante el cual se fija el horario de la administración pública.",
 	);
 	expect(issue.acts[1]?.withheld).toBeNull();
-	// "ciudadanas y ciudadanos que en ella se mencionan" names no one, but a designation is never listed.
-	expect(issue.acts[2]).toMatchObject({ title: null, withheld: "designacion" });
-	expect(JSON.stringify(issue)).not.toContain("Pedro");
+	expect(issue.acts[2]).toMatchObject({
+		title:
+			"Resolución mediante la cual se designa a las ciudadanas y ciudadanos que en ella se mencionan, como Directoras y Directores de Área.",
+		withheld: null,
+	});
 });
 
 test("normalise: one official observation per issue page, dated 00:00 Caracas, separate series per kind", () => {
@@ -140,7 +143,7 @@ test("fetch asks only for issues not stored yet, newest first", async () => {
 });
 
 test.skipIf(!recorded)(
-	"recorded 2026-09-24: 12 issues, newest N° 7.074 (TSJ law reform), no names left",
+	"recorded 2026-09-24: 12 issues, newest N° 7.074 (TSJ law reform), officials named, private matters counted",
 	() => {
 		const obs = gacetaOficial.normalise(live);
 		expect(obs).toHaveLength(12);
@@ -160,15 +163,16 @@ test.skipIf(!recorded)(
 				}
 				listed++;
 				expect(a.withheld).toBeNull();
-				expect(a.title).not.toMatch(/ciudadan|c[ée]dula|\[|designa|delega|traslad|jubila|pensi[oó]n/iu);
+				expect(a.title).not.toMatch(/c[ée]dula|C\.I\.|\[|jubila|pensi[oó]n|\b\d{1,3}\.\d{3}\.\d{3}\b/iu);
 			}
 		}
-		// Reviewed by hand on 2026-09-25: the 16 listed titles are laws, budget decrees, norms, corrections, the
-		// Chile consulate and one Assembly accord; the rest (appointments, delegations, transfers, decorations, one
-		// commission naming its members, one company name in capitals) are counted only.
-		expect(listed).toBe(16);
-		expect(withheld).toBeGreaterThan(60);
-		// A name the old redaction missed in this very fixture ("…y Ovilio José Gamardo Cardiet, en su carácter de…").
-		expect(JSON.stringify(obs)).not.toMatch(/Ovilio|Gamardo/u);
+		// Reviewed by hand on 2026-09-25: 16 general acts (laws, budget decrees, norms, corrections, the Chile
+		// consulate, one Assembly accord), 72 appointments, transfers, delegations and decorations, and 4 acts naming
+		// officials in office or a body's members (a diplomatic note, a signing authorisation, two commissions) are
+		// listed; 2 are counted only: one pension resolution and a private training centre's (C.A.) approval.
+		expect(listed).toBe(92);
+		expect(withheld).toBe(2);
+		// Officers named in their capacity (a signing authorisation) are now listed with their names.
+		expect(JSON.stringify(obs)).toContain("Ovilio José Gamardo Cardiet, en su carácter de Director (E)");
 	},
 );

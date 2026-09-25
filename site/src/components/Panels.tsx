@@ -131,9 +131,12 @@ const CARDS: readonly Card[] = [
 		sources: ["gazette"],
 		es: [
 			"Gaceta Oficial",
-			"Los números nuevos y sus actos, en las palabras del índice oficial, sin nombres de personas.",
+			"Los números nuevos y sus actos, en las palabras del índice oficial: actos sobre funcionarios públicos con sus nombres; pensiones y asuntos de particulares, solo contados.",
 		],
-		en: ["Official Gazette", "New issues and their acts, in the official index's words, with no one's name."],
+		en: [
+			"Official Gazette",
+			"New issues and their acts, in the official index's words: acts about public officials with their names; pensions and private matters, only counted.",
+		],
 	},
 
 	{

@@ -278,16 +278,17 @@ export const youtubeLive: Adapter<YoutubeLive> = {
 	intervalMs: 30 * 60_000,
 	// Two missed runs make it stale; the panel itself says "EN VIVO" only within 45 min of a check.
 	freshness: { fetchMs: 90 * 60_000, dataMs: 90 * 60_000 },
-	optIn: {
+	// On by default since 2026-09-25 by the project's decision; same 30-min interval and pacing.
+	note: {
 		es:
-			"Cada 30 minutos tu equipo abrirá la página pública «/live» de 12 canales de YouTube (unos 270 KB cada " +
-			"una, ~150 MB al día) para saber cuáles transmiten en vivo. Los términos de YouTube restringen el acceso " +
-			"automatizado a su sitio. Sin esta medición los canales se pueden ver igual; solo falta saber de antemano " +
-			"cuáles están al aire.",
+			"Cada 30 minutos Vigía abre la página pública «/live» de 12 canales de YouTube (unos 270 KB cada una, " +
+			"~150 MB al día) para saber cuáles transmiten en vivo. Los términos de YouTube restringen el acceso " +
+			"automatizado; Vigía la lee a ritmo bajo por decisión del proyecto. Apágala si prefieres ahorrar datos: " +
+			"los canales se pueden ver igual.",
 		en:
-			"Every 30 minutes your computer will open the public “/live” page of 12 YouTube channels (about 270 KB " +
-			"each, ~150 MB a day) to learn which are live. YouTube's terms restrict automated access to its site. " +
-			"Without this the channels still play; only knowing in advance which are on air is missing.",
+			"Every 30 minutes Vigía opens the public “/live” page of 12 YouTube channels (about 270 KB each, ~150 MB " +
+			"a day) to learn which are live. YouTube's terms restrict automated access; Vigía reads it at a low rate " +
+			"by the project's decision. Turn it off to save data: the channels still play.",
 	},
 
 	async fetch(ctx) {

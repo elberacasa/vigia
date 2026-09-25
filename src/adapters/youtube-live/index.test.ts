@@ -165,5 +165,8 @@ test("the catalogue: unique ids and channel ids, every state medium labelled", (
 	for (const c of TV_CHANNELS) expect(c.channelId).toMatch(/^UC[\w-]{22}$/);
 	expect(channel("vtv").ownership).toBe("state");
 	expect(channel("telesur").ownership).toBe("state-funded");
-	expect(youtubeLive.optIn).toBeDefined();
+	// On by default (2026-09-25), with a note the user can act on; same 30-min interval as before.
+	expect(youtubeLive.optIn).toBeUndefined();
+	expect(youtubeLive.note?.es).toContain("por decisión del proyecto");
+	expect(youtubeLive.intervalMs).toBe(30 * 60_000);
 });

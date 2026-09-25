@@ -211,8 +211,10 @@ test("feed toggles follow the same write rules", async () => {
 	expect(toggled).toEqual([["p2p", true]]);
 	const meta = (await (
 		await app.fetch(new Request("http://localhost:7722/api/meta"), "127.0.0.1")
-	).json()) as { feeds: { optIn: unknown }[] };
+	).json()) as { feeds: { optIn: unknown; note: unknown }[] };
 	expect(meta.feeds[0]?.optIn).toEqual({ es: "r", en: "r" });
+	// A feed without a note says so explicitly (null), so the client never guesses.
+	expect(meta.feeds[0]?.note).toBeNull();
 	// Sources atlas: every feed carries its category and the panels it feeds, even one no table describes.
 	expect(meta.feeds[0]).toMatchObject({ category: expect.any(Array), region: "intl", panels: [] });
 });

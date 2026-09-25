@@ -116,6 +116,7 @@ export type GazetteCategory =
 	| "jubilacion"
 	| "ascenso"
 	| "condecoracion"
+	| "cese"
 	| "personal"
 	| "otro";
 
@@ -245,8 +246,8 @@ export function GazettePanel() {
 					</p>
 					<p>
 						{t(
-							"Los actos que nombran a una persona (designaciones, delegaciones, traslados) se cuentan sin listarlos y sin nombres: Vigía borra nombres y números de cédula antes de guardar nada. Leyes y decretos van primero.",
-							"Acts that name a person (appointments, delegations, transfers) are counted, not listed, and without names: Vigía removes names and ID numbers before storing anything. Laws and decrees come first.",
+							"Los actos de alcance general van primero; después, los actos sobre funcionarios públicos en ejercicio (designaciones, traslados, delegaciones, ascensos, ceses y destituciones, condecoraciones, firmas autorizadas, cartas credenciales), con sus nombres, como los publica la Gaceta. Las pensiones, jubilaciones y otros asuntos personales tratan de particulares: se cuentan sin listarlos. Vigía borra los números de cédula, RIF y pasaporte antes de guardar nada.",
+							"Acts of general scope come first; then acts about public officials in office (appointments, transfers, delegations, promotions, removals and dismissals, decorations, signing authorisations, credentials), with their names, as the Gazette publishes them. Pensions, retirements and other personal matters are about private persons: they are counted, not listed. Vigía removes ID, RIF and passport numbers before storing anything.",
 						)}
 					</p>
 				</>

@@ -165,6 +165,7 @@ export function createV1(deps: V1Deps): V1Handler {
 		intervalMs: a.intervalMs,
 		freshness: { fetchMs: a.freshness.fetchMs, dataMs: a.freshness.dataMs },
 		optIn: a.optIn ? { es: a.optIn.es, en: a.optIn.en } : null,
+		note: a.note ? { es: a.note.es, en: a.note.en } : null,
 		panels: panelsOf.get(a.id) ?? [],
 		rawAvailable: a.licence.raw !== false,
 	});

@@ -29,11 +29,12 @@ const GAZETTE_CATEGORY: Record<GazetteCategory, [string, string, string, string]
 	],
 	ascenso: ["ascenso", "ascensos", "promotion", "promotions"],
 	condecoracion: ["condecoración", "condecoraciones", "decoration", "decorations"],
+	cese: ["cese o remoción", "ceses o remociones", "removal or dismissal", "removals or dismissals"],
 	personal: [
-		"otro acto sobre personas",
-		"otros actos sobre personas",
-		"other act about people",
-		"other acts about people",
+		"otro asunto de particulares",
+		"otros asuntos de particulares",
+		"other private matter",
+		"other private matters",
 	],
 	otro: ["acto no listado", "actos no listados", "unlisted act", "unlisted acts"],
 };
@@ -500,8 +501,8 @@ function Issue({ issue }: { issue: GazetteIssue }) {
 				{issue.withheld.length ? (
 					<span
 						title={t(
-							"Títulos no mostrados: pueden nombrar a personas. Están en el PDF oficial.",
-							"Titles not shown: they may name people. They are in the official PDF.",
+							"Títulos no mostrados: tratan de personas particulares (pensiones, jubilaciones y otros asuntos personales) o de actos que Vigía no sabe clasificar. Están en el PDF oficial.",
+							"Titles not shown: they are about private persons (pensions, retirements and other personal matters) or acts Vigía cannot classify. They are in the official PDF.",
 						)}
 					>
 						{withheldText(issue.withheld)}

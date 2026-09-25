@@ -128,18 +128,39 @@ test("a later fetch of the same issue replaces the earlier one", () => {
 });
 
 const dir = join(import.meta.dir, "..", "adapters", "gaceta-oficial", "fixtures", "2026-09-24");
-test.skipIf(!hasFixture(dir))("recorded 2026-09-24: the TSJ law reform leads; no names in the view", () => {
-	const store = new Store(":memory:");
-	store.insert(gacetaOficial.normalise(loadFixture(dir)));
-	const v = gazetteView(store, Date.UTC(2026, 8, 25, 2));
-	expect(v.issues[0]?.number).toBe(7074);
-	expect(v.issues[0]?.notable).toBe(true);
-	expect(v.issues[0]?.acts[0]?.title).toContain("Tribunal Supremo de Justicia");
-	expect(v.lagDays).toBe(9);
-	expect(JSON.stringify(v)).not.toMatch(/ciudadan[oa]s?\s+[A-ZÁÉÍÓÚÑ]/u);
-	expect(JSON.stringify(v)).not.toContain("persona nombrada");
-	expect(v.issues.some((i) => i.withheld.some((w) => w.category === "designacion" && w.n > 0))).toBe(true);
-});
+test.skipIf(!hasFixture(dir))(
+	"recorded 2026-09-24: the TSJ law reform leads; officials named, no ID numbers",
+	() => {
+		const store = new Store(":memory:");
+		store.insert(gacetaOficial.normalise(loadFixture(dir)));
+		const v = gazetteView(store, Date.UTC(2026, 8, 25, 2));
+		expect(v.issues[0]?.number).toBe(7074);
+		expect(v.issues[0]?.notable).toBe(true);
+		expect(v.issues[0]?.acts[0]?.title).toContain("Tribunal Supremo de Justicia");
+		expect(v.lagDays).toBe(9);
+		const text = JSON.stringify(v);
+		expect(text).not.toContain("persona nombrada");
+		expect(text).not.toMatch(/c[ée]dula|C\.I\.|\b\d{1,3}\.\d{3}\.\d{3}\b/u);
+		// Appointments are listed with the official's name; the pension act of that week is only counted.
+		expect(text).toMatch(/se designa (?:al|a la) ciudadan[oa] \p{Lu}/u);
+		expect(v.issues.some((i) => i.withheld.some((w) => w.category === "jubilacion" && w.n > 0))).toBe(true);
+		expect(v.issues.some((i) => i.withheld.some((w) => w.category === "designacion"))).toBe(false);
+		// General-scope acts come before the appointments in each issue.
+		for (const i of v.issues) {
+			const firstNamed = i.acts.findIndex((a) =>
+				/\b(?:designa|nombra|delega|traslada|condecoraci)/iu.test(a.title),
+			);
+			if (firstNamed >= 0)
+				expect(
+					i.acts
+						.slice(firstNamed)
+						.some((a) =>
+							/^(?:Ley|Decreto N° [\d.]+, mediante el cual se (?:declara|autoriza|modifica))/u.test(a.title),
+						),
+				).toBe(false);
+		}
+	},
+);
 
 test("a row stored by an older version (name in a 'general' title, old shape) is re-checked on read", () => {
 	const old = {
@@ -150,8 +171,21 @@ test("a row stored by an older version (name in a 'general' title, old shape) is
 		instrument: "Resolución",
 		personal: false,
 	} as unknown as GacetaIssue["acts"][number];
-	const g = gazetteIssue(issue(50001, "ordinaria", "2026-09-11", [old, act("Decreto")]).value, 1, 2, "u");
-	expect(g.acts).toHaveLength(1);
-	expect(g.withheld).toEqual([{ category: "designacion", n: 1 }]);
-	expect(JSON.stringify(g)).not.toMatch(/PEDRO|12\.345/u);
+	const pension = {
+		...old,
+		title: "Resolución mediante la cual se otorga pensión a la ciudadana ANA RUIZ, C.I. V-9.876.543",
+	} as GacetaIssue["acts"][number];
+	const g = gazetteIssue(
+		issue(50001, "ordinaria", "2026-09-11", [old, pension, act("Decreto")]).value,
+		1,
+		2,
+		"u",
+	);
+	// The appointment is listed with the official's name (after the general act), never with the ID number.
+	expect(g.acts).toHaveLength(2);
+	expect(g.acts[1]?.title).toBe(
+		"Resolución mediante la cual se designa al Ciudadano Coronel PEDRO ÁLVAREZ, como Director",
+	);
+	expect(g.withheld).toEqual([{ category: "jubilacion", n: 1 }]);
+	expect(JSON.stringify(g)).not.toMatch(/12\.345|9\.876|C\.I\.|ANA RUIZ/u);
 });

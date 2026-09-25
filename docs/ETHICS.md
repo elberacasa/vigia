@@ -54,5 +54,7 @@ breaks one of them is a bug.
 - A running instance never identifies the person who runs it: requests to sources carry only the project's
   User-Agent, with the project's public URL as the contact that source policies ask for.
 - **No telemetry.** Vigía does not phone home, has no analytics and no error reporting service. Data and keys stay
-  on the machine that runs it, and keys are only ever sent to the service they belong to.
+  on the machine that runs it, and keys are only ever sent to the service they belong to. The one service run by
+  the project's maintainer that Vigía reads, `bcv-api` (a second route to the BCV's public rate), is a plain GET
+  of a public endpoint that sends nothing about you; `VIGIA_BCV_API=0` turns it off.
 - The design allows running Vigía anywhere, including outside Venezuela, and mirroring it if a site is blocked.

@@ -30,6 +30,7 @@ Despliegue (también por variables de entorno, ver docs/OPERATIONS.md):
   --metrics <m>         Quién lee /metrics: loopback (por defecto), open u off (VIGIA_METRICS)
   --log json            Registro en líneas JSON (VIGIA_LOG_FORMAT=json)
   --trust-proxy         Detrás de un proxy en este equipo: toma el cliente de X-Forwarded-For (VIGIA_TRUST_PROXY=1)
+  VIGIA_BCV_API=0       Apaga la segunda vía a la tasa del BCV (bcv-api, el servicio público del mantenedor)
 `;
 
 async function main(argv: string[]): Promise<number> {

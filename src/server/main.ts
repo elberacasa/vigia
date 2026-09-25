@@ -22,7 +22,7 @@ import { SafeHttp } from "../userfeeds/net.ts";
 import { userNewsPanel } from "../userfeeds/panel.ts";
 import { UserFeeds } from "../userfeeds/service.ts";
 import { createApp } from "./app.ts";
-import { clientAddress, type DeployConfig } from "./config.ts";
+import { clientAddress, type DeployConfig, deployDisables } from "./config.ts";
 import { EMBEDDED } from "./embedded.gen.ts";
 import { PANELS } from "./panel-registry.ts";
 import { PanelCache } from "./panels.ts";
@@ -38,7 +38,8 @@ export interface ServeOptions {
 	/** Serve what is stored without fetching any source (design work on a snapshot; ages keep growing honestly). */
 	readonly noFetch?: boolean;
 	/** Deployment settings validated at start (src/server/config.ts); absent: local mode defaults. */
-	readonly deploy?: Pick<DeployConfig, "mode" | "cors" | "metrics" | "trustProxy">;
+	readonly deploy?: Pick<DeployConfig, "mode" | "cors" | "metrics" | "trustProxy"> &
+		Partial<Pick<DeployConfig, "bcvApi">>;
 }
 
 export async function serve(options: ServeOptions) {
@@ -97,7 +98,7 @@ export async function serve(options: ServeOptions) {
 		store,
 		http,
 		key: (id) => keys.get(id),
-		enabled: (adapter) => settings.feedEnabled(adapter),
+		enabled: (adapter) => !deployDisables(adapter.id, options.deploy) && settings.feedEnabled(adapter),
 		blobs,
 		onEvent: (event) => {
 			publish?.(event);

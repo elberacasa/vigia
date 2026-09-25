@@ -13,7 +13,7 @@ import {
 	rssAdapter,
 	STANCE_LABELS,
 } from "./factory.ts";
-import { OUTLETS } from "./outlets.ts";
+import { OUTLETS, ROBOTS_NOTE } from "./outlets.ts";
 
 // Recorded feeds carry the outlets' own text, so they are absent from the public repository (see hasFixture);
 // factory.synthetic.test.ts covers the parser there.
@@ -202,10 +202,41 @@ test("outlet list is sane", () => {
 			expect(main).toBeDefined();
 			expect(main?.publisher).toBeUndefined();
 		}
-		// YouTube's robots.txt excludes /feeds/videos.xml: every channel is opt-in.
-		if (o.kind === "youtube") expect(o.optIn).toBeDefined();
+		// YouTube's robots.txt excludes /feeds/videos.xml: every channel is on by default (2026-09-25) and
+		// carries the neutral robots note, never an opt-in.
+		if (o.kind === "youtube") {
+			expect(o.note).toBe(ROBOTS_NOTE);
+			expect(o.optIn).toBeUndefined();
+		}
 		// Government press sites are the state speaking: their stance says so.
 		if (o.genre === "official") expect(["state", "multilateral"]).toContain(o.stance);
+	}
+});
+
+test("robots-excluded feeds are on by default with a neutral note, at their own interval (2026-09-25)", () => {
+	const robots = OUTLETS.filter((o) => o.note === ROBOTS_NOTE);
+	// The four outlets whose robots.txt excludes their feed, and every YouTube channel feed.
+	for (const id of ["el-diario", "espacio-publico", "observatorio-dd-hh", "globovision"])
+		expect(robots.map((o) => o.id)).toContain(id);
+	expect(
+		robots
+			.filter((o) => o.kind !== "youtube")
+			.map((o) => o.id)
+			.sort(),
+	).toEqual(["el-diario", "espacio-publico", "globovision", "observatorio-dd-hh"]);
+	expect(robots.filter((o) => o.kind === "youtube").length).toBe(
+		OUTLETS.filter((o) => o.kind === "youtube").length,
+	);
+	expect(ROBOTS_NOTE.es).toBe(
+		"Su robots.txt excluye lectores automáticos; Vigía lo lee a ritmo bajo por decisión del proyecto.",
+	);
+	for (const o of robots) {
+		const a = rssAdapter(o);
+		expect(a.optIn).toBeUndefined();
+		expect(a.note).toEqual(ROBOTS_NOTE);
+		// The intervals they had as opt-in feeds (10 min for five busy channels, 20–60 min for the rest); never faster.
+		expect(a.intervalMs).toBeGreaterThanOrEqual((o.kind === "youtube" ? 10 : 20) * 60_000);
+		expect(a.licence.id).toBe("headline-link");
 	}
 });
 

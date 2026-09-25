@@ -157,11 +157,11 @@ export function contract(root: string, name: "Adapter" | "Observation"): string 
 	const end = src.indexOf("\n}\n", start);
 	if (start < 0 || end < 0) throw new Error(`${name} interface not found in src/core/types.ts`);
 	let text = src.slice(start, end + 2);
-	// Readable on a phone: the Adapter's two optional members lose their long comments; the Observation keeps
+	// Readable on a phone: the Adapter's optional members lose their long comments; the Observation keeps
 	// only its fields.
 	text =
 		name === "Adapter"
-			? text.replace(/\n\t\/\*\*(?:(?!\*\/)[\s\S])*\*\/(?=\n\treadonly (?:optIn|blobs))/g, "")
+			? text.replace(/\n\t\/\*\*(?:(?!\*\/)[\s\S])*\*\/(?=\n\treadonly (?:optIn|note|blobs))/g, "")
 			: text.replace(/\n\t\/\*\*(?:(?!\*\/)[\s\S])*\*\//g, "");
 	return text.replace(/\t/g, "  ");
 }

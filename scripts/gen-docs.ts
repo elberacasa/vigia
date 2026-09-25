@@ -48,6 +48,7 @@ function access(a: Adapter): string {
 	const parts: string[] = [];
 	parts.push(a.keys.length === 0 ? "none" : `key: ${a.keys.map((k) => `\`${k}\``).join(", ")}`);
 	if (a.optIn) parts.push("opt-in");
+	if (a.note && !a.optIn) parts.push("on, noted");
 	return parts.join(", ");
 }
 
@@ -62,7 +63,8 @@ export function dataSourcesMarkdown(adapters: readonly Adapter[] = ADAPTERS): st
 		"",
 		"- **Access**: `none` works with no key; `key` needs a free key the user adds in the setup guide (`/guia`);",
 		"  `opt-in` is off until the user turns it on (the guide explains why, e.g. terms that are unclear about automated",
-		"  access).",
+		"  access); `on, noted` is on by default with a note on how Vigía reads it (e.g. a feed the host's robots.txt",
+		"  excludes, read at a low rate by the project's decision), and the user can turn it off.",
 		"- **Raw rows**: whether the source's own rows are served by the raw API endpoints. `withheld` means the source's",
 		"  terms do not allow passing its data on, so only results Vigía derives from it are shown, with attribution.",
 		"- Data belongs to its publishers under the licences below; Vigía's own licence does not cover it.",

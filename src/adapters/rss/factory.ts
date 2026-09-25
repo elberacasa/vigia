@@ -82,6 +82,8 @@ export interface OutletSpec {
 	readonly publisher?: string;
 	/** Off unless the user turns it on, with the reason (e.g. the host's robots.txt excludes automated readers). */
 	readonly optIn?: { readonly es: string; readonly en: string };
+	/** On by default, with a neutral note on how Vigía reads it (see `Adapter.note`). */
+	readonly note?: { readonly es: string; readonly en: string };
 	/** Sources atlas: ISO 3166-1 country of the publisher, when region and TLD do not say. */
 	readonly country?: string;
 }
@@ -307,6 +309,7 @@ export function rssAdapter(outlet: OutletSpec): Adapter<NewsItem> {
 		licence: HEADLINE_LICENCE,
 		keys: [],
 		...(outlet.optIn ? { optIn: outlet.optIn } : {}),
+		...(outlet.note ? { note: outlet.note } : {}),
 		intervalMs: outlet.intervalMs ?? 15 * 60_000,
 		// A feed that answers 200 but whose newest item is old has stopped publishing (measured: several do).
 		freshness: { fetchMs: 4 * (outlet.intervalMs ?? 15 * 60_000), dataMs: dataBudget(outlet.intervalMs) },

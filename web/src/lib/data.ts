@@ -17,6 +17,8 @@ export interface FeedMeta {
 	intervalMs: number;
 	freshness: { fetchMs: number; dataMs: number | null };
 	optIn: { es: string; en: string } | null;
+	/** On by default, with a note on how Vigía reads it; absent in an older cached meta. */
+	note?: { es: string; en: string } | null;
 	// Sources atlas (src/sources/atlas.ts); optional so an older cached meta still renders.
 	category?: string[];
 	kind?: string;
