@@ -17,6 +17,8 @@ Uso:
   vigia fetch <fuente>  Consulta una fuente una vez y muestra el resultado
   vigia sources         Lista las fuentes y si necesitan clave
   vigia enlace          Muestra y abre otra vez el enlace que permite cambiar claves y ajustes
+  vigia telegram add <canal>  Añade un canal público de Telegram a «Mis fuentes» (@nombre o t.me/nombre)
+  vigia ia conectar     Usa tu Claude Code para escribir el resumen del día (vigia ia estado, vigia ia desconectar)
   vigia paths           Muestra dónde se guardan datos y claves
   vigia verify          Comprueba que el archivo sellado no cambió (cadena de resúmenes SHA-256)
   vigia verify <archivo>  Comprueba un archivo de evidencia guardado desde Vigía
@@ -122,6 +124,24 @@ async function main(argv: string[]): Promise<number> {
 			console.log(`  Vigía no parece estar abierto en el puerto ${port}: inícialo con \`vigia\`.\n`);
 		if (running && !argv.includes("--no-open")) openBrowser(url);
 		return 0;
+	}
+
+	if (command === "telegram") {
+		const { runTelegramCommand } = await import("./userfeeds/cli.ts");
+		return runTelegramCommand(argv.slice(1), {
+			configDir: resolvePaths().config,
+			out: (line) => console.log(line),
+			err: (line) => console.error(line),
+		});
+	}
+
+	if (command === "ia" || command === "ai") {
+		const { runAiCommand } = await import("./ai/connect.ts");
+		return runAiCommand(argv.slice(1), {
+			configDir: resolvePaths().config,
+			out: (line) => console.log(line),
+			err: (line) => console.error(line),
+		});
 	}
 
 	if (command === "verify" || command === "status") {

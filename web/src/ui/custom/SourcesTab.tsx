@@ -49,7 +49,14 @@ function regionLabel(region: string): string {
 	return stateName(region);
 }
 
+/** The channel of a Telegram source (stored as its preview address https://t.me/s/<handle>). */
+function telegramHandle(url: string): string | null {
+	return /^https:\/\/t\.me\/s\/([A-Za-z0-9_]{4,32})\/?$/.exec(url)?.[1] ?? null;
+}
+
 function host(url: string): string {
+	const handle = telegramHandle(url);
+	if (handle) return `@${handle}`;
 	try {
 		return new URL(url).hostname.replace(/^www\./, "");
 	} catch {
@@ -147,8 +154,8 @@ function FeedRow({ f }: { f: UserFeed }) {
 				<p class="feed-row__meta note">
 					<a class="link" href={f.url} target="_blank" rel="noopener noreferrer">
 						{host(f.url)}
-					</a>{" "}
-					· {regionLabel(f.region)} ·{" "}
+					</a>
+					{telegramHandle(f.url) ? " · Telegram" : ""} · {regionLabel(f.region)} ·{" "}
 					{f.intervalMin < 60
 						? t(`cada ${f.intervalMin} min`, `every ${f.intervalMin} min`)
 						: t(`cada ${f.intervalMin / 60} h`, `every ${f.intervalMin / 60} h`)}
@@ -231,6 +238,9 @@ export function SourcesTab() {
 	const [every, setEvery] = useState<number>(30);
 	const [busy, setBusy] = useState(false);
 	const [result, setResult] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
+	const [channel, setChannel] = useState("");
+	const [channelBusy, setChannelBusy] = useState(false);
+	const [channelResult, setChannelResult] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
 	useEffect(() => {
 		void load();
 	}, []);
@@ -272,6 +282,40 @@ export function SourcesTab() {
 		});
 		setUrl("");
 		setName("");
+		await refreshAll();
+	};
+
+	// A public Telegram channel: the server turns "@nombre" or "t.me/nombre" into its preview address and checks it.
+	const addChannel = async (e: Event) => {
+		e.preventDefault();
+		setChannelBusy(true);
+		setChannelResult(null);
+		const r = await send<{ feed: UserFeed; preview: { items: number; newestAt: number | null } }>(
+			"POST",
+			"/api/user-feeds",
+			{ url: channel.trim() },
+		);
+		setChannelBusy(false);
+		if (!r.ok) {
+			setChannelResult({ tone: "error", text: r.error });
+			return;
+		}
+		const p = r.data.preview;
+		setChannelResult({
+			tone: "ok",
+			text:
+				t(
+					`«${r.data.feed.name}» añadido: ${p.items} publicaciones con texto en su vista pública`,
+					`“${r.data.feed.name}” added: ${p.items} posts with text in its public preview`,
+				) +
+				(p.newestAt
+					? t(
+							`, la más reciente de ${ago(now.value - p.newestAt, l)}.`,
+							`, the newest ${ago(now.value - p.newestAt, l)}.`,
+						)
+					: "."),
+		});
+		setChannel("");
 		await refreshAll();
 	};
 
@@ -347,6 +391,63 @@ export function SourcesTab() {
 						"Por seguridad solo se aceptan direcciones http(s) públicas: nada de la red local, y cada redirección se revisa.",
 						"For safety only public http(s) addresses are accepted: nothing on the local network, and every redirect is checked.",
 					)}
+				</p>
+			</section>
+			<section aria-labelledby="tg-h">
+				<h3 id="tg-h" class="custom-h">
+					{t("Añadir un canal de Telegram", "Add a Telegram channel")}
+				</h3>
+				<p class="note custom-lead">
+					{t(
+						"Un canal público (de un medio, una institución, una ONG): Vigía lee su vista pública en t.me/s, una página cada 30 minutos, y muestra el inicio de cada publicación con su enlace. Como tus feeds, queda en este equipo y sale en «Mis fuentes»; con «Editar» cambias el estado que cubre o el ritmo.",
+						"A public channel (an outlet, an institution, an NGO): Vigía reads its public preview at t.me/s, one page every 30 minutes, and shows the start of each post with its link. Like your feeds, it stays on this machine and appears under “My sources”; “Edit” changes the state it covers or the pace.",
+					)}
+				</p>
+				<form class="feed-form" onSubmit={addChannel}>
+					<label for="tg-channel">{t("Canal de Telegram", "Telegram channel")}</label>
+					<input
+						id="tg-channel"
+						class="input"
+						required
+						autoComplete="off"
+						autoCapitalize="off"
+						spellcheck={false}
+						placeholder="@canal o t.me/canal"
+						value={channel}
+						maxLength={200}
+						pattern="\s*(@|(https?://)?(www\.)?(t\.me|telegram\.me)/)?(s/)?[A-Za-z][A-Za-z0-9_]{3,31}(/\d+)?/?\s*"
+						title={t("@nombre o t.me/nombre", "@name or t.me/name")}
+						onInput={(e) => setChannel((e.target as HTMLInputElement).value)}
+					/>
+					<button
+						type="submit"
+						class="button button--primary"
+						disabled={channelBusy || !channel.trim() || (list?.length ?? 0) >= LIMIT}
+					>
+						{channelBusy
+							? t("Probando el canal…", "Testing the channel…")
+							: t("Probar y añadir", "Test and add")}
+					</button>
+				</form>
+				{channelResult ? (
+					<p
+						class={`custom-msg custom-msg--${channelResult.tone}`}
+						role={channelResult.tone === "error" ? "alert" : "status"}
+					>
+						{channelResult.text}{" "}
+						{channelResult.tone === "ok" ? (
+							<button type="button" class="link-button" onClick={() => (newsSource.value = "mine")}>
+								{t("Verlas en Noticias", "See them in News")}
+							</button>
+						) : null}
+					</p>
+				) : null}
+				<p class="note">
+					{t(
+						"Solo canales públicos: los enlaces de invitación (t.me/+…) son privados y no se aceptan. También desde la terminal: ",
+						"Public channels only: invite links (t.me/+…) are private and refused. Also from the terminal: ",
+					)}
+					<code class="data">vigia telegram add @canal</code>
 				</p>
 			</section>
 			<section aria-labelledby="mine-h">

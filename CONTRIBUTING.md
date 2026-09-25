@@ -89,4 +89,10 @@ Follow [docs/ADAPTERS.md](docs/ADAPTERS.md). In short:
 - User-visible changes get a line under "Unreleased" in [CHANGELOG.md](CHANGELOG.md).
 - Report security issues privately (see [SECURITY.md](SECURITY.md)), never in a public issue.
 
+## Questions and contact
+
+Ask in [GitHub Discussions](https://github.com/elberacasa/vigia/discussions) (questions, ideas, "is this source
+worth adding?"), open an [issue](https://github.com/elberacasa/vigia/issues) for a bug or a broken feed, or reach the
+maintainer on X, [@elberacasa](https://x.com/elberacasa). There is no project email.
+
 Everyone taking part is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).

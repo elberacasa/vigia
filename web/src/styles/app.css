@@ -475,17 +475,47 @@
 }
 /* Replaying the map's history: the note shares the row with the sentence instead of wrapping onto a new one, which
    pushed the whole wall (map and columns) 102 px down at 1920 px every time the slider left "now". */
-.ahora--replay .ahora__text {
-	flex: 1 1 0;
-	min-width: 0;
-}
 .ahora__replay {
 	order: 3;
-	flex: 1 1 0;
-	min-width: 0;
 	margin: 0;
 	font-size: 13px;
+	line-height: 1.45;
 	color: var(--warn);
+}
+/* From 1000 px the note's column is reserved even while live (an empty placeholder of the same size), so entering or
+   leaving a replay never rewraps the sentence nor changes the row's height: it moved the map and both columns
+   16 px at 1920 px with a one-line sentence. Top-aligned, so no baseline offset differs between the two states. */
+@media (min-width: 1000px) {
+	.ahora {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) clamp(15rem, 22vw, 26rem);
+		column-gap: var(--s-4);
+	}
+	.ahora__when {
+		grid-column: 1;
+		grid-row: 1;
+	}
+	.ahora__text {
+		grid-column: 2;
+		grid-row: 1;
+	}
+	.ahora__replay,
+	.ahora::after {
+		grid-column: 3;
+		grid-row: 1;
+		align-self: start;
+		min-height: calc(3 * 1.45 * 13px);
+	}
+	.ahora:not(:has(.ahora__replay))::after {
+		content: "";
+	}
+}
+/* Wide enough for the note in two lines: reserve two, not three. */
+@media (min-width: 1300px) {
+	.ahora__replay,
+	.ahora::after {
+		min-height: calc(2 * 1.45 * 13px);
+	}
 }
 .ahora__sep {
 	color: var(--text-3);

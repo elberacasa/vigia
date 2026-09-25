@@ -148,6 +148,7 @@ export function Footer({ lang }: { lang: Lang }) {
 			title: t("Proyecto", "Project"),
 			links: [
 				[REPO, "GitHub"],
+				["https://x.com/elberacasa", "X (@elberacasa)"],
 				[`${REPO}/releases`, t("Versiones", "Releases")],
 				[blob("CHANGELOG.md"), t("Cambios", "Changelog")],
 				[blob("CONTRIBUTING.md"), t("Contribuir", "Contributing")],

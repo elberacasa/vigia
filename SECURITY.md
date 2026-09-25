@@ -13,6 +13,13 @@ Include what an attacker can do, the steps or a proof of concept, and the versio
 acknowledgement within a week and a fix or a plan within 30 days for confirmed issues. Credit is given in the
 changelog unless you prefer otherwise.
 
+## Anything else
+
+Questions, ideas and bugs that are not security issues go in public: GitHub
+[Discussions](https://github.com/elberacasa/vigia/discussions) or [issues](https://github.com/elberacasa/vigia/issues),
+or the maintainer on X, [@elberacasa](https://x.com/elberacasa). Never post a vulnerability there: use the private
+report above.
+
 ## Supported versions
 
 Only the latest release and the `main` branch receive security fixes while the project is at 0.x.

@@ -435,10 +435,19 @@ function tldCountry(url: string): string | undefined {
 
 /**
  * One publisher per site: two feeds of elpais.com are one publisher. A YouTube channel has no site of its own, so its
- * name (without "(YouTube)") is its key, and it joins the site outlet of exactly that name when there is one.
+ * name (without "(YouTube)") is its key, and it joins the site outlet of exactly that name when there is one; a
+ * Telegram channel likewise.
  */
 export function outletPublisher(outlet: OutletSpec, siteByName: ReadonlyMap<string, string>): string {
 	const h = host(outlet.homepage);
+	if (outlet.kind === "telegram" || h === "t.me") {
+		// Every channel lives on t.me: its key is its name without "(Telegram)", joined to a site outlet of that name.
+		const name = outlet.name
+			.replace(/\s*\(telegram\)\s*$/i, "")
+			.trim()
+			.toLowerCase();
+		return siteByName.get(name) ?? `tg:${name}`;
+	}
 	if (outlet.kind !== "youtube" && h !== "youtube.com") return h || outlet.id;
 	const name = outlet.name
 		.replace(/\s*\(youtube\)\s*$/i, "")
@@ -492,7 +501,8 @@ export function buildAtlas(
 	const outletById = new Map(outlets.map((o) => [o.id, o]));
 	const siteByName = new Map<string, string>();
 	for (const o of outlets) {
-		if (o.kind !== "youtube") siteByName.set(o.name.trim().toLowerCase(), host(o.homepage) || o.id);
+		if (o.kind !== "youtube" && o.kind !== "telegram")
+			siteByName.set(o.name.trim().toLowerCase(), host(o.homepage) || o.id);
 	}
 	const out = new Map<string, AtlasEntry>();
 	for (const a of adapters) {

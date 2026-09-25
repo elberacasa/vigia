@@ -6,6 +6,23 @@ All notable changes to Vigía are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-09-25
+
+### Added
+- Public Telegram channels in the news: 10 verified outlet and institution channels read from their public preview
+  (t.me/s), each labelled "(Telegram)" with its outlet's stance and counted as that outlet.
+- Personalizar › Mis fuentes: a "Canal de Telegram" field (@nombre or t.me/nombre); `vigia telegram add <canal>`.
+- `vigia ia conectar` / `estado` / `desconectar`: checks your Claude Code and uses it for the written daily brief.
+- docs/AGENT-SETUP.md: a prompt to paste into your own coding agent to install and set up Vigía.
+
+### Changed
+- Contact: GitHub issues and Discussions, or X @elberacasa (README, CONTRIBUTING, SECURITY, Code of Conduct).
+
+### Fixed
+- The Red panel's lookup always answers; the routes table fits on phones; history replay no longer shifts the map.
+
+Release notes: [docs/releases/v0.1.4.md](docs/releases/v0.1.4.md).
+
 ## [0.1.3] - 2026-09-25
 
 ### Added

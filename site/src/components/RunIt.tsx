@@ -275,6 +275,23 @@ export function RunIt({ lang }: { lang: Lang }) {
 									docs/SETUP.md
 								</a>
 							</li>
+							<li>
+								<strong className="font-semibold text-text">
+									{t("¿Tienes un agente de IA? ", "Have an AI coding agent? ")}
+								</strong>
+								<a
+									className="link"
+									href={blob("docs/AGENT-SETUP.md")}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									{t("Pégale esto", "Paste this into it")}
+								</a>
+								{t(
+									": descarga el archivo correcto, comprueba su suma, lo abre y nunca te pide claves por el chat.",
+									": it downloads the right file, checks its checksum, opens it, and never asks for your keys in the chat.",
+								)}
+							</li>
 						</ul>
 					</div>
 				</Reveal>

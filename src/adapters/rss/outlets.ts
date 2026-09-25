@@ -4,6 +4,7 @@
  * stance is descriptive, one neutral word, shown next to the outlet name so readers can weigh it.
  * Intervals follow each feed's measured volume (items per day).
  */
+import { TELEGRAM_CHANNELS } from "../telegram/channels.ts";
 import type { OutletSpec } from "./factory.ts";
 
 const MIN = 60_000;
@@ -2945,4 +2946,6 @@ export const OUTLETS: readonly OutletSpec[] = [
 		intervalMs: 60 * MIN,
 		note: ROBOTS_NOTE,
 	},
+	// Public Telegram channels (src/adapters/telegram/channels.ts): each counts under its outlet when it has one.
+	...TELEGRAM_CHANNELS,
 ];

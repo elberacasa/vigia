@@ -236,6 +236,20 @@
 	font-size: var(--fs-sm);
 	flex: 1 0 100%;
 }
+.nw-search__hint {
+	flex: 1 0 100%;
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--warn);
+}
+/* Empty, it stays in the accessibility tree (a live region must exist before it speaks) but takes no room. */
+.nw-search__hint:empty {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
 .nw-search input,
 .lk-form input {
 	flex: 1 1 160px;
@@ -330,7 +344,27 @@
 	border-left-color: var(--info);
 }
 
-/* Routing table */
+/* Routing table: headers wrap, ISP names break; if live names still do not fit a phone, the table scrolls inside
+   its own box instead of widening the page (42 px at 390 px with live data). */
+.nw-routes-wrap {
+	max-width: 100%;
+	overflow-x: auto;
+}
+.nw-routes thead th.num {
+	white-space: normal;
+}
+.nw-routes tbody th {
+	overflow-wrap: anywhere;
+}
+@media (max-width: 480px) {
+	.nw-routes-wrap .nw-routes thead th {
+		letter-spacing: 0;
+	}
+	.nw-routes-wrap .nw-routes tr > th,
+	.nw-routes-wrap .nw-routes tr > td {
+		padding-inline: 3px;
+	}
+}
 .nw-routes {
 	width: 100%;
 	border-collapse: collapse;

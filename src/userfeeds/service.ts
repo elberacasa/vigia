@@ -1,6 +1,15 @@
 import { createHash } from "node:crypto";
 import { HEADLINE_LICENCE, type NewsItem, type OutletSpec, parseFeed } from "../adapters/rss/factory.ts";
 import { OUTLETS } from "../adapters/rss/outlets.ts";
+import {
+	channelTitle,
+	looksLikeTelegram,
+	parsePreview,
+	previewHandle,
+	previewUrl,
+	TELEGRAM_LICENCE,
+	telegramHandle,
+} from "../adapters/telegram/parse.ts";
 import { type Adapter, HttpError, type Observation, SchemaError } from "../core/types.ts";
 import { stateByIso } from "../geo/index.ts";
 import { stripHtml } from "../news/text.ts";
@@ -15,6 +24,10 @@ import { type AddFeed, AddFeedSchema, USER_FEED_LIMIT, type UserFeed } from "./s
  * - it is labelled "añadida por ti" everywhere it appears (stance "user", `mine: true` in /api/meta);
  * - its headlines feed only the "Mis fuentes" panel (`user-news`): Vigía's own totals, map layer, incidents and
  *   brief keep using the reviewed outlet list, so a hand-added feed never changes a figure Vigía states.
+ *
+ * A public Telegram channel is added the same way ("@canal" or "t.me/canal"): it is stored as its web preview
+ * address (https://t.me/s/<canal>) and read with the Telegram parser (src/adapters/telegram/parse.ts), through the
+ * same SafeHttp path, paced per host like any other feed.
  *
  * The list lives in config.json; removing a feed stops fetching it (headlines already stored stay in the local
  * archive, which is append-only and sealed).
@@ -62,7 +75,31 @@ export function canonicalUrl(raw: string): string {
 	}
 }
 
+/** The Telegram channel a stored feed reads (its URL is https://t.me/s/<handle>), or null for an RSS/Atom feed. */
+export const telegramOf = (feed: Pick<UserFeed, "url">): string | null => previewHandle(feed.url);
+
+/**
+ * The key that makes two addresses one source: the canonical URL, with a Telegram handle lowercased (t.me/s/ElPitazo
+ * and t.me/s/elpitazo are one channel).
+ */
+function sourceKey(url: string): string {
+	const handle = previewHandle(url);
+	return handle ? `t.me/s/${handle.toLowerCase()}` : canonicalUrl(url);
+}
+
 export function outletOf(feed: UserFeed): OutletSpec {
+	const handle = telegramOf(feed);
+	if (handle)
+		return {
+			id: feed.id,
+			name: feed.name,
+			url: feed.url,
+			kind: "telegram",
+			region: feed.region,
+			stance: "user",
+			homepage: `https://t.me/${handle}`,
+			intervalMs: feed.intervalMin * MIN,
+		};
 	let homepage = feed.url;
 	try {
 		homepage = `${new URL(feed.url).origin}/`;
@@ -127,28 +164,38 @@ export function capUserItems(items: Observation<NewsItem>[]): Observation<NewsIt
 		);
 }
 
+/** Parses what a user's source sent: a Telegram preview page or an RSS/Atom feed, capped either way. */
+function parseUserSource(body: string, outlet: OutletSpec, fetchedAt: number): Observation<NewsItem>[] {
+	if (outlet.kind === "telegram") return capUserItems(parsePreview(body, outlet, fetchedAt));
+	assertFeedBody(body);
+	return capUserItems(parseFeed(body, outlet, fetchedAt, { untrusted: true }));
+}
+
 export function userFeedAdapter(feed: UserFeed, http: SafeHttp): Adapter<NewsItem> {
 	const outlet = outletOf(feed);
 	const intervalMs = feed.intervalMin * MIN;
+	const telegram = outlet.kind === "telegram";
 	return {
 		id: feed.id,
 		layer: "news",
-		name: { es: `${feed.name} (añadida por ti)`, en: `${feed.name} (added by you)` },
+		name: telegram
+			? { es: `${feed.name} (Telegram, añadida por ti)`, en: `${feed.name} (Telegram, added by you)` }
+			: { es: `${feed.name} (añadida por ti)`, en: `${feed.name} (added by you)` },
 		provider: feed.name,
 		homepage: outlet.homepage,
-		licence: HEADLINE_LICENCE,
+		licence: telegram ? TELEGRAM_LICENCE : HEADLINE_LICENCE,
 		keys: [],
 		intervalMs,
 		freshness: { fetchMs: 4 * intervalMs, dataMs: 14 * 24 * 60 * MIN },
 		async fetch(ctx) {
 			const raw = await http.get(feed.url, ctx.signal);
-			assertFeedBody(raw.body);
+			if (!telegram) assertFeedBody(raw.body);
 			return [raw];
 		},
 		normalise(raws) {
 			const raw = raws[0];
 			if (!raw) throw new SchemaError("sin respuesta");
-			return capUserItems(parseFeed(raw.body, outlet, raw.fetchedAt, { untrusted: true }));
+			return parseUserSource(raw.body, outlet, raw.fetchedAt);
 		},
 	};
 }
@@ -164,7 +211,7 @@ export class UserFeeds {
 		this.#store = store;
 		this.#http = http;
 		this.#now = now;
-		this.#builtinUrls = new Map(builtins.map((o) => [canonicalUrl(o.url), o.name]));
+		this.#builtinUrls = new Map(builtins.map((o) => [sourceKey(o.url), o.name]));
 	}
 
 	/** Connects the scheduler once it exists (it is built from `adapters()`). */
@@ -188,7 +235,8 @@ export class UserFeeds {
 		const first = new Map<string, string>();
 		return this.#store.list().map((f) => {
 			const o = outletOf(f);
-			const host = canonicalUrl(f.url).split("/")[0] ?? f.id;
+			// Every Telegram channel is on t.me: each channel is its own publisher.
+			const host = telegramOf(f) ? sourceKey(f.url) : (canonicalUrl(f.url).split("/")[0] ?? f.id);
 			const main = first.get(host);
 			if (!main) first.set(host, f.id);
 			return main ? { ...o, publisher: main } : o;
@@ -207,48 +255,79 @@ export class UserFeeds {
 		const body: AddFeed = parsed.data;
 		if (body.region?.startsWith("VE-") && !stateByIso(body.region))
 			return { ok: false, status: 400, reason: "Estado desconocido." };
-		const check = checkFeedUrl(body.url);
+		// "@canal" or "t.me/canal": a public Telegram channel, read from its web preview.
+		let typed = body.url.trim();
+		if (looksLikeTelegram(typed) || previewHandle(typed)) {
+			const handle = telegramHandle(typed);
+			if (!handle)
+				return {
+					ok: false,
+					status: 400,
+					reason:
+						"Eso no es un canal público de Telegram: escribe @nombre o t.me/nombre (los enlaces de invitación son privados).",
+				};
+			typed = previewUrl(handle.toLowerCase());
+		}
+		const check = checkFeedUrl(typed);
 		if (!check.ok) return { ok: false, status: 400, reason: check.reason };
 		const url = check.url.toString();
+		const telegram = previewHandle(url) !== null;
 		const current = this.#store.list();
 		if (current.length >= USER_FEED_LIMIT)
 			return { ok: false, status: 409, reason: `Puedes tener hasta ${USER_FEED_LIMIT} fuentes propias.` };
-		const id = userFeedId(url);
+		const id = userFeedId(telegram ? sourceKey(url) : url);
 		if (current.some((f) => f.id === id))
 			return { ok: false, status: 409, reason: "Ya añadiste esa fuente." };
-		const builtin = this.#builtinUrls.get(canonicalUrl(url));
-		if (builtin) return { ok: false, status: 409, reason: `Vigía ya sigue ese feed: ${builtin}.` };
+		const builtin = this.#builtinUrls.get(sourceKey(url));
+		if (builtin)
+			return {
+				ok: false,
+				status: 409,
+				reason: telegram ? `Vigía ya sigue ese canal: ${builtin}.` : `Vigía ya sigue ese feed: ${builtin}.`,
+			};
 
 		let raw: Awaited<ReturnType<SafeHttp["get"]>>;
 		try {
 			raw = await this.#http.get(url, signal);
-			assertFeedBody(raw.body);
+			if (!telegram) assertFeedBody(raw.body);
 		} catch (error) {
 			const reason =
 				error instanceof HttpError || error instanceof SchemaError ? error.message : "error de red";
-			return { ok: false, status: 422, reason: `No se pudo leer el feed: ${reason}.` };
+			return {
+				ok: false,
+				status: 422,
+				reason: `${telegram ? "No se pudo leer el canal" : "No se pudo leer el feed"}: ${reason}.`,
+			};
 		}
-		const title = feedTitle(raw.body);
+		const title = telegram ? channelTitle(raw.body) : feedTitle(raw.body);
 		const draft: UserFeed = {
 			id,
 			url,
-			name: body.name?.trim() || title || check.url.hostname,
+			name: body.name?.trim() || title || (telegram ? `@${previewHandle(url)}` : check.url.hostname),
 			region: body.region ?? "national",
 			intervalMin: body.intervalMin ?? 30,
 			addedAt: this.#now(),
 		};
-		let items: ReturnType<typeof parseFeed>;
+		let items: Observation<NewsItem>[];
 		try {
-			items = capUserItems(parseFeed(raw.body, outletOf(draft), raw.fetchedAt, { untrusted: true }));
+			items = parseUserSource(raw.body, outletOf(draft), raw.fetchedAt);
 		} catch (error) {
 			const reason = error instanceof Error ? error.message : "formato desconocido";
-			return { ok: false, status: 422, reason: `No es un feed RSS o Atom (${reason}).` };
+			return {
+				ok: false,
+				status: 422,
+				reason: telegram
+					? `No se pudo leer el canal de Telegram: ${reason}.`
+					: `No es un feed RSS o Atom (${reason}).`,
+			};
 		}
 		if (!items.length)
 			return {
 				ok: false,
 				status: 422,
-				reason: "El feed no tiene titulares con enlace: ¿es la dirección correcta?",
+				reason: telegram
+					? "El canal no tiene publicaciones con texto en su vista pública."
+					: "El feed no tiene titulares con enlace: ¿es la dirección correcta?",
 			};
 		// Re-read before saving: another add may have finished while this one was fetching.
 		const latest = this.#store.list();
@@ -300,9 +379,10 @@ export class UserFeeds {
 
 	/** /api/meta fields for a user feed (the sources atlas shape, plus `mine`). */
 	meta(feed: UserFeed): Record<string, string | boolean | string[] | null> {
-		let host = feed.url;
+		const handle = telegramOf(feed);
+		let host = handle ? `t.me/${handle}` : feed.url;
 		try {
-			host = new URL(feed.url).hostname.replace(/^www\./, "");
+			if (!handle) host = new URL(feed.url).hostname.replace(/^www\./, "");
 		} catch {
 			// keep
 		}

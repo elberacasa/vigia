@@ -225,6 +225,7 @@ function Blocks({ v }: { v: NetwatchView["methods"] }) {
 	const l = lang.value;
 	const [more, setMore] = useState(false);
 	const [q, setQ] = useState("");
+	const [emptyAsk, setEmptyAsk] = useState(false);
 	const names = new Map(v.byIsp.map((b) => [b.isp, b.name]));
 	const maxBlocked = Math.max(1, ...v.byIsp.map((b) => b.blocked));
 	const last = v.days.at(-1);
@@ -353,6 +354,11 @@ function Blocks({ v }: { v: NetwatchView["methods"] }) {
 					e.preventDefault();
 					const d = q.trim();
 					if (d) openLookup(d);
+					else {
+						// An empty ask gets a clear answer, never silence.
+						setEmptyAsk(true);
+						(e.currentTarget.elements.namedItem("dominio") as HTMLInputElement | null)?.focus();
+					}
 				}}
 			>
 				<label for="nw-q">{t("¿Está bloqueado?", "Is it blocked?")}</label>
@@ -365,11 +371,23 @@ function Blocks({ v }: { v: NetwatchView["methods"] }) {
 					spellcheck={false}
 					placeholder="infobae.com"
 					value={q}
-					onInput={(e) => setQ((e.target as HTMLInputElement).value)}
+					aria-describedby="nw-q-hint"
+					onInput={(e) => {
+						setQ((e.target as HTMLInputElement).value);
+						setEmptyAsk(false);
+					}}
 				/>
 				<button type="submit" class="button">
 					{t("Consultar", "Look up")}
 				</button>
+				<p id="nw-q-hint" class="nw-search__hint" role="status">
+					{emptyAsk
+						? t(
+								"Escribe un sitio, por ejemplo infobae.com, y pulsa Consultar.",
+								"Type a site, for example infobae.com, then press Look up.",
+							)
+						: ""}
+				</p>
 			</form>
 			{v.skippedDays.length ? (
 				<p class="note">
@@ -551,41 +569,43 @@ function Routes({ v }: { v: NetwatchView["routing"] }) {
 		return <p class="empty">{t("Aún sin lecturas de RIPE RIS.", "No RIPE RIS readings yet.")}</p>;
 	return (
 		<>
-			<table class="nw-routes">
-				<caption class="sr-only">
-					{t("Prefijos anunciados por proveedor", "Announced prefixes per ISP")}
-				</caption>
-				<thead>
-					<tr>
-						<th scope="col">{t("Proveedor", "ISP")}</th>
-						<th scope="col" class="num">
-							{t("Prefijos IPv4", "IPv4 prefixes")}
-						</th>
-						<th scope="col" class="num">
-							{t("Direcciones", "Addresses")}
-						</th>
-						<th scope="col" class="num">
-							IPv6
-						</th>
-						<th scope="col" class="num">
-							{t("Eventos 30 d", "Events 30 d")}
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{v.isps.map((i) => (
-						<tr key={i.isp}>
-							<th scope="row">
-								{i.name} <span class="note data">{i.asns.map((a) => `AS${a}`).join(" ")}</span>
+			<div class="nw-routes-wrap">
+				<table class="nw-routes">
+					<caption class="sr-only">
+						{t("Prefijos anunciados por proveedor", "Announced prefixes per ISP")}
+					</caption>
+					<thead>
+						<tr>
+							<th scope="col">{t("Proveedor", "ISP")}</th>
+							<th scope="col" class="num">
+								{t("Prefijos IPv4", "IPv4 prefixes")}
 							</th>
-							<td class="num data">{int(i.v4Prefixes, l)}</td>
-							<td class="num data">{addresses(i.v4Addresses, l)}</td>
-							<td class="num data">{int(i.v6Prefixes, l)}</td>
-							<td class={`num data${i.events ? " nw-hot" : ""}`}>{int(i.events, l)}</td>
+							<th scope="col" class="num">
+								{t("Direcciones", "Addresses")}
+							</th>
+							<th scope="col" class="num">
+								IPv6
+							</th>
+							<th scope="col" class="num">
+								{t("Eventos 30 d", "Events 30 d")}
+							</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{v.isps.map((i) => (
+							<tr key={i.isp}>
+								<th scope="row">
+									{i.name} <span class="note data">{i.asns.map((a) => `AS${a}`).join(" ")}</span>
+								</th>
+								<td class="num data">{int(i.v4Prefixes, l)}</td>
+								<td class="num data">{addresses(i.v4Addresses, l)}</td>
+								<td class="num data">{int(i.v6Prefixes, l)}</td>
+								<td class={`num data${i.events ? " nw-hot" : ""}`}>{int(i.events, l)}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
 			{v.events.length ? (
 				<ul class="nw-events">
 					{v.events.slice(0, 8).map((e) => (

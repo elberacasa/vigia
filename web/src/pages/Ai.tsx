@@ -319,6 +319,31 @@ export function AiPage() {
 								"Claude uses your Anthropic key (paid, within the budget below). Claude Code uses your own subscription on this machine, with no tools and no access to your files. Ollama runs a free local model.",
 							)}
 						</p>
+						<p class="note">
+							{t(
+								"Para conectar tu Claude Code en un paso, escribe en la terminal ",
+								"To connect your Claude Code in one step, type in the terminal ",
+							)}
+							<code class="data">vigia ia conectar</code>
+							{t(
+								": comprueba que tiene sesión y lo elige aquí (se apaga con ",
+								": it checks that it is logged in and selects it here (turn it off with ",
+							)}
+							<code class="data">vigia ia desconectar</code>
+							{t("). ¿Tienes un agente de IA? ", "). Have an AI coding agent? ")}
+							<a
+								class="link"
+								href="https://github.com/elberacasa/vigia/blob/main/docs/AGENT-SETUP.md"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{t(
+									"Pégale esto para instalar y configurar Vigía",
+									"Paste this into it to install and set up Vigía",
+								)}
+							</a>
+							.
+						</p>
 						{view.anthropicAvailable ? (
 							<BudgetForm
 								provider="anthropic"

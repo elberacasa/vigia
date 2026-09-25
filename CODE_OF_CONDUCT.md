@@ -36,7 +36,7 @@ This Code of Conduct applies within all community spaces, and also applies when 
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement privately, through the contact listed on the maintainer's GitHub profile (https://github.com/elberacasa), or with GitHub's own "Report content" option on any issue, pull request or comment, which reaches GitHub's moderators privately. All complaints will be reviewed and investigated promptly and fairly; you will receive an acknowledgement within 7 days.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement privately, by direct message to the maintainer on X ([@elberacasa](https://x.com/elberacasa)), or with GitHub's own "Report content" option on any issue, pull request or comment, which reaches GitHub's moderators privately. All complaints will be reviewed and investigated promptly and fairly; you will receive an acknowledgement within 7 days.
 
 All community leaders are obligated to respect the privacy and security of the reporter of any incident.
 

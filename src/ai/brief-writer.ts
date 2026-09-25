@@ -193,7 +193,10 @@ export class AnthropicWriter implements BriefWriter {
  */
 export class ClaudeCodeWriter implements BriefWriter {
 	readonly id = "claude-code" as const;
-	constructor(readonly which: (cmd: string) => string | null = (cmd) => Bun.which(cmd)) {}
+	constructor(
+		readonly which: (cmd: string) => string | null = (cmd) => Bun.which(cmd),
+		readonly timeoutMs = 180_000,
+	) {}
 
 	static args(bin: string, system: string): string[] {
 		return [
@@ -241,7 +244,7 @@ export class ClaudeCodeWriter implements BriefWriter {
 				stdout: "pipe",
 				stderr: "pipe",
 			});
-			const timer = setTimeout(() => proc.kill(), 180_000);
+			const timer = setTimeout(() => proc.kill(), this.timeoutMs);
 			const [out, code] = await Promise.all([new Response(proc.stdout).text(), proc.exited]);
 			clearTimeout(timer);
 			if (code !== 0) throw new Error("Claude Code no respondió (¿está instalado y con sesión iniciada?).");

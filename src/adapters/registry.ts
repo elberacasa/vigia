@@ -38,6 +38,7 @@ import { ripestatPrefixes } from "./ripestat-prefixes/index.ts";
 import { ripestatRouting } from "./ripestat-routing/index.ts";
 import { rssAdapter } from "./rss/factory.ts";
 import { OUTLETS } from "./rss/outlets.ts";
+import { telegramAdapter } from "./telegram/index.ts";
 import { torMetrics } from "./tor-metrics/index.ts";
 import { trmColombia } from "./trm-colombia/index.ts";
 import { unhcrPopulation } from "./unhcr-population/index.ts";
@@ -107,6 +108,6 @@ export const ADAPTERS: readonly Adapter[] = [
 	// Live TV and radio
 	youtubeLive,
 	radioStreams,
-	// News
-	...OUTLETS.map(rssAdapter),
+	// News (outlet feeds, and public Telegram channels read from their web preview)
+	...OUTLETS.map((o) => (o.kind === "telegram" ? telegramAdapter(o) : rssAdapter(o))),
 ] as readonly Adapter[];

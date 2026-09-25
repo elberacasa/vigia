@@ -62,7 +62,7 @@ export interface OutletSpec {
 	readonly id: string;
 	readonly name: string;
 	readonly url: string;
-	readonly kind: "rss" | "atom" | "youtube";
+	readonly kind: "rss" | "atom" | "youtube" | "telegram";
 	/** "national", an ISO state code for regional outlets, or "international". */
 	readonly region: string;
 	readonly stance: Stance;
