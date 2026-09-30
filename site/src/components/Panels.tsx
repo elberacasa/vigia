@@ -199,6 +199,32 @@ const MORE: Readonly<Record<string, readonly [string, string]>> = {
 	red: ["rutas de red y evasión de bloqueos", "network routes and circumvention"],
 	"espacio-aereo": ["avisos de espacio aéreo", "airspace notices"],
 	atencion: ["la atención internacional", "international attention"],
+	inusual: ["lo inusual ahora, por reglas fijas", "what is unusual now, by fixed rules"],
+	monetario: ["liquidez, reservas e intervenciones del BCV", "BCV money supply, reserves and interventions"],
+	reportes: [
+		"reportes anónimos de luz, agua, internet y gasolina",
+		"anonymous power, water, internet and fuel reports",
+	],
+	desmentidos: ["desmentidos de los verificadores", "fact-checkers' debunks"],
+	rayos: ["rayos vistos por satélite (GOES-19)", "lightning seen from space (GOES-19)"],
+	inundaciones: ["inundaciones vistas por satélite (NASA)", "floods seen from space (NASA)"],
+	bosque: ["alertas de deforestación", "deforestation alerts"],
+	cloudflare: ["tráfico de internet de Cloudflare Radar", "Cloudflare Radar internet traffic"],
+	metano: ["plumas de metano sobre campos petroleros", "methane plumes over oil fields"],
+	buques: ["buques vistos por radar cerca de las terminales", "ships seen by radar near the oil terminals"],
+	sanciones: ["sanciones y licencias de la OFAC", "OFAC sanctions and licences"],
+	cargos: ["quién ocupa cada cargo público", "who holds each public office"],
+	apuestas: [
+		"mercados de predicción, con su pregunta exacta",
+		"prediction markets, with their exact question",
+	],
+	vuelos: [
+		"vuelos de aerolínea vistos sobre y cerca de Venezuela",
+		"airline flights seen over and near Venezuela",
+	],
+	gdelt: ["la prensa mundial codificada por GDELT", "world press coded by GDELT"],
+	camaras: ["cámaras públicas y su última imagen", "public cameras and their latest still"],
+	radio: ["radios en vivo", "live radio"],
 };
 
 /** Publisher names as the adapters write them (Spanish), in English where the words are ours, not a proper name. */

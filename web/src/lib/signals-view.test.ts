@@ -216,7 +216,7 @@ test("a camera's picture is current only while live and within twice its interva
 	expect(currentStill(old, NOW)).toBeNull();
 	expect(lastStill(old, NOW)?.takenAt).toBe(NOW - 46 * MIN);
 	expect(currentStill(cam({ status: "down" }), NOW)).toBeNull();
-	expect(statusLine(cam({ statusEs: "Cámara caída", since: NOW - 60 * MIN }), "es")).toBe(
+	expect(statusLine(cam({ statusEs: "Cámara caída", since: NOW - 60 * MIN }), "es", NOW)).toBe(
 		"Cámara caída desde las 01:00",
 	);
 	expect(

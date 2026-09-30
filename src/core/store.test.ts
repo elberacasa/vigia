@@ -1,7 +1,8 @@
 import { expect, test } from "bun:test";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { removePath } from "./sqlite-files.ts";
 import { canonicalJson, Store } from "./store.ts";
 import type { Observation } from "./types.ts";
 
@@ -132,7 +133,8 @@ test("runs gain a nullable `wire` column in place: older rows read as null, reop
 		old.db.run(
 			"INSERT INTO runs (source, started_at, finished_at, ok, error, bytes, received, inserted) VALUES ('a', 1, 2, 1, NULL, 10, 1, 1)",
 		);
-		old.db.close();
+		// Store.close(), not db.close(): on Windows a connection with a live statement stays open (EBUSY on rm).
+		old.close();
 		const store = new Store(path);
 		store.recordRun({
 			source: "a",
@@ -147,9 +149,9 @@ test("runs gain a nullable `wire` column in place: older rows read as null, reop
 		});
 		expect(store.recentRuns("a", 5).map((r) => r.wire)).toEqual([900, null]);
 		expect(store.downloadedSince(0).get("a")).toEqual({ wire: 900, runs: 1, first: 5 });
-		store.db.close();
-		new Store(path).db.close();
+		store.close();
+		new Store(path).close();
 	} finally {
-		rmSync(dir, { recursive: true, force: true });
+		removePath(dir);
 	}
 });
