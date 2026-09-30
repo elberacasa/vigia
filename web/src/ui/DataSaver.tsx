@@ -219,6 +219,7 @@ export function ConnectionAsk() {
 
 /** Personalizar › Mis fuentes and the guide: the switch, the figures, the heavy feeds. */
 export function DataSaverSection({ variant = "custom" }: { variant?: "custom" | "guide" }) {
+	const Sub = variant === "guide" ? "h3" : "h4";
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
 	useEffect(() => {
@@ -332,7 +333,8 @@ export function DataSaverSection({ variant = "custom" }: { variant?: "custom" | 
 					`Estimated: each source's measurement (${v.measuredAt}) times its reads a day, summed over the sources that run with your settings and keys; not counting sources you added${v.estimate.current.unmeasured ? ` or ${v.estimate.current.unmeasured} sources without a measurement` : ""}. Measured: headers and bodies as they arrived, without the TLS layer.`,
 				)}
 			</p>
-			<h4 class="caps ds-sub">{t("Fuentes pesadas", "Heavy sources")}</h4>
+			{/* One level under the section's heading: h2 in the guide, h3 in Personalizar (axe heading-order). */}
+			<Sub class="caps ds-sub">{t("Fuentes pesadas", "Heavy sources")}</Sub>
 			<HeavyList v={v} />
 			{firmsHeavy ? (
 				<p class="note">
