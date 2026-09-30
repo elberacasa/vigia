@@ -3,7 +3,7 @@
  * on a slow connection (gzip, as served by most proxies; Brotli noted too).
  */
 import { cpSync, mkdirSync, readdirSync, rmSync, statSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, relative, resolve, sep } from "node:path";
 import { brotliCompressSync, gzipSync } from "node:zlib";
 import type { BunPlugin } from "bun";
 import { FIRST_REQUESTS } from "../web/src/lib/first-requests.ts";
@@ -114,9 +114,11 @@ if (!result.success) {
 }
 /** `<link rel="modulepreload">` for the workstation chunk, only on screens wide enough to run it. */
 function deskPreload(): string {
-	const chunk = result.outputs.find((o) => /\/Workstation-[a-z0-9]+\.js$/.test(o.path));
+	// Either separator: on Windows the output paths use "\\" (the 1.0.0 CI build failed on the "/"-only pattern).
+	const chunk = result.outputs.find((o) => /[\\/]Workstation-[a-z0-9]+\.js$/.test(o.path));
 	if (!chunk) throw new Error("build-web: the Workstation chunk is missing");
-	return `<link rel="modulepreload" href="/${relative(outdir, chunk.path)}" media="(min-width: 1000px)">`;
+	const href = relative(outdir, chunk.path).split(sep).join("/");
+	return `<link rel="modulepreload" href="/${href}" media="(min-width: 1000px)">`;
 }
 // Static files (fonts with a version in the name, icons, manifest) are copied as-is; the page links them after the
 // build (Bun's HTML bundler would try to resolve absolute links).

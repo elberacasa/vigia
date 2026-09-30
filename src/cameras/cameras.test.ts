@@ -348,8 +348,15 @@ test("the pipeline end to end: six lit nights, then the lights go out; the card 
 	const camera = CAMERAS.find((c) => c.id === "charallave-oeste");
 	if (!camera) throw new Error("census");
 	let t = NIGHT - 6 * DAY;
+	// One encoded still per moment, shared by every camera asked for at that moment: encoding a 960×540 scene per
+	// request made this test take 5.4 s on a CI macOS runner (over bun's 5 s budget).
+	const stills = new Map<number, Uint8Array>();
 	const ctx = ctxFor(
-		() => encodeJpeg(nightScene(t < NIGHT - 30 * MIN, t), 85),
+		() => {
+			const still = stills.get(t) ?? encodeJpeg(nightScene(t < NIGHT - 30 * MIN, t), 85);
+			stills.set(t, still);
+			return still;
+		},
 		() => t,
 	);
 	const run = async () => {
