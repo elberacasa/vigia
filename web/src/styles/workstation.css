@@ -1065,9 +1065,6 @@ a.log__text:hover {
 	font-size: 10px;
 	margin-left: 6px;
 }
-.status__right a:hover {
-	color: var(--text);
-}
 @media (max-width: 1279px) {
 	.status__dim {
 		display: none;

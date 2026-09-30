@@ -74,10 +74,7 @@ function StatusLine() {
 				<kbd>L</kbd> {t("capas", "layers")} <kbd>?</kbd> {t("atajos", "shortcuts")}
 			</button>
 			<span class="status__item status__right">
-				Vigía {version.value ? <span class="mono">{version.value}</span> : null} ·{" "}
-				<a href="https://github.com/elberacasa" target="_blank" rel="noopener noreferrer">
-					elberacasa
-				</a>
+				Vigía {version.value ? <span class="mono">{version.value}</span> : null}
 			</span>
 		</footer>
 	);
