@@ -5,10 +5,12 @@
  *   bun scripts/site-capture.ts [vigia-url] [site-url]   defaults http://localhost:7722, http://localhost:7761
  *   ONLY=stills,crops,video,gif,og,mapstill               run some steps only
  *
- * From Vigía (site/public/media/): hero.webm and hero.mp4 (a silent recording: the wall, a state, the Ctrl+K search,
- * the history replay, the phone), poster.webp, still-desk.webp, still-phone.webp, crops/<panel>.webp (dark) and
- * crops/<panel>-light.webp; and site/src/data/media.json (recording time and chapters). docs/assets/demo.gif (800 px
- * wide) for the README.
+ * From Vigía (site/public/media/): hero.webm and hero.mp4 (a silent recording of the desk: Situación, a state in the
+ * inspector, its page, the Ctrl+K search for a facility, the live TV module, the dollar, the history replay, then the
+ * phone), poster.webp, still-desk.webp, still-phone.webp, still-ficha.webp, still-envivo.webp, still-internet.webp,
+ * crops/<panel>.webp (dark; each panel in its desk module) and crops/<panel>-light.webp; and site/src/data/media.json
+ * (recording time and chapters). For the README: docs/assets/demo.gif (800 px wide) and screenshot-desktop.png,
+ * screenshot-place.png and screenshot-phone.png (from the stills).
  * From the built site (mapstill): map-still-<theme>-<640|960|1280>.webp, the hero map's first paint, and
  * site/src/data/map-still.json (the map snapshot it shows). The site must serve the current map.json.
  * og: site/public/og.png (1200×630), rendered from site/scripts/og.html with the numbers in facts.json.
@@ -21,6 +23,8 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { type Browser, type BrowserContext, chromium, type Page } from "playwright-core";
+import type { PanelId } from "../web/src/lib/layout.ts";
+import { moduleOfPanel } from "../web/src/lib/modules.ts";
 import { hashMedia } from "./site/media.ts";
 
 const ROOT = join(import.meta.dir, "..");
@@ -182,6 +186,7 @@ async function openDesk(
 	browser: Browser,
 	scale = 1,
 	colorScheme: "dark" | "light" = "dark",
+	path = "/",
 ): Promise<{ ctx: BrowserContext; page: Page }> {
 	const ctx = await browser.newContext({
 		viewport: { width: 1440, height: 900 },
@@ -190,7 +195,7 @@ async function openDesk(
 		reducedMotion: "no-preference",
 	});
 	const page = await ctx.newPage();
-	await page.goto(`${URL_BASE}/`, { waitUntil: "domcontentloaded" });
+	await page.goto(`${URL_BASE}${path}`, { waitUntil: "domcontentloaded" });
 	await page.waitForTimeout(4500);
 	return { ctx, page };
 }
@@ -226,6 +231,42 @@ try {
 		await phone.page.screenshot({ path: join(TMP, "still-phone.png") });
 		await phone.ctx.close();
 		await still(join(TMP, "still-phone.png"), "still-phone", 780);
+		// The 1.0 desk beyond the map: a state's page, the live TV and cameras, the internet module.
+		for (const [path, name] of [
+			["/lugar/zulia", "still-ficha"],
+			["/en-vivo", "still-envivo"],
+			["/internet", "still-internet"],
+		] as const) {
+			const shot = await openDesk(browser, 2, "dark", path);
+			await shot.page.screenshot({ path: join(TMP, `${name}.png`) });
+			await shot.ctx.close();
+			await still(join(TMP, `${name}.png`), name, 1920, 84);
+		}
+		// The README's screenshots: PNG (GitHub shows it everywhere), 256 colours (the UI is flat; a third of the size).
+		for (const [from, to, width] of [
+			["still-desk", "screenshot-desktop", 1640],
+			["still-ficha", "screenshot-place", 1120],
+			["still-phone", "screenshot-phone", 520],
+		] as const) {
+			const file = join(ROOT, "docs", "assets", `${to}.png`);
+			await run([
+				"magick",
+				join(TMP, `${from}.png`),
+				"-filter",
+				"Lanczos",
+				"-resize",
+				`${width}x`,
+				"-strip",
+				"-colors",
+				"256",
+				"-define",
+				"png:compression-level=9",
+				"-define",
+				"png:compression-filter=5",
+				file,
+			]);
+			console.log(`docs/assets/${to}.png ${kib(file)}`);
+		}
 	}
 
 	// ---------- Panel crops: the top of each panel, 2x, in both themes ----------
@@ -251,19 +292,24 @@ try {
 		for (const theme of ["dark", "light"] as const) {
 			const { ctx, page } = await openDesk(browser, 2, theme);
 			for (const id of ids) {
+				// Each panel in its desk module (Incidentes sits in Situación's side column).
+				const path = moduleOfPanel(id as PanelId).path;
+				if (new URL(page.url()).pathname !== path) {
+					await page.goto(`${URL_BASE}${path}`, { waitUntil: "domcontentloaded" });
+					await page.waitForTimeout(3500);
+				}
 				const el = page.locator(`section#${id}`);
-				// Top of the panel just under the app's sticky top bar.
-				await el.evaluate((e) => {
-					e.scrollIntoView({ block: "start" });
-					scrollBy(0, -72);
-				});
+				// The top of the panel at the top of its column (the column scrolls, not the page).
+				await el.evaluate((e) => e.scrollIntoView({ block: "start" }));
 				await page.waitForTimeout(1600);
 				const box = await el.boundingBox();
 				if (!box) throw new Error(`panel ${id} not found`);
 				const file = join(TMP, `crop-${id}-${theme}.png`);
+				// At most 560 px wide (the left of a wider panel), so every crop reads at a similar scale.
+				const width = Math.min(box.width, 560);
 				await page.screenshot({
 					path: file,
-					clip: { x: box.x, y: box.y, width: box.width, height: Math.min(box.height, box.width * 0.62) },
+					clip: { x: box.x, y: box.y, width, height: Math.min(box.height, width * 0.62, 900 - box.y) },
 				});
 				await still(file, `crops/${id}${theme === "light" ? "-light" : ""}`, 720, 86);
 			}
@@ -283,34 +329,66 @@ try {
 		const recordedAt = Date.now();
 		let t0 = 0;
 		const chapter = (es: string, en: string) => chapters.push({ at: Date.now() / 1000 - t0, es, en });
+		const keys = (k: string[]) =>
+			page.evaluate((k) => (window as unknown as { __capKeys: (k: string[]) => void }).__capKeys(k), k);
 		const deskClip = await record(page, "desk", async () => {
 			t0 = Date.now() / 1000;
-			chapter("El muro", "The wall");
+			// The desk opens on Situación: the map by state, the vital signs, priorities and the event log.
+			chapter("La sala", "The room");
 			await page.waitForTimeout(2400);
-			// A state on the map: the map zooms in and the state's sheet opens.
-			const sucre = await centreOf(page, '.panel--map [aria-label^="Sucre"]');
+			// A state on the map: the inspector shows its readings, each with its source and age.
+			const cojedes = await centreOf(page, '.map-state[aria-label^="Cojedes"]');
 			chapter("Un estado", "A state");
-			await glide(page, sucre.x, sucre.y, 900);
-			await page.waitForTimeout(350);
-			await page.mouse.click(sucre.x, sucre.y);
-			await page.waitForTimeout(3400);
-			await page.keyboard.press("Escape");
-			await page.waitForTimeout(900);
-			// The palette: a municipality by name.
+			await glide(page, cojedes.x, cojedes.y, 900);
+			await page.waitForTimeout(300);
+			await page.mouse.click(cojedes.x, cojedes.y);
+			await page.waitForTimeout(2600);
+			// P: the state's own page.
+			chapter("Su ficha", "Its page");
+			await keys(["P"]);
+			await page.waitForTimeout(250);
+			await page.keyboard.press("p");
+			await page.waitForTimeout(3000);
+			await page.mouse.move(700, 600);
+			await page.mouse.wheel(0, 420);
+			await page.waitForTimeout(1600);
+			// Ctrl K: a facility by name (one of 1,328), then its page.
 			chapter("Búsqueda Ctrl K", "Ctrl K search");
-			await page.evaluate(() =>
-				(window as unknown as { __capKeys: (k: string[]) => void }).__capKeys(["Ctrl", "K"]),
-			);
+			await keys(["Ctrl", "K"]);
 			await page.waitForTimeout(250);
 			await page.keyboard.press("Control+k");
 			await page.waitForTimeout(500);
-			await page.keyboard.type("maracaibo", { delay: 110 });
+			await page.keyboard.type("guri", { delay: 110 });
 			await page.waitForTimeout(900);
 			await page.keyboard.press("Enter");
-			await page.waitForTimeout(3600);
-			await page.keyboard.press("Escape");
-			await page.waitForTimeout(700);
-			// The history strip: 7 days, replayed from stored observations.
+			await page.waitForTimeout(1200);
+			await page.keyboard.press("p");
+			await page.waitForTimeout(3200);
+			// 0: live TV and public cameras, each still taken and dated by Vigía.
+			chapter("En vivo", "Live");
+			await keys(["0"]);
+			await page.waitForTimeout(250);
+			await page.keyboard.press("0");
+			await page.waitForTimeout(3400);
+			// 2: the dollar, official and parallel side by side.
+			chapter("El dólar", "The dollar");
+			await keys(["2"]);
+			await page.waitForTimeout(250);
+			await page.keyboard.press("2");
+			await page.waitForTimeout(2800);
+			// 1, then the history strip: 7 days replayed from stored observations.
+			await keys(["1"]);
+			await page.waitForTimeout(250);
+			await page.keyboard.press("1");
+			await page.waitForTimeout(900);
+			// Esc twice: the facility, then its state, leave the selection (the whole country again).
+			await keys(["Esc"]);
+			for (let i = 0; i < 4 && new URL(page.url()).search !== ""; i++) {
+				await page.keyboard.press("Escape");
+				await page.waitForTimeout(700);
+			}
+			if (new URL(page.url()).search !== "") throw new Error(`the selection did not clear: ${page.url()}`);
+			await page.waitForTimeout(900);
 			chapter("Historial", "History");
 			const week = await centreOf(page, ".range-chip >> nth=1");
 			await glide(page, week.x, week.y, 800);
@@ -319,7 +397,7 @@ try {
 			const play = await centreOf(page, ".timeline-strip__play");
 			await glide(page, play.x, play.y, 500);
 			await page.mouse.click(play.x, play.y);
-			await page.waitForTimeout(6800);
+			await page.waitForTimeout(6400);
 		});
 		await desk.close();
 

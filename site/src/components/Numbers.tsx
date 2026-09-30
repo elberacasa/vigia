@@ -11,8 +11,16 @@ export function Numbers({ lang }: { lang: Lang }) {
 			value: num(lang, facts.sources),
 			label: t("fuentes de datos", "data sources"),
 			how: t(
-				`Adaptadores en src/adapters/registry.ts; ${num(lang, facts.keyless)} funcionan sin clave.`,
-				`Adapters in src/adapters/registry.ts; ${num(lang, facts.keyless)} work with no key.`,
+				"Adaptadores en src/adapters/registry.ts, cada uno con su licencia y su presupuesto de frescura.",
+				"Adapters in src/adapters/registry.ts, each with its licence and its freshness budget.",
+			),
+		},
+		{
+			value: num(lang, facts.keyless),
+			label: t("sin clave ni cuenta", "with no key and no account"),
+			how: t(
+				"Adaptadores de src/adapters/registry.ts que no piden clave ni hay que activar.",
+				"Adapters in src/adapters/registry.ts that need no key and no opt-in.",
 			),
 		},
 		{
@@ -25,10 +33,18 @@ export function Numbers({ lang }: { lang: Lang }) {
 		},
 		{
 			value: num(lang, facts.panels),
-			label: t("paneles en el muro", "panels on the wall"),
+			label: t(`paneles en ${facts.modules.length} módulos`, `panels in ${facts.modules.length} modules`),
 			how: t(
-				"PANEL_IDS en web/src/lib/layout.ts, más el mapa.",
-				"PANEL_IDS in web/src/lib/layout.ts, plus the map.",
+				"PANEL_IDS en web/src/lib/layout.ts, repartidos en los módulos de web/src/lib/modules.ts, más el mapa.",
+				"PANEL_IDS in web/src/lib/layout.ts, arranged in the modules of web/src/lib/modules.ts, plus the map.",
+			),
+		},
+		{
+			value: num(lang, facts.places.total),
+			label: t("fichas de lugares e instalaciones", "pages for places and facilities"),
+			how: t(
+				`Entidades del registro en src/ontology/registry.ts: ${num(lang, facts.places.byType.municipality)} municipios, ${num(lang, facts.places.byType.parish)} parroquias, ${num(lang, facts.places.byType.infrastructure)} instalaciones y más.`,
+				`Entities in the registry, src/ontology/registry.ts: ${num(lang, facts.places.byType.municipality)} municipalities, ${num(lang, facts.places.byType.parish)} parishes, ${num(lang, facts.places.byType.infrastructure)} facilities and more.`,
 			),
 		},
 		{
@@ -60,7 +76,7 @@ export function Numbers({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="cifras"
-			index="05"
+			index="06"
 			eyebrow={t("En cifras", "By the numbers")}
 			title={t(
 				"Cifras que salen del código, no de un folleto.",
@@ -71,12 +87,12 @@ export function Numbers({ lang }: { lang: Lang }) {
 				"Every number in this section was computed from the repository when this version of the site was prepared. Under each one, how.",
 			)}
 		>
-			<dl className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+			<dl className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
 				{stats.map((s, i) => (
-					<Reveal key={s.label} delay={(i % 3) * 0.05} className="flex flex-col bg-bg p-7 sm:p-8">
+					<Reveal key={s.label} delay={(i % 4) * 0.05} className="flex flex-col bg-bg p-7 sm:p-8">
 						<dt className="order-2 mt-1 text-[1rem] font-medium text-text">{s.label}</dt>
 						<dd className="order-1 flex items-baseline gap-1.5">
-							<span className="text-[clamp(2.75rem,2rem+2.4vw,3.75rem)] font-semibold leading-none tracking-[-0.045em]">
+							<span className="text-[clamp(2.5rem,1.9rem+2vw,3.25rem)] font-semibold leading-none tracking-[-0.045em]">
 								{s.value}
 							</span>
 							{s.unit ? <span className="text-[1.125rem] text-text-3">{s.unit}</span> : null}

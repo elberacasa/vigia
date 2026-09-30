@@ -1,5 +1,6 @@
 import type { Lang } from "@/lib/i18n";
 import { FinalCta, Licence } from "./Closing";
+import { Desk } from "./Desk";
 import { Developers } from "./Developers";
 import { Hero } from "./Hero";
 import { HowItWorks } from "./HowItWorks";
@@ -15,6 +16,7 @@ export function Landing({ lang }: { lang: Lang }) {
 		<Shell lang={lang} page="home">
 			<Hero lang={lang} />
 			<HowItWorks lang={lang} />
+			<Desk lang={lang} />
 			<Panels lang={lang} />
 			<Sources lang={lang} />
 			<Principles lang={lang} />

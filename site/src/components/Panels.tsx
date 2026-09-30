@@ -192,7 +192,7 @@ const CARDS: readonly Card[] = [
 	},
 ];
 
-/** The wall's other panels, named in the sentence under the grid. */
+/** The other panels, named as chips under the grid. */
 const MORE: Readonly<Record<string, readonly [string, string]>> = {
 	alertas: ["alertas de ciclones y desastres", "cyclone and disaster alerts"],
 	satelite: ["imágenes de satélite cada 10 minutos", "satellite imagery every 10 minutes"],
@@ -280,15 +280,15 @@ export function Panels({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="que-muestra"
-			index="02"
+			index="03"
 			eyebrow={t("Qué muestra", "What it shows")}
 			title={t(
-				`${num(lang, facts.panels)} paneles y un mapa. Cada uno responde una pregunta.`,
-				`${num(lang, facts.panels)} panels and a map. Each answers one question.`,
+				`${num(lang, facts.panels)} paneles en ${num(lang, facts.modules.length)} módulos. Cada uno responde una pregunta.`,
+				`${num(lang, facts.panels)} panels in ${num(lang, facts.modules.length)} modules. Each answers one question.`,
 			)}
 			lede={t(
-				"¿A cuánto está el dólar? ¿Hay caídas de internet? ¿Tembló? Recortes reales de la app, con los nombres de quien publica cada dato.",
-				"What is the dollar at? Is the internet down? Was there a quake? Real crops of the app, with the names of whoever publishes each figure.",
+				"¿A cuánto está el dólar? ¿Hay caídas de internet? ¿Tembló? Recortes reales de la mesa de trabajo, con los nombres de quien publica cada dato.",
+				"What is the dollar at? Is the internet down? Was there a quake? Real crops of the desk, with the names of whoever publishes each figure.",
 			)}
 		>
 			<ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
@@ -334,13 +334,21 @@ export function Panels({ lang }: { lang: Lang }) {
 					);
 				})}
 			</ul>
-			<p className="mt-8 text-[0.9375rem] text-text-2">
-				{t(`Y ${rest.length} más: `, `And ${rest.length} more: `)}
-				{restNames.join(", ")}.
-				{lang === "en"
-					? " The screens show the app in Spanish, its first language; it also runs in English."
-					: null}
-			</p>
+			<Reveal className="mt-10">
+				<h3 className="eyebrow">{t(`Y ${rest.length} más`, `And ${rest.length} more`)}</h3>
+				<ul className="mt-4 flex flex-wrap gap-2">
+					{restNames.map((n) => (
+						<li key={n} className="chip !h-auto py-1 leading-snug">
+							{n}
+						</li>
+					))}
+				</ul>
+				{lang === "en" ? (
+					<p className="mt-5 text-[0.875rem] text-text-3">
+						The screens show the app in Spanish, its first language; it also runs in English.
+					</p>
+				) : null}
+			</Reveal>
 		</Section>
 	);
 }

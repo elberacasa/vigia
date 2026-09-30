@@ -121,7 +121,7 @@ export function Principles({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="principios"
-			index="04"
+			index="05"
 			eyebrow={t("Principios", "Principles")}
 			title={t(
 				"Lo que Vigía nunca hace es lo que la hace útil.",

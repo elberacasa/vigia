@@ -23,7 +23,7 @@ export function Licence({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="licencia"
-			index="08"
+			index="09"
 			eyebrow={t("Licencia", "Licence")}
 			title={t(
 				"Código disponible, para todo uso no comercial.",

@@ -48,11 +48,20 @@ export function Hero({ lang }: { lang: Lang }) {
 			/>
 			<div className="wrap grid items-center gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-8">
 				<div className="relative z-10 max-w-[36rem]">
-					<p className="chip mb-7">
-						<span className="data text-text">v{facts.version}</span>
+					<a
+						href="#mesa"
+						className="chip group mb-7 transition-colors hover:border-line-strong hover:text-text"
+					>
+						<span className="data text-signal">v{facts.version}</span>
 						<span className="h-3 w-px bg-line-strong" aria-hidden="true" />
-						{t("Gratis · sin cuenta · en tu equipo", "Free · no account · on your machine")}
-					</p>
+						{t(
+							`Nuevo: la mesa de trabajo y ${num(lang, facts.places.total)} fichas`,
+							`New: the desk and ${num(lang, facts.places.total)} pages`,
+						)}
+						<span className="transition-transform group-hover:translate-x-0.5" aria-hidden="true">
+							→
+						</span>
+					</a>
 					<h1 id="hero-title" className="h-display text-[clamp(2.625rem,1.2rem+4.4vw,4rem)]">
 						{t("Venezuela, ahora.", "Venezuela, now.")}
 						<span className="mt-2 block text-text-3">
@@ -61,8 +70,8 @@ export function Hero({ lang }: { lang: Lang }) {
 					</h1>
 					<p className="lede mt-7 max-w-[34rem]">
 						{t(
-							`Vigía reúne en una pantalla lo que pasa en el país: el dólar oficial y el paralelo, internet por estado, censura, sismos, incendios, clima y las noticias de ${num(lang, facts.newsPublishers)} medios. Corre en tu computadora, sin cuenta y sin claves.`,
-							`Vigía puts what is happening in the country on one screen: the official and parallel dollar, internet by state, censorship, earthquakes, fires, weather and the news from ${num(lang, facts.newsPublishers)} publishers. It runs on your own computer, with no account and no keys.`,
+							`Vigía reúne en una pantalla lo que pasa en el país: el dólar oficial y el paralelo, internet por estado, censura, sismos, incendios, clima, TV y cámaras en vivo y las noticias de ${num(lang, facts.newsPublishers)} medios. Gratis, en tu computadora, sin cuenta y sin claves.`,
+							`Vigía puts what is happening in the country on one screen: the official and parallel dollar, internet by state, censorship, earthquakes, fires, weather, live TV and cameras, and the news from ${num(lang, facts.newsPublishers)} publishers. Free, on your own computer, with no account and no keys.`,
 						)}
 					</p>
 					<div className="mt-9 flex flex-wrap items-center gap-3">

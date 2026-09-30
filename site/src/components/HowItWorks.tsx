@@ -10,20 +10,32 @@ import { Section } from "./Section";
 /** What each chapter of the recording shows (scripts/site-capture.ts, in its order), for readers who cannot watch. */
 const SCENES: readonly (readonly [string, string])[] = [
 	[
-		"El muro en una pantalla de escritorio: la frase «Ahora», el mapa por estados y los paneles.",
-		"The wall on a desktop screen: the “Ahora” sentence, the map by state and the panels.",
+		"La mesa de trabajo abre en Situación: las cifras clave, el mapa por estados, las prioridades y el registro de eventos.",
+		"The desk opens on Situation: the key figures, the map by state, the priorities and the event log.",
 	],
 	[
-		"Un clic en Sucre: el mapa se acerca al estado y se abre su ficha.",
-		"A click on Sucre: the map zooms to the state and its sheet opens.",
+		"Un clic en Cojedes: el inspector muestra sus señales, cada una con su fuente y su edad.",
+		"A click on Cojedes: the inspector shows its signals, each with its source and age.",
 	],
 	[
-		"Ctrl K abre la búsqueda; al escribir «maracaibo» y pulsar Enter, la pantalla va a ese municipio.",
-		"Ctrl K opens the search; typing “maracaibo” and pressing Enter takes the screen to that municipality.",
+		"La tecla P abre la ficha del estado: población, capital, señales de ahora, incidentes y el mapa con sus instalaciones.",
+		"The P key opens the state's page: population, capital, current signals, incidents and the map with its facilities.",
 	],
 	[
-		"En la franja del historial se eligen 7 días y se reproducen los datos guardados de esa semana.",
-		"In the history strip, 7 days are chosen and the week's stored data is played back.",
+		"Ctrl K abre la búsqueda; al escribir «guri» y pulsar Enter aparece la central hidroeléctrica, y P abre su ficha.",
+		"Ctrl K opens the search; typing “guri” and pressing Enter finds the hydroelectric plant, and P opens its page.",
+	],
+	[
+		"La tecla 0 abre En vivo: canales de TV con un cuadro fechado de cada uno y cámaras públicas.",
+		"The 0 key opens Live: TV channels with a dated frame from each, and public cameras.",
+	],
+	[
+		"La tecla 2 abre Dinero: la tasa oficial y las paralelas lado a lado, con la brecha calculada.",
+		"The 2 key opens Money: the official and parallel rates side by side, with the computed gap.",
+	],
+	[
+		"De vuelta en Situación, en la franja del historial se eligen 7 días y se reproducen los datos guardados de esa semana.",
+		"Back on Situation, 7 days are chosen in the history strip and the week's stored data is played back.",
 	],
 	[
 		"La vista del teléfono: se desliza por los paneles y se tocan las pestañas Dólar y Mapa.",
@@ -80,8 +92,8 @@ export function HowItWorks({ lang }: { lang: Lang }) {
 					poster={file("poster.webp")}
 					sources={{ webm: file("hero.webm"), mp4: file("hero.mp4") }}
 					label={t(
-						"Grabación de Vigía en uso: el muro, un estado en el mapa, la búsqueda de Maracaibo, el historial de internet reproducido y la vista del teléfono.",
-						"Recording of Vigía in use: the wall, a state on the map, a search for Maracaibo, the internet history replayed and the phone view.",
+						"Grabación de Vigía en uso: la mesa de trabajo, un estado en el inspector y su ficha, la búsqueda de la represa de Guri, En vivo, el dólar, el historial reproducido y la vista del teléfono.",
+						"Recording of Vigía in use: the desk, a state in the inspector and its page, a search for the Guri dam, Live, the dollar, the history replayed and the phone view.",
 					)}
 				/>
 				<p className="data mt-3 text-[0.75rem] text-text-3">
@@ -128,8 +140,8 @@ export function HowItWorks({ lang }: { lang: Lang }) {
 							<Image
 								src={file("still-desk.webp")}
 								alt={t(
-									"Vigía en una pantalla de escritorio: la frase Ahora, las cifras clave, el mapa por estados y los paneles de dólar, internet e incidentes.",
-									"Vigía on a desktop screen: the Ahora sentence, the key figures, the map by state and the dollar, internet and incidents panels.",
+									"La mesa de trabajo de Vigía en una pantalla de escritorio: los módulos a la izquierda, las cifras clave, el mapa por estados con sus capas, los incidentes, las prioridades y el registro de eventos.",
+									"Vigía's desk on a desktop screen: the modules on the left, the key figures, the map by state with its layers, the incidents, the priorities and the event log.",
 								)}
 								width={2880}
 								height={1800}
@@ -138,7 +150,7 @@ export function HowItWorks({ lang }: { lang: Lang }) {
 							/>
 						</div>
 						<figcaption className="mt-3 text-[0.8125rem] text-text-3">
-							{t("En el escritorio: el muro completo.", "On a desktop: the full wall.")}
+							{t("En el escritorio: la mesa de trabajo.", "On a desktop: the desk.")}
 						</figcaption>
 					</figure>
 				</Reveal>

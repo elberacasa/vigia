@@ -1,66 +1,67 @@
-VIGÍA · Venezuela now                               Sep 29, 19:39 · Caracas time
+VIGÍA · Venezuela now                               Sep 29, 21:28 · Caracas time
 ────────────────────────────────────────────────────────────────────────────────
-NOW    Possible blackout in Aragua (IODA and press, last signal 8 min ago) ·
-       Possible blackout in Cojedes (IODA and press, last signal 8 min ago) ·
-       Signal drop in Barinas, Falcón and 5 more · Storms forecast in 7 capitals
-       · BCV dollar Bs 857.89, Yadio +11.9%
+NOW    Possible blackout in Cojedes (IODA and press, last signal 16 min ago) ·
+       Possible blackout in Aragua (IODA and press, last signal 27 min ago) ·
+       Signal drop in Barinas, Falcón and 5 more · BCV dollar Bs 857.89, Yadio
+       +11.9%
 
 DOLLAR
-  BCV official        857.89 Bs  +0.10% in 24 h                   BCV · 19 h ago
-  Yadio (P2P)         959.79 Bs  gap +11.9%                    Yadio · 5 min ago
-  Binance P2P, mediana de los 10 mejores anuncios (USDT/VE…  Binance · 1 min ago
+  BCV official        857.89 Bs  +0.10% in 24 h                   BCV · 21 h ago
+  Yadio (P2P)         960.23 Bs  gap +11.9%                    Yadio · 8 min ago
+  Binance P2P, mediana de los 10 mejores anuncios (USDT/VE…  Binance · 9 min ago
 
 INTERNET BY STATE (IODA, WORST FIRST)
-  Barinas              drop         74.6% of normal            IODA · 20 min ago
-  Cojedes              drop         74.7% of normal            IODA · 20 min ago
-  Falcón               drop         79.5% of normal            IODA · 20 min ago
-  Lara                 drop         42.6% of normal            IODA · 20 min ago
-  Nueva Esparta        drop         82.7% of normal            IODA · 20 min ago
-  Portuguesa           drop         73.7% of normal            IODA · 20 min ago
-  Trujillo             drop         45.8% of normal            IODA · 20 min ago
-  Yaracuy              drop         70.7% of normal            IODA · 20 min ago
-  Normal (16), % of normal for this hour:
-  Táchira 56%               Carabobo 61%              Aragua 65%
-  Zulia 67%                 Mérida 77%                Bolívar 84%
-  Monagas 90%               Apure 91%                 Anzoátegui 92%
-  Sucre 94%                 Miranda 95%               Distrito Capital 96%
-  La Guaira 98%             Amazonas 100%             Delta Amacuro 100%
-  Guárico 100%
+  Barinas              drop         84.2% of normal            IODA · 29 min ago
+  Falcón               drop         49.0% of normal            IODA · 29 min ago
+  Lara                 drop         59.9% of normal            IODA · 29 min ago
+  Nueva Esparta        drop         83.3% of normal            IODA · 29 min ago
+  Portuguesa           drop         79.7% of normal            IODA · 29 min ago
+  Táchira              drop         45.9% of normal            IODA · 29 min ago
+  Trujillo             drop         48.9% of normal            IODA · 29 min ago
+  Normal (17), % of normal for this hour:
+  Carabobo 69%              Yaracuy 75%               Cojedes 78%
+  Miranda 82%               Zulia 86%                 Distrito Capital 89%
+  Aragua 89%                Anzoátegui 94%            Sucre 94%
+  Delta Amacuro 94%         Bolívar 99%               La Guaira 99%
+  Amazonas 100%             Apure 100%                Guárico 100%
+  Mérida 100%               Monagas 100%
   No data (1): Dependencias Federales
-  IODA, Georgia Tech · 20 min ago
+  IODA, Georgia Tech · 29 min ago
 
 EARTHQUAKES, 24 H, VENEZUELA AND NEARBY
-  M3.3  Colombia, a 110 km al SO de Delicias (Táchira)       FUNVISIS · 11 h ago
-  M3.2  a 11 km al ENE de Mene Grande (Zulia)                 FUNVISIS · 7 h ago
-  M3.1  a 23 km al NNE de San Rafael de Onoto (Portuguesa)   FUNVISIS · 17 h ago
-  M2.9  Colombia, a 110 km al SO de Delicias (Táchira)       FUNVISIS · 20 h ago
-  M2.8  En el mar, a 154 km al NO de Santa Cruz de los Taqu…  FUNVISIS · 4 h ago
-  and 3 more
+  M3.3  Colombia, a 110 km al SO de Delicias (Táchira)       FUNVISIS · 13 h ago
+  M3.2  a 11 km al ENE de Mene Grande (Zulia)                 FUNVISIS · 9 h ago
+  M3.1  a 23 km al NNE de San Rafael de Onoto (Portuguesa)   FUNVISIS · 19 h ago
+  M2.9  Colombia, a 110 km al SO de Delicias (Táchira)       FUNVISIS · 21 h ago
+  M2.8  En el mar, a 154 km al NO de Santa Cruz de los Taqu…  FUNVISIS · 6 h ago
+  and 4 more
 
 INCIDENTS (INDEPENDENT SOURCES THAT AGREE)
-  ● Possible blackout in Aragua                                      since 09:39
-    2 independent sources · IODA, press                           last 8 min ago
   ● Possible blackout in Cojedes                                     since 10:04
-    2 independent sources · IODA, press                           last 8 min ago
+    2 independent sources · IODA, press                          last 16 min ago
+  ● Possible blackout in Aragua                                      since 09:39
+    2 independent sources · IODA, press                          last 27 min ago
+  ● Possible blackout in Carabobo                                    since 14:00
+    2 independent sources · IODA, press                          last 27 min ago
+  ● Possible blackout in Guárico                                     since 10:00
+    2 independent sources · IODA, press                          last 27 min ago
   ● Possible blackout in Lara                                        since 13:20
-    2 independent sources · IODA, press                           last 8 min ago
+    2 independent sources · IODA, press                          last 27 min ago
+  ● Possible blackout in Portuguesa                                  since 15:40
+    2 independent sources · IODA, press                          last 27 min ago
   ● Possible blackout in Barinas                                     since 14:36
-    2 independent sources · IODA, press                          last 48 min ago
-
-PRESS REPORTS ONLY (NO MEASUREMENT)
-  ○ Possible blackout in Zulia                                       since 14:36
-    reports only, 4 outlets, no measurement                         last 1 h ago
+    2 independent sources · IODA, press                          last 37 min ago
+  ● Possible blackout in Sucre                                       since 18:43
+    2 independent sources · IODA, press                             last 1 h ago
 
 UNCORROBORATED SIGNALS (ONE MEASURED SOURCE)
-  · Connectivity drop in Carabobo · IODA                          last 8 min ago
-  · Connectivity drop in Falcón · IODA                            last 8 min ago
-  · Connectivity drop in Guárico · IODA                           last 8 min ago
-  · Connectivity drop in Yaracuy · IODA                           last 8 min ago
-  · Connectivity drop in Portuguesa · IODA                       last 27 min ago
-  · Connectivity drop in Trujillo · IODA                         last 27 min ago
-  and 2 more
-  15 ended in the last 48 h
+  · Connectivity drop in Yaracuy · IODA                           last 6 min ago
+  · Connectivity drop in Trujillo · IODA                         last 16 min ago
+  · Connectivity drop in Falcón · IODA                           last 27 min ago
+  · Connectivity drop in Nueva Esparta · IODA                    last 37 min ago
+  · Connectivity drop in Táchira · IODA                          last 37 min ago
+  16 ended in the last 48 h
 
 ────────────────────────────────────────────────────────────────────────────────
 Each line: source · age of the data. Numbers computed by code, no AI.
-Everything, with links and rules: http://localhost:7722/ · ?lang=es ?color=1
+Everything, with links and rules: http://localhost:7724/ · ?lang=es ?color=1

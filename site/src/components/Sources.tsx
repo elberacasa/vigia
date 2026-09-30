@@ -53,7 +53,7 @@ export function Sources({ lang }: { lang: Lang }) {
 	return (
 		<Section
 			id="fuentes"
-			index="03"
+			index="04"
 			eyebrow={t("Fuentes", "Sources")}
 			title={t(
 				`${num(lang, s.total)} fuentes, cada una con nombre y licencia.`,

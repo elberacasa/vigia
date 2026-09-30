@@ -13,22 +13,23 @@
 
 Vigía puts what is happening in Venezuela right now on one screen: the dollar (the official rate and named
 parallel-market quotes), earthquakes, fires, weather, internet and power outages by state, censorship, airspace
-notices, and the news from dozens of Venezuelan and international outlets, on one map, in Spanish first, fast on
-a cheap phone. **Every figure shows its source, its licence, and its age.** Nothing is invented, and nothing in the
-core is written by an AI.
+notices, live TV, radio and public cameras, and the news from more than 200 Venezuelan and international outlets,
+on one map, in Spanish first, fast on a cheap phone. **Every figure shows its source, its licence, and its age.**
+Nothing is invented, and nothing in the core is written by an AI.
 
 <p align="center">
-  <img src="docs/assets/screenshot-desktop.png" alt="Vigía on a desktop: the map of Venezuela with the live panels around it" width="820">
+  <img src="docs/assets/screenshot-desktop.png" alt="Vigía's desk: the modules on the left, the key figures, the map of Venezuela by state with its layers, the incidents, the priorities and the event log" width="820">
 </p>
 <p align="center">
-  <img src="docs/assets/screenshot-phone.png" alt="Vigía on a phone" width="260">
+  <img src="docs/assets/screenshot-place.png" alt="Zulia state's page: population, area and capital, the current signals with their source, basis and age, and the state's map with its facilities" width="560">
+  <img src="docs/assets/screenshot-phone.png" alt="Vigía on a phone" width="220">
 </p>
 <p align="center">
-  <img src="docs/assets/demo.gif" alt="Vigía in use: the wall, a state on the map, the Ctrl+K search, the history replay and the phone view" width="800">
+  <img src="docs/assets/demo.gif" alt="Vigía in use: the desk, a state in the inspector and its page, the search for the Guri dam, live TV, the dollar, the week replayed, and the phone view" width="800">
 </p>
 
-> **Status: early (0.x).** The core runs today with no keys and no account anywhere. See the
-> [changelog](CHANGELOG.md) for what is in each release.
+> **Status: 1.0.** The core runs with no keys and no account anywhere. See the [changelog](CHANGELOG.md) for what is
+> in each release.
 
 ## Contents
 
@@ -49,6 +50,13 @@ core is written by an AI.
   satellite imagery on the map.
 - **News.** Dozens of outlets, each with its stance labelled, located to a state and municipality by a gazetteer,
   and grouped into stories across outlets.
+- **A workstation.** Ten modules, one key each (Situación, Dinero, Internet, En vivo…), an inspector that explains
+  any place you select, an event log, and a time slider that replays the stored history.
+- **A page for every place.** Every state, municipality and parish, and more than a thousand facilities (hospitals,
+  substations, power plants, dams, airports, refineries, ports), plus outlets, networks and institutions: each page
+  gathers that place's signals with their source, basis and age.
+- **Live TV, radio and cameras.** Whether each channel and station is on air, measured by Vigía, with a dated
+  frame from the channels and public cameras that allow it; a dead signal never looks live.
 - **Incidents, not guesses.** An incident opens only when independent sensor families agree within a time window;
   the rule is shown in the UI. Never a probability.
 - **Verifiable history.** Every observation is archived. Each day is sealed into a SHA-256 hash chain, and a panel's

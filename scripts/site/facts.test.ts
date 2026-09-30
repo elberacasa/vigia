@@ -1,7 +1,16 @@
 import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { countTests, keyless, newsPublishers, offByDefault, panelIds, releaseFiles } from "./facts.ts";
+import {
+	countTests,
+	keyless,
+	modules,
+	newsPublishers,
+	offByDefault,
+	panelIds,
+	places,
+	releaseFiles,
+} from "./facts.ts";
 import { rings } from "./map.ts";
 
 const ROOT = join(import.meta.dir, "..", "..");
@@ -84,4 +93,18 @@ test("offByDefault marks publishers whose every feed needs a key or an opt-in", 
 			a("Mixed", { id: "m2" }),
 		]),
 	).toEqual({ Keyed: "key", Opt: "opt-in" });
+});
+
+test("places counts every entity with a page, and the parts add up to the whole", () => {
+	const p = places();
+	expect(p.byType.state).toBe(25);
+	expect(p.byType.country).toBe(1);
+	expect(Object.values(p.byType).reduce((a, b) => a + b, 0)).toBe(p.total);
+});
+
+test("modules lists the desk's ten modules in rail order, keys 1–9 then 0", () => {
+	const m = modules();
+	expect(m.map((x) => x.key)).toEqual(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
+	expect(m[0]).toMatchObject({ id: "situacion", panels: 0 });
+	expect(m.every((x) => x.qEs.length > 0 && x.qEn.length > 0)).toBe(true);
 });

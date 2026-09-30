@@ -46,6 +46,7 @@ export function Header({ lang, page }: { lang: Lang; page: Page }) {
 	// On the home page the sections are anchors; from the other pages they lead back to them.
 	const home = page === "home" ? "" : PATHS.home[lang];
 	const links: { href: string; label: string; current?: boolean; wide?: boolean }[] = [
+		{ href: `${home}#mesa`, label: t("La mesa", "The desk") },
 		{ href: `${home}#que-muestra`, label: t("Qué muestra", "What it shows") },
 		{ href: PATHS.sources[lang], label: t("Fuentes", "Sources"), current: page === "sources" },
 		{ href: `${home}#principios`, label: t("Principios", "Principles"), wide: true },

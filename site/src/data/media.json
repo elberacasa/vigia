@@ -1,11 +1,11 @@
 {
-	"recordedAt": 1790344998157,
-	"duration": 35.3,
+	"recordedAt": 1790732821010,
+	"duration": 48.5,
 	"chapters": [
 		{
 			"at": 0,
-			"es": "El muro",
-			"en": "The wall"
+			"es": "La sala",
+			"en": "The room"
 		},
 		{
 			"at": 2.4,
@@ -13,17 +13,32 @@
 			"en": "A state"
 		},
 		{
-			"at": 8,
+			"at": 6.3,
+			"es": "Su ficha",
+			"en": "Its page"
+		},
+		{
+			"at": 11.1,
 			"es": "Búsqueda Ctrl K",
 			"en": "Ctrl K search"
 		},
 		{
-			"at": 15,
+			"at": 17.7,
+			"es": "En vivo",
+			"en": "Live"
+		},
+		{
+			"at": 21.3,
+			"es": "El dólar",
+			"en": "The dollar"
+		},
+		{
+			"at": 28.6,
 			"es": "Historial",
 			"en": "History"
 		},
 		{
-			"at": 23.9,
+			"at": 37.1,
 			"es": "En el teléfono",
 			"en": "On a phone"
 		}

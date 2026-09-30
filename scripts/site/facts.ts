@@ -6,7 +6,10 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { ADAPTERS } from "../../src/adapters/registry.ts";
 import type { Adapter } from "../../src/core/types.ts";
+import { registry } from "../../src/ontology/registry.ts";
+import type { EntityType } from "../../src/ontology/types.ts";
 import { PANELS } from "../../src/server/panel-registry.ts";
+import { MODULES } from "../../web/src/lib/modules.ts";
 
 /** Adapters that measure broadcasters' availability rather than publish news themselves. */
 const NOT_PUBLISHERS = new Set(["youtube-live", "radio-streams"]);
@@ -36,6 +39,42 @@ export interface Facts {
 	 * page marks them so a list of publishers never reads as what a fresh install shows.
 	 */
 	offByDefault: Record<string, "key" | "opt-in">;
+	/** Entities with their own page (src/ontology/registry.ts): every one, and by type. */
+	places: { total: number; byType: Record<EntityType, number> };
+	/** The desk's modules (web/src/lib/modules.ts), in rail order, with the question each answers. */
+	modules: Module[];
+}
+
+/** One module of the desk, as the page lists it. */
+export interface Module {
+	id: string;
+	key: string;
+	es: string;
+	en: string;
+	qEs: string;
+	qEn: string;
+	/** Panels in its columns (Situación has none: it is the map). */
+	panels: number;
+}
+
+/** Entities by type, from the ontology registry the app ships. */
+export function places(): Facts["places"] {
+	const all = registry().all;
+	const byType = {} as Record<EntityType, number>;
+	for (const e of all) byType[e.type] = (byType[e.type] ?? 0) + 1;
+	return { total: all.length, byType };
+}
+
+export function modules(): Module[] {
+	return MODULES.map((m) => ({
+		id: m.id,
+		key: m.key,
+		es: m.es,
+		en: m.en,
+		qEs: m.qEs,
+		qEn: m.qEn,
+		panels: m.columns.reduce((n, c) => n + c.length, 0),
+	}));
 }
 
 /** How a publisher's adapters start: all keyed, all opt-in (or keyed), or at least one on by default. */
@@ -147,6 +186,8 @@ export function facts(root: string, shipped: (path: string) => boolean = () => t
 		licences: new Set(ADAPTERS.map((a) => a.licence.name)).size,
 		providers,
 		offByDefault: offByDefault(ADAPTERS),
+		places: places(),
+		modules: modules(),
 	};
 }
 
