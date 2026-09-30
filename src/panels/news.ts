@@ -22,6 +22,8 @@ export type StoryOutlet = {
 	stance: string;
 	/** Absent for newsrooms; "fact-check", "official" (a government body's press site) or "rights" otherwise. */
 	genre?: Genre;
+	/** Read through Google News (the outlet blocks automated readers): the UI says "vía Google Noticias". */
+	via?: "google-news";
 	region: string;
 	title: string;
 	url: string;
@@ -216,6 +218,7 @@ export function newsView(store: Store, now: number, outlets: readonly OutletSpec
 				name: m.outlet.name,
 				stance: m.outlet.stance,
 				...(m.outlet.genre && m.outlet.genre !== "news" ? { genre: m.outlet.genre } : {}),
+				...(m.outlet.via ? { via: "google-news" as const } : {}),
 				region: m.outlet.region,
 				title: m.item.title,
 				url: m.item.link,
@@ -308,9 +311,12 @@ export function newsView(store: Store, now: number, outlets: readonly OutletSpec
 		topicCounts,
 		items24h,
 		outletsReporting24h: reporting.size,
-		// Followed publishers: those with a feed on by default, plus any opt-in one the user turned on (it reported).
+		// Followed publishers: those with a feed on by default in every mode, plus any other one that is on here (it
+		// reported): an opt-in feed the user turned on, or a feed on only in a personal Vigía.
 		outletsTotal: new Set([
-			...outlets.filter((o) => !o.optIn).map(publisherId),
+			...outlets
+				.filter((o) => !o.optIn && (o.defaultIn?.public ?? true) && (o.defaultIn?.local ?? true))
+				.map(publisherId),
 			...tagged.map((t) => t.publisher),
 		]).size,
 		method: "keywords",

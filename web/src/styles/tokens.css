@@ -1,11 +1,12 @@
 /*
  * Vigía design tokens. The only place colours, type, spacing, radii, elevation and motion are defined.
- * Dark is the signature theme; light is a full theme, not an inversion.
+ * Design system: docs/DESIGN.md. Dark is the signature theme; light is a full theme, not an inversion.
  *
- * Colour roles:
- *   --signal   lookout amber: the brand, live data, focus. Never used for "bad".
- *   --info     cool data blue: neutral series, links.
- *   --ok / --warn / --alert: feed and event states. Paired with icons and text, never colour alone.
+ * Colour roles (restrained on purpose, a workstation is read for hours):
+ *   surfaces  neutral blue-grey, flat, separated by 1 px hairlines; elevation only for things that float.
+ *   --accent  the one interactive colour: links, the active module, selection, pressed controls.
+ *   --signal  lookout amber: the brand, "live" and keyboard focus. Never used for "bad", never for decoration.
+ *   --ok / --warn / --alert: feed and event states only, always paired with a word or a shape.
  */
 
 @font-face {
@@ -24,57 +25,69 @@
 :root {
 	color-scheme: dark;
 
-	/* Surfaces: night sky over the Caribbean, from deepest to raised. */
-	--bg: #07090e;
-	--surface-0: #0b0e14;
-	--surface-1: #10141c;
-	--surface-2: #161b25;
-	--surface-3: #1e2430;
-	--line: #232a37;
-	--line-strong: #333c4d;
+	/* Surfaces: deepest to raised. */
+	--bg: #0a0d12;
+	--surface-0: #0d1117;
+	--surface-1: #11161d;
+	--surface-2: #161c24;
+	--surface-3: #1c232d;
+	--line: #222a35;
+	--line-strong: #303a47;
 
 	/* Text */
-	--text: #edeff3;
-	--text-2: #aab2c0;
-	--text-3: #8a94a7;
-	--text-inverse: #0b0e14;
+	--text: #e3e7ed;
+	--text-2: #a3adbb;
+	--text-3: #7f8a9b;
+	--text-inverse: #0b0e13;
 
 	/* Roles */
-	--signal: #f6b532;
-	--signal-2: #ffd27a;
-	--signal-soft: rgb(246 181 50 / 0.14);
-	--info: #6cb4ff;
-	--info-soft: rgb(108 180 255 / 0.14);
-	--ok: #3fd49a;
-	--ok-soft: rgb(63 212 154 / 0.14);
-	--warn: #ff9f43;
-	--warn-soft: rgb(255 159 67 / 0.16);
-	--alert: #ff5a5f;
-	--alert-soft: rgb(255 90 95 / 0.16);
-	--muted-soft: rgb(170 178 192 / 0.1);
+	--accent: #5b9dff;
+	--accent-soft: rgb(91 157 255 / 0.14);
+	--signal: #f2b134;
+	--signal-2: #ffd07a;
+	--signal-soft: rgb(242 177 52 / 0.12);
+	--info: #5b9dff;
+	--info-soft: rgb(91 157 255 / 0.12);
+	--ok: #3cc88f;
+	--ok-soft: rgb(60 200 143 / 0.07);
+	--warn: #f08a3c;
+	--warn-soft: rgb(240 138 60 / 0.13);
+	--alert: #f0535b;
+	--alert-soft: rgb(240 83 91 / 0.13);
+	--muted-soft: rgb(163 173 187 / 0.09);
+	/* Data series on the map: never the brand's amber, never a status colour. */
+	--data-quake: #b79bff;
+	--data-heat: #ff6a3d;
+	/* Lightning (GLM flashes): cyan, distinct from the accent blue, the quakes' violet and the heat's red-orange. */
+	--data-lightning: #3fd4e4;
+	/* Facilities (ontology layer): a neutral steel, told apart by shape, never competing with the live series. */
+	--data-infra: #aebbcc;
+	/* Public cameras (a fan where each looks): near-white, neutral, never a status colour. */
+	--data-camera: #eef1f5;
 
 	/* Map */
-	--map-sea: #07090e;
-	--map-land: #151c29;
-	--map-land-hover: #1c2535;
-	--map-border: #2e384b;
-	--map-neighbour: #0e131b;
-	--map-grid: rgb(108 180 255 / 0.05);
+	--map-sea: #0a0d12;
+	--map-land: #161c26;
+	--map-land-hover: #1d2531;
+	--map-border: #313b4b;
+	--map-neighbour: #0f131a;
+	--map-grid: rgb(91 157 255 / 0.05);
 
-	/* Type */
+	/* Type: a precise grotesque for the interface, a monospace for times, ids and dense figures. */
 	--font-ui: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 	--font-data: "Chivo Mono", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+	/* Phone scale (readable on a cheap Android phone held at arm's length); the desk scale is below. */
 	--fs-2xs: 0.6875rem; /* 11 */
 	--fs-xs: 0.75rem; /* 12 */
 	--fs-sm: 0.8125rem; /* 13 */
 	--fs-md: 0.9375rem; /* 15 */
-	--fs-lg: 1.125rem; /* 18 */
-	--fs-xl: 1.5rem; /* 24 */
-	--fs-2xl: 2rem; /* 32 */
-	--fs-3xl: 2.75rem; /* 44 */
-	--lh-tight: 1.1;
+	--fs-lg: 1.0625rem; /* 17 */
+	--fs-xl: 1.375rem; /* 22 */
+	--fs-2xl: 1.75rem; /* 28 */
+	--fs-3xl: 2.25rem; /* 36 */
+	--lh-tight: 1.15;
 	--lh: 1.45;
-	--tracking-caps: 0.08em;
+	--tracking-caps: 0.09em;
 
 	/* Space: 4-pt scale */
 	--s-1: 4px;
@@ -87,112 +100,150 @@
 	--s-10: 40px;
 	--s-12: 48px;
 
-	--r-sm: 6px;
-	--r-md: 10px;
-	--r-lg: 14px;
-	--r-pill: 999px;
+	/* Radii: small and square. Nothing is a pill; dots stay round. */
+	--r-sm: 2px;
+	--r-md: 3px;
+	--r-lg: 4px;
+	--r-pill: 3px;
 
-	/* Layout: a tight, square "control room" grid. */
-	--r-panel: 8px;
+	/* Layout */
+	--r-panel: 3px;
 	--gutter: 8px;
-	--panel-pad: 16px;
-	--topbar-h: 53px;
-	/* Room for the desktop status bar (fixed, 28 px); none on phones, where the tab bar takes its place. */
+	--panel-pad: 14px;
+	--topbar-h: 49px;
+	/* Room for the desktop status line; none on phones, where the tab bar takes its place. */
 	--statusbar-h: 0px;
 	--tabbar-h: 0px;
+	/* Workstation frame (desk, ≥1000 px): command bar, rail, inspector, bottom strip. */
+	--cmd-h: 44px;
+	--rail-w: 72px;
+	--inspector-w: 360px;
+	--row-h: 28px;
 
-	--shadow-1: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 1px 2px rgb(0 0 0 / 0.4);
-	--shadow-2: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 8px 24px rgb(0 0 0 / 0.45);
-	--glow-signal: 0 0 0 1px rgb(246 181 50 / 0.35), 0 0 24px rgb(246 181 50 / 0.18);
+	/* Elevation: flat surfaces; one shadow for what floats over the page (menus, dialogs). */
+	--shadow-1: none;
+	--shadow-2: 0 12px 32px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(0 0 0 / 0.2);
+	--glow-signal: 0 0 0 1px var(--signal);
 
-	/* Motion: fast, calm, only when data changes. */
+	/* Motion: fast, calm, only when data changes or on the reader's own action. */
 	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-	--t-fast: 120ms;
-	--t: 220ms;
-	--t-slow: 480ms;
-	--t-reveal: 900ms;
+	--t-fast: 100ms;
+	--t: 180ms;
+	--t-slow: 360ms;
+	--t-reveal: 800ms;
 
-	--focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--signal);
+	--focus: 0 0 0 1px var(--bg), 0 0 0 3px var(--signal);
 }
 
 :root[data-theme="light"] {
 	color-scheme: light;
-	--bg: #f4f1ea;
-	--surface-0: #fbf9f5;
+	--bg: #eceff3;
+	--surface-0: #f5f7f9;
 	--surface-1: #ffffff;
-	--surface-2: #f3f0e9;
-	--surface-3: #e8e4da;
-	--line: #e2ddd2;
-	--line-strong: #cbc4b5;
-	--text: #14181f;
-	--text-2: #4a5263;
-	--text-3: #5c6577;
+	--surface-2: #f3f5f8;
+	--surface-3: #e7ebf0;
+	--line: #dce1e7;
+	--line-strong: #c3cad4;
+	--text: #141920;
+	--text-2: #434d5d;
+	--text-3: #5a6576;
 	--text-inverse: #ffffff;
+	--accent: #1c5fc4;
+	--accent-soft: rgb(28 95 196 / 0.1);
 	--signal: #8a5a00;
 	--signal-2: #6f4800;
-	--signal-soft: rgb(184 120 0 / 0.12);
-	--info: #1a62bd;
-	--info-soft: rgb(31 111 209 / 0.1);
+	--signal-soft: rgb(184 120 0 / 0.11);
+	--info: #1c5fc4;
+	--info-soft: rgb(28 95 196 / 0.09);
 	--ok: #0b7a53;
 	--ok-soft: rgb(15 138 95 / 0.1);
-	--warn: #9a4c00;
-	--warn-soft: rgb(184 92 0 / 0.12);
-	--alert: #c8262c;
-	--alert-soft: rgb(200 38 44 / 0.1);
-	--muted-soft: rgb(74 82 99 / 0.08);
-	--map-sea: #e9eef2;
-	--map-land: #fbf9f5;
-	--map-land-hover: #f1ede4;
-	--map-border: #bdb6a6;
-	--map-neighbour: #f1eee7;
-	--map-grid: rgb(31 111 209 / 0.05);
-	--shadow-1: 0 1px 2px rgb(20 24 31 / 0.06);
-	--shadow-2: 0 8px 24px rgb(20 24 31 / 0.08);
-	--glow-signal: 0 0 0 1px rgb(184 120 0 / 0.35);
+	--warn: #8f3f00;
+	--warn-soft: rgb(184 92 0 / 0.1);
+	--alert: #c4232b;
+	--alert-soft: rgb(196 35 43 / 0.09);
+	--muted-soft: rgb(67 77 93 / 0.07);
+	--data-quake: #6d4bd1;
+	--data-heat: #d4451b;
+	--data-lightning: #0a7686;
+	--data-infra: #4a5a70;
+	--data-camera: #1b2430;
+	--map-sea: #e4e9ef;
+	--map-land: #fbfcfd;
+	--map-land-hover: #f0f3f6;
+	--map-border: #b3bcc8;
+	--map-neighbour: #eff1f4;
+	--map-grid: rgb(28 95 196 / 0.06);
+	--shadow-2: 0 12px 32px rgb(20 25 32 / 0.12), 0 0 0 1px rgb(20 25 32 / 0.06);
 }
 
 @media (prefers-color-scheme: light) {
 	:root:not([data-theme="dark"]) {
 		color-scheme: light;
-		--bg: #f4f1ea;
-		--surface-0: #fbf9f5;
+		--bg: #eceff3;
+		--surface-0: #f5f7f9;
 		--surface-1: #ffffff;
-		--surface-2: #f3f0e9;
-		--surface-3: #e8e4da;
-		--line: #e2ddd2;
-		--line-strong: #cbc4b5;
-		--text: #14181f;
-		--text-2: #4a5263;
-		--text-3: #5c6577;
+		--surface-2: #f3f5f8;
+		--surface-3: #e7ebf0;
+		--line: #dce1e7;
+		--line-strong: #c3cad4;
+		--text: #141920;
+		--text-2: #434d5d;
+		--text-3: #5a6576;
 		--text-inverse: #ffffff;
+		--accent: #1c5fc4;
+		--accent-soft: rgb(28 95 196 / 0.1);
 		--signal: #8a5a00;
 		--signal-2: #6f4800;
-		--signal-soft: rgb(184 120 0 / 0.12);
-		--info: #1a62bd;
-		--info-soft: rgb(31 111 209 / 0.1);
+		--signal-soft: rgb(184 120 0 / 0.11);
+		--info: #1c5fc4;
+		--info-soft: rgb(28 95 196 / 0.09);
 		--ok: #0b7a53;
 		--ok-soft: rgb(15 138 95 / 0.1);
-		--warn: #9a4c00;
-		--warn-soft: rgb(184 92 0 / 0.12);
-		--alert: #c8262c;
-		--alert-soft: rgb(200 38 44 / 0.1);
-		--muted-soft: rgb(74 82 99 / 0.08);
-		--map-sea: #e9eef2;
-		--map-land: #fbf9f5;
-		--map-land-hover: #f1ede4;
-		--map-border: #bdb6a6;
-		--map-neighbour: #f1eee7;
-		--map-grid: rgb(31 111 209 / 0.05);
-		--shadow-1: 0 1px 2px rgb(20 24 31 / 0.06);
-		--shadow-2: 0 8px 24px rgb(20 24 31 / 0.08);
-		--glow-signal: 0 0 0 1px rgb(184 120 0 / 0.35);
+		--warn: #8f3f00;
+		--warn-soft: rgb(184 92 0 / 0.1);
+		--alert: #c4232b;
+		--alert-soft: rgb(196 35 43 / 0.09);
+		--muted-soft: rgb(67 77 93 / 0.07);
+		--data-quake: #6d4bd1;
+		--data-heat: #d4451b;
+		--data-lightning: #0a7686;
+		--data-infra: #4a5a70;
+		--data-camera: #1b2430;
+		--map-sea: #e4e9ef;
+		--map-land: #fbfcfd;
+		--map-land-hover: #f0f3f6;
+		--map-border: #b3bcc8;
+		--map-neighbour: #eff1f4;
+		--map-grid: rgb(28 95 196 / 0.06);
+		--shadow-2: 0 12px 32px rgb(20 25 32 / 0.12), 0 0 0 1px rgb(20 25 32 / 0.06);
 	}
 }
 
+/* Desk (≥1000 px): the workstation's dense scale. 13 px body, 11–12 px secondary, 10.5 px micro-labels. */
 @media (min-width: 1000px) {
 	:root {
-		--statusbar-h: 28px;
+		--statusbar-h: 24px;
+		--fs-2xs: 0.65625rem; /* 10.5 */
+		--fs-xs: 0.6875rem; /* 11 */
+		--fs-sm: 0.75rem; /* 12 */
+		--fs-md: 0.8125rem; /* 13 */
+		--fs-lg: 0.9375rem; /* 15 */
+		--fs-xl: 1.25rem; /* 20 */
+		--fs-2xl: 1.625rem; /* 26 */
+		--fs-3xl: 2.125rem; /* 34 */
+		--panel-pad: 12px;
+	}
+}
+@media (min-width: 1280px) {
+	:root {
+		--inspector-w: 380px;
+	}
+}
+@media (min-width: 1800px) {
+	:root {
+		--inspector-w: 420px;
+		--rail-w: 76px;
 	}
 }
 @media (max-width: 640px) {
@@ -211,18 +262,13 @@
 	--s-6: 18px;
 	--s-8: 24px;
 	--panel-pad: 10px;
-	--fs-md: 0.8125rem;
-	--fs-lg: 1rem;
-	--fs-xl: 1.3125rem;
-	--fs-2xl: 1.625rem;
+	--row-h: 24px;
 	--gutter: 6px;
 }
-/* Pared is for a screen across a room: from 1000 px only (the wall's own rotation is off on phones too). On a phone
-   the larger type pushed the preferences menu 31 px past the right edge and wrapped the map's title four times. */
+/* Pared is for a screen across a room: from 1000 px only (the wall's own rotation is off on phones too). */
 @media (min-width: 1000px) {
 	:root[data-density="pared"] {
 		font-size: 125%;
-		--topbar-h: 57px;
 	}
 }
 

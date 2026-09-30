@@ -1,0 +1,478 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://183.bozztv.com/giatv/giatv-AbejalesTV/AbejalesTV/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "01.txt",
+    "url": "https://streamtv.intervenhosting.net:3040/hybrid/play.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "02.txt",
+    "url": "https://rv100.globalhost1.com:3516/live/tjjqdqurlive.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "03.txt",
+    "url": "https://vcp2.myplaytv.com/anzoateguitv/anzoateguitv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "04.txt",
+    "url": "https://streamtv.as3sport.online:3394/hybrid/play.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "05.txt",
+    "url": "https://cloud2.streaminglivehd.com:1936/8264/8264/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "06.txt",
+    "url": "https://vcp13.myplaytv.com/barinastv/barinastv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "07.txt",
+    "url": "https://cloud.fastchannel.es/manifiest/hls/prog9/btatv.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "08.txt",
+    "url": "https://stmv2.voxtvhd.com.br/canal21/canal21/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "09.txt",
+    "url": "https://master.myplaytv.com:2020/hls/canaldiplomatico/canaldiplomatico.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "10.txt",
+    "url": "https://streaming.canal-i.com/canal-i/live/master.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "11.txt",
+    "url": "https://cloud.fastchannel.es/manifiest/hls/prog9/catatumbotv.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "12.txt",
+    "url": "https://vcp.myplaytv.com/explosioncreativa/explosioncreativa/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "13.txt",
+    "url": "https://streamtv.intervenhosting.net:3179/live/globaltvlive.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "14.txt",
+    "url": "https://vs20.live.opencaster.com/grande41_0b593479/index.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "15.txt",
+    "url": "https://live20.bozztv.com/akamaissh101/ssh101/grandetv2240/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "16.txt",
+    "url": "https://stream.guarotv.net:3592/hybrid/play.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "17.txt",
+    "url": "https://streamtv.intervenhosting.net:3439/hybrid/play.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "18.txt",
+    "url": "https://59d39900ebfb8.streamlock.net/islatv/islatv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "19.txt",
+    "url": "https://vcp.myplaytv.com/italianissimo/italianissimo/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "20.txt",
+    "url": "https://streamtv.intervenhosting.net:3718/live/kandelamedioslive.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "21.txt",
+    "url": "https://streamlov.alsolnet.com/lapuracrema/live/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "22.txt",
+    "url": "https://streamtv.laraenredes.com:3020/hybrid/play.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "23.txt",
+    "url": "https://streamtv.latinamedios.com:3413/live/latinatvlive.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "24.txt",
+    "url": "https://streamtv.intervenhosting.net:3403/hybrid/play.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "25.txt",
+    "url": "https://vod2live.univtec.com/manifest/89290956-94ab-4950-accb-a54bbd7e176f.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "26.txt",
+    "url": "https://maximatv.net/hls/stream.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "27.txt",
+    "url": "https://cloud2.streaminglivehd.com:1936/monagasvision-2/monagasvision-2/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "28.txt",
+    "url": "https://lbgo.bozztv.com/ssh101/ssh101/nortenatv1234/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "29.txt",
+    "url": "http://vcp1.myplaytv.com/oasistv/oasistv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "30.txt",
+    "url": "https://stmv1.srvstm.com/gproducciones/gproducciones/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "31.txt",
+    "url": "https://live20.bozztv.com/giatv/giatv-onzatv1234/onzatv1234/chunks.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "32.txt",
+    "url": "https://vcp.myplaytv.com/oxigenotv/oxigenotv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "33.txt",
+    "url": "https://vcp.myplaytv.com/glowtv/glowtv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "34.txt",
+    "url": "https://streamtv.intervenhosting.net:3789/live/portutvlive.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "35.txt",
+    "url": "https://video2.getstreamhosting.com:19360/8000/8000.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "36.txt",
+    "url": "https://vcp.myplaytv.com/promar/promar/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "37.txt",
+    "url": "http://vcp1.myplaytv.com:1935/promar/promar/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "38.txt",
+    "url": "https://5bf8041cb3fed.streamlock.net/ReformaTV/ReformaTV/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "39.txt",
+    "url": "https://cdnbarinas.tvzamora.com/showven/index.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "40.txt",
+    "url": "https://cloud2.streaminglivehd.com:1936/siembratv/siembratv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "41.txt",
+    "url": "https://vcp3.myplaytv.com/somostv/somostv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "42.txt",
+    "url": "https://rtmp.tamtv.com.ve/tmp_hls/stream/index.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "43.txt",
+    "url": "http://45.173.198.59:8080/hls/nginx3.m3u8?tla=",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "44.txt",
+    "url": "https://ssh101stream.ssh101.com/akamaissh101/ssh101/tcbstreaming/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "45.txt",
+    "url": "https://streamtv.intervenhosting.net:3531/live/telecentrovelive.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "46.txt",
+    "url": "https://mblenmain01.telesur.ultrabase.net/mblivev3/480p/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "47.txt",
+    "url": "https://mblenmain01.telesur.ultrabase.net/mblivev3/hd/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "48.txt",
+    "url": "https://mblesmain01.telesur.ultrabase.net/mbliveMain/hd/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "49.txt",
+    "url": "https://mblesmain01.telesur.ultrabase.net/mbliveMain/480p/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "50.txt",
+    "url": "https://cloud.fastchannel.es/manifiest/hls/prog9/tvo.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "51.txt",
+    "url": "https://stmv1.srvstm.com/tnovideo1/tnovideo1/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "52.txt",
+    "url": "https://us.streaminghd.cl/torococotelevision/video.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "53.txt",
+    "url": "https://vcp12.myplaytv.com/trt/trt/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "54.txt",
+    "url": "https://astl-mainstr.qvixsolutions.com/asltvtu_ext/index.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "55.txt",
+    "url": "https://vcp3.myplaytv.com/tvandes/tvandes/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "56.txt",
+    "url": "https://59d39900ebfb8.streamlock.net/tvfamilia_270p/tvfamilia_270p/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "57.txt",
+    "url": "https://cloudusa.streamingconnect.com/tvfamiliatvbox/tvfamiliaweb.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "58.txt",
+    "url": "https://servilive.com:3562/live/vav4c8z38live.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "59.txt",
+    "url": "https://streamtv.intervenhosting.net:3529/live/tvmparatilive.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "60.txt",
+    "url": "https://vcp10.myplaytv.com/tvs/tvs/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "61.txt",
+    "url": "https://vcp6.myplaytv.com/unitv/unitv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "62.txt",
+    "url": "https://59d39900ebfb8.streamlock.net/valetv_480/valetv_480/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "63.txt",
+    "url": "https://vcp2.myplaytv.com/valetv/valetv/playlist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "64.txt",
+    "url": "https://venevision-ioriver-cdn.encoders.immergo.tv/3/streamPlaylist.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "65.txt",
+    "url": "https://vod2live.univtec.com/manifest/4c41c0d8-e2e4-43cc-bd43-79afe715e1b3.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "66.txt",
+    "url": "https://cloud.fastchannel.es/manifiest/hls/prog9/vepacotv.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  },
+  {
+    "file": "67.txt",
+    "url": "https://live20.bozztv.com/giatv/giatv-watavision/watavision/chunks.m3u8",
+    "status": 200,
+    "contentType": "application/vnd.vigia.hls-probe+json",
+    "fetchedAt": 1790646832145
+  }
+]

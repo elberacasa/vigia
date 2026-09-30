@@ -1,0 +1,292 @@
+/*
+ * "Rayos" (web/src/panels/Lightning.tsx). Flashes are a data series: --data-lightning, never amber, never a status
+ * colour. Status words ("Desactualizado", "Incompleto") carry their own colour with the word.
+ */
+
+.lx {
+	display: grid;
+	gap: var(--s-3);
+	min-width: 0;
+}
+.lx-caveat {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	line-height: var(--lh);
+}
+.lx-empty {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+
+/* Coverage line: badges with a word, then the plain count of windows read. */
+.lx-status {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s-1) var(--s-2);
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.lx-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	min-height: 20px;
+	padding: 0 6px;
+	border-radius: var(--r-sm);
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+}
+.lx-badge::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: currentColor;
+}
+.lx-badge .data {
+	text-transform: none;
+	letter-spacing: 0;
+	font-weight: 500;
+}
+.lx-badge--stale {
+	color: var(--warn);
+	background: var(--warn-soft);
+}
+.lx-badge--partial {
+	color: var(--text-2);
+	box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+.lx-badge--partial::before {
+	background: transparent;
+	box-shadow: inset 0 0 0 1.5px currentColor;
+}
+.lx-cover {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+}
+
+/* Figures: an instrument strip of cells separated by hairlines. */
+.lx-figs {
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.lx-fig {
+	padding: var(--s-2) var(--s-3);
+	/* Hairlines right and below each cell; the strip clips those on its edges, so wrapped rows keep them. */
+	box-shadow:
+		1px 0 0 var(--line),
+		0 1px 0 var(--line);
+	min-width: 0;
+}
+.lx-fig:first-child {
+	border-left: 0;
+}
+.lx-fig dt {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.lx-fig dd {
+	margin: 2px 0 0;
+	display: grid;
+	gap: 2px;
+}
+.lx-fig__v {
+	font-size: var(--fs-xl);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums lining-nums;
+	line-height: var(--lh-tight);
+	color: var(--text);
+}
+.lx-fig__v--muted {
+	color: var(--text-3);
+}
+.lx-fig__note {
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+
+/* Section micro-heads. */
+.lx-h {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s-2);
+	margin: 0 0 var(--s-1);
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-2);
+	text-align: left;
+}
+.lx-h__note,
+.lx-h__max {
+	font-weight: 500;
+	letter-spacing: 0;
+	text-transform: none;
+	color: var(--text-3);
+}
+.lx-h__max {
+	margin-left: auto;
+	font-family: var(--font-data);
+}
+
+.lx-cat {
+	margin: 0;
+}
+.lx-figs--cat .lx-fig__v {
+	font-size: var(--fs-lg);
+}
+
+/* 24 h of 15-min bars. */
+.lx-bars {
+	margin: 0;
+}
+.lx-bars svg {
+	display: block;
+	width: 100%;
+	height: 56px;
+	border-bottom: 1px solid var(--line-strong);
+}
+.lx-bar__read {
+	fill: var(--muted-soft);
+}
+.lx-bar {
+	fill: var(--data-lightning);
+}
+.lx-bar--cat {
+	fill: color-mix(in srgb, var(--data-lightning) 45%, var(--text));
+}
+/* A window read without all its files: the bar is dotted over, never hidden. */
+.lx-bar--partial .lx-bar,
+.lx-bar--partial .lx-bar--cat {
+	fill-opacity: 0.45;
+}
+.lx-bar--partial .lx-bar__read {
+	fill: none;
+	stroke: var(--text-3);
+	stroke-width: 1px;
+	stroke-dasharray: 1 2;
+	vector-effect: non-scaling-stroke;
+}
+.lx-axis {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 3px;
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.lx-key {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px var(--s-2);
+	margin: var(--s-1) 0 0;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.lx-key__i {
+	width: 8px;
+	height: 8px;
+	margin-left: var(--s-1);
+	border-radius: 1px;
+}
+.lx-key__i:first-child {
+	margin-left: 0;
+}
+.lx-key__i--vz {
+	background: var(--data-lightning);
+}
+.lx-key__i--cat {
+	background: color-mix(in srgb, var(--data-lightning) 45%, var(--text));
+}
+.lx-key__i--read {
+	background: var(--muted-soft);
+	box-shadow: inset 0 0 0 1px var(--line);
+}
+.lx-key__i--partial {
+	box-shadow: inset 0 0 0 1px var(--text-3);
+	outline: 1px dotted var(--text-3);
+	outline-offset: -1px;
+}
+
+/* By state. */
+.lx-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--fs-sm);
+}
+.lx-table caption {
+	display: table-caption;
+	caption-side: top;
+	padding-bottom: var(--s-1);
+}
+.lx-table th,
+.lx-table td {
+	padding: 0 var(--s-2);
+	height: var(--row-h);
+	border-top: 1px solid var(--line);
+	text-align: right;
+	white-space: nowrap;
+}
+.lx-table th:first-child,
+.lx-table td:first-child {
+	padding-left: 0;
+	text-align: left;
+}
+.lx-table thead th {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+	border-top: 0;
+}
+.lx-table td.data {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	color: var(--text);
+}
+.lx-table tbody th {
+	font-weight: 500;
+}
+.lx-state {
+	min-height: 24px;
+	color: var(--accent);
+	text-align: left;
+}
+.lx-state:hover {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+.lx-state:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: var(--r-sm);
+}
+.lx-table tfoot td {
+	height: auto;
+	padding: var(--s-2) 0 0;
+	white-space: normal;
+	text-align: left;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	line-height: var(--lh);
+}
+.lx-table tr.is-selected th,
+.lx-table tr.is-selected td {
+	background: var(--accent-soft);
+}

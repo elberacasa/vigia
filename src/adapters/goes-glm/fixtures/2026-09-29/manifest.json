@@ -1,0 +1,324 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/?list-type=2&prefix=GLM-L2-LCFA%2F2026%2F272%2F02%2F&start-after=GLM-L2-LCFA%2F2026%2F272%2F02%2FOR_GLM-L2-LCFA_G19_s20262720200&max-keys=50",
+    "status": 200,
+    "contentType": "application/xml",
+    "fetchedAt": 1790648719655
+  },
+  {
+    "file": "01.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720200000_e20262720200200_c20262720200218.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648721181
+  },
+  {
+    "file": "02.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720200200_e20262720200400_c20262720200421.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648722884
+  },
+  {
+    "file": "03.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720200400_e20262720201000_c20262720201016.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648724487
+  },
+  {
+    "file": "04.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720201000_e20262720201200_c20262720201217.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648725968
+  },
+  {
+    "file": "05.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720201200_e20262720201400_c20262720201414.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648727475
+  },
+  {
+    "file": "06.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720201400_e20262720202000_c20262720202017.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648729745
+  },
+  {
+    "file": "07.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720202000_e20262720202200_c20262720202215.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648732588
+  },
+  {
+    "file": "08.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720202200_e20262720202400_c20262720202416.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648735051
+  },
+  {
+    "file": "09.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720202400_e20262720203000_c20262720203019.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648736967
+  },
+  {
+    "file": "10.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720203000_e20262720203200_c20262720203217.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648738867
+  },
+  {
+    "file": "11.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720203200_e20262720203400_c20262720203417.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648741430
+  },
+  {
+    "file": "12.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720203400_e20262720204000_c20262720204021.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648744402
+  },
+  {
+    "file": "13.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720204000_e20262720204200_c20262720204215.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648747069
+  },
+  {
+    "file": "14.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720204200_e20262720204400_c20262720204416.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648749221
+  },
+  {
+    "file": "15.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720204400_e20262720205000_c20262720205016.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648750815
+  },
+  {
+    "file": "16.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720205000_e20262720205200_c20262720205214.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648752618
+  },
+  {
+    "file": "17.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720205200_e20262720205400_c20262720205418.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648754450
+  },
+  {
+    "file": "18.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720205400_e20262720206000_c20262720206017.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648756589
+  },
+  {
+    "file": "19.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720206000_e20262720206200_c20262720206216.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648758432
+  },
+  {
+    "file": "20.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720206200_e20262720206400_c20262720206418.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648760467
+  },
+  {
+    "file": "21.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720206400_e20262720207000_c20262720207019.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648762020
+  },
+  {
+    "file": "22.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720207000_e20262720207200_c20262720207217.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648763646
+  },
+  {
+    "file": "23.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720207200_e20262720207400_c20262720207420.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648765160
+  },
+  {
+    "file": "24.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720207400_e20262720208000_c20262720208017.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648766904
+  },
+  {
+    "file": "25.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720208000_e20262720208200_c20262720208217.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648768411
+  },
+  {
+    "file": "26.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720208200_e20262720208400_c20262720208419.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648770260
+  },
+  {
+    "file": "27.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720208400_e20262720209000_c20262720209018.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648772009
+  },
+  {
+    "file": "28.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720209000_e20262720209200_c20262720209216.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648773569
+  },
+  {
+    "file": "29.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720209200_e20262720209400_c20262720209415.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648775094
+  },
+  {
+    "file": "30.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720209400_e20262720210000_c20262720210018.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648776741
+  },
+  {
+    "file": "31.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720210000_e20262720210200_c20262720210218.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648778297
+  },
+  {
+    "file": "32.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720210200_e20262720210400_c20262720210415.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648779831
+  },
+  {
+    "file": "33.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720210400_e20262720211000_c20262720211016.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648781421
+  },
+  {
+    "file": "34.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720211000_e20262720211200_c20262720211215.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648783003
+  },
+  {
+    "file": "35.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720211200_e20262720211400_c20262720211417.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648784561
+  },
+  {
+    "file": "36.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720211400_e20262720212000_c20262720212019.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648786278
+  },
+  {
+    "file": "37.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720212000_e20262720212200_c20262720212214.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648787802
+  },
+  {
+    "file": "38.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720212200_e20262720212400_c20262720212417.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648789280
+  },
+  {
+    "file": "39.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720212400_e20262720213000_c20262720213017.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648790819
+  },
+  {
+    "file": "40.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720213000_e20262720213200_c20262720213219.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648792347
+  },
+  {
+    "file": "41.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720213200_e20262720213400_c20262720213416.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648793903
+  },
+  {
+    "file": "42.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720213400_e20262720214000_c20262720214014.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648795603
+  },
+  {
+    "file": "43.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720214000_e20262720214200_c20262720214216.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648797112
+  },
+  {
+    "file": "44.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720214200_e20262720214400_c20262720214416.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648798629
+  },
+  {
+    "file": "45.txt",
+    "url": "https://noaa-goes19.s3.amazonaws.com/GLM-L2-LCFA/2026/272/02/OR_GLM-L2-LCFA_G19_s20262720214400_e20262720215000_c20262720215015.nc",
+    "status": 206,
+    "contentType": "application/vnd.vigia.ranges+json",
+    "fetchedAt": 1790648800132
+  }
+]

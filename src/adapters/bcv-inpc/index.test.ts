@@ -2,8 +2,8 @@ import { expect, test } from "bun:test";
 import { join } from "node:path";
 import { loadFixture } from "../../core/fixtures.ts";
 import type { RawResponse } from "../../core/types.ts";
-import { readCfbStream } from "../../formats/xls.ts";
-import { bcvInpc, monthNumber, yearHeader } from "./index.ts";
+import { readCfbStream, readXls } from "../../formats/xls.ts";
+import { baseOf, bcvInpc, INPC_BASE, monthNumber, yearHeader } from "./index.ts";
 
 // Recorded 2026-09-24 (legacy BIFF8 .xls). Scrubbed before commit: the text in the SummaryInformation /
 // DocumentSummaryInformation streams and the WRITEACCESS record (user names) replaced; cell data untouched.
@@ -68,4 +68,13 @@ test("a file that is not an .xls fails loudly", () => {
 	expect(() => bcvInpc.normalise([{ ...raw, body: Buffer.from("<html>").toString("base64") }])).toThrow(
 		"ilegible",
 	);
+});
+
+test("the index base is read from the file, checked, and named as the BCV prints it", () => {
+	const rows = readXls(new Uint8Array(Buffer.from(raw.body, "base64"))).sheets[0]?.rows ?? [];
+	expect(baseOf(rows)).toEqual({ text: "( BASE Diciembre 2007 = 100 )", known: true });
+	expect(INPC_BASE.es).toBe("diciembre 2007 = 100");
+	// A new base, or none at all, is a schema change: every level would be incomparable with the archive.
+	expect(baseOf([["ÍNDICE"], ["( BASE Diciembre 2020 = 100 )"]])?.known).toBe(false);
+	expect(baseOf([["ÍNDICE"], ["2026(*)"]])).toBeNull();
 });

@@ -7,8 +7,8 @@ import { lang, t } from "../lib/i18n.ts";
 export interface SourceRef {
 	/** Adapter id. */
 	feed: string;
-	/** When the figure is true according to the source. */
-	observedAt: number;
+	/** When the figure is true according to the source; null when it gives none (a count over what was read). */
+	observedAt: number | null;
 	/** Link to the original. */
 	url?: string | undefined;
 	/** Optional extra, e.g. "mediana de 20 anuncios". */
@@ -55,7 +55,7 @@ export function SourceTag({ source, label }: { source: SourceRef; label?: string
 	const meta = metaById.value.get(source.feed);
 	const health = healthById.value.get(source.feed);
 	const state = health?.state ?? "pending";
-	const age = ago(now.value - source.observedAt, lang.value);
+	const age = source.observedAt === null ? "" : ago(now.value - source.observedAt, lang.value);
 	return (
 		<button
 			type="button"

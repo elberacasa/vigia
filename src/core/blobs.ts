@@ -155,23 +155,29 @@ export class BlobStore implements BlobReader {
 			...(input.height === undefined ? {} : { height: input.height }),
 		};
 		const existing = this.#list(dir);
+		let metas = existing;
 		if (!existing.some((m) => m.key === key)) {
 			atomicWrite(join(dir, `${key}.${EXTENSION[input.contentType]}`), data);
 			atomicWrite(join(dir, `${key}.json`), new TextEncoder().encode(JSON.stringify(meta)));
+			metas = sortMetas([...existing, meta]);
 		}
 		// Same name, different bytes (reprocessed): the old one goes.
-		for (const old of existing) if (old.name === name && old.key !== key) remove(dir, old);
-		this.#evict(dir, policy);
-		return this.#list(dir).find((m) => m.key === key) ?? meta;
+		const replaced = new Set(existing.filter((m) => m.name === name && m.key !== key).map((m) => m.key));
+		for (const old of existing) if (replaced.has(old.key)) remove(dir, old);
+		metas = metas.filter((m) => !replaced.has(m.key));
+		metas = this.#evict(dir, policy, metas);
+		this.#remember(dir, metas);
+		return metas.find((m) => m.key === key) ?? meta;
 	}
 
-	#evict(dir: string, policy: BlobPolicy): void {
+	#evict(dir: string, policy: BlobPolicy, metas: readonly BlobMeta[]): BlobMeta[] {
 		const now = this.now();
 		let bytes = 0;
 		let count = 0;
 		// Once a cap is reached everything older goes too: retention never leaves holes in a sequence.
 		let full = false;
-		for (const meta of this.#list(dir)) {
+		const kept: BlobMeta[] = [];
+		for (const meta of metas) {
 			const tooOld = policy.maxAgeMs !== null && now - meta.observedAt > policy.maxAgeMs;
 			full ||= count + 1 > policy.maxEntries || bytes + meta.bytes > policy.maxBytes;
 			if (tooOld || full) {
@@ -180,20 +186,52 @@ export class BlobStore implements BlobReader {
 			}
 			count++;
 			bytes += meta.bytes;
+			kept.push(meta);
 		}
 		sweepOrphans(dir, now);
+		return kept;
 	}
 
+	/**
+	 * Every blob of a directory, newest first. Kept in memory while the directory's modification time is the one
+	 * this store last saw (any file added, renamed or removed by another process changes it), so a source with
+	 * thousands of stills (camera history) does not re-read every metadata file on each put. This store's own
+	 * changes update the listing in memory and record the directory's new time.
+	 */
 	#list(dir: string): BlobMeta[] {
-		if (!existsSync(dir)) return [];
+		let mtime: number;
+		try {
+			mtime = statSync(dir).mtimeMs;
+		} catch {
+			this.#listing.delete(dir);
+			return [];
+		}
+		const hit = this.#listing.get(dir);
+		if (hit && hit.mtime === mtime) return [...hit.metas];
 		const out: BlobMeta[] = [];
 		for (const file of readdirSync(dir)) {
 			if (!file.endsWith(".json")) continue;
 			const meta = readMeta(join(dir, file));
 			if (meta) out.push(meta);
 		}
-		return out.sort((a, b) => b.observedAt - a.observedAt || b.createdAt - a.createdAt);
+		const sorted = sortMetas(out);
+		this.#listing.set(dir, { mtime, metas: sorted });
+		return [...sorted];
 	}
+
+	#remember(dir: string, metas: BlobMeta[]): void {
+		try {
+			this.#listing.set(dir, { mtime: statSync(dir).mtimeMs, metas });
+		} catch {
+			this.#listing.delete(dir);
+		}
+	}
+
+	readonly #listing = new Map<string, { mtime: number; metas: BlobMeta[] }>();
+}
+
+function sortMetas(metas: BlobMeta[]): BlobMeta[] {
+	return metas.sort((a, b) => b.observedAt - a.observedAt || b.createdAt - a.createdAt);
 }
 
 function readMeta(path: string): BlobMeta | null {

@@ -1,6 +1,7 @@
 import type { FunctionComponent } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { startAlerts, toasts, unreadAlerts } from "../../lib/alerts.ts";
+import { dataSaverAsk } from "../../lib/data.ts";
 import { t } from "../../lib/i18n.ts";
 import { customizeTab, openCustomize } from "./open.ts";
 
@@ -9,14 +10,9 @@ import { customizeTab, openCustomize } from "./open.ts";
  * toasts, and the loader of the sheet itself, a separate chunk fetched on first use (or when the page is idle).
  */
 
-/** Only http(s) links leave the page; anything else is not a link. */
-export function safeHref(url: string): string | undefined {
-	return /^https?:\/\//i.test(url) ? url : undefined;
-}
-
 let loading: Promise<FunctionComponent> | null = null;
 function loadSheet(): Promise<FunctionComponent> {
-	loading ??= import("./Customize.tsx").then((m) => m.CustomizeSheet);
+	loading ??= import("./Customize.tsx").then((m) => m.CustomizeRoot);
 	return loading;
 }
 
@@ -78,9 +74,13 @@ export function AlertToasts() {
 	return Toasts ? <Toasts /> : null;
 }
 
+/**
+ * The sheet, loaded on first use. The same chunk carries the first-run question "¿Tu conexión es limitada?"
+ * (ui/DataSaver.tsx), so asking it costs the first load nothing but this check.
+ */
 export function LazyCustomize() {
 	const [Sheet, setSheet] = useState<FunctionComponent | null>(null);
-	const open = customizeTab.value !== null;
+	const open = customizeTab.value !== null || dataSaverAsk.value;
 	useEffect(() => {
 		if (!open || Sheet) return;
 		loadSheet()

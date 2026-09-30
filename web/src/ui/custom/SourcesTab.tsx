@@ -13,6 +13,7 @@ import { ago } from "../../lib/format.ts";
 import { lang, t } from "../../lib/i18n.ts";
 import { stateName } from "../../lib/states.ts";
 import { STATES } from "../../map/geometry.gen.ts";
+import { DataSaverSection } from "../DataSaver.tsx";
 import { StateBadge } from "../Source.tsx";
 import { getJson, send } from "./api.ts";
 import { newsSource } from "./NewsMine.tsx";
@@ -321,6 +322,7 @@ export function SourcesTab() {
 
 	return (
 		<div class="custom-tab">
+			<DataSaverSection />
 			<section aria-labelledby="add-h">
 				<h3 id="add-h" class="custom-h">
 					{t("Añadir un feed RSS o Atom", "Add an RSS or Atom feed")}

@@ -1,9 +1,11 @@
 import { type RadioReading, radioStreams } from "../adapters/radio-streams/index.ts";
 import { RADIO_STATIONS } from "../adapters/radio-streams/stations.ts";
+import { type TvLogo, tvLogos } from "../adapters/tv-logos/index.ts";
 import { TV_CHANNELS } from "../adapters/youtube-live/channels.ts";
-import { type YoutubeLive, youtubeLive } from "../adapters/youtube-live/index.ts";
+import { type YoutubeLive, type YoutubeThumb, youtubeLive } from "../adapters/youtube-live/index.ts";
 import type { Store } from "../core/store.ts";
 import type { Panel } from "../server/panels.ts";
+import { type CardImage, youtubeCardImage } from "./cardimage.ts";
 
 /**
  * "En vivo: TV y radio": the official channels, each with its measured state. "EN VIVO" is only ever said for a
@@ -47,6 +49,8 @@ export type LiveCard = {
 	play: { type: "youtube"; channelId: string; videoId: string | null } | { type: "audio"; url: string };
 	/** Radio: time to the first 16 KB from this computer. */
 	latencyMs: number | null;
+	/** TV only: YouTube's live thumbnail read by Vigía, else the channel's logo (cardimage.ts); null for radio. */
+	image: CardImage | null;
 };
 
 export type LiveTvView = {
@@ -60,7 +64,15 @@ export type LiveTvView = {
 	budgets: { tvMs: number; radioMs: number };
 };
 
+/** This channel's thumbnails of the last 3 hours (for telling a fixed cover from a live frame). */
+function earlierThumbs(store: Store, id: string, now: number): YoutubeThumb[] {
+	return store
+		.history<YoutubeLive>(youtubeLive.id, `yt:${id}`, now - 3 * 60 * MIN, now, 12)
+		.flatMap((o) => (o.value.thumb ? [o.value.thumb] : []));
+}
+
 function tvCard(store: Store, now: number, channel: (typeof TV_CHANNELS)[number]): LiveCard {
+	const logo = channel.iptvChannel ? store.latest<TvLogo>(tvLogos.id, `logo:${channel.iptvChannel}`) : null;
 	const obs = store.latest<YoutubeLive>(youtubeLive.id, `yt:${channel.id}`);
 	const v = obs?.value;
 	const fresh = obs !== null && now - obs.observedAt <= TV_BUDGET_MS;
@@ -106,6 +118,13 @@ function tvCard(store: Store, now: number, channel: (typeof TV_CHANNELS)[number]
 			videoId: fresh && v?.state === "live" ? v.videoId : null,
 		},
 		latencyMs: null,
+		image: youtubeCardImage(
+			fresh ? (v?.thumb ?? null) : null,
+			fresh && v?.state === "live",
+			logo,
+			now,
+			earlierThumbs(store, channel.id, now),
+		),
 	};
 }
 
@@ -146,6 +165,7 @@ function radioCard(store: Store, now: number, station: (typeof RADIO_STATIONS)[n
 		playabilityReason: null,
 		play: { type: "audio", url: station.streamUrl },
 		latencyMs: fresh && v?.state === "audio" ? v.ms : null,
+		image: null,
 	};
 }
 
@@ -189,6 +209,6 @@ export function computeLiveTv(store: Store, now: number): LiveTvView {
 
 export const liveTvPanel: Panel<LiveTvView> = {
 	id: "livetv",
-	sources: [youtubeLive.id, radioStreams.id],
+	sources: [youtubeLive.id, radioStreams.id, tvLogos.id],
 	compute: (store, now) => computeLiveTv(store, now),
 };

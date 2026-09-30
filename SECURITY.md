@@ -32,6 +32,9 @@ In scope:
   without being the person at the machine; bypasses of the write guard or session token described below.
 - Key handling (`src/config`): keys leaking to logs, to the browser, to a provider other than their own, or to disk
   with loose permissions.
+- Crowd reports (`src/crowd`): anything that stores or leaks who reported (address, device, time finer than the
+  published bucket), bypasses the anonymous-write guard, the proof of work or the flood rules, or lets users' reports
+  alone make an incident.
 - Injection through feed content: a malicious or compromised source injecting script, markup or terminal escape
   sequences into the page, the share images, `/ahora.txt` or `vigia status`.
 - Evidence bundles and the sealed archive (`src/intel`): forging a bundle that `vigia verify` accepts, or altering
@@ -67,3 +70,48 @@ Out of scope:
   bundles, and a cap on open live-update streams per client.
 - **No telemetry.** Vigía contacts only the data sources the user enables and, if configured, the AI providers the
   user chose. It never reports usage anywhere.
+
+## Pictures and live checks from other servers (TV stills, logos, public cameras, TV and radio probes)
+
+Vigía turns bytes from servers it does not control into pictures it serves from its own origin. What holds:
+
+- **Only public hosts.** Every stream, logo and camera URL, and every TV and radio liveness probe, and every redirect hop before it is requested, must resolve
+  only to public addresses (`src/media/public-host.ts`): a list entry pointing at a LAN camera or router is refused.
+  Not covered: a DNS answer that changes between the check and the connection (rebinding).
+- **Re-encoded, never passed through.** PNG and JPEG only; sizes checked before decoding (≤ 4 MP, ≤ 4,096 px a side);
+  a PNG is reduced to its image chunks and its data inflated under the size its header allows before any decoder sees
+  it; every served picture is Vigía's own JPEG or PNG (no metadata, no polyglots, no SVG).
+- **ffmpeg (optional) sees one validated H.264 keyframe** on stdin: no container demuxer, no network protocols, one
+  frame, one thread, `-max_alloc`, a 10 s kill, an empty working directory, only `PATH` in its environment, lower
+  priority, and on Linux `prlimit` (1 GB address space, 10 s CPU, 32 files). It still runs as the Vigía user and can
+  read what that user can: operators who want more can run Vigía in a container or set `VIGIA_FFMPEG` to a wrapper
+  (bwrap, firejail), or `VIGIA_FFMPEG=0` to turn stills off.
+
+## Crowd reports: the one anonymous write
+
+"¿Tienes luz, agua, internet, gasolina?" (`POST /api/crowd/reports`) is the only write that does not need the session
+cookie, because the people who answer (a public mirror's visitors, a household's phones on the LAN) never have it.
+It has its own guard instead (`src/crowd/routes.ts`):
+
+- JSON only, an `Origin` naming the `Host` the request was sent to, `Sec-Fetch-Site: same-origin` when sent, a 2 KB
+  body cap (declared or chunked). No crowd route sends CORS headers.
+- On a personal Vigía: only from loopback, private or link-local addresses, and only to a `Host` that is `localhost`
+  or an IP literal (a rebound DNS name is refused). On a public mirror: only from public addresses that are not a
+  declared proxy (a private peer means an undeclared proxy; set `VIGIA_TRUST_PROXY`).
+- Then per-state load limits (checked before the work is spent), a SHA-256 proof of work (18 bits on a mirror),
+  per-connection and per-IPv6-/48 rate limits, a flood ceiling per municipality, service and answer whose excess is
+  held and shown as "posible manipulación", a minimum of distinct connections (nothing below it is published), and
+  one answer per connection, municipality and service. Every accepted answer reads "received".
+  `--no-crowd` / `VIGIA_CROWD=0` turns it off.
+- Known limits, stated: behind one carrier NAT address, at most 4 phones count per municipality and service, and
+  only phones whose page sends a token; the proof of work is a small price, not
+  a wall, against many addresses or a GPU; the 15-minute publication coarsens timing but does not make a report
+  unlinkable on a quiet mirror; users' reports never open, promote or name an incident, because they can be faked.
+- **Per-device token (optional):** a random value the page makes, so phones behind one carrier address count
+  separately (at most 4 per address, municipality and service). Only its HMAC under the daily salt is kept, in
+  memory, while its answer lives; it raises no limit (every limit stays on the address and its /48).
+- **What is stored:** counts per municipality, service, answer and 15-minute bucket, and the published aggregates.
+  Never the IP address, User-Agent, the device token or anything about the device, a cookie, coordinates or the
+  exact time of a report. The abuse-control state is in memory only, under an HMAC fingerprint with a random salt replaced daily, and dropped
+  when its window ends. A report that would let someone identify a reporter, fake or hide a blackout past these
+  rules, or write anything else, is in scope below.

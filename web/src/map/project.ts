@@ -5,6 +5,23 @@ export function project(lon: number, lat: number): [number, number] {
 	return [(lon - FRAME.minLon) * FRAME.cos * FRAME.k, (FRAME.maxLat - lat) * FRAME.k];
 }
 
+/** The inverse of `project`: map units back to [lon, lat]. */
+export function unproject(x: number, y: number): [number, number] {
+	return [FRAME.minLon + x / (FRAME.cos * FRAME.k), FRAME.maxLat - y / FRAME.k];
+}
+
+/** "10,48° N · 66,90° O": a position as a reader of Spanish or English maps writes it. */
+export function formatLonLat(lon: number, lat: number, lang: "es" | "en"): string {
+	const f = (v: number) =>
+		Math.abs(v).toLocaleString(lang === "es" ? "es-VE" : "en-US", {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		});
+	const ns = lat >= 0 ? "N" : "S";
+	const ew = lon >= 0 ? "E" : lang === "es" ? "O" : "W";
+	return `${f(lat)}° ${ns} · ${f(lon)}° ${ew}`;
+}
+
 export function inFrame(lon: number, lat: number): boolean {
 	return lon >= FRAME.minLon && lon <= FRAME.maxLon && lat >= FRAME.minLat && lat <= FRAME.maxLat;
 }

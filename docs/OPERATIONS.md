@@ -42,6 +42,9 @@ Las opciones de la línea de comandos ganan a las variables de entorno.
 | `--no-fetch` | `VIGIA_NO_FETCH` | `1`/`0` | `0` |
 | `--no-open` | `VIGIA_NO_OPEN` | `1`/`0` | `0` |
 | | `VIGIA_BCV_API` | `1`/`0` (`off` también vale) | `1`: la fuente `bcv-api` está activa |
+| `--no-crowd` | `VIGIA_CROWD` | `1`/`0` | `1`: los reportes de usuarios están activos |
+| `--data-saver` | `VIGIA_DATA_SAVER` | `1`/`0` | sin fijar: lo decide la persona en la página (apagado hasta que elija) |
+| | `VIGIA_FFMPEG` | ruta a ffmpeg, o `0` | el `ffmpeg` del `PATH`, si hay uno (solo para los cuadros de TV) |
 | | `VIGIA_HOME` | carpeta de datos y ajustes | según el sistema (`vigia paths`) |
 
 **`bcv-api`** es la segunda vía a la tasa oficial: un servicio público del mantenedor de Vigía
@@ -50,9 +53,34 @@ incluidos (decisión del dueño, 2026-09-25): es una lectura GET de un punto pú
 dato del usuario ni de los visitantes. Quien prefiera no usarla la apaga con `VIGIA_BCV_API=0` (gana a config.json)
 o con el interruptor de la fuente en /fuentes; la tasa sigue llegando por la vía directa (bcv.org.ve).
 
+**Conexión limitada** (`--data-saver`, `VIGIA_DATA_SAVER=1`): apaga las fuentes pesadas, las que descargan 20 MB
+al día o más según la medición de cada fuente (`docs/PERF.md`, «Daily download per feed»; hoy 8: cuadros de TV,
+satélite GOES, comprobación en vivo de YouTube, cámaras públicas, rayos GLM, sondeo de canales IPTV, incendios sin
+clave y sondeo de radios). Con todo encendido Vigía descarga unos 1.175 MB al día; con la conexión limitada, unos
+255. Sin la opción, en un Vigía personal la página pregunta una vez «¿Tu conexión es limitada?» y la persona lo
+cambia luego en Personalizar › Mis fuentes o en `/guia`; con la opción (1 o 0) la página muestra el valor fijado y
+no lo puede cambiar. El interruptor propio de cada fuente siempre gana. **En un espejo público queda apagada salvo
+que su operador la active**: el ancho de banda es del servidor, no de los visitantes, cuyos teléfonos no descargan
+las fuentes (solo las páginas; en un teléfono el muro de TV no carga imágenes). Cada lectura registra lo que
+descargó (`runs.wire`: cabeceras y cuerpos tal como llegaron) y la guía muestra lo medido en las últimas 24 horas
+junto a la estimación.
+
 **Detrás de un proxy inverso**, declare el proxy con `VIGIA_TRUST_PROXY`: así los límites de solicitudes son por
 visitante (se toma la última entrada de `X-Forwarded-For`, la que añade su proxy) y no un solo cubo compartido por
 todos. Solo se cree a los proxies declarados; cualquier otro cliente no puede hacerse pasar por otro.
+
+**Reportes de usuarios** («¿tienes luz, agua, internet, gasolina?»): activos en los dos modos. Es la única escritura
+anónima (sin la cookie de la terminal), con su propia guardia: JSON desde la propia página (el `Origin` debe nombrar
+el `Host`), límites por conexión, prueba de trabajo, techo de ráfagas por municipio y un mínimo de personas distintas
+antes de mostrar nada. En un espejo público solo se aceptan desde direcciones públicas: si su proxy no está declarado
+en `VIGIA_TRUST_PROXY`, todos los visitantes llegarían con la dirección del proxy y se mezclarían en uno, así que los
+reportes se rechazan (`503`, con el motivo) hasta declararlo. Con una CDN delante del proxy, declare los dos
+(`VIGIA_TRUST_PROXY` admite rangos IPv4 e IPv6): `X-Forwarded-For` se lee desde la derecha saltando cada proxy
+declarado. El proxy debe pasar la cabecera `Host` original (nginx: `proxy_set_header Host $host;`). En un Vigía personal con `--host 0.0.0.0`, los teléfonos de la casa reportan abriendo
+Vigía por su dirección IP (`http://192.168.1.10:7722`), nunca por un nombre de dominio; sirviendo a la red, las
+cifras se publican al cerrar cada bloque de 15 minutos, como en un espejo. Se guardan solo conteos por
+municipio, servicio, respuesta y bloque de 15 minutos; nunca direcciones, navegador, cookies ni coordenadas.
+`--no-crowd` o `VIGIA_CROWD=0` los apaga en esta instancia (lo publicado sigue en el archivo).
 
 ## Docker
 
@@ -61,8 +89,11 @@ docker compose up -d            # construye la imagen y arranca un espejo públi
 docker compose logs -f vigia    # registro en líneas JSON
 ```
 
-La imagen (`Dockerfile`) contiene un único ejecutable compilado con el cliente web adentro, sobre `debian:stable-slim`:
-71 MB comprimida. Corre como el usuario sin privilegios `vigia` (uid 10001), con los datos en el volumen `/data`, y
+La imagen (`Dockerfile`) contiene un único ejecutable compilado con el cliente web adentro, sobre `debian:stable-slim`,
+y un ffmpeg mínimo para los cuadros de TV: FFmpeg 9.0.2 compilado desde la versión firmada con solo lo que usa el
+decodificador (leer H.264 de una tubería, decodificar un cuadro, desentrelazar, escalar, escribir un PPM; sin
+protocolos de red ni otros códecs), un programa de 2,8 MB. Su licencia (LGPL 2.1), la dirección de su código fuente y la línea de
+`configure` están en `/usr/local/share/doc/ffmpeg/`. Medido el 2026-09-29: la imagen pasó de 72,9 a 74,0 MB comprimida (+1,1 MB) y de 255 a 259 MB en disco; el ffmpeg de la imagen decodificó el cuadro de prueba como el usuario `vigia` con el sistema de archivos de solo lectura, y la guía lo detecta. Corre como el usuario sin privilegios `vigia` (uid 10001), con los datos en el volumen `/data`, y
 revisa su salud con `vigia healthcheck`. `compose.yaml` añade: sistema de archivos de solo lectura (solo `/data` y
 un `/tmp` en memoria son escribibles), todas las capacidades del kernel retiradas, `no-new-privileges`, límite de
 memoria (768 MB; en reposo usa unos 85 MB) y de procesos, y el puerto publicado solo en `127.0.0.1` para que lo sirva

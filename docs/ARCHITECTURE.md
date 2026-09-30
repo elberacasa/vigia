@@ -69,7 +69,8 @@ flowchart LR
    feed never affects another; its last good value keeps being served with its real age.
 3. **The store** (`src/core/store.ts`, SQLite) keeps history from day one: every distinct observation is a row. An
    identical re-fetch is ignored; a revision (for example USGS updating a magnitude) is a new row. The run log
-   records every attempt, which feeds the health model. Images (satellite frames, night-lights mosaics) go to a
+   records every attempt, which feeds the health model. Images (satellite frames, night-lights mosaics, TV stills,
+   channel logos, public-camera stills; each decoded and re-encoded by Vigía, never passed through) go to a
    content-addressed **blob store** (`src/core/blobs.ts`) and are served from Vigía's own origin, so the browser
    never contacts a third party.
 4. **Health and freshness** (`src/core/health.ts`): each adapter declares a freshness budget (how old its last
@@ -89,13 +90,26 @@ flowchart LR
      checks them offline. See [EVIDENCIA.md](EVIDENCIA.md).
    - *Terminal report*: `curl localhost:7722` (or `/ahora.txt`) prints the situation as plain text, built from the
      same panel views as the web page.
-7. **The server** (`src/server/app.ts`) exposes a small JSON API (`/api/panels`, `/api/health`,
+7. **Entities and links** (`src/ontology/`): a registry of every place (country, 25 states, 335 municipalities,
+   1,134 parishes), facility (power plants, substations, the transmission grid, refineries, oil and gas fields,
+   ports and terminals, airports, dams, reservoirs, hospitals), network (ISPs and their ASNs), outlet and
+   institution, each with a stable readable id (`ve.zulia.maracaibo`, `infra.planta-centro`, `asn.8048`) and the
+   dataset and licence it comes from. A deterministic linker attaches each event-like observation (quakes, fires,
+   flares, IODA outages, headlines, Gaceta issues, blocks, incidents) to the entities it is about: point in
+   polygon, source codes, the keyword tagger and stated distances, no model. Links are stored in `entity_links`
+   (synced from a watermark in slices), and `/api/v1/entities/…` serves each entity's page as data: what every
+   panel says about it now, its incidents, stories, nearby facilities, population, and its timeline.
+8. **The server** (`src/server/app.ts`) exposes a small JSON API (`/api/panels`, `/api/health`,
    `/api/feeds/<id>/latest`, `/api/feeds/<id>/series/<series>`, `/api/incidents`, `/api/evidence`,
    `/api/archive/digests`, `/api/blobs/…`), a server-sent event stream (`/api/stream`) that tells clients which
    panels changed, and the built client. JSON responses are gzipped, every API request is
    rate-limited per client, and strict security headers (CSP, COOP, CORP) are set.
-8. **The client** (`web/`) is Preact with signals, no map library: the map is precomputed SVG paths
-   (`scripts/build-map.ts`). Secondary pages load on demand; a service worker keeps the shell and last-known data
+9. **The client** (`web/`) is Preact with signals, no map library: the map is precomputed SVG paths
+   (`scripts/build-map.ts`). It has two forms over one design system ([DESIGN.md](DESIGN.md)): below 1000 px one
+   calm scrolling page; from 1000 px a fixed-viewport workstation (`web/src/ui/ws/`, its own chunk) with a rail of
+   modules (`web/src/lib/modules.ts`), the map as the canvas, an inspector and an event log. Places have pages
+   (`/lugar/<estado>[/<municipio>]`) drawn from one entity view model (`web/src/lib/entity.ts`), which the server's
+   entity API can feed later. Secondary pages load on demand; a service worker keeps the shell and last-known data
    for repeat visits and offline use. See [PERF.md](PERF.md) for measured sizes and timings.
 
 ## Security model
@@ -109,7 +123,14 @@ reverse proxies. Details in [SECURITY.md](../SECURITY.md).
 - **Session token** (`src/config/session.ts`): a random token stored in a `0600` file next to the keys, printed by
   the CLI inside the URL it opens, and exchanged for an `HttpOnly`, `SameSite=Strict` cookie. It closes the gap
   that loopback and Origin checks leave open when a reverse proxy on the same machine relays requests.
-- **LAN mode** (`--host 0.0.0.0`): any device on the network may read; writes still need a loopback Host.
+- **LAN mode** (`--host 0.0.0.0`): any device on the network may read; writes still need a loopback Host (crowd
+  reports excepted, below).
+- **Crowd reports** (`src/crowd`) are the one anonymous write, in both modes: no cookie, but JSON from Vigía's own
+  page (Origin = Host), a LAN or loopback peer and an IP-literal Host on a personal Vigía, a public peer on a mirror,
+  per-connection limits kept in memory under a daily-salted fingerprint, a SHA-256 proof of work, flood ceilings and a
+  minimum of distinct reporters. Only counts per municipality, service, answer and 15-minute bucket are stored; the
+  published aggregates are observations of the Vigía-own source `vigia-crowd`, and a join-only "usuarios" incident
+  family: it adds corroboration to an incident other sources opened, and never opens, promotes or names one.
 - **Keys** (`src/config/keys.ts`) live in `keys.json` (mode 600 where the OS supports it) or in environment
   variables. The browser only ever learns "set / not set"; keys are never logged and are only sent to the provider
   they belong to.
@@ -128,16 +149,21 @@ src/
   panels/           one module per panel: stored observations → view model (all the arithmetic)
   server/           HTTP API, panel cache and registry, history replay, rate limiter, static files
   intel/            incidents, daily hash chain, evidence bundles, terminal report
+  ontology/         entity registry, linker, stored links, population, entity pages (data/: generated, server-only)
   news/             headline normalisation, topics, keyword place tagger, story clustering
   geo/              point-in-polygon for states and municipalities, gazetteer, boundaries (data/)
-  imaging/          the shared geographic frame for satellite images, sun position, JPEG handling
+  imaging/          the shared geographic frame for satellite images, sun position, JPEG/PNG decode, reduce, re-encode
   formats/          small parsers: xlsx, xls, zip, time helpers
   sources/          key specs (what each key unlocks, how to get it, how it is validated), shared licences
   config/           per-OS paths, key store, settings, session token
   ai/               optional AI section: judge interfaces, Jev client, ledger, local model, brief writer
+  crowd/            crowd reports: rules, proof of work (the page's solver is pure TS), counts, abuse memory, routes
+  media/            HLS parsing and live probes; TV stills: keyframe demux (pure TS), segment grab, optional ffmpeg
+  cameras/          public cameras: the census (list.ts), rules, state and night-brightness signal, incident evidence
 web/
   index.html        static boot shell (skeleton of the page, first paint before any script)
-  src/              Preact app: panels/, pages/ (status, sources, guide, AI, brief), map/, ui/, lib/, styles/
+  src/              Preact app: panels/, pages/ (status, sources, guide, AI, brief, place), map/, ui/ (ws/: the desk
+                    workstation; entity/: the place view), lib/ (modules, router, entity model…), styles/
   static/           fonts, icons, manifest, service worker
   assets/brand/     logo and icons (SVG)
 scripts/
@@ -149,6 +175,7 @@ scripts/
   perf.ts           measures load on a throttled slow-phone profile
   shoot.ts          screenshots at phone, desk and wall sizes
   ai/               training and evaluation of the bundled local model
+  ontology/         fetch and build the registry's base datasets (OSM, OurAirports, PortWatch, census, WorldPop)
 ```
 
 ## Design choices worth knowing

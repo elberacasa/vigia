@@ -169,8 +169,17 @@ export function SourceSheet() {
 					<dl class="sheet__facts">
 						<dt>{t("Dato válido para", "Data valid for")}</dt>
 						<dd>
-							{fullStamp(source.observedAt, l)}
-							<span class="sheet__age data"> · {ago(now.value - source.observedAt, l)}</span>
+							{source.observedAt === null ? (
+								t(
+									"Sin hora propia: es un conteo sobre lo que Vigía leyó (ver «Consultado por Vigía»)",
+									"No time of its own: a count over what Vigía read (see “Fetched by Vigía”)",
+								)
+							) : (
+								<>
+									{fullStamp(source.observedAt, l)}
+									<span class="sheet__age data"> · {ago(now.value - source.observedAt, l)}</span>
+								</>
+							)}
 						</dd>
 						{health?.lastSuccessAt ? (
 							<>

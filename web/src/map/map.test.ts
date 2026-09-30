@@ -148,3 +148,19 @@ test("history: a 503 is retried once after its Retry-After (clamped 1–30 s); a
 		historyRetry.sleep = realSleep;
 	}
 });
+
+test("the pointer readout inverts the map's projection and names the hemispheres", async () => {
+	const { formatLonLat, project, unproject } = await import("./project.ts");
+	for (const [lon, lat] of [
+		[-66.9, 10.5],
+		[-71.64, 10.66],
+		[-60.2, 1.1],
+	] as const) {
+		const [x, y] = project(lon, lat);
+		const [lon2, lat2] = unproject(x, y);
+		expect(lon2).toBeCloseTo(lon, 9);
+		expect(lat2).toBeCloseTo(lat, 9);
+	}
+	expect(formatLonLat(-66.904, 10.4806, "es")).toBe("10,48° N · 66,90° O");
+	expect(formatLonLat(-66.904, 10.4806, "en")).toBe("10.48° N · 66.90° W");
+});

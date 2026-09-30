@@ -67,6 +67,8 @@ export interface RawResponse {
 	readonly etag?: string;
 	/** The response's Last-Modified, when sent (for If-Modified-Since). */
 	readonly lastModified?: string;
+	/** Response headers asked for with `captureHeaders` (lower-case names), when the source sent them. */
+	readonly headers?: Readonly<Record<string, string>>;
 }
 
 export interface Licence {
@@ -136,7 +138,20 @@ export interface RequestOptions {
 	readonly okStatuses?: readonly number[];
 	/** Response is binary: body is base64. */
 	readonly binary?: boolean;
+	/**
+	 * "manual": do not follow redirects; a 3xx answers as itself (list it in `okStatuses` and ask for `location` in
+	 * `captureHeaders`), so the caller can check each hop before asking for it. Default "follow".
+	 */
+	readonly redirect?: "follow" | "manual";
+	/** Response headers to keep in `RawResponse.headers` (e.g. `access-control-allow-origin` for a CORS check). */
+	readonly captureHeaders?: readonly string[];
 	readonly signal?: AbortSignal;
+	/**
+	 * Told of what this request downloaded, as it arrives: the response headers (their size as sent, estimated from
+	 * the parsed list) and the body as the connection carried it (compressed), for every attempt including refused
+	 * ones. TLS and TCP overhead are not counted. The scheduler meters each run with it (data saver, docs/PERF.md).
+	 */
+	readonly onWire?: (bytes: number) => void;
 }
 
 export interface HttpLike {
@@ -165,6 +180,12 @@ export interface Adapter<V extends Json = Json> {
 	 * the host's robots.txt excludes, read at a low rate by the project's decision). The user may turn it off.
 	 */
 	readonly note?: { readonly es: string; readonly en: string };
+	/**
+	 * On or off by default per deployment mode, when that differs (see `defaults.ts`): e.g. a feed whose terms allow a
+	 * personal reader (a user's own Vigía, `local`) but not a public mirror (`public`). Overrides the `optIn` default;
+	 * `note` says why, and the user's switch works either way.
+	 */
+	readonly defaultIn?: { readonly local: boolean; readonly public: boolean };
 	/** Retention for the images this adapter stores (see `FetchContext.blobs`). Absent: it stores none. */
 	readonly blobs?: BlobPolicy;
 	/** Network: fetch whatever raw responses are needed for one run. */

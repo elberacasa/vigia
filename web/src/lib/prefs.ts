@@ -32,7 +32,7 @@ function apply(): void {
 	const light =
 		theme.value === "light" ||
 		(theme.value === "system" && matchMedia("(prefers-color-scheme: light)").matches);
-	meta?.setAttribute("content", light ? "#f4f1ea" : "#07090e");
+	meta?.setAttribute("content", light ? "#eceff3" : "#0a0d12");
 }
 
 export function setTheme(next: Theme): void {

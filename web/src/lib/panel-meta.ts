@@ -30,6 +30,73 @@ export const PANEL_META: Record<PanelId, PanelMeta> = {
 		question: () => t("¿Qué señales coinciden?", "Which signals agree?"),
 		feeds: () => (panels.value.incidents as { feeds?: string[] } | undefined)?.feeds ?? ["ioda-states"],
 	},
+	inusual: {
+		title: () => t("Lo inusual ahora", "Unusual now"),
+		question: () =>
+			t(
+				"¿Qué cifras se salen de su propia historia? (calculado por Vigía)",
+				"Which figures break from their own history? (computed by Vigía)",
+			),
+		feeds: () => [],
+	},
+	reportes: {
+		title: () => t("Reportes de usuarios", "User reports"),
+		question: () =>
+			t(
+				"¿Qué dicen las personas de su luz, agua, internet y gasolina?",
+				"What do people say about their power, water, internet and fuel?",
+			),
+		feeds: () => [],
+	},
+	camaras: {
+		title: () => t("Cámaras públicas", "Public cameras"),
+		question: () =>
+			t(
+				"¿Qué muestran las cámaras que sus operadores publican?",
+				"What do the cameras their operators publish show?",
+			),
+		feeds: () => ["public-cams"],
+	},
+	inundaciones: {
+		title: () => t("Inundaciones", "Floods"),
+		question: () =>
+			t("¿Dónde ve agua el satélite? (NASA MODIS)", "Where does the satellite see water? (NASA MODIS)"),
+		feeds: () => ["modis-floods"],
+	},
+	bosque: {
+		title: () => t("Bosque", "Forest"),
+		question: () => t("¿Dónde hay alertas de pérdida de bosque?", "Where are forest disturbance alerts?"),
+		feeds: () => ["gfw-alerts"],
+	},
+	metano: {
+		title: () => t("Metano", "Methane"),
+		question: () =>
+			t("¿Qué plumas de metano captó un satélite?", "Which methane plumes did a satellite capture?"),
+		feeds: () => ["carbon-mapper"],
+	},
+	buques: {
+		title: () => t("Buques en terminales", "Ships at terminals"),
+		question: () =>
+			t("¿Cuántos buques ve el radar en las terminales?", "How many ships does radar see at the terminals?"),
+		feeds: () => ["gfw-vessels"],
+	},
+	cloudflare: {
+		title: () => t("Cloudflare", "Cloudflare"),
+		question: () =>
+			t("¿Qué ve Cloudflare del tráfico de Venezuela?", "What does Cloudflare see of Venezuela's traffic?"),
+		feeds: () => ["cloudflare-radar"],
+	},
+	vuelos: {
+		title: () => t("Tráfico aéreo visto", "Air traffic seen"),
+		// Not "is the country being cut off?": adsb.lol has no receiver in Venezuela and almost never hears a landing or
+		// a take-off there (measured 2026-09-29: 0 arrivals or departures in 10 h), so a zero is missing coverage.
+		question: () =>
+			t(
+				"¿Qué vuelos de aerolínea se ven sobre y cerca de Venezuela?",
+				"Which airline flights are seen over and near Venezuela?",
+			),
+		feeds: () => ["adsb-flights"],
+	},
 	dinero: {
 		title: () => t("Dólar", "Dollar"),
 		question: () => t("¿A cuánto está hoy?", "What is it at today?"),
@@ -169,10 +236,60 @@ export const PANEL_META: Record<PanelId, PanelMeta> = {
 		feeds: () => ["wiki-attention"],
 	},
 	tv: {
-		title: () => t("En vivo: TV y radio", "Live: TV and radio"),
+		title: () => t("TV en vivo", "Live TV"),
 		question: () => t("¿Qué canales transmiten ahora?", "Which channels are on air now?"),
-		// Radio first: it is on by default, so the age badge speaks for a feed that runs.
-		feeds: () => ["radio-streams", "youtube-live"],
+		// The directory's probe first: it runs by default, so the age badge speaks for a feed that runs.
+		feeds: () => ["iptv-ve-probe", "iptv-ve", "youtube-live"],
+	},
+	radio: {
+		title: () => t("Radio en vivo", "Live radio"),
+		question: () => t("¿Qué emisoras están al aire?", "Which stations are on air?"),
+		feeds: () => ["radio-browser-probe", "radio-streams", "radio-browser"],
+	},
+	gdelt: {
+		title: () => t("GDELT: la prensa del mundo", "GDELT: the world's press"),
+		question: () =>
+			t(
+				"¿Qué eventos codifica GDELT en Venezuela? (codificación automática)",
+				"What events does GDELT code in Venezuela? (automatic coding)",
+			),
+		feeds: () => ["gdelt-ve"],
+	},
+	desmentidos: {
+		title: () => t("Desmentidos", "Fact-checks"),
+		question: () => t("¿Qué dicen los verificadores?", "What do the fact-checkers say?"),
+		feeds: () => ["cazadores-fake-news", "cotejo", "gn-cotejo", "gn-afp-factual"],
+	},
+	monetario: {
+		title: () => t("Liquidez, reservas e intervención", "Money supply, reserves and intervention"),
+		question: () =>
+			t("¿Cuánto dinero hay y cuántas reservas?", "How much money is there, and how many reserves?"),
+		feeds: () => ["bcv-liquidity", "bcv-reserves", "bcv-intervention"],
+	},
+	sanciones: {
+		title: () => t("Sanciones de EE. UU.", "US sanctions"),
+		question: () =>
+			t("¿Qué sanciona EE. UU. y qué autoriza?", "What does the US sanction, and what does it license?"),
+		feeds: () => ["ofac-sdn", "ofac-venezuela", "federal-register"],
+	},
+	cargos: {
+		title: () => t("Cargos públicos", "Public offices"),
+		question: () => t("¿Quién ocupa cada cargo, según Wikidata?", "Who holds each office, per Wikidata?"),
+		feeds: () => ["wikidata-officials"],
+	},
+	rayos: {
+		title: () => t("Rayos", "Lightning"),
+		question: () => t("¿Dónde caen rayos ahora?", "Where is lightning striking now?"),
+		feeds: () => ["goes-glm"],
+	},
+	apuestas: {
+		title: () => t("Mercados de predicción", "Prediction markets"),
+		question: () =>
+			t(
+				"¿Qué apuestan Polymarket y Kalshi sobre Venezuela?",
+				"What do Polymarket and Kalshi trade on Venezuela?",
+			),
+		feeds: () => ["polymarket", "kalshi"],
 	},
 	humanitario: {
 		title: () => t("Salud, migración y ayuda", "Health, migration and aid"),

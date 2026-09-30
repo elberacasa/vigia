@@ -1,5 +1,6 @@
 import type { BlobStore } from "./blobs.ts";
 import { CircuitBreaker } from "./breaker.ts";
+import { onByDefault } from "./defaults.ts";
 import type { Store } from "./store.ts";
 import { type Adapter, type HttpLike, MissingKeyError, type Observation } from "./types.ts";
 
@@ -16,7 +17,7 @@ export interface SchedulerOptions {
 	readonly store: Store;
 	readonly http: HttpLike;
 	readonly key: (id: string) => string | undefined;
-	/** Whether the user has this feed on. Defaults: on, except `optIn` feeds. */
+	/** Whether the user has this feed on. Defaults: `onByDefault` in local mode (on, except `optIn` feeds). */
 	readonly enabled?: (adapter: Adapter) => boolean;
 	/** Image store; adapters that declare a `blobs` policy get their own scope of it. */
 	readonly blobs?: BlobStore;
@@ -82,7 +83,7 @@ export class Scheduler {
 	}
 
 	isEnabled(adapter: Adapter): boolean {
-		return this.#options.enabled ? this.#options.enabled(adapter) : adapter.optIn === undefined;
+		return this.#options.enabled ? this.#options.enabled(adapter) : onByDefault(adapter, "local");
 	}
 
 	runtime(id: string): FeedRuntime | null {
@@ -202,13 +203,16 @@ export class Scheduler {
 		slot.lastAttemptAt = startedAt;
 		let observations: Observation[] = [];
 		let bytes = 0;
+		let wire = 0;
 		let error: string | null = null;
 		let inserted = 0;
 		try {
 			const blobs =
 				adapter.blobs && this.#options.blobs ? this.#options.blobs.scope(adapter.id, adapter.blobs) : null;
 			const raw = await adapter.fetch({
-				http,
+				http: metered(http, (n) => {
+					wire += n;
+				}),
 				key,
 				now: this.#now,
 				signal: this.#controller.signal,
@@ -245,6 +249,7 @@ export class Scheduler {
 				ok: error === null,
 				error,
 				bytes,
+				wire,
 				received: observations.length,
 				inserted,
 			});
@@ -282,4 +287,21 @@ function describe(error: unknown): string {
 		return text.length > 400 ? `${text.slice(0, 400)}…` : text;
 	}
 	return String(error).slice(0, 400);
+}
+
+/**
+ * The client an adapter sees for one run: the shared one, with every byte it downloads added to the run's meter
+ * (recorded as `runs.wire`, what the connection carried; `bytes` stays the size of the bodies returned).
+ */
+export function metered(http: HttpLike, add: (bytes: number) => void): HttpLike {
+	return {
+		request: (url, options = {}) =>
+			http.request(url, {
+				...options,
+				onWire: (n) => {
+					add(n);
+					options.onWire?.(n);
+				},
+			}),
+	};
 }

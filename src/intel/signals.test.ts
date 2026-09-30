@@ -15,6 +15,7 @@ import {
 	SIGNAL_RULES,
 	type SignalInputs,
 	sismoSignals,
+	statesMagnitude,
 	type TaggedHeadline,
 	tagHeadlines,
 } from "./signals.ts";
@@ -341,4 +342,51 @@ test("the rule text's examples are what the matcher matches", () => {
 	for (const name of OUTAGE_EXAMPLES.notEnough)
 		expect(outageOf(`${name} anuncia inversiones en Lara`)).toBeNull();
 	expect(OUTAGE_EXAMPLES.en).toHaveLength(OUTAGE_EXAMPLES.es.length);
+});
+
+test("a quake with no Venezuelan state is tied to press only by its magnitude and the first hours (review M13)", () => {
+	const input = empty();
+	const t = NOW - 3 * HOUR;
+	input.quakes = [
+		quake({
+			id: "co",
+			zone: "near",
+			state: null,
+			maxMag: 4.3,
+			placeEs: "Colombia, a 101 km al SO de Delicias (Táchira)",
+		}),
+	];
+	input.headlines = [
+		// June's quakes, still in the news: not this quake.
+		...Array.from({ length: 35 }, (_, i) =>
+			headline({
+				topics: ["sismo"],
+				at: t + 20 * MIN,
+				series: `june-${i}`,
+				states: [],
+				title: "Réplicas del sismo de 7,2 siguen en Yaracuy",
+			}),
+		),
+		headline({
+			topics: ["sismo"],
+			at: t + 40 * MIN,
+			series: "this",
+			states: [],
+			title: "Sismo de magnitud 4,3 sacude la frontera con Colombia",
+		}),
+		headline({
+			topics: ["sismo"],
+			at: t + 7 * HOUR,
+			series: "late",
+			states: [],
+			title: "Otro reporte del sismo de 4,3",
+		}),
+	];
+	const ids = sismoSignals(input, NOW + 5 * HOUR).map((s) => s.evidence.id);
+	expect(ids.filter((id) => id.startsWith("news:"))).toEqual(["news:la-prensa-lara:this"]);
+	expect(statesMagnitude("Sismo de magnitud 4,3", 4.3)).toBe(true);
+	expect(statesMagnitude("M4.4 en el Caribe", 4.3)).toBe(true);
+	expect(statesMagnitude("Réplicas del sismo de 7,2", 4.3)).toBe(false);
+	expect(statesMagnitude("Bs 4,30 el litro", 4.3)).toBe(false);
+	expect(statesMagnitude("Tasa de 45,30", 4.3)).toBe(false);
 });

@@ -39,12 +39,12 @@ export function jpegSize(bytes: Uint8Array): { width: number; height: number } |
 }
 
 /** Decodes a JPEG to RGBA; throws on corrupt data or anything over `maxMegapixels`. */
-export function decodeJpeg(bytes: Uint8Array, maxMegapixels = 20): Rgba {
+export function decodeJpeg(bytes: Uint8Array, maxMegapixels = 20, maxMemoryMb = 512): Rgba {
 	const img = jpeg.decode(bytes, {
 		useTArray: true,
 		formatAsRGBA: true,
 		maxResolutionInMP: maxMegapixels,
-		maxMemoryUsageInMB: 512,
+		maxMemoryUsageInMB: maxMemoryMb,
 	});
 	return { width: img.width, height: img.height, data: img.data };
 }

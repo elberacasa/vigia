@@ -21,6 +21,11 @@ export interface RunRecord {
 	readonly ok: boolean;
 	readonly error: string | null;
 	readonly bytes: number;
+	/**
+	 * What the run downloaded (headers and bodies as the connection carried them, see RequestOptions.onWire). Absent
+	 * on runs recorded before 0.2.0 and where the host does not meter.
+	 */
+	readonly wire?: number | null;
 	readonly received: number;
 	readonly inserted: number;
 }
@@ -49,6 +54,7 @@ interface RunRow {
 	ok: number;
 	error: string | null;
 	bytes: number;
+	wire: number | null;
 	received: number;
 	inserted: number;
 }
@@ -72,8 +78,8 @@ export class Store {
 		);
 		this.#exists = this.db.prepare("SELECT 1 FROM obs WHERE source = ? AND series = ? LIMIT 1");
 		this.#insertRun = this.db.prepare(
-			`INSERT INTO runs (source, started_at, finished_at, ok, error, bytes, received, inserted)
-			 VALUES ($source, $started_at, $finished_at, $ok, $error, $bytes, $received, $inserted)`,
+			`INSERT INTO runs (source, started_at, finished_at, ok, error, bytes, wire, received, inserted)
+			 VALUES ($source, $started_at, $finished_at, $ok, $error, $bytes, $wire, $received, $inserted)`,
 		);
 	}
 
@@ -150,6 +156,10 @@ export class Store {
 				this.db.run("INSERT OR REPLACE INTO meta (key, value) VALUES ('schema', '2')");
 			})();
 		}
+		// 0.2.0: what each run downloaded. A nullable column added in place, without a schema bump, so an older
+		// Vigía can still open this file (its INSERT names its columns and never sees this one).
+		const runColumns = this.db.query<{ name: string }, []>("PRAGMA table_info(runs)").all();
+		if (!runColumns.some((c) => c.name === "wire")) this.db.run("ALTER TABLE runs ADD COLUMN wire INTEGER");
 	}
 
 	/** Inserts observations; returns how many were new. */
@@ -190,6 +200,7 @@ export class Store {
 			ok: run.ok ? 1 : 0,
 			error: run.error,
 			bytes: run.bytes,
+			wire: run.wire ?? null,
 			received: run.received,
 			inserted: run.inserted,
 		});
@@ -252,6 +263,38 @@ export class Store {
 			.map((row) => fromRow<V>(row));
 	}
 
+	/** One series in [from, to], NEWEST first, capped: the latest rows are never the ones a cap drops. */
+	recent<V extends Json = Json>(
+		source: string,
+		series: string,
+		from: number,
+		to: number,
+		limit = 5_000,
+	): StoredObservation<V>[] {
+		return this.db
+			.query<ObsRow, [string, string, number, number, number]>(
+				`SELECT * FROM obs WHERE source = ? AND series = ? AND observed_at BETWEEN ? AND ?
+				 ORDER BY observed_at DESC, id DESC LIMIT ?`,
+			)
+			.all(source, series, from, to, limit)
+			.map((row) => fromRow<V>(row));
+	}
+
+	/** Every row of a source observed in [from, to], newest first, capped (the time machine's pictures). */
+	window<V extends Json = Json>(
+		source: string,
+		from: number,
+		to: number,
+		limit = 5_000,
+	): StoredObservation<V>[] {
+		return this.db
+			.query<ObsRow, [string, number, number, number]>(
+				"SELECT * FROM obs WHERE source = ? AND observed_at BETWEEN ? AND ? ORDER BY observed_at DESC, id DESC LIMIT ?",
+			)
+			.all(source, from, to, limit)
+			.map((row) => fromRow<V>(row));
+	}
+
 	/** Whether any observation of this series at this observed time is stored. */
 	hasObservation(source: string, series: string, observedAt: number): boolean {
 		return (
@@ -281,9 +324,24 @@ export class Store {
 				ok: r.ok === 1,
 				error: r.error,
 				bytes: r.bytes,
+				wire: r.wire,
 				received: r.received,
 				inserted: r.inserted,
 			}));
+	}
+
+	/**
+	 * What each feed downloaded in runs started at or after `since` (metered runs only), and how many metered runs
+	 * that was: the measured side of the data-saver estimate (src/core/bandwidth.ts).
+	 */
+	downloadedSince(since: number): Map<string, { wire: number; runs: number; first: number }> {
+		const rows = this.db
+			.query<{ source: string; wire: number; runs: number; first: number }, [number]>(
+				`SELECT source, SUM(wire) AS wire, COUNT(*) AS runs, MIN(started_at) AS first
+				 FROM runs WHERE started_at >= ? AND wire IS NOT NULL GROUP BY source`,
+			)
+			.all(since);
+		return new Map(rows.map((r) => [r.source, { wire: r.wire, runs: r.runs, first: r.first }]));
 	}
 
 	/** The first recorded run of a feed on this machine (runs are pruned after 30 days). */

@@ -3,7 +3,7 @@
  * first-run presets, hidden panels, density. Panel chrome itself lives in base.css; tokens in tokens.css.
  */
 
-/* ---------- Wall ---------- */
+/* ---------- Wall (phones and narrow screens; desks get the workstation, styles/workstation.css) ---------- */
 .wall {
 	display: grid;
 	gap: var(--gutter);
@@ -18,36 +18,19 @@
 	display: grid;
 	gap: var(--gutter);
 }
-.wall__pulse .ahora {
-	margin: 0;
-	border-radius: var(--r-panel);
-}
-.wall__pulse .tile {
-	border-radius: var(--r-panel);
-}
 .wall__map {
 	container: wall-map / inline-size;
 	min-width: 0;
 }
-.wall__col,
 .wall__rows {
 	display: flex;
 	flex-direction: column;
 	gap: var(--gutter);
 	min-width: 0;
 }
-.wall__col > *,
 .wall__rows > * {
 	flex: none;
 }
-.wall__note {
-	margin: 0;
-	padding: 2px 4px;
-	font-size: var(--fs-xs);
-	color: var(--text-3);
-}
-
-/* The map card: sea fills the card, a hairline inner bezel frames the instrument. */
 .wall__map .panel--map {
 	background: var(--map-sea);
 }
@@ -55,99 +38,6 @@
 	background: var(--surface-1);
 	border-radius: var(--r-panel) var(--r-panel) 0 0;
 }
-.wall--wide .wall__map .panel--map .panel__body::after,
-.wall--mid .wall__map .panel--map .panel__body::after {
-	content: "";
-	position: absolute;
-	inset: 6px;
-	border: 1px solid var(--line);
-	border-radius: 4px;
-	pointer-events: none;
-}
-
-/* Wide (≥1500 px): one composition the height of the screen. Side columns scroll inside themselves. */
-body:has(.wall--wide) #app {
-	display: flex;
-	flex-direction: column;
-	height: 100dvh;
-}
-.wall--wide {
-	flex: 1;
-	min-height: 0;
-	margin-bottom: var(--statusbar-h);
-	grid-template-columns: minmax(340px, 0.9fr) minmax(0, 1.75fr) minmax(380px, 1fr);
-	grid-template-rows: auto minmax(0, 1fr);
-	grid-template-areas: "pulse pulse pulse" "left map right";
-	overflow: hidden;
-}
-.wall--wide .wall__pulse {
-	grid-area: pulse;
-}
-.wall--wide .wall__col--left {
-	grid-area: left;
-}
-.wall--wide .wall__col--right {
-	grid-area: right;
-}
-.wall--wide .wall__map {
-	grid-area: map;
-	min-height: 0;
-}
-.wall--wide .wall__col,
-.wall--mid .wall__col {
-	min-height: 0;
-	overflow-y: auto;
-	overscroll-behavior: contain;
-	scrollbar-width: thin;
-	scrollbar-color: var(--line-strong) transparent;
-	padding-bottom: var(--s-6);
-	/* A 24 px fade says there is more below; the padding lets the last panel scroll clear of it. */
-	mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent);
-}
-.wall--wide .wall__map .panel,
-.wall--mid .wall__map .panel {
-	height: 100%;
-}
-.wall--wide .wall__map .panel__body,
-.wall--mid .wall__map .panel__body {
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-}
-.wall--wide .wall__map .map,
-.wall--mid .wall__map .map {
-	flex: 1;
-	min-height: 0;
-	display: flex;
-}
-.wall--wide .wall__map .map__svg,
-.wall--mid .wall__map .map__svg {
-	width: 100%;
-	height: 100%;
-	max-height: none;
-}
-
-/* Mid (1000–1499 px): the map and the right column share one screen-high frame; the rest below, as masonry. */
-.wall--mid .wall__frame {
-	display: grid;
-	grid-template-columns: minmax(0, 1.55fr) minmax(360px, 1fr);
-	gap: var(--gutter);
-	height: calc(100dvh - var(--topbar-h) - var(--statusbar-h) - 2 * var(--gutter));
-	min-height: 560px;
-}
-.wall__more {
-	columns: 400px;
-	column-gap: var(--gutter);
-}
-.wall__more > * {
-	break-inside: avoid;
-	margin-bottom: var(--gutter);
-}
-.wall--mid .wall__more {
-	margin-bottom: calc(var(--statusbar-h) - var(--gutter));
-}
-
-/* Narrow and phone: one list in the reader's order. */
 @media (min-width: 720px) {
 	.wall--flow .wall__rows--more {
 		display: block;
@@ -372,12 +262,6 @@ body:has(.wall--wide) #app {
 .prefs__reset:disabled {
 	opacity: 0.45;
 	cursor: default;
-}
-
-/* ---------- Density: Pared ---------- */
-:root[data-density="pared"] .wall--wide .wall__col,
-:root[data-density="pared"] .wall--mid .wall__col {
-	mask-image: none;
 }
 
 /* ---------- Panel header badge spacing (after base.css badge rules) ---------- */

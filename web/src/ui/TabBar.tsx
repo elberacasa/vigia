@@ -1,8 +1,9 @@
 import { signal } from "@preact/signals";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { t } from "../lib/i18n.ts";
+import { jumpTo } from "../lib/keys.ts";
 import { hiddenPanels, type PanelId, reveal, visibleOrder } from "../lib/layout.ts";
-import { link, type Route } from "../lib/router.ts";
+import { go as goTo, link, type Route, route } from "../lib/router.ts";
 import { freshCount } from "../lib/seen.ts";
 import { panelName, summarize } from "../lib/summary.ts";
 
@@ -65,10 +66,20 @@ const ICONS: Record<Tab | "mas", string> = {
 	mas: "M3.5 3.5h5v5h-5Zm8 0h5v5h-5Zm-8 8h5v5h-5Zm8 0h5v5h-5Z",
 };
 
-/** Phone: the bottom tab bar. Ahora · Mapa · Dólar · Noticias · Más (a sheet with every other panel). */
+/**
+ * Phone: the bottom tab bar. Ahora · Mapa · Dólar · Noticias · Más (a sheet with every other panel). On a page
+ * (an entity, the sources) no tab is current and a tab goes back to the room, to its section.
+ */
 export function TabBar() {
-	const tab = useSpy();
+	const spied = useSpy();
+	const onPage = route.value !== "wall";
+	const tab = onPage ? null : spied;
 	const go = (id: Tab) => {
+		if (onPage) {
+			if (id === "ahora") goTo("wall");
+			else jumpTo(id);
+			return;
+		}
 		if (id === "ahora") scrollTo({ top: 0, behavior: still() ? "auto" : "smooth" });
 		else if (id === "mapa")
 			document
@@ -121,7 +132,7 @@ export function TabBar() {
 	);
 }
 
-const PAGES: { route: Route; es: string; en: string }[] = [
+const PAGES: { route: Exclude<Route, "entity">; es: string; en: string }[] = [
 	{ route: "brief", es: "Resumen del día", en: "Daily brief" },
 	{ route: "status", es: "Estado de las fuentes", en: "Feed status" },
 	{ route: "sources", es: "Fuentes y licencias", en: "Sources and licences" },

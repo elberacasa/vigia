@@ -4,12 +4,22 @@ import { addStyles } from "../lib/css.ts";
 import { healthById, now, panels } from "../lib/data.ts";
 import { clauseFeeds, clauseText, currentClauses, type HeadlineInput } from "../lib/headline.ts";
 import { lang, t } from "../lib/i18n.ts";
+import { later } from "../lib/lazy.tsx";
 import { newsTopic, TOPICS } from "../lib/topics.ts";
-import { FlareLayer } from "../map/FlareLayer.tsx";
 import { connectivityFills, fireFills, levelLabel } from "../map/fills.ts";
 import { FRAME } from "../map/geometry.gen.ts";
 import { history, indexAt, type LevelCode, stepLabel } from "../map/history.ts";
 import { LayerList, layerInfo } from "../map/LayerList.tsx";
+import {
+	CameraLayer,
+	CameraStrip,
+	CrowdLayer,
+	FacilityLayer,
+	FlareLayer,
+	FloodLayer,
+	LightningLayer,
+	PlumeLayer,
+} from "../map/LayerRows.tsx";
 import { type StateFill, VenezuelaMap } from "../map/Map.tsx";
 import { project } from "../map/project.ts";
 import { markArrivals, QuakeLayer, type QuakePoint } from "../map/QuakeLayer.tsx";
@@ -18,14 +28,24 @@ import { NightUnderlay, SatelliteControls, SatelliteUnderlay, satelliteFrame } f
 import {
 	highlightedMunicipality,
 	nextLayer,
+	pickedPoint,
+	pickPoint,
 	type Shading,
+	selectEntity,
+	selectedEntity,
 	selectedState,
 	selectMunicipality,
 	selectState,
 	setLayer,
 	shading,
+	showCameras,
+	showCrowd,
+	showFacilities,
 	showFires,
 	showFlares,
+	showFloods,
+	showLightning,
+	showPlumes,
 	showQuakes,
 	toggleQuakes,
 	viewTime,
@@ -193,6 +213,24 @@ function FireDots({ view }: { view: FiresView | undefined }) {
 	);
 }
 
+/** The point last pressed on the map: a small cross, while the inspector says what is there. */
+function PickMark() {
+	const p = pickedPoint.value;
+	if (!p) return null;
+	const [x, y] = project(p.lon, p.lat);
+	return (
+		// biome-ignore lint/a11y/noAriaHiddenOnFocusable: the inspector names what is at the point.
+		<g
+			class="pick-mark"
+			aria-hidden="true"
+			style={{ transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) scale(var(--zk, 1))` }}
+		>
+			<path d="M-7 0h4M3 0h4M0-7v4M0 3v4" class="pick-mark__cross" />
+			<circle r={1.6} class="pick-mark__dot" />
+		</g>
+	);
+}
+
 /** What the shortcuts and the palette may ask of the map (mirrors MapDetail in lib/keys.ts). */
 type MapAction =
 	| { action: "cycle-layer" }
@@ -200,6 +238,9 @@ type MapAction =
 	| { action: "share" }
 	| { action: "layer"; layer: Shading }
 	| { action: "municipality"; code: string; state: string };
+
+/** The map's method text loads with the method sheet (it is not needed to draw the map). */
+const MapMethodLazy = later(() => import("../map/MapMethod.tsx").then((m) => m.MapMethod));
 
 let slider: ComponentType | null = null;
 /** The history strip loads as its own chunk after first paint; its space is reserved so nothing shifts. */
@@ -359,34 +400,7 @@ export function MapPanel() {
 			title={t("Venezuela ahora", "Venezuela now")}
 			feeds={FEEDS[mode]}
 			question={t("¿Qué pasa en cada estado?", "What is happening in each state?")}
-			method={
-				<>
-					<p>
-						{t(
-							"Una sola capa colorea los estados a la vez; sismos y focos de calor van encima como puntos. Cada fila de la lista dice su cifra y la edad de su dato.",
-							"One layer colours the states at a time; earthquakes and heat spots sit on top as points. Each row of the list gives its figure and the age of its data.",
-						)}
-					</p>
-					<p>
-						{t(
-							"Historial (capa Internet): el nivel de cada estado al cierre de cada hora (o el peor nivel horario en 7 y 30 días), calculado en el servidor con las mismas reglas del panel de Internet sobre los datos de IODA guardados. Nada se interpola; una hora sin datos queda rayada. Altura de cada barra: estados con caída.",
-							"History (Internet layer): each state's level at the close of each hour (or its worst hourly level over 7 and 30 days), computed on the server by the Internet panel's rules over the stored IODA data. Nothing is interpolated; an hour without data stays hatched. Bar height: states with a drop.",
-						)}
-					</p>
-					<p>
-						{t(
-							"Sismos: círculo según la magnitud; el borde se atenúa con la edad (1 h a 30 días). Un sismo nuevo se anuncia con un solo anillo.",
-							"Earthquakes: circle by magnitude; the outline fades with age (1 h to 30 days). A new quake is announced with a single ring.",
-						)}
-					</p>
-					<p>
-						{t(
-							"Límites: INE vía OCHA/HDX (CC BY-IGO 3.0). Países vecinos: Natural Earth. La zona al oeste del Esequibo se marca como en reclamación.",
-							"Boundaries: INE via OCHA/HDX (CC BY-IGO 3.0). Neighbours: Natural Earth. The area west of the Essequibo is marked as under claim.",
-						)}
-					</p>
-				</>
-			}
+			method={<MapMethodLazy />}
 		>
 			<div class="mapview">
 				<div class="mapview__stage" ref={stageRef}>
@@ -396,6 +410,7 @@ export function MapPanel() {
 						selected={selectedState.value}
 						onSelect={selectState}
 						highlight={highlightedMunicipality.value}
+						onPoint={(lon, lat) => pickPoint(lat, lon)}
 						past={Boolean(past)}
 						flashKey={past ? null : mode}
 						banner={
@@ -408,13 +423,32 @@ export function MapPanel() {
 						}
 						layers={() => (
 							<>
+								{showFacilities.value || selectedEntity.value?.startsWith("infra.") ? (
+									<FacilityLayer
+										selected={selectedEntity.value}
+										onSelect={(f) => selectEntity(f.id, f.iso)}
+										only={!showFacilities.value}
+									/>
+								) : null}
+								{/* Reports (the last 2 h) and the newest flood day are not of a replayed hour: live map only. */}
+								{showFloods.value && !past ? <FloodLayer /> : null}
+								{showCrowd.value && !past ? <CrowdLayer /> : null}
+								{showPlumes.value ? <PlumeLayer before={pastEnd} /> : null}
+								{showLightning.value ? <LightningLayer /> : null}
 								{showFlares.value ? <FlareLayer view={p.energy as EnergyView | undefined} /> : null}
 								{showFires.value ? <FireDots view={p.fires as FiresView | undefined} /> : null}
 								{showQuakes.value ? <QuakeLayer items={quakes} now={now.value} /> : null}
+								{showCameras.value ? <CameraLayer /> : null}
+								<PickMark />
 							</>
 						)}
 					/>
 					{mode === "connectivity" ? <TimeSlider /> : null}
+					{showCameras.value ? (
+						<div class="map-under">
+							<CameraStrip />
+						</div>
+					) : null}
 					{mode === "satellite" ? (
 						<div class="map-under">
 							<SatelliteControls />

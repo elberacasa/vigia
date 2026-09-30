@@ -2,13 +2,15 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "
 import { dirname, join } from "node:path";
 import { z } from "zod";
 import { type AlertRule, AlertRulesSchema } from "../alerts/schema.ts";
+import { feedOn } from "../core/bandwidth.ts";
+import type { DeployMode } from "../core/defaults.ts";
 import type { Adapter } from "../core/types.ts";
 import { USER_FEED_LIMIT, type UserFeed, UserFeedSchema } from "../userfeeds/schema.ts";
 
 /** User settings (config.json). Unknown keys are kept out; a broken file fails with a clear Spanish message. */
 const Settings = z
 	.object({
-		/** Per-feed on/off overrides. Absent: the feed's default (on, unless opt-in). */
+		/** Per-feed on/off overrides. Absent: the feed's default for the mode (on, unless opt-in or off there). */
 		feeds: z.record(z.string(), z.boolean()).default({}),
 		/** Days of observations to keep; 0 keeps everything. */
 		retentionDays: z.number().int().min(0).max(36_500).default(0),
@@ -29,6 +31,11 @@ const Settings = z
 		userFeeds: z.array(UserFeedSchema).max(USER_FEED_LIMIT).default([]),
 		/** "Mis alertas": rules evaluated on the server (src/alerts). */
 		alertRules: AlertRulesSchema.default([]),
+		/**
+		 * "Conexión limitada" (src/core/bandwidth.ts): heavy feeds off. Absent: not asked yet (off, and the page asks
+		 * once on a person's own Vigía).
+		 */
+		dataSaver: z.boolean().optional(),
 	})
 	.strict();
 
@@ -36,8 +43,13 @@ export type SettingsData = z.infer<typeof Settings>;
 
 export interface SettingsStore {
 	readonly data: SettingsData;
-	feedEnabled(adapter: Adapter): boolean;
+	/**
+	 * The user's switch, else off when `saverOffHeavy` (the data saver is on and this feed is heavy), else the feed's
+	 * default for this deployment mode (core/bandwidth.ts `feedOn`).
+	 */
+	feedEnabled(adapter: Adapter, mode?: DeployMode, saverOffHeavy?: boolean): boolean;
 	setFeed(id: string, on: boolean): void;
+	setDataSaver(on: boolean): void;
 	setAi(next: Partial<SettingsData["ai"]>): void;
 	setUserFeeds(next: readonly UserFeed[]): void;
 	setAlertRules(next: readonly AlertRule[]): void;
@@ -62,9 +74,14 @@ export function openSettings(configDir: string): SettingsStore {
 		get data() {
 			return data;
 		},
-		feedEnabled: (adapter) => data.feeds[adapter.id] ?? adapter.optIn === undefined,
+		feedEnabled: (adapter, mode = "local", saverOffHeavy = false) =>
+			feedOn(adapter, mode, data.feeds[adapter.id], saverOffHeavy),
 		setFeed: (id, on) => {
 			data = { ...data, feeds: { ...data.feeds, [id]: on } };
+			persist();
+		},
+		setDataSaver: (on) => {
+			data = { ...data, dataSaver: on };
 			persist();
 		},
 		setAi: (next) => {

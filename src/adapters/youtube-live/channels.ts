@@ -25,6 +25,8 @@ export type TvChannel = {
 	readonly name: string;
 	/** YouTube channel id (UC…), the only identifier that never changes. */
 	readonly channelId: string;
+	/** The same channel in iptv-org's database, for its logo (tv-logos); only a logo, never its streams. */
+	readonly iptvChannel?: string;
 	/** The broadcaster's own website. */
 	readonly homepage: string;
 	/** Where the broadcaster is based (ISO 3166-1 alpha-2). */
@@ -43,6 +45,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "vpitv",
 		name: "VPItv",
 		channelId: "UCVFiIRuxJ2GmJLUkHmlmj4w",
+		iptvChannel: "VPItv.ve",
 		homepage: "https://vpitv.com/",
 		country: "VE",
 		lang: "es",
@@ -55,6 +58,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "evtv",
 		name: "EVTV Miami",
 		channelId: "UCshe7-1A5MN_ArHsG_3V41g",
+		iptvChannel: "EVTVMiami.us",
 		homepage: "https://evtvmiami.com/",
 		country: "US",
 		lang: "es",
@@ -67,6 +71,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "ntn24",
 		name: "NTN24",
 		channelId: "UCEJs1fTF3KszRJGxJY14VrA",
+		iptvChannel: "NTN24.co",
 		homepage: "https://www.ntn24.com/",
 		country: "CO",
 		lang: "es",
@@ -79,6 +84,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "globovision",
 		name: "Globovisión",
 		channelId: "UC0nGYg5JpX7tIeQw_-DQTLw",
+		iptvChannel: "Globovision.ve",
 		homepage: "https://globovision.com/",
 		country: "VE",
 		lang: "es",
@@ -91,6 +97,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "venevision",
 		name: "Noticias Venevisión",
 		channelId: "UCR1tLg8fy9dklmhZPf0qCWQ",
+		iptvChannel: "Venevision.ve",
 		homepage: "https://www.venevision.com/",
 		country: "VE",
 		lang: "es",
@@ -103,6 +110,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "televen",
 		name: "Televen",
 		channelId: "UCPxs1siPSF6YKGtKP_Zyvtw",
+		iptvChannel: "Televen.ve",
 		homepage: "https://televen.com/",
 		country: "VE",
 		lang: "es",
@@ -115,6 +123,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "vtv",
 		name: "VTV (Venezolana de Televisión)",
 		channelId: "UC_8sCVycu3FXidPNoZwOHqA",
+		iptvChannel: "VenezolanadeTelevision.ve",
 		homepage: "https://vtv.com.ve/",
 		country: "VE",
 		lang: "es",
@@ -127,6 +136,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "telesur",
 		name: "teleSUR",
 		channelId: "UCZSdNK_ZmMQcLTz-obKr-Dw",
+		iptvChannel: "Telesur.ve",
 		homepage: "https://www.telesurtv.net/",
 		country: "VE",
 		lang: "es",
@@ -139,6 +149,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "cnnee",
 		name: "CNN en Español",
 		channelId: "UC_lEiu6917IJz03TnntWUaQ",
+		iptvChannel: "CNNenEspanol.us",
 		homepage: "https://cnnespanol.cnn.com/",
 		country: "US",
 		lang: "es",
@@ -151,6 +162,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "dw",
 		name: "DW Español",
 		channelId: "UCT4Jg8h03dD0iN3Pb5L0PMA",
+		iptvChannel: "DW.de",
 		homepage: "https://www.dw.com/es/",
 		country: "DE",
 		lang: "es",
@@ -163,6 +175,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "france24",
 		name: "France 24 Español",
 		channelId: "UCUdOoVWuWmgo1wByzcsyKDQ",
+		iptvChannel: "France24.fr",
 		homepage: "https://www.france24.com/es/",
 		country: "FR",
 		lang: "es",
@@ -175,6 +188,7 @@ export const TV_CHANNELS: readonly TvChannel[] = [
 		id: "voa",
 		name: "Voz de América",
 		channelId: "UCJ46VgZgCMLFUvOT671AOJw",
+		iptvChannel: "VoATV.us",
 		homepage: "https://www.vozdeamerica.com/",
 		country: "US",
 		lang: "es",

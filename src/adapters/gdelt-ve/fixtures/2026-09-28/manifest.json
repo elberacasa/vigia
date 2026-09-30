@@ -1,0 +1,16 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://data.gdeltproject.org/gdeltv2/20260928073000.export.CSV.zip",
+    "status": 200,
+    "contentType": "application/zip",
+    "fetchedAt": 1790646000000
+  },
+  {
+    "file": "01.txt",
+    "url": "https://data.gdeltproject.org/gdeltv2/20260928073000.translation.export.CSV.zip",
+    "status": 200,
+    "contentType": "application/zip",
+    "fetchedAt": 1790646000000
+  }
+]

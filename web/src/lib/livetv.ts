@@ -56,3 +56,4 @@ export function playerAudible(data: unknown): boolean | null {
 /** The commands the wall sends: start listening, and mute. */
 export const PLAYER_LISTEN = (id: number) => JSON.stringify({ event: "listening", id, channel: "widget" });
 export const PLAYER_MUTE = JSON.stringify({ event: "command", func: "mute", args: [] });
+export const PLAYER_UNMUTE = JSON.stringify({ event: "command", func: "unMute", args: [] });

@@ -1,0 +1,396 @@
+/*
+ * Noticias, second row: "GDELT: la prensa del mundo" (panels/Gdelt.tsx) and "Desmentidos" (panels/FactChecks.tsx),
+ * plus the marks they lend the news list (a possibly related fact-check, "vía Google Noticias"). Tokens only; the
+ * graded map uses the accent (a graded layer), selection outlined in the accent, focus in amber.
+ */
+
+.gd,
+.fc {
+	display: grid;
+	gap: var(--s-3);
+	min-width: 0;
+	container: gd / inline-size;
+}
+.gd-band {
+	margin: 0;
+	padding: 6px var(--s-3);
+	border-left: 2px solid var(--line-strong);
+	background: var(--muted-soft);
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: var(--lh);
+}
+.gd-band strong {
+	color: var(--text);
+	font-weight: 650;
+}
+.gd-note {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: var(--lh);
+}
+
+/* Figures: an instrument strip of cells separated by hairlines. */
+.gd-figs {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+	margin: 0;
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.gd-figs > div {
+	padding: var(--s-2) var(--s-3);
+	/* Hairlines right and below each cell; the strip clips those on its edges, so wrapped rows keep them. */
+	box-shadow:
+		1px 0 0 var(--line),
+		0 1px 0 var(--line);
+	min-width: 0;
+}
+.gd-figs dt {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+	overflow-wrap: anywhere;
+}
+.gd-figs dd {
+	margin: 2px 0 0;
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	font-size: var(--fs-lg);
+	font-weight: 600;
+	color: var(--text);
+}
+.gd-figs__of {
+	font-family: var(--font-ui);
+	font-size: var(--fs-xs);
+	font-weight: 400;
+	color: var(--text-2);
+}
+.gd-figs__note {
+	display: block;
+	font-family: var(--font-ui);
+	font-size: var(--fs-2xs);
+	font-weight: 400;
+	color: var(--text-3);
+}
+
+.gd-h {
+	margin: 0 0 var(--s-2);
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.gd-h__n {
+	font-family: var(--font-data);
+	letter-spacing: 0;
+}
+.gd-block {
+	min-width: 0;
+}
+
+/* Map and the states table side by side when there is room. */
+.gd-geo,
+.gd-pair {
+	display: grid;
+	gap: var(--s-3);
+	grid-template-columns: minmax(0, 1fr);
+}
+@container gd (min-width: 520px) {
+	.gd-geo {
+		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+		align-items: start;
+	}
+	.gd-pair {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+.gd-map {
+	display: block;
+	width: 100%;
+	max-height: 240px;
+	background: var(--map-sea);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+}
+.gd-map__state {
+	fill: var(--map-land);
+	stroke: var(--map-border);
+	stroke-width: 1.5;
+	cursor: pointer;
+}
+.gd-map__state.has-data {
+	fill: var(--accent);
+}
+.gd-map__state.is-sel {
+	stroke: var(--accent);
+	stroke-width: 6;
+}
+.gd-map__state:hover {
+	stroke: var(--text-2);
+	stroke-width: 3;
+}
+
+.gd-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--fs-xs);
+}
+.gd-table th,
+.gd-table td {
+	padding: 3px 0;
+	border-bottom: 1px solid var(--line);
+	text-align: right;
+	font-weight: 400;
+}
+.gd-table thead th {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.gd-table th:first-child {
+	text-align: left;
+}
+.gd-table td {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	color: var(--text);
+	padding-left: var(--s-2);
+}
+.gd-table__place {
+	min-height: 24px;
+	padding: 0;
+	font-size: var(--fs-xs);
+	color: var(--accent);
+	text-align: left;
+}
+.gd-table__place:hover {
+	text-decoration: underline;
+}
+.gd-table__place:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: var(--r-sm);
+}
+.gd-table tr.is-sel th,
+.gd-table tr.is-sel td {
+	background: var(--accent-soft);
+}
+
+.gd-bars {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 3px;
+}
+.gd-bars li {
+	display: grid;
+	grid-template-columns: minmax(0, 9rem) minmax(0, 1fr) 3rem;
+	align-items: center;
+	gap: var(--s-2);
+	font-size: var(--fs-xs);
+}
+.gd-bars__label {
+	color: var(--text-2);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.gd-bars__track {
+	height: 6px;
+	background: var(--muted-soft);
+}
+.gd-bars__track i {
+	display: block;
+	height: 100%;
+	background: var(--accent);
+}
+.gd-bars__n {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+	color: var(--text);
+}
+.gd-axis {
+	display: flex;
+	justify-content: space-between;
+	margin: 2px 0 0;
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+
+.gd-list,
+.fc-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--line);
+}
+.gd-item {
+	display: grid;
+	grid-template-columns: 6.5rem minmax(0, 1fr);
+	gap: 0 var(--s-2);
+	padding: 5px 0;
+	border-bottom: 1px solid var(--line);
+	font-size: var(--fs-xs);
+}
+.gd-item__time {
+	grid-row: span 2;
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.gd-item__link {
+	color: var(--text);
+	font-weight: 600;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+.gd-item__link:hover {
+	color: var(--accent);
+}
+.gd-item__meta {
+	color: var(--text-2);
+	font-size: var(--fs-2xs);
+}
+.gd-item__basis {
+	color: var(--text-3);
+}
+
+/* ---------- Desmentidos ---------- */
+.fc-checkers {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	min-width: 0;
+}
+.fc-item {
+	display: grid;
+	gap: 3px;
+	padding: var(--s-2) 0;
+	border-bottom: 1px solid var(--line);
+}
+.fc-item__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px var(--s-2);
+	font-size: var(--fs-2xs);
+	color: var(--text-2);
+}
+.fc-item__who {
+	font-weight: 600;
+	color: var(--text-2);
+}
+.fc-item__via,
+.via {
+	font-weight: 400;
+	color: var(--text-3);
+	font-size: var(--fs-2xs);
+}
+.fc-item__time {
+	margin-left: auto;
+	font-family: var(--font-data);
+	color: var(--text-3);
+}
+.fc-item__title {
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text);
+	text-decoration: none;
+	line-height: var(--lh-tight);
+}
+.fc-item__title:hover {
+	color: var(--accent);
+}
+/* The checker's verdict: its own word, uppercase in a hairline label; never a status colour. */
+.fc-verdict {
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-sm);
+	padding: 0 5px;
+	line-height: 16px;
+}
+.fc-verdict--none {
+	font-weight: 400;
+	letter-spacing: 0;
+	text-transform: none;
+	color: var(--text-3);
+	border-style: dashed;
+}
+.fc-rel {
+	margin: 2px 0 0;
+	padding-left: var(--s-3);
+	border-left: 1px solid var(--line-strong);
+	display: grid;
+	gap: 1px;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.fc-rel__words {
+	color: var(--text-2);
+}
+.fc-rel__story {
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	text-decoration: none;
+}
+.fc-rel__story:hover {
+	color: var(--accent);
+}
+.fc-rel__when {
+	font-family: var(--font-data);
+}
+
+/* In the news list: a fact-check that possibly concerns this story. */
+.story__check {
+	margin: 4px 0 0;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.story__check a {
+	color: var(--accent);
+	text-decoration: none;
+}
+.story__check a:hover {
+	text-decoration: underline;
+}
+
+/* GDELT hours: read hours as accent bars (hollow when partly read), unread hours a dotted baseline. */
+.gd-hours {
+	margin: 0;
+}
+.gd-hours svg {
+	display: block;
+	width: 100%;
+	height: 56px;
+}
+.gd-hours__bar {
+	fill: var(--accent);
+}
+.gd-hours__bar.is-partial {
+	fill: var(--accent-soft);
+	stroke: var(--accent);
+	stroke-width: 1;
+	vector-effect: non-scaling-stroke;
+}
+.gd-hours__gap {
+	fill: var(--text-3);
+	opacity: 0.5;
+}

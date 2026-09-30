@@ -1,7 +1,7 @@
 /* Pages (estado, fuentes, guía, IA, resumen, bloqueos): loaded with the page's chunk (lib/css.ts). Moved from
    app.css in source order. */
 .page__kicker {
-	color: var(--signal);
+	color: var(--text-3);
 	margin: 0;
 }
 .page__title {

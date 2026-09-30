@@ -1,4 +1,6 @@
+import { isIP } from "node:net";
 import { z } from "zod";
+import { ipv6Hextets } from "../userfeeds/net.ts";
 
 /**
  * How this Vigía is deployed, from flags and environment variables, validated once at start with clear Spanish
@@ -37,6 +39,17 @@ export interface DeployConfig {
 	 * user data). `VIGIA_BCV_API=0` turns it off here whatever config.json says.
 	 */
 	readonly bcvApi: boolean;
+	/**
+	 * Crowd reports ("¿tienes luz, agua, internet, gasolina?", src/crowd): on by default in both modes; `--no-crowd` or
+	 * `VIGIA_CROWD=0` turns them off on this instance (nothing is taken; what was published stays in the archive).
+	 */
+	readonly crowd: boolean;
+	/**
+	 * "Conexión limitada" forced from the command line or environment (`--data-saver`, `VIGIA_DATA_SAVER=1|0`): heavy
+	 * feeds off (src/core/bandwidth.ts). Undefined: the user's setting decides (off until they choose). A public mirror
+	 * leaves it off unless its operator sets it: the bandwidth is the operator's, not the visitors'.
+	 */
+	readonly dataSaver: boolean | undefined;
 }
 
 export class ConfigError extends Error {
@@ -71,7 +84,16 @@ function oneOf<T extends string>(name: string, raw: string, allowed: readonly T[
 /** Reads and validates the deployment configuration. Throws ConfigError with a message meant for the terminal. */
 const VALUE_FLAGS = ["--port", "--host", "--mode", "--metrics", "--log"] as const;
 // "--dev" is passed by `bun run dev` (the watch mode lives in Bun itself).
-const BOOLEAN_FLAGS = ["--public", "--cors", "--trust-proxy", "--no-fetch", "--no-open", "--dev"] as const;
+const BOOLEAN_FLAGS = [
+	"--public",
+	"--cors",
+	"--trust-proxy",
+	"--no-fetch",
+	"--no-open",
+	"--no-crowd",
+	"--data-saver",
+	"--dev",
+] as const;
 
 /**
  * Options the server does not know, so a typo (`--prot 8080`) stops with a message instead of silently starting
@@ -123,8 +145,24 @@ export function loadConfig(args: readonly string[], env: Env = process.env): Dep
 		mode === "public" || args.includes("--no-open") || (bool("VIGIA_NO_OPEN", env.VIGIA_NO_OPEN) ?? false);
 
 	const bcvApi = bool("VIGIA_BCV_API", env.VIGIA_BCV_API) ?? true;
+	const crowd = args.includes("--no-crowd") ? false : (bool("VIGIA_CROWD", env.VIGIA_CROWD) ?? true);
 
-	return { mode, port, host, cors, metrics, logFormat, trustProxy, noFetch, noOpen, bcvApi };
+	const dataSaver = args.includes("--data-saver") ? true : bool("VIGIA_DATA_SAVER", env.VIGIA_DATA_SAVER);
+
+	return {
+		mode,
+		port,
+		host,
+		cors,
+		metrics,
+		logFormat,
+		trustProxy,
+		noFetch,
+		noOpen,
+		bcvApi,
+		crowd,
+		dataSaver,
+	};
 }
 
 /** Feeds a deployment setting turns off whatever the user's settings say (today only `VIGIA_BCV_API=0`). */
@@ -157,7 +195,7 @@ function proxies(raw: string | undefined): string[] {
 		const [addr = "", bits] = p.split("/");
 		const okV4 =
 			ipv4(addr) !== null && (bits === undefined || (/^\d{1,2}$/.test(bits) && Number(bits) <= 32));
-		const okV6 = bits === undefined && /^[\da-fA-F:]{2,39}$/.test(addr) && addr.includes(":");
+		const okV6 = isIP(addr) === 6 && (bits === undefined || (/^\d{1,3}$/.test(bits) && Number(bits) <= 128));
 		if (p !== "loopback" && !okV4 && !okV6)
 			throw new ConfigError(
 				`VIGIA_TRUST_PROXY: «${p}» no es una dirección ni un rango (ejemplos: 1, 172.16.0.0/12, 10.0.0.2).`,
@@ -183,17 +221,45 @@ export function trusted(peer: string, proxies: readonly string[]): boolean {
 			const n = bits === undefined ? 32 : Number(bits);
 			const mask = n === 0 ? 0 : (0xffffffff << (32 - n)) >>> 0;
 			if ((want & mask) === (have & mask)) return true;
-		} else if (addr.toLowerCase() === ip.toLowerCase()) return true;
+		} else if (
+			want === null &&
+			have === null &&
+			sameV6Prefix(addr, ip, bits === undefined ? 128 : Number(bits))
+		)
+			return true;
 	}
 	return false;
 }
 
+/** Whether two IPv6 addresses share their first `bits` bits. */
+function sameV6Prefix(a: string, b: string, bits: number): boolean {
+	const x = ipv6Hextets(a);
+	const y = ipv6Hextets(b);
+	if (!x || !y || !Number.isInteger(bits) || bits < 0 || bits > 128) return false;
+	for (let i = 0; i < 8; i++) {
+		const take = Math.max(0, Math.min(16, bits - i * 16));
+		if (take === 0) break;
+		const mask = (0xffff << (16 - take)) & 0xffff;
+		if (((x[i] ?? 0) & mask) !== ((y[i] ?? 0) & mask)) return false;
+	}
+	return true;
+}
+
 /**
- * The address rate limits and write checks see. Only a trusted proxy is believed about who the client is, and only
- * its own appended entry (the last one) counts: earlier entries are whatever the client sent.
+ * The address rate limits and write checks see. Only a trusted proxy is believed about who the client is: the
+ * X-Forwarded-For entries are read from the right (the ones trusted proxies appended), skipping every trusted proxy
+ * (a CDN in front of nginx, both declared), and the first address that is not one is the client. Entries to its
+ * left are whatever the client sent. A malformed entry stops the walk at the peer. If every entry is a trusted
+ * proxy, the last one examined is returned (the crowd guard refuses that: the client is unknown).
  */
 export function clientAddress(peer: string, forwardedFor: string | null, proxies: readonly string[]): string {
 	if (proxies.length === 0 || !forwardedFor || !trusted(peer, proxies)) return peer;
-	const last = forwardedFor.split(",").at(-1)?.trim() ?? "";
-	return /^[\da-fA-F:.]{2,45}$/.test(last) ? last : peer;
+	let current = peer;
+	for (const raw of forwardedFor.split(",").reverse()) {
+		const hop = raw.trim();
+		if (!/^[\da-fA-F:.]{2,45}$/.test(hop) || isIP(hop) === 0) return peer;
+		current = hop;
+		if (!trusted(hop, proxies)) return hop;
+	}
+	return current;
 }

@@ -1,0 +1,190 @@
+/*
+ * "Lo inusual ahora" (ui/Anomalies.tsx): unusual readings against their own history. Neutral on purpose: a
+ * direction arrow and words, never a status colour (rare is not the same as bad). Loaded with its chunk.
+ */
+.an-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.an {
+	display: grid;
+	gap: 4px;
+	padding: 10px var(--s-3);
+	background: var(--surface-0);
+}
+.an__head {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: baseline;
+	gap: var(--s-2);
+}
+.an__dir {
+	display: inline-grid;
+	place-items: center;
+	width: 16px;
+	height: 16px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-sm);
+	color: var(--text);
+	align-self: center;
+}
+.an__dir svg {
+	fill: currentColor;
+}
+.an__title {
+	font-weight: 650;
+	font-size: var(--fs-md);
+	line-height: 1.35;
+}
+.an.is-explained .an__title,
+.an.is-reverted .an__title {
+	color: var(--text-2);
+	font-weight: 600;
+}
+.an__score {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.an__change {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text);
+	font-variant-numeric: tabular-nums;
+}
+.an__members {
+	list-style: none;
+	margin: 2px 0;
+	padding: 0 0 0 var(--s-2);
+	border-left: 1px solid var(--line-strong);
+	display: grid;
+	gap: 2px;
+	font-size: var(--fs-sm);
+}
+.an__members li {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--s-2);
+	align-items: baseline;
+}
+.an__members a {
+	color: var(--accent);
+	font-weight: 600;
+}
+.an__members .mono {
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+}
+.an__member-x {
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.an__reverted {
+	margin: 0;
+	justify-self: start;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-sm);
+	padding: 1px 6px;
+}
+.an__window {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	line-height: 1.45;
+}
+.an__explained {
+	margin: 0;
+}
+.an__explained .link-button {
+	margin: 0;
+	text-align: left;
+	color: var(--accent);
+	font-size: var(--fs-xs);
+}
+.an__prov {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px var(--s-2);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.an__src {
+	color: var(--text-2);
+	font-weight: 600;
+}
+a.an__src {
+	text-decoration: underline;
+	text-decoration-color: var(--line-strong);
+	text-underline-offset: 2px;
+}
+.an__basis {
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	font-weight: 650;
+}
+.an__more summary {
+	cursor: pointer;
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+	list-style: none;
+}
+.an__more summary::-webkit-details-marker {
+	display: none;
+}
+.an__more[open] {
+	flex-basis: 100%;
+}
+.an__more p {
+	margin: 4px 0 0;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.an__entity {
+	margin-left: auto;
+	color: var(--accent);
+	font-weight: 600;
+}
+.an-empty {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.an-counts {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	line-height: 1.5;
+}
+.an-classes {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px var(--s-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.an-classes .mono {
+	color: var(--text-2);
+}
+.unusual {
+	display: grid;
+	gap: var(--s-3);
+}
+
+.entity--page .entity__main > .esec--unusual {
+	grid-column: 1 / -1;
+}

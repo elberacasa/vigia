@@ -61,7 +61,17 @@ export function computeHealth(input: HealthInput): FeedHealth {
 	let state: FeedState;
 	if (input.enabled === false) state = "off";
 	else if (input.locked) state = "locked";
-	else if (lastSuccessAt === null) state = lastRun ? "failing" : "pending";
+	// Data stored but no success in the kept run log (old runs are pruned): stale, never "Esperando datos", which
+	// says nothing ever arrived (whole-release review minor).
+	else if (lastSuccessAt === null)
+		state =
+			lastRun && !lastRun.ok
+				? "failing"
+				: newestObservedAt !== null
+					? "stale"
+					: lastRun
+						? "failing"
+						: "pending";
 	else if (fetchStale || dataStale) state = failures > 0 && fetchStale ? "failing" : "stale";
 	else if (failures > 0) state = "degraded";
 	else state = "ok";

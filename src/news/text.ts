@@ -30,7 +30,42 @@ export const STOPWORDS = new Set(
 /** Longest text we ever strip: summaries show 400 characters, titles far fewer. */
 export const STRIP_MAX_CHARS = 20_000;
 
-const ENTITIES: Record<string, string> = { nbsp: " ", amp: "&", quot: '"', apos: "'", lt: "<", gt: ">" };
+const ENTITIES: Record<string, string> = {
+	nbsp: " ",
+	amp: "&",
+	quot: '"',
+	apos: "'",
+	lt: "<",
+	gt: ">",
+	// Spanish and Portuguese letters and the punctuation WordPress writes by name in a REST `rendered` field.
+	aacute: "á",
+	eacute: "é",
+	iacute: "í",
+	oacute: "ó",
+	uacute: "ú",
+	ntilde: "ñ",
+	uuml: "ü",
+	Aacute: "Á",
+	Eacute: "É",
+	Iacute: "Í",
+	Oacute: "Ó",
+	Uacute: "Ú",
+	Ntilde: "Ñ",
+	ccedil: "ç",
+	atilde: "ã",
+	otilde: "õ",
+	iquest: "¿",
+	iexcl: "¡",
+	laquo: "«",
+	raquo: "»",
+	hellip: "…",
+	ndash: "–",
+	mdash: "—",
+	ldquo: "“",
+	rdquo: "”",
+	lsquo: "‘",
+	rsquo: "’",
+};
 
 function codePoint(n: number): string {
 	return Number.isInteger(n) && n > 0 && n <= 0x10ffff && !(n >= 0xd800 && n <= 0xdfff)
@@ -72,7 +107,7 @@ export function stripHtml(html: string): string {
 				if (name.startsWith("#x") || name.startsWith("#X"))
 					decoded = codePoint(Number.parseInt(name.slice(2), 16));
 				else if (name.startsWith("#")) decoded = codePoint(Number(name.slice(1)));
-				else decoded = ENTITIES[name];
+				else decoded = Object.hasOwn(ENTITIES, name) ? ENTITIES[name] : undefined;
 				if (decoded !== undefined) {
 					out += decoded;
 					i = semi + 1;

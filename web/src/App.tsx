@@ -1,40 +1,45 @@
+import type { ComponentChildren, ComponentType } from "preact";
+import { useEffect, useState } from "preact/hooks";
+import { loadCrowdConfig } from "./lib/crowd.ts";
 import { connection, health, now } from "./lib/data.ts";
 import { clock } from "./lib/format.ts";
 import { feedCounts } from "./lib/fresh.ts";
-import { lang, setLang, t } from "./lib/i18n.ts";
-import { layoutIsDefault, resetLayout } from "./lib/layout.ts";
-import { later, lazy } from "./lib/lazy.tsx";
-import {
-	density,
-	letterKeys,
-	reducedMotion,
-	setDensity,
-	setLetterKeys,
-	setReducedMotion,
-	setTheme,
-	theme,
-} from "./lib/prefs.ts";
+import { lang, t } from "./lib/i18n.ts";
+import { viewport } from "./lib/layout.ts";
+import { later } from "./lib/lazy.tsx";
 import { link, route } from "./lib/router.ts";
+import { recoverFromChunkError } from "./lib/update.ts";
+import { ReportSheetSlot } from "./ui/crowd/Entry.tsx";
 import { AlertToasts, CustomizeButton, LazyCustomize } from "./ui/custom/Entry.tsx";
 import { LiveMark, Wordmark } from "./ui/Logo.tsx";
 import { Palette, PaletteButton } from "./ui/Palette.tsx";
+import { PrefsMenu } from "./ui/Prefs.tsx";
+import {
+	AiPage,
+	BlockLookupPage,
+	BriefPage,
+	EntityPage,
+	GuidePage,
+	SourcesPage,
+	StatusPage,
+} from "./ui/pages.tsx";
 import { openMethod, openSource } from "./ui/Source.tsx";
-import { StatusBar } from "./ui/StatusBar.tsx";
+import { TabBar } from "./ui/TabBar.tsx";
 import { Wall } from "./ui/Wall.tsx";
 
+/** Phones and narrow screens: the header over one scrolling page. */
 function Header() {
-	// The one feed count (lib/fresh.ts). From 1000 px the status bar shows it, so this copy is for narrower screens.
 	const c = feedCounts(health.value);
 	const late = c.late + c.down;
 	return (
 		<header class="topbar">
 			<a class="brand" {...link("wall")}>
-				<LiveMark size={30} />
-				<Wordmark height={15} />
+				<LiveMark size={26} />
+				<Wordmark height={13} />
 			</a>
 			<div class="topbar__clock">
 				<span class="caps">Caracas</span>
-				<time class="data" dateTime={new Date(now.value).toISOString()}>
+				<time class="mono" dateTime={new Date(now.value).toISOString()}>
 					{clock(now.value, lang.value, true)}
 				</time>
 			</div>
@@ -48,14 +53,15 @@ function Header() {
 				<a {...link("guide")} aria-current={route.value === "guide" ? "page" : undefined}>
 					{t("Configurar", "Set up")}
 				</a>
-				<a {...link("ai")} aria-current={route.value === "ai" ? "page" : undefined}>
-					{t("Capa IA", "AI")}
-				</a>
 				<a {...link("sources")} aria-current={route.value === "sources" ? "page" : undefined}>
 					{t("Fuentes", "Sources")}
 				</a>
 			</nav>
-			<a class="topbar__status" {...link("status")}>
+			<a
+				class="topbar__status"
+				title={t(`${c.live} de ${c.enabled} fuentes al día`, `${c.live} of ${c.enabled} feeds current`)}
+				{...link("status")}
+			>
 				<span
 					class={`dot dot--${connection.value === "live" ? "ok" : connection.value === "offline" ? "failing" : "pending"}`}
 				/>
@@ -66,102 +72,12 @@ function Header() {
 			</a>
 			<PaletteButton />
 			<CustomizeButton />
-			<details class="prefs">
-				<summary class="chip" aria-label={t("Preferencias", "Preferences")}>
-					<span aria-hidden="true">⚙</span>
-				</summary>
-				<div class="prefs__menu">
-					<p class="caps">{t("Idioma", "Language")}</p>
-					<div class="segmented">
-						<button type="button" aria-pressed={lang.value === "es"} onClick={() => setLang("es")}>
-							Español
-						</button>
-						<button type="button" aria-pressed={lang.value === "en"} onClick={() => setLang("en")}>
-							English
-						</button>
-					</div>
-					<p class="caps">{t("Tema", "Theme")}</p>
-					<div class="segmented">
-						{(["system", "dark", "light"] as const).map((k) => (
-							<button type="button" key={k} aria-pressed={theme.value === k} onClick={() => setTheme(k)}>
-								{k === "system"
-									? t("Sistema", "System")
-									: k === "dark"
-										? t("Oscuro", "Dark")
-										: t("Claro", "Light")}
-							</button>
-						))}
-					</div>
-					<label class="toggle">
-						<input
-							type="checkbox"
-							checked={reducedMotion.value}
-							onChange={() => setReducedMotion(!reducedMotion.value)}
-						/>{" "}
-						{t("Reducir animaciones", "Reduce motion")}
-					</label>
-					<label class="toggle">
-						<input
-							type="checkbox"
-							checked={letterKeys.value}
-							onChange={() => setLetterKeys(!letterKeys.value)}
-						/>{" "}
-						{t("Atajos de una tecla", "Single-key shortcuts")}
-					</label>
-					<p class="caps">{t("Densidad", "Density")}</p>
-					<div class="segmented">
-						{(["comodo", "compacto", "pared"] as const).map((k) => (
-							<button
-								type="button"
-								key={k}
-								aria-pressed={density.value === k}
-								onClick={() => setDensity(k)}
-								title={
-									k === "pared"
-										? t(
-												"Para una pantalla en la pared: letra grande, un panel abierto a la vez",
-												"For a wall screen: large type, one panel open at a time",
-											)
-										: undefined
-								}
-							>
-								{k === "comodo"
-									? t("Cómodo", "Comfy")
-									: k === "compacto"
-										? t("Compacto", "Compact")
-										: t("Pared", "Wall")}
-							</button>
-						))}
-					</div>
-					<button
-						type="button"
-						class="button prefs__reset"
-						disabled={layoutIsDefault.value}
-						onClick={resetLayout}
-					>
-						{t("Restaurar diseño", "Reset layout")}
-					</button>
-					<a
-						class="prefs__idea"
-						href="https://github.com/elberacasa/vigia/discussions/categories/ideas"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{t("Sugerir una idea y votar →", "Suggest an idea and vote →")}
-					</a>
-					<p class="prefs__credit note">
-						Vigía ·{" "}
-						<a href="https://github.com/elberacasa" target="_blank" rel="noopener noreferrer">
-							{t("por elberacasa", "by elberacasa")}
-						</a>
-					</p>
-				</div>
-			</details>
+			<PrefsMenu />
 		</header>
 	);
 }
 
-function OfflineBanner() {
+export function OfflineBanner() {
 	if (connection.value !== "offline") return null;
 	return (
 		<div class="offline" role="status">
@@ -173,12 +89,27 @@ function OfflineBanner() {
 	);
 }
 
-const StatusPage = lazy(() => import("./pages/Status.tsx").then((m) => m.StatusPage));
-const SourcesPage = lazy(() => import("./pages/Sources.tsx").then((m) => m.SourcesPage));
-const GuidePage = lazy(() => import("./pages/Guide.tsx").then((m) => m.GuidePage));
-const AiPage = lazy(() => import("./pages/Ai.tsx").then((m) => m.AiPage));
-const BriefPage = lazy(() => import("./pages/Brief.tsx").then((m) => m.BriefPage));
-const BlockLookupPage = lazy(() => import("./pages/BlockLookup.tsx").then((m) => m.BlockLookupPage));
+/** The page for the current route (the room itself is the Wall on a phone, a module on a desk). */
+export function RoutePage() {
+	switch (route.value) {
+		case "status":
+			return <StatusPage />;
+		case "sources":
+			return <SourcesPage />;
+		case "guide":
+			return <GuidePage />;
+		case "ai":
+			return <AiPage />;
+		case "brief":
+			return <BriefPage />;
+		case "bloqueos":
+			return <BlockLookupPage />;
+		case "entity":
+			return <EntityPage />;
+		default:
+			return null;
+	}
+}
 
 const SourceSheet = later(() => import("./ui/SourceSheet.tsx").then((m) => m.SourceSheet));
 const MethodSheet = later(() => import("./ui/SourceSheet.tsx").then((m) => m.MethodSheet));
@@ -194,30 +125,71 @@ function Sheets() {
 	) : null;
 }
 
+/**
+ * The desk's workstation is its own chunk (not in a phone's first load). main.tsx fetches it before the first render
+ * on a desk, so the static shell in index.html stays until the workstation can draw; after a resize from a phone
+ * width it loads here, with the same silhouette meanwhile.
+ */
+let Desk: ComponentType | null = null;
+export function loadWorkstation(): Promise<ComponentType> {
+	return import("./ui/ws/Workstation.tsx").then((m) => {
+		Desk = m.Workstation;
+		return m.Workstation;
+	});
+}
+function DeskShell({ fallback }: { fallback: ComponentChildren }) {
+	const [C, setC] = useState<ComponentType | null>(() => Desk);
+	const [failed, setFailed] = useState(false);
+	useEffect(() => {
+		if (C) return;
+		loadWorkstation()
+			.then((c) => setC(() => c))
+			.catch((err) => {
+				// Offline before the desk's chunk was ever cached: the one-page room works everywhere.
+				if (!recoverFromChunkError(err)) setFailed(true);
+			});
+	}, [C]);
+	if (C) return <C />;
+	return failed ? <>{fallback}</> : <div class="ws-boot" aria-busy="true" />;
+}
+
+export function isDesk(): boolean {
+	return viewport.value === "mid" || viewport.value === "wide";
+}
+
+/** Asks once, after the first data, whether this Vigía takes crowd reports (the report buttons wait for it). */
+function useCrowdConfig(): void {
+	const ready = connection.value !== "connecting";
+	useEffect(() => {
+		if (!ready) return;
+		const idle = (fn: () => void) =>
+			"requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 3000 }) : setTimeout(fn, 800);
+		idle(() => void loadCrowdConfig());
+	}, [ready]);
+}
+
 export function App() {
-	const r = route.value;
-	return (
+	useCrowdConfig();
+	const page = (
 		<>
 			<Header />
 			<OfflineBanner />
-			{r === "status" ? (
-				<StatusPage />
-			) : r === "sources" ? (
-				<SourcesPage />
-			) : r === "guide" ? (
-				<GuidePage />
-			) : r === "ai" ? (
-				<AiPage />
-			) : r === "brief" ? (
-				<BriefPage />
-			) : r === "bloqueos" ? (
-				<BlockLookupPage />
-			) : (
+			{route.value === "wall" ? (
 				<Wall />
+			) : (
+				<>
+					<RoutePage />
+					{viewport.value === "phone" ? <TabBar /> : null}
+				</>
 			)}
+		</>
+	);
+	return (
+		<>
+			{isDesk() ? <DeskShell fallback={page} /> : page}
 			<Sheets />
 			<Palette />
-			<StatusBar />
+			<ReportSheetSlot />
 			<LazyCustomize />
 			<AlertToasts />
 		</>

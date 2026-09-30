@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import type { SearchView } from "../../../src/ontology/view.ts";
 import { addStyles } from "../lib/css.ts";
 import { healthById, meta, metaById, now, panels } from "../lib/data.ts";
+import { entityPath } from "../lib/entity-route.ts";
+import { kindWord, TYPE_WORD } from "../lib/entity-words.ts";
 import { ago, int, num } from "../lib/format.ts";
+import { feedStateWord } from "../lib/fresh.ts";
 import { lang, t } from "../lib/i18n.ts";
 import {
 	cleanView,
@@ -16,12 +20,15 @@ import {
 	toggleLang,
 	toggleTheme,
 } from "../lib/keys.ts";
-import { prepare, rank, type Searchable, score } from "../lib/match.ts";
+import { fold, prepare, rank, type Searchable, score } from "../lib/match.ts";
+import { MODULES } from "../lib/modules.ts";
 import { PLACES } from "../lib/places.gen.ts";
 import { reducedMotion, setReducedMotion, theme } from "../lib/prefs.ts";
-import { go } from "../lib/router.ts";
+import { go, openEntity, openModule, openPlace } from "../lib/router.ts";
+import { municipalitySlug, STATE_SLUG, stateBySlug } from "../lib/states.ts";
 import { levelLabel } from "../map/fills.ts";
 import { STATES } from "../map/geometry.gen.ts";
+import { selectEntity, selectState } from "../map/view.ts";
 import type { ConnectivityView, Level } from "../panels/Connectivity.tsx";
 import type { FiresView } from "../panels/Earth.tsx";
 import { type Shading, selectedState, shading, showQuakes } from "../panels/MapPanel.tsx";
@@ -31,7 +38,8 @@ import type { QuakesView } from "../panels/Quakes.tsx";
 import paletteCss from "../styles/palette.css?inline";
 import panelsCss from "../styles/panels.css?inline";
 import { SearchIcon } from "./Palette.tsx";
-import { openSource, stateLabel } from "./Source.tsx";
+import { openSource } from "./Source.tsx";
+import { inspectorOpen, toggleInspector } from "./ws/state.ts";
 
 addStyles(panelsCss);
 addStyles(paletteCss);
@@ -42,17 +50,42 @@ addStyles(paletteCss);
  * figure and that figure's age, so "maracaibo" answers "Zulia · Normal · hace 18 min" before you press Enter.
  */
 
-type Group = "states" | "places" | "panels" | "layers" | "sources" | "commands";
-const GROUP_ORDER: readonly Group[] = ["states", "places", "panels", "layers", "commands", "sources"];
+type Group = "modules" | "states" | "places" | "entities" | "panels" | "layers" | "sources" | "commands";
+const GROUP_ORDER: readonly Group[] = [
+	"modules",
+	"states",
+	"places",
+	"entities",
+	"panels",
+	"layers",
+	"commands",
+	"sources",
+];
 const GROUP_LABEL: Record<Group, { es: string; en: string }> = {
+	modules: { es: "Módulos", en: "Modules" },
 	states: { es: "Estados", en: "States" },
 	places: { es: "Municipios y ciudades", en: "Municipalities and cities" },
+	entities: {
+		es: "Parroquias, instalaciones, redes, instituciones, medios",
+		en: "Parishes, facilities, networks, institutions, outlets",
+	},
 	panels: { es: "Paneles", en: "Panels" },
 	layers: { es: "Capas del mapa", en: "Map layers" },
 	sources: { es: "Fuentes", en: "Sources" },
 	commands: { es: "Comandos", en: "Commands" },
 };
-const LIMIT: Record<Group, number> = { states: 5, places: 6, panels: 4, layers: 3, sources: 5, commands: 4 };
+const LIMIT: Record<Group, number> = {
+	modules: 4,
+	states: 5,
+	places: 6,
+	entities: 8,
+	panels: 4,
+	layers: 3,
+	sources: 5,
+	commands: 4,
+};
+/** The desk's workstation opens modules with 1–0; phones keep 1–9 for panels. */
+const desk = () => matchMedia("(min-width: 1000px)").matches;
 
 interface Item extends Searchable {
 	id: string;
@@ -66,7 +99,11 @@ interface Item extends Searchable {
 	live?: () => { figure: string | null; age: string | null };
 	/** Keyboard hint on the right for commands. */
 	kbd?: string;
+	/** An entity's type in a word, shown as a badge ("Parroquia", "Planta eléctrica"). */
+	badge?: string;
 	run: () => void;
+	/** Ctrl/⌘+Enter: the entity's page instead of selecting it. */
+	page?: () => void;
 }
 
 const isoByCode = new Map(STATES.map((s) => [s.code, s.iso]));
@@ -232,15 +269,23 @@ function buildIndex(close: () => void): ReturnType<typeof prepare<Item>>[] {
 			iso: s.iso,
 			live: () => stateLive(s.iso),
 			run: then(() => {
-				selectedState.value = s.iso;
+				selectState(s.iso);
 				jumpTo("mapa");
 			}),
+			page: then(() => openPlace([STATE_SLUG.get(s.iso) ?? ""])),
 		});
 	}
+	const muniName = new Map(
+		places()
+			.filter((p) => p.kind === "M")
+			.map((p) => [p.code, p.name]),
+	);
 	for (const p of places()) {
 		const iso = isoByCode.get(p.code.slice(0, 4));
 		if (!iso) continue;
 		const stateLabel = nameByIso.get(iso) ?? "";
+		const muni = muniName.get(p.code);
+		const muniId = muni ? `ve.${STATE_SLUG.get(iso)}.${municipalitySlug(muni)}` : null;
 		items.push({
 			id: `place:${p.kind}:${p.code}:${p.name}`,
 			group: "places",
@@ -250,12 +295,27 @@ function buildIndex(close: () => void): ReturnType<typeof prepare<Item>>[] {
 			iso,
 			live: () => stateLive(iso),
 			run: then(() => {
+				// The entity first: selecting it resets the outline, which the map action then draws.
+				if (muniId) selectEntity(muniId, iso);
 				mapAction({ action: "municipality", code: p.code, state: iso });
 				jumpTo("mapa");
 			}),
+			...(muniId ? { page: then(() => openEntity(muniId)) } : {}),
 		});
 	}
-	const keyOrder = panelKeyOrder();
+	if (desk())
+		for (const m of MODULES) {
+			items.push({
+				id: `module:${m.id}`,
+				group: "modules",
+				label: l === "es" ? m.es : m.en,
+				sub: l === "es" ? m.qEs : m.qEn,
+				keywords: [m.es, m.en, m.id, ...m.columns.flat()],
+				kbd: m.key,
+				run: then(() => openModule(m.id)),
+			});
+		}
+	const keyOrder = desk() ? [] : panelKeyOrder();
 	for (const p of [...PANEL_KEYS, ...EXTRA_PANELS]) {
 		const i = keyOrder.indexOf(p.id);
 		items.push({
@@ -356,6 +416,18 @@ function buildIndex(close: () => void): ReturnType<typeof prepare<Item>>[] {
 		go("guide"),
 	);
 	command(
+		"sources",
+		t("Fuentes y licencias", "Sources and licences"),
+		["fuentes", "licencias", "sources"],
+		() => go("sources"),
+	);
+	command(
+		"ai",
+		t("Capa IA (opcional, apagada por defecto)", "AI layer (optional, off by default)"),
+		["ia", "ai", "modelo", "model"],
+		() => go("ai"),
+	);
+	command(
 		"keys",
 		t("Atajos de teclado", "Keyboard shortcuts"),
 		["atajos", "teclado", "shortcuts", "ayuda"],
@@ -370,12 +442,24 @@ function buildIndex(close: () => void): ReturnType<typeof prepare<Item>>[] {
 		["animaciones", "motion", "movimiento"],
 		() => setReducedMotion(!reducedMotion.value),
 	);
+	const picked = selectedState.value;
+	if (picked)
+		command(
+			"place",
+			t(
+				`Abrir la ficha de ${nameByIso.get(picked) ?? picked}`,
+				`Open the ${nameByIso.get(picked) ?? picked} page`,
+			),
+			["ficha", "lugar", "page", "place", nameByIso.get(picked) ?? ""],
+			() => openPlace([STATE_SLUG.get(picked) ?? ""]),
+			desk() ? "P" : undefined,
+		);
 	if (selectedState.value)
 		command(
 			"clear",
 			t("Quitar selección del mapa", "Clear the map selection"),
 			["quitar", "clear"],
-			() => (selectedState.value = null),
+			() => selectState(null),
 			"Esc",
 		);
 
@@ -389,7 +473,8 @@ function buildIndex(close: () => void): ReturnType<typeof prepare<Item>>[] {
 			dot: `dot dot--${healthById.value.get(m.id)?.state ?? "pending"}`,
 			live: () => {
 				const h = healthById.value.get(m.id);
-				return { figure: h ? stateLabel(h.state) : null, age: feedAge(m.id) };
+				// The server's state, in the word that fits the feed's cadence (a monthly index is "al día", not live).
+				return { figure: h ? feedStateWord(h.state, m, lang.value) : null, age: feedAge(m.id) };
 			},
 			run: then(() => {
 				const h = healthById.value.get(m.id);
@@ -413,6 +498,8 @@ function suggestions(index: ReturnType<typeof prepare<Item>>[]): { group: Group;
 			.map((s) => `state:${s.id}`),
 	);
 	const out: { group: Group; items: Item[] }[] = [];
+	const modules = index.filter((i) => i.group === "modules");
+	if (modules.length) out.push({ group: "modules", items: modules });
 	const states = index.filter((i) => hot.has(i.id));
 	if (states.length) out.push({ group: "states", items: states });
 	out.push({ group: "panels", items: index.filter((i) => i.group === "panels") });
@@ -438,12 +525,105 @@ function search(index: ReturnType<typeof prepare<Item>>[], q: string): { group: 
 	);
 }
 
+/**
+ * Entities the server finds for the query (the ontology: parishes, facilities, networks, institutions, outlets; states
+ * and municipalities are already in the local index, instant and offline). Enter selects one in the inspector on a
+ * desk and opens its page on a phone; Ctrl/⌘+Enter always opens the page.
+ */
+function entityItems(view: SearchView | null, close: () => void): Item[] {
+	if (!view) return [];
+	const l = lang.value;
+	return view.results
+		.filter(
+			(r) => r.entity.type !== "state" && r.entity.type !== "municipality" && r.entity.type !== "country",
+		)
+		.filter((r) => entityPath(r.entity.id) !== null)
+		.map((r): Item => {
+			const e = r.entity;
+			const iso = r.parent?.id.startsWith("ve.") ? stateBySlug(r.parent.id.split(".")[1] ?? "") : null;
+			const open = () => {
+				close();
+				openEntity(e.id);
+			};
+			return {
+				id: `entity:${e.id}`,
+				group: "entities",
+				label: e.name[l],
+				sub: [
+					r.parent && r.parent.type !== "country" ? r.parent.name[l] : null,
+					// The matched alias or code only when the name does not already show it ("SVMI", "8048").
+					r.matched && !fold(e.name[l]).includes(fold(r.matched))
+						? e.short && fold(e.short) === fold(r.matched)
+							? e.short
+							: r.matched
+						: null,
+				]
+					.filter(Boolean)
+					.join(" · "),
+				keywords: [],
+				badge: e.type === "parish" ? (TYPE_WORD.parish?.[l] ?? "") : kindWord(e.type, e.kind, l),
+				run: desk()
+					? () => {
+							close();
+							selectEntity(e.id, iso);
+							if (!inspectorOpen.value) toggleInspector(true);
+						}
+					: open,
+				page: open,
+			};
+		});
+}
+
+/** Asks the server, 180 ms after the last keystroke, for entities matching the query (2 characters or more). */
+function useEntitySearch(q: string, open: boolean): { view: SearchView | null; pending: boolean } {
+	const [view, setView] = useState<SearchView | null>(null);
+	const [pending, setPending] = useState(false);
+	const query = q.trim();
+	useEffect(() => {
+		if (!open || query.length < 2) {
+			setView(null);
+			setPending(false);
+			return;
+		}
+		const ctrl = new AbortController();
+		setPending(true);
+		// The previous query's results never stand in for this one's.
+		setView(null);
+		const timer = setTimeout(() => {
+			fetch(`/api/v1/entities?q=${encodeURIComponent(query)}&limit=20`, {
+				headers: { accept: "application/json" },
+				signal: ctrl.signal,
+			})
+				.then((r) => (r.ok ? (r.json() as Promise<SearchView>) : null))
+				.then((v) => {
+					setView(v);
+					setPending(false);
+				})
+				.catch((err: Error) => {
+					if (err.name !== "AbortError") {
+						setView(null);
+						setPending(false);
+					}
+				});
+		}, 180);
+		return () => {
+			clearTimeout(timer);
+			ctrl.abort();
+		};
+	}, [query, open]);
+	return { view, pending };
+}
+
 export default function PaletteDialog() {
 	const ref = useRef<HTMLDialogElement>(null);
 	const input = useRef<HTMLInputElement>(null);
 	const list = useRef<HTMLDivElement>(null);
 	const [q, setQ] = useState("");
-	const [active, setActive] = useState(0);
+	/**
+	 * The highlighted result, by id: server results arrive later and are spliced in, so an index would move under
+	 * the reader and Enter would run something else. null is "the first".
+	 */
+	const [activeId, setActiveId] = useState<string | null>(null);
 	const open = paletteOpen.value;
 	const close = () => {
 		paletteOpen.value = false;
@@ -456,16 +636,31 @@ export default function PaletteDialog() {
 		if (!d) return;
 		if (open && !d.open) {
 			setQ(takeTypedAhead());
-			setActive(0);
+			setActiveId(null);
 			d.showModal();
 			input.current?.focus();
 		}
 		if (!open && d.open) d.close();
 	}, [open]);
 
-	const groups = open ? (q.trim() ? search(index, q) : suggestions(index)) : [];
+	const remote = useEntitySearch(q, open);
+	const entityGroup = useMemo(() => {
+		const items = entityItems(remote.view, close).slice(0, LIMIT.entities);
+		return items.length ? { group: "entities" as const, items } : null;
+	}, [remote.view, lang.value]);
+	const local = open ? (q.trim() ? search(index, q) : suggestions(index)) : [];
+	// Server results go after the local groups that matched as well (places first: instant, offline); before the rest.
+	const groups = entityGroup
+		? (() => {
+				const cut = local.findIndex((g) => !["modules", "states", "places"].includes(g.group));
+				return cut === -1
+					? [...local, entityGroup]
+					: [...local.slice(0, cut), entityGroup, ...local.slice(cut)];
+			})()
+		: local;
 	const flat = groups.flatMap((g) => g.items);
-	const current = Math.min(active, Math.max(0, flat.length - 1));
+	const current = Math.max(0, activeId ? flat.findIndex((x) => x.id === activeId) : 0);
+	const setActive = (i: number) => setActiveId(flat[i]?.id ?? null);
 
 	useEffect(() => {
 		list.current?.querySelector<HTMLElement>(`#pal-${current}`)?.scrollIntoView({ block: "nearest" });
@@ -478,9 +673,11 @@ export default function PaletteDialog() {
 			if (n) setActive((current + (e.key === "ArrowDown" ? 1 : n - 1)) % n);
 		} else if (e.key === "Enter") {
 			e.preventDefault();
-			flat[current]?.run();
+			const item = flat[current];
+			if ((e.ctrlKey || e.metaKey) && item?.page) item.page();
+			else item?.run();
 		} else if (e.key === "Home" && e.ctrlKey) {
-			setActive(0);
+			setActiveId(null);
 		}
 	};
 
@@ -512,11 +709,14 @@ export default function PaletteDialog() {
 							autocomplete="off"
 							autocapitalize="off"
 							spellcheck={false}
-							placeholder={t("Estado, municipio, panel, fuente…", "State, place, panel, source…")}
+							placeholder={t(
+								"Lugar, parroquia, planta, red, institución, medio, panel…",
+								"Place, parish, plant, network, institution, outlet, panel…",
+							)}
 							value={q}
 							onInput={(e) => {
 								setQ(e.currentTarget.value);
-								setActive(0);
+								setActiveId(null);
 							}}
 							onKeyDown={onKeyDown}
 						/>
@@ -531,7 +731,11 @@ export default function PaletteDialog() {
 						ref={list}
 						aria-label={t("Resultados", "Results")}
 					>
-						{flat.length === 0 ? (
+						{flat.length === 0 && remote.pending ? (
+							<p class="palette__empty" aria-live="polite">
+								{t("Buscando…", "Searching…")}
+							</p>
+						) : flat.length === 0 ? (
 							<p class="palette__empty">
 								{t(`Nada para “${q}”.`, `Nothing for “${q}”.`)}{" "}
 								{t("Prueba un estado, una ciudad o “dólar”.", "Try a state, a city or “dollar”.")}
@@ -566,6 +770,7 @@ export default function PaletteDialog() {
 													<span class="palette__name">{item.label}</span>
 													{item.sub ? <span class="palette__sub">{item.sub}</span> : null}
 												</span>
+												{item.badge ? <span class="palette__badge">{item.badge}</span> : null}
 												<span class="palette__live">
 													{live?.figure ? <span class="palette__figure">{live.figure}</span> : null}
 													{live?.age ? <span class="palette__age">{live.age}</span> : null}
@@ -581,10 +786,16 @@ export default function PaletteDialog() {
 					<p class="palette__foot">
 						<span>
 							<kbd>↑</kbd>
-							<kbd>↓</kbd> {t("elegir", "move")} · <kbd>↵</kbd> {t("abrir", "open")} · <kbd>Esc</kbd>{" "}
-							{t("cerrar", "close")}
+							<kbd>↓</kbd> {t("elegir", "move")} · <kbd>↵</kbd> {t("abrir", "open")} · <kbd>Ctrl</kbd>
+							<kbd>↵</kbd> {t("ficha", "page")} · <kbd>Esc</kbd> {t("cerrar", "close")}
 						</span>
-						<span>{t("Lugares: INE/OCHA, GeoNames", "Places: INE/OCHA, GeoNames")}</span>
+						<span>
+							{remote.pending ? `${t("buscando en el servidor", "searching the server")} · ` : ""}
+							{t(
+								"Lugares: INE/OCHA, GeoNames; entidades: ontología de Vigía",
+								"Places: INE/OCHA, GeoNames; entities: Vigía's ontology",
+							)}
+						</span>
 					</p>
 				</div>
 			) : null}

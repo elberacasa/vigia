@@ -8,7 +8,7 @@ import { isPanelId, reveal } from "../../lib/layout.ts";
 import { stateName } from "../../lib/states.ts";
 import { STATES } from "../../map/geometry.gen.ts";
 import { getJson, send } from "./api.ts";
-import { safeHref } from "./Entry.tsx";
+import { safeHref } from "./href.ts";
 import { notifications, setNotifications } from "./notify.ts";
 import { closeCustomize } from "./open.ts";
 

@@ -75,6 +75,24 @@ const inlineCss: BunPlugin = {
 	},
 };
 
+/**
+ * The crowd report's proof-of-work worker (web/src/crowd/pow.worker.ts) is a file of its own on Vigía's origin: the
+ * page's CSP allows scripts from itself only (no blob: workers). Built first, so the page can be given its hashed URL.
+ */
+const powWorker = await Bun.build({
+	entrypoints: [join(root, "web", "src", "crowd", "pow.worker.ts")],
+	outdir,
+	minify: true,
+	target: "browser",
+	naming: { entry: "[name]-[hash].[ext]" },
+});
+const powOut = powWorker.outputs[0];
+if (!powWorker.success || !powOut) {
+	for (const log of powWorker.logs) console.error(log);
+	throw new Error("build-web: the proof-of-work worker did not build");
+}
+const powUrl = `/${relative(outdir, powOut.path).split("\\").join("/")}`;
+
 const result = await Bun.build({
 	entrypoints: [join(root, "web", "index.html")],
 	outdir,
@@ -85,7 +103,7 @@ const result = await Bun.build({
 	sourcemap: "none",
 	target: "browser",
 	naming: { entry: "[name].[ext]", chunk: "[name]-[hash].[ext]", asset: "[name]-[hash].[ext]" },
-	define: { "process.env.NODE_ENV": '"production"' },
+	define: { "process.env.NODE_ENV": '"production"', __POW_WORKER__: JSON.stringify(powUrl) },
 	loader: { ".svg": "file", ".png": "file" },
 	external: ["/fonts/*"],
 	plugins: [inlineCss],
@@ -93,6 +111,12 @@ const result = await Bun.build({
 if (!result.success) {
 	for (const log of result.logs) console.error(log);
 	process.exit(1);
+}
+/** `<link rel="modulepreload">` for the workstation chunk, only on screens wide enough to run it. */
+function deskPreload(): string {
+	const chunk = result.outputs.find((o) => /\/Workstation-[a-z0-9]+\.js$/.test(o.path));
+	if (!chunk) throw new Error("build-web: the Workstation chunk is missing");
+	return `<link rel="modulepreload" href="/${relative(outdir, chunk.path)}" media="(min-width: 1000px)">`;
 }
 // Static files (fonts with a version in the name, icons, manifest) are copied as-is; the page links them after the
 // build (Bun's HTML bundler would try to resolve absolute links).
@@ -113,6 +137,11 @@ cpSync(join(root, "web", "static"), outdir, { recursive: true });
 				/<link rel="stylesheet" crossorigin href="(\.\/index-[a-z0-9]+\.css)">/,
 				'<link rel="preload" as="style" crossorigin href="$1" id="app-css">',
 			)
+			// Root-relative asset links: a place's page (/lugar/zulia/maracaibo) is two folders deep.
+			.replace(/(href|src)="\.\//g, '$1="/')
+			// The desk's workstation shell is a chunk of its own (not in a phone's first load); on a desk it is fetched with
+			// the entry instead of after it (measured on the slow profile at 1440 px: data on screen 1 s later without).
+			.replace("</head>", `${deskPreload()}</head>`)
 			// The first API requests start with the HTML, not after the script (lib/first-requests.ts).
 			.replace(
 				/(<meta charset="[^"]*"\s*\/?>)/,
@@ -132,8 +161,11 @@ cpSync(join(root, "web", "static"), outdir, { recursive: true });
 		.sort();
 	const build = Bun.hash(`${files.join("\n")}\n${html}`).toString(36);
 	const inHtml = (f: string) => html.includes(`"./${f.slice(1)}"`) || html.includes(`"${f}"`);
-	const shell = files.filter(inHtml);
-	const lazy = files.filter((f) => !inHtml(f) && !f.startsWith("/municipalities.gen-"));
+	// The desk's shell is linked from the HTML (a modulepreload for wide screens) but is not part of a phone's page:
+	// it is precached with the other on-demand chunks, after the first data, not at install.
+	const desk = (f: string) => /^\/Workstation-[a-z0-9]+\.js$/.test(f);
+	const shell = files.filter((f) => inHtml(f) && !desk(f));
+	const lazy = files.filter((f) => !shell.includes(f) && !f.startsWith("/municipalities.gen-"));
 	const swPath = join(outdir, "sw.js");
 	const sw = await Bun.file(swPath).text();
 	for (const marker of ['"__BUILD__"', "/*__SHELL__*/ []", "/*__LAZY__*/ []"]) {
@@ -155,7 +187,8 @@ cpSync(join(root, "web", "static"), outdir, { recursive: true });
 let gz = 0;
 let br = 0;
 let lazyGz = 0;
-for (const out of result.outputs) {
+// The worker counts as on demand: it is fetched when the report sheet opens.
+for (const out of [...result.outputs, { path: powOut.path, kind: "chunk" as const }]) {
 	const bytes = new Uint8Array(await Bun.file(out.path).arrayBuffer());
 	const g = gzipSync(bytes, { level: 9 }).length;
 	const b = brotliCompressSync(bytes).length;

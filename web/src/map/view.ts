@@ -7,9 +7,11 @@ import { history, indexAt, isoCaracas, parseViewTime } from "./history.ts";
 /**
  * The map's view state, shared by the map, the state sheet, the panels that link into the map and (later) the
  * command palette and keyboard shortcuts. Everything here round-trips through the URL:
- *   ?capa=internet&estado=VE-K&t=2026-09-24T18:00-04:00&sismos=0&focos=1&quemadores=1
+ *   ?capa=internet&estado=VE-K&entidad=infra.guri&t=2026-09-24T18:00-04:00&sismos=0&focos=1&quemadores=1&rayos=1
+ *   &instalaciones=energia,petroleo&camaras=1&reportes=1
  * A link restores exactly that view. Programmatic entry points (call these, do not poke the signals from outside):
- *   selectState(iso | null), setLayer(id), nextLayer(), toggleQuakes(on?), toggleFires(on?), toggleFlares(on?),
+ *   selectState(iso | null), selectEntity(id, iso), pickPoint(lat, lon), setLayer(id), nextLayer(), toggleQuakes(on?),
+ *   toggleFires(on?), toggleFlares(on?), toggleLightning(on?), toggleFacilities(on?), toggleFacilityGroup(g),
  *   setViewTime(ms | null),
  *   stepViewTime(±1).
  */
@@ -52,7 +54,51 @@ export const showQuakes = signal(
 export const showFires = signal(q.get("focos") === "1");
 /** Gas flares at refineries and fields (NASA FIRMS night detections per facility; needs the same free key). */
 export const showFlares = signal(q.get("quemadores") === "1");
+/** Lightning flashes of the last hour on a 0.25° grid (GOES-19 GLM); its data is fetched only when this is on. */
+export const showLightning = signal(q.get("rayos") === "1");
+/** Public cameras (their view fans and, under the map, their stills); data and code load when this is on. */
+export const showCameras = signal(q.get("camaras") === "1");
+/** User reports per municipality (hatched outlines, never a measurement's fill); loads when this is on. */
+export const showCrowd = signal(q.get("reportes") === "1");
+/** Flood cells of the newest day (NASA MODIS) and methane plumes of the year (Carbon Mapper), each on demand. */
+export const showFloods = signal(q.get("inundacion") === "1");
+export const showPlumes = signal(q.get("metano") === "1");
 export const selectedState = signal<string | null>(initialIso && ISOS.has(initialIso) ? initialIso : null);
+
+/** An ontology id must look like one (src/ontology: lowercase words, dots, hyphens). */
+const ENTITY_ID = /^[a-z0-9][a-z0-9.-]{0,150}$/;
+const initialEntity = q.get("entidad");
+/**
+ * A finer selection inside (or beside) the selected state: a municipality, a parish, a facility, a network, an
+ * institution or an outlet, by its ontology id. The inspector describes it; the map outlines or rings it.
+ */
+export const selectedEntity = signal<string | null>(
+	initialEntity && ENTITY_ID.test(initialEntity) && initialEntity !== "ve" ? initialEntity : null,
+);
+/** The point last clicked on the map (to ask /api/v1/locate what is there); not kept in the URL. */
+export const pickedPoint = signal<{ lat: number; lon: number } | null>(null);
+
+/** Facility groups of the "Instalaciones" layer (map/facilities.ts), in the URL as ?instalaciones=energia,agua. */
+export type FacilityGroup = "energia" | "petroleo" | "transporte" | "agua" | "salud";
+export const FACILITY_GROUPS: readonly FacilityGroup[] = [
+	"energia",
+	"petroleo",
+	"transporte",
+	"agua",
+	"salud",
+];
+/** Health centres are 790 marks: off unless asked for. */
+const DEFAULT_GROUPS: readonly FacilityGroup[] = ["energia", "petroleo", "transporte", "agua"];
+const initialGroups = (q.get("instalaciones") ?? "")
+	.split(",")
+	.filter((g): g is FacilityGroup => (FACILITY_GROUPS as readonly string[]).includes(g));
+/** Facilities on the map (lazy: the data loads the first time this is on). */
+export const showFacilities = signal(q.has("instalaciones"));
+/** How many facilities the layer draws now (set by the layer once its data is here). */
+export const facilitiesShown = signal<number | null>(null);
+export const facilityGroups = signal<ReadonlySet<FacilityGroup>>(
+	new Set(initialGroups.length || q.get("instalaciones") === "ninguna" ? initialGroups : DEFAULT_GROUPS),
+);
 /**
  * Replay time: the start of the history step being viewed (UTC ms), or null for live. Only the Internet layer has
  * history today, so a `?t=` on any other layer (or in the future) is dropped when the link is read, and the page says
@@ -89,8 +135,45 @@ export const highlightedMunicipality = signal<string | null>(null);
 
 export function selectState(iso: string | null): void {
 	const next = iso && ISOS.has(iso) ? iso : null;
-	if (next !== selectedState.value) highlightedMunicipality.value = null;
+	if (next !== selectedState.value) {
+		highlightedMunicipality.value = null;
+		selectedEntity.value = null;
+	}
+	if (!next) pickedPoint.value = null;
 	selectedState.value = next;
+}
+
+/**
+ * Selects one entity in the inspector and on the map. `iso` is the state it lies in (the linked selection every
+ * panel follows); null keeps the current state (a network or an institution is national).
+ */
+export function selectEntity(id: string | null, iso: string | null = null): void {
+	if (id !== null && (!ENTITY_ID.test(id) || id === "ve")) return;
+	if (iso && ISOS.has(iso) && iso !== selectedState.value) selectedState.value = iso;
+	// The outline follows the entity: the inspector outlines a municipality or parish again once it has its code.
+	if (id !== selectedEntity.value) highlightedMunicipality.value = null;
+	selectedEntity.value = id;
+}
+
+/** Back from the finer selection to the state (Esc, ✕): its outline goes with it. */
+export function clearEntity(): void {
+	selectEntity(null);
+}
+
+/** Remembers a clicked point (the inspector asks the server which parish, municipality and state it is in). */
+export function pickPoint(lat: number, lon: number): void {
+	pickedPoint.value = { lat: Math.round(lat * 1e5) / 1e5, lon: Math.round(lon * 1e5) / 1e5 };
+}
+
+export function toggleFacilities(on?: boolean): void {
+	showFacilities.value = on ?? !showFacilities.value;
+}
+
+export function toggleFacilityGroup(g: FacilityGroup): void {
+	const next = new Set(facilityGroups.value);
+	if (next.has(g)) next.delete(g);
+	else next.add(g);
+	facilityGroups.value = next;
 }
 
 /** Zooms to a municipality's state and outlines the municipality (its geometry loads with the state's). */
@@ -125,6 +208,26 @@ export function toggleFlares(on?: boolean): void {
 	showFlares.value = on ?? !showFlares.value;
 }
 
+export function toggleLightning(on?: boolean): void {
+	showLightning.value = on ?? !showLightning.value;
+}
+
+export function toggleCameras(on?: boolean): void {
+	showCameras.value = on ?? !showCameras.value;
+}
+
+export function toggleCrowd(on?: boolean): void {
+	showCrowd.value = on ?? !showCrowd.value;
+}
+
+export function toggleFloods(on?: boolean): void {
+	showFloods.value = on ?? !showFloods.value;
+}
+
+export function togglePlumes(on?: boolean): void {
+	showPlumes.value = on ?? !showPlumes.value;
+}
+
 export function setViewTime(t: number | null): void {
 	if (t !== null && shading.value !== "connectivity") shading.value = "connectivity";
 	viewTime.value = t;
@@ -150,9 +253,16 @@ effect(() => {
 	writeQuery({
 		capa: shading.value === "connectivity" ? null : SLUG[shading.value],
 		estado: selectedState.value,
+		entidad: selectedEntity.value,
+		instalaciones: showFacilities.value ? [...facilityGroups.value].join(",") || "ninguna" : null,
 		t: viewTime.value === null ? null : isoCaracas(viewTime.value),
 		sismos: showQuakes.value ? null : "0",
 		focos: showFires.value ? "1" : null,
 		quemadores: showFlares.value ? "1" : null,
+		rayos: showLightning.value ? "1" : null,
+		camaras: showCameras.value ? "1" : null,
+		reportes: showCrowd.value ? "1" : null,
+		inundacion: showFloods.value ? "1" : null,
+		metano: showPlumes.value ? "1" : null,
 	});
 });

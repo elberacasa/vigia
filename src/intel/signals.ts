@@ -7,13 +7,16 @@
 import { SIGNAL_INFO } from "../adapters/ioda-states/ioda.ts";
 import type { NewsItem } from "../adapters/rss/factory.ts";
 import { OUTLETS } from "../adapters/rss/outlets.ts";
+import { type CameraDarkInput, cameraEvidence } from "../cameras/evidence.ts";
 import type { Store } from "../core/store.ts";
-import { stateByIso } from "../geo/index.ts";
+import { CROWD_RULES, CROWD_SOURCE, SERVICE_TEXT } from "../crowd/rules.ts";
+import { stateByIso, states } from "../geo/index.ts";
 import { tagPlaces } from "../news/places.ts";
 import { publisherOf } from "../news/publishers.ts";
 import { normalize, stripDateline } from "../news/text.ts";
 import { type Topic, topics } from "../news/topics.ts";
 import type { OutageEventItem, PlaceStatus, ProbeSummary, SignalReading } from "../panels/connectivity.ts";
+import type { CrowdItem } from "../panels/crowd.ts";
 import type { HazardEvent } from "../panels/hazards.ts";
 import type { NightRegionView } from "../panels/nightlights.ts";
 import type { QuakeReading, QuakeRow } from "../panels/quakes.ts";
@@ -84,6 +87,13 @@ export const SIGNAL_RULES = {
 	quakeMinMag: 3.5,
 	/** News about a quake: published from the origin time to this long after. */
 	quakeNewsMs: 24 * HOUR,
+	/**
+	 * A quake with no Venezuelan state (in a neighbouring country or at sea) is tied to a headline only by what the
+	 * headline says of it: its magnitude, within this much, and the first hours (whole-release review, M13: a
+	 * Colombian M4.3 at 149 km depth read "3 fuentes independientes" from 35 outlets still writing about June).
+	 */
+	quakeNewsUnplacedMs: 6 * HOUR,
+	quakeMagTolerance: 0.2,
 	/** An IODA outage in the quake's state counts when it starts within this window after the origin time. */
 	quakeOutageMs: 2 * HOUR,
 	/** Mentions below this confidence do not tie a headline to a state (the news panel's rule). */
@@ -378,6 +388,98 @@ export function gdacsEvidence(
 	};
 }
 
+// ——— users' reports ———
+
+export type CrowdInput = Pick<
+	CrowdItem,
+	| "level"
+	| "entity"
+	| "name"
+	| "state"
+	| "service"
+	| "reports"
+	| "answers"
+	| "heldAnswers"
+	| "outage"
+	| "incidentMin"
+	| "incidentMinConnections"
+	| "observedAt"
+	| "fetchedAt"
+	| "stale"
+	| "series"
+	| "windowMs"
+>;
+
+/**
+ * A municipality's crowd reports as evidence of a cut (CROWD_RULES.incident): power or internet, at least
+ * `incidentMin` connections answering "no" or "intermitente", none of those answers held as possible manipulation
+ * (a flood of «sí» does not remove it), and a publisher that is still refreshing it. Null otherwise.
+ */
+export function crowdEvidence(c: CrowdInput): Evidence | null {
+	const speaks = (CROWD_RULES.incident.speaks as Record<string, "power" | "internet" | undefined>)[c.service];
+	if (c.level !== "municipality" || !speaks || c.stale) return null;
+	const heldOutage = (c.heldAnswers?.no ?? 0) + (c.heldAnswers?.intermitente ?? 0);
+	if (heldOutage > 0) return null;
+	if (!c.outage || !c.answers || c.reports === null || c.outage.count < c.incidentMin) return null;
+	// Phones behind one address count once here: rows from before tokens have every report its own connection.
+	const connections = c.outage.connections ?? c.outage.count;
+	if (connections < (c.incidentMinConnections ?? 1)) return null;
+	const without = SERVICE_TEXT[c.service].without;
+	const h = Math.round(c.windowMs / HOUR);
+	return {
+		id: `crowd:${c.entity}:${c.service}`,
+		family: "usuarios",
+		role: "signal",
+		speaks,
+		feed: CROWD_SOURCE,
+		es: `Reportes de usuarios: ${c.outage.count} de ${c.reports} ${c.reports === 1 ? "reporte" : "reportes"} ${without.es} o con servicio intermitente en ${c.name.es}, de ${connections} ${connections === 1 ? "conexión" : "conexiones"} (${c.answers.no} «no», ${c.answers.intermitente} «intermitente»; últimas ${h} h)`,
+		en: `User reports: ${c.outage.count} of ${c.reports} ${c.reports === 1 ? "report" : "reports"} ${without.en} or with on-and-off service in ${c.name.en}, from ${connections} ${connections === 1 ? "connection" : "connections"} (${c.answers.no} "no", ${c.answers.intermitente} "on and off"; last ${h} h)`,
+		at: c.outage.firstAt,
+		lastAt: c.outage.lastAt,
+		fetchedAt: c.fetchedAt,
+		url: `/api/v1/entities/${c.entity}`,
+		outlet: null,
+		refs: [{ source: CROWD_SOURCE, series: c.series, observedAt: c.observedAt }],
+	};
+}
+
+// ——— Cloudflare Radar (join-only) ———
+
+/** One Cloudflare Radar outage note or verified traffic anomaly, with the states it concerns. */
+export type RadarInput = {
+	/** "outage:<id>" or "anomaly:<uuid>" (the stored series). */
+	series: string;
+	observedAt: number;
+	kind: "outage" | "anomaly";
+	/** ISO codes of the states it names, or "all" (the whole country, or a national network). */
+	states: readonly string[] | "all";
+	speaks: "power" | "internet" | "connectivity";
+	at: number;
+	lastAt: number;
+	fetchedAt: number | null;
+	es: string;
+	en: string;
+	url: string;
+};
+
+export function radarEvidence(r: RadarInput): Evidence {
+	return {
+		id: `cloudflare:${r.series}`,
+		family: "cloudflare",
+		role: "signal",
+		speaks: r.speaks,
+		feed: "cloudflare-radar",
+		es: r.es,
+		en: r.en,
+		at: r.at,
+		lastAt: r.lastAt,
+		fetchedAt: r.fetchedAt,
+		url: r.url,
+		outlet: null,
+		refs: [{ source: "cloudflare-radar", series: r.series, observedAt: r.observedAt }],
+	};
+}
+
 // ——— the two kinds ———
 
 export type SignalInputs = {
@@ -387,6 +489,12 @@ export type SignalInputs = {
 	quakes: readonly QuakeInput[];
 	/** GDACS events with the state they map to (ISO), when inside Venezuela. */
 	hazards: readonly (Parameters<typeof gdacsEvidence>[0] & { state: string | null })[];
+	/** Published crowd aggregates now (the crowd panel's items); absent: none. */
+	crowd?: readonly CrowdInput[];
+	/** Public cameras (the cameras panel's cards); absent: none. */
+	cameras?: readonly CameraDarkInput[];
+	/** Cloudflare Radar outage notes and verified anomalies (join-only); absent: none (no token). */
+	radar?: readonly RadarInput[];
 };
 
 /** "Corte": power or internet cuts per state. */
@@ -412,6 +520,19 @@ export function corteSignals(input: SignalInputs, now: number): Signal[] {
 		if (h.outage === null || h.dateMissing) continue;
 		for (const iso of h.states) push(iso, headlineEvidence(h, h.outage));
 	}
+	for (const c of input.crowd ?? []) {
+		const e = stateByIso(c.state) ? crowdEvidence(c) : null;
+		if (e) push(c.state, e);
+	}
+	for (const c of input.cameras ?? []) {
+		const e = c.state && stateByIso(c.state) ? cameraEvidence(c, now) : null;
+		if (e && c.state) push(c.state, e);
+	}
+	for (const r of input.radar ?? []) {
+		if (r.at > now) continue;
+		const isos = r.states === "all" ? states().map((s) => s.iso) : r.states.filter((iso) => stateByIso(iso));
+		for (const iso of isos) push(iso, radarEvidence(r));
+	}
 	// Context: a felt quake in the state, an orange or red GDACS alert mapped to the state.
 	for (const q of input.quakes) {
 		if (!isFeltQuake(q) || !q.state) continue;
@@ -422,6 +543,15 @@ export function corteSignals(input: SignalInputs, now: number): Signal[] {
 		if (h.state && SIGNAL_RULES.gdacsLevels.includes(h.alertLevel)) push(h.state, gdacsEvidence(h));
 	}
 	return out;
+}
+
+/** Whether a headline states this magnitude ("4,3", "4.3", "M4,3", "magnitud 4,4"), within the tolerance. */
+export function statesMagnitude(title: string, mag: number): boolean {
+	for (const m of title.matchAll(/(?:^|[^\d.,])(\d)[.,](\d)(?!\d|[.,]\d)/g)) {
+		const v = Number(`${m[1]}.${m[2]}`);
+		if (v >= 2 && Math.abs(v - mag) <= SIGNAL_RULES.quakeMagTolerance + 1e-9) return true;
+	}
+	return false;
 }
 
 /** "Sismo": a felt-size quake in or near Venezuela, with each network's reading, the press and IODA in its state. */
@@ -442,6 +572,8 @@ export function sismoSignals(input: SignalInputs, now: number): Signal[] {
 			if (!h.topics.includes("sismo") || h.dateMissing) continue;
 			if (h.at < q.at || h.at > q.at + SIGNAL_RULES.quakeNewsMs) continue;
 			if (q.state && !h.states.includes(q.state)) continue;
+			if (!q.state && (h.at > q.at + SIGNAL_RULES.quakeNewsUnplacedMs || !statesMagnitude(h.title, q.maxMag)))
+				continue;
 			push(headlineEvidence(h, "quake"));
 		}
 		if (q.state) {

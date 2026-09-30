@@ -28,8 +28,20 @@ const COMPONENTS = {
 	SeriesResponse: S.SeriesResponse,
 	IncidentsResponse: S.IncidentsResponse,
 	IncidentResponse: S.IncidentResponse,
+	AnomalyItem: S.AnomalyItem,
+	AnomaliesResponse: S.AnomaliesResponse,
 	ConnectivityHistoryResponse: S.ConnectivityHistoryResponse,
 	DigestsResponse: S.DigestsResponse,
+	EntityRef: S.EntityRef,
+	EntityDetail: S.EntityDetail,
+	NowItem: S.NowItem,
+	EntityResponse: S.EntityResponse,
+	TimelineResponse: S.TimelineResponse,
+	EntitySearchResponse: S.EntitySearchResponse,
+	LocateResponse: S.LocateResponse,
+	StillImage: S.StillImage,
+	StillsResponse: S.StillsResponse,
+	CameraStillsResponse: S.CameraStillsResponse,
 } as const;
 
 type ComponentName = keyof typeof COMPONENTS;
@@ -75,6 +87,15 @@ const panelId: Param = {
 	required: true,
 	description: "Identificador del panel (ver /api/v1/panels).",
 	schema: { type: "string", pattern: "^[\\w-]{1,80}$" },
+};
+
+const entityId: Param = {
+	name: "id",
+	in: "path",
+	required: true,
+	description:
+		"Identificador de la entidad: ve, ve.zulia, ve.zulia.maracaibo, infra.planta-centro, asn.8048, outlet.el-pitazo, inst.bcv…",
+	schema: { type: "string", pattern: "^[a-z0-9][a-z0-9.-]{0,150}$" },
 };
 
 export const OPERATIONS: readonly Operation[] = [
@@ -246,6 +267,48 @@ export const OPERATIONS: readonly Operation[] = [
 		example: "/api/v1/incidents",
 	},
 	{
+		path: "/api/v1/anomalies",
+		id: "listAnomalies",
+		tag: "Incidentes",
+		summary: "Lo inusual ahora: lecturas raras frente a su propia historia",
+		description:
+			"Cada serie numérica que guarda Vigía (fuente × entidad × métrica) comparada con una línea base según su ritmo: la misma franja horaria para la conectividad, mediana y MAD móviles para las series diarias, reglas de conteo con cola de Poisson para los conteos de hechos. Sin historia suficiente o con datos viejos no hay anomalía. Cada lectura trae valor, línea base y su ventana, puntuación, la regla en palabras, fuente y edad; las fuentes que no permiten redistribuir sus datos (IODA) dan solo el cambio y la puntuación. Si un incidente abierto ya la explica, apunta a él. Calculado por Vigía, sin modelos.",
+		response: "AnomaliesResponse",
+		params: [
+			{
+				name: "entity",
+				in: "query",
+				description: "Solo lecturas de esta entidad o de lo que está dentro de ella (ve.zulia, inst.bcv).",
+				schema: { type: "string" },
+			},
+			{
+				name: "class",
+				in: "query",
+				description: "Solo esta clase: connectivity, night, change, level, count, hourly.",
+				schema: { type: "string" },
+			},
+			{
+				name: "minScore",
+				in: "query",
+				description: "Solo lecturas con |puntuación| de al menos este valor.",
+				schema: { type: "number" },
+			},
+			{
+				name: "explained",
+				in: "query",
+				description: "0: solo las que ningún incidente explica; 1: solo las explicadas.",
+				schema: { type: "integer", enum: [0, 1] },
+			},
+			{
+				name: "limit",
+				in: "query",
+				description: "Máximo de lecturas (1–100, por defecto 50).",
+				schema: { type: "integer", minimum: 1, maximum: 100 },
+			},
+		],
+		example: "/api/v1/anomalies",
+	},
+	{
 		path: "/api/v1/history/connectivity",
 		id: "connectivityHistory",
 		tag: "Historial",
@@ -280,6 +343,160 @@ export const OPERATIONS: readonly Operation[] = [
 			{ name: "to", in: "query", description: "Día final AAAA-MM-DD.", schema: { type: "string" } },
 		],
 		example: "/api/v1/archive/digests",
+	},
+	{
+		path: "/api/v1/entities",
+		id: "searchEntities",
+		tag: "Entidades",
+		summary: "Buscar entidades (lugares, instalaciones, redes, medios, instituciones)",
+		description:
+			"Busca por nombre, alias o código (código P, ISO, ASN, IATA). Con type y sin q, lista las entidades de ese tipo (hasta 500).",
+		response: "EntitySearchResponse",
+		params: [
+			{
+				name: "q",
+				in: "query",
+				description: "Texto a buscar (hasta 100 caracteres).",
+				schema: { type: "string" },
+			},
+			{
+				name: "type",
+				in: "query",
+				description: "Tipo de entidad.",
+				schema: {
+					type: "string",
+					enum: [
+						"country",
+						"state",
+						"municipality",
+						"parish",
+						"infrastructure",
+						"network",
+						"outlet",
+						"institution",
+					],
+				},
+			},
+			{
+				name: "limit",
+				in: "query",
+				description: "Máximo de resultados (1–50 al buscar, 1–500 al listar; por defecto 20).",
+				schema: { type: "integer", minimum: 1, maximum: 500 },
+			},
+		],
+		example: "/api/v1/entities?q=maracaibo",
+	},
+	{
+		path: "/api/v1/entities/{id}",
+		id: "getEntity",
+		tag: "Entidades",
+		summary: "Una entidad: lo que dicen hoy todas las señales sobre ella",
+		description:
+			"La entidad, sus padres e hijos, cada señal viva sobre ella (con fuente, horas y marca de atraso), sus incidentes, titulares recientes, instalaciones dentro o cerca, y su población (censo 2011 y WorldPop 2026, lado a lado). Las cifras que calcula Vigía dicen calculado y cómo.",
+		response: "EntityResponse",
+		params: [entityId],
+		example: "/api/v1/entities/ve.zulia",
+	},
+	{
+		path: "/api/v1/entities/{id}/timeline",
+		id: "getEntityTimeline",
+		tag: "Entidades",
+		summary: "Cronología de una entidad desde el archivo",
+		description:
+			"Los hechos vinculados a la entidad en una ventana (por defecto 7 días, máximo 400): sismos, incendios, quemas, cortes, titulares, gacetas, rutas, incidentes, sanciones de OFAC, licencias y documentos del Federal Register, intervenciones del BCV. Los artículos de GDELT, los rayos, los canales y radios, los cargos y los mercados de predicción también están vinculados, pero solo vienen si se piden con kinds. Cada hecho dice cómo se vinculó. Las fuentes que no permiten redistribuir sus datos dan solo un resumen y el enlace.",
+		response: "TimelineResponse",
+		params: [
+			entityId,
+			{ name: "from", in: "query", description: "Inicio (Unix ms).", schema: { type: "integer" } },
+			{
+				name: "to",
+				in: "query",
+				description: "Fin (Unix ms; por defecto ahora).",
+				schema: { type: "integer" },
+			},
+			{
+				name: "limit",
+				in: "query",
+				description: "Máximo de hechos (1–500, por defecto 100).",
+				schema: { type: "integer", minimum: 1, maximum: 500 },
+			},
+			{
+				name: "kinds",
+				in: "query",
+				description:
+					"Solo estos tipos, separados por comas: quake, fire, flare, outage, hazard, headline, gazette, routing, incident, crowd (reportes de usuarios), sanction, licence, intervention (por omisión, todos estos) y gdelt, lightning, broadcast, office, market (solo si se piden).",
+				schema: { type: "string" },
+			},
+		],
+		example: "/api/v1/entities/ve.zulia/timeline",
+	},
+	{
+		path: "/api/v1/locate",
+		id: "locate",
+		tag: "Entidades",
+		summary: "Qué hay en un punto: parroquia, municipio, estado e instalaciones cercanas",
+		description: "Punto en polígono con los límites oficiales (COD-AB) e instalaciones a menos de 5 km.",
+		response: "LocateResponse",
+		params: [
+			{ name: "lat", in: "query", required: true, description: "Latitud.", schema: { type: "number" } },
+			{ name: "lon", in: "query", required: true, description: "Longitud.", schema: { type: "number" } },
+		],
+		example: "/api/v1/locate?lat=10.65&lon=-71.64",
+	},
+	{
+		path: "/api/v1/stills",
+		id: "stills",
+		tag: "Imágenes",
+		summary: "Las imágenes de la sala en un momento: cuadros de TV y cámaras públicas",
+		description:
+			"Máquina del tiempo: cada canal y cada cámara con la imagen que la sala mostraba en `at` (tomada a lo sumo 45 min antes, o dentro del intervalo de la cámara), con su hora; sin imagen en ese lapso, null. Las imágenes viven en este servidor (TV un día, cámaras tres días).",
+		response: "StillsResponse",
+		params: [
+			{
+				name: "at",
+				in: "query",
+				description: "Momento (Unix ms); por defecto ahora. Hasta 400 días atrás.",
+				schema: { type: "integer" },
+			},
+		],
+		example: "/api/v1/stills",
+	},
+	{
+		path: "/api/v1/cameras/{id}/stills",
+		id: "cameraStills",
+		tag: "Imágenes",
+		summary: "Las imágenes fijas de una cámara pública en una ventana, con su brillo",
+		description:
+			"Tira de imágenes de una cámara del censo (ver /api/v1/panels/cameras), la más antigua primero: hora, motivo si no hubo imagen, si era de noche y la parte encendida de su zona de luces. Ventana de hasta 3 días.",
+		response: "CameraStillsResponse",
+		params: [
+			{
+				name: "id",
+				in: "path",
+				required: true,
+				description: "Identificador de la cámara (charallave-oeste, bonaire-kralendijk…).",
+				schema: { type: "string", pattern: "^[a-z0-9-]{1,60}$" },
+			},
+			{
+				name: "from",
+				in: "query",
+				description: "Desde (Unix ms); por defecto 6 h antes de to.",
+				schema: { type: "integer" },
+			},
+			{
+				name: "to",
+				in: "query",
+				description: "Hasta (Unix ms); por defecto ahora.",
+				schema: { type: "integer" },
+			},
+			{
+				name: "limit",
+				in: "query",
+				description: "Máximo de imágenes (1–500, por defecto 200).",
+				schema: { type: "integer" },
+			},
+		],
+		example: "/api/v1/cameras/charallave-oeste/stills",
 	},
 ];
 

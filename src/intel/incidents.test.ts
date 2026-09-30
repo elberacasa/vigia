@@ -1,11 +1,14 @@
 import { describe, expect, test } from "bun:test";
+import { CROWD_RULES } from "../crowd/rules.ts";
 import {
 	correlate,
 	corroborationLabel,
 	dedupe,
 	type Evidence,
+	FAMILY_NAMES,
 	type Incident,
 	isActive,
+	JOIN_ONLY,
 	mergeEvidence,
 	opens,
 	RULES,
@@ -487,4 +490,218 @@ test("an incident is plain JSON (it is archived as an observation value)", () =>
 	const [i] = opened([corte(iodaDrop()), corte(news("a"))], [], NOW, stateName);
 	const round = JSON.parse(JSON.stringify(i)) as Incident;
 	expect(round).toEqual(i as Incident);
+});
+
+describe("users' reports (their own family: they join incidents others opened, never open or promote one)", () => {
+	const users = (at = NOW - 25 * MIN, muni = "ve.zulia.maracaibo", speaks: Evidence["speaks"] = "power") =>
+		ev({ id: `crowd:${muni}:luz`, family: "usuarios", at, lastAt: at + 15 * MIN, speaks });
+
+	test("alone they are nothing: no incident and no watch item", () => {
+		expect(
+			correlate([corte(users()), corte(users(NOW - HOUR, "ve.zulia.cabimas"))], [], NOW, stateName),
+		).toEqual([]);
+		expect(opens([users()])).toBeNull();
+	});
+
+	test("with the press of one outlet they are still nothing", () => {
+		expect(correlate([corte(users()), corte(news("la-verdad"))], [], NOW, stateName)).toEqual([]);
+	});
+
+	test("they never promote a lone IODA drop: it stays a watch item, titled by the measurement", () => {
+		const [w] = correlate([corte(iodaDrop()), corte(users())], [], NOW, stateName);
+		expect(w).toMatchObject({ tier: "watch" });
+		expect(w?.title.es).toBe("Caída de conectividad en Zulia");
+		const later = NOW + 30 * MIN;
+		const [still] = correlate(
+			[corte(iodaDrop(later - 10 * MIN)), corte(users(later - 20 * MIN))],
+			w ? [w] : [],
+			later,
+			stateName,
+		);
+		expect(still?.tier).toBe("watch");
+	});
+
+	test("they join an incident two measured families opened, as one more family", () => {
+		const [i] = correlate([corte(iodaDrop()), corte(atlas()), corte(users())], [], NOW, stateName);
+		expect(i).toMatchObject({
+			tier: "incident",
+			families: ["ioda", "ripe-atlas", "usuarios"],
+			corroboration: 3,
+		});
+		expect(corroborationLabel(i as Incident).es).toBe(
+			"3 fuentes independientes, entre ellas reportes de usuarios",
+		);
+		// Users without power do not make it an "apagón": only measured or published power evidence does.
+		expect(i?.title.es).toBe("Caída de conectividad en Zulia");
+	});
+
+	test("they never keep an incident active or move its start on their own", () => {
+		const early = users(NOW - 4 * HOUR);
+		const late = users(NOW - 10 * MIN, "ve.zulia.cabimas");
+		const [i] = correlate(
+			[corte(iodaDrop(NOW - 2 * HOUR)), corte(atlas(NOW - 2 * HOUR)), corte(early), corte(late)],
+			[],
+			NOW,
+			stateName,
+		);
+		expect(i?.startAt).toBe(NOW - 2 * HOUR);
+		expect(i?.lastEvidenceAt).toBe(NOW - 2 * HOUR);
+	});
+
+	test("with press from two outlets it stays 'solo reportes', and says users' reports are among them", () => {
+		const [i] = correlate(
+			[corte(news("el-pitazo")), corte(news("la-verdad", NOW - 2 * HOUR)), corte(users())],
+			[],
+			NOW,
+			stateName,
+		);
+		expect(i).toMatchObject({ tier: "incident", openedBy: "reports", reportsOnly: true });
+		expect(i?.families).toEqual(["prensa", "usuarios"]);
+		expect(corroborationLabel(i as Incident).es).toBe(
+			"solo reportes (2 medios y reportes de usuarios), sin medición que lo confirme",
+		);
+	});
+
+	test("stale users' reports do not count", () => {
+		const old = users(NOW - RULES.freshMs.usuarios - 2 * HOUR);
+		const [i] = correlate([corte(iodaDrop()), corte(atlas()), corte(old)], [], NOW, stateName);
+		expect(i?.families).toEqual(["ioda", "ripe-atlas"]);
+	});
+
+	test("the rules text states the users' rules and thresholds from the code", () => {
+		const es = rulesText().es.join(" ");
+		expect(es).toContain("solo se suman a un incidente que otras fuentes ya abrieron");
+		expect(es).toContain(
+			`al menos ${CROWD_RULES.incident.minOutageReports.public} reportes, de al menos ${CROWD_RULES.incident.minOutageConnections.public} conexiones distintas`,
+		);
+		expect(es).toContain(`reportes de usuarios ${RULES.freshMs.usuarios / HOUR} h`);
+	});
+});
+
+describe("public cameras (their own family: dark city lights join incidents others opened, never open one)", () => {
+	const cam = (at = NOW - 30 * MIN, id = "charallave-oeste") =>
+		ev({ id: `cam:dark:${id}`, family: "camaras", at, lastAt: at + 20 * MIN, speaks: "power" });
+
+	test("alone a dark camera is nothing, and never promotes a lone IODA drop or names it a blackout", () => {
+		expect(correlate([corte(cam())], [], NOW, stateName)).toEqual([]);
+		expect(opens([cam()])).toBeNull();
+		const [w] = correlate([corte(iodaDrop()), corte(cam())], [], NOW, stateName);
+		expect(w?.tier).toBe("watch");
+		expect(w?.title.es).toBe("Caída de conectividad en Zulia");
+	});
+
+	test("it joins an incident two measured families opened, as one more family, without renaming it", () => {
+		const [i] = correlate([corte(iodaDrop()), corte(atlas()), corte(cam())], [], NOW, stateName);
+		expect(i).toMatchObject({
+			tier: "incident",
+			families: ["ioda", "ripe-atlas", "camaras"],
+			corroboration: 3,
+		});
+		expect(i?.title.es).toBe("Caída de conectividad en Zulia");
+	});
+
+	test("the rules text states the camera thresholds", () => {
+		expect(rulesText().es.join(" ")).toContain("cámaras públicas");
+		expect(JOIN_ONLY).toContain("camaras");
+	});
+});
+
+describe("join-only families never bridge or block (Cloudflare Radar, users' reports)", () => {
+	// IODA 10 to 9 h ago and RIPE Atlas 1.5 h ago are more than `togetherMs` apart: two watch items, not an incident.
+	const ioda = ev({ id: "ioda:event:far", family: "ioda", at: NOW - 10 * HOUR, lastAt: NOW - 9 * HOUR });
+	const ripe = ev({
+		id: "atlas:VE-V:near",
+		family: "ripe-atlas",
+		at: NOW - 90 * MIN,
+		lastAt: NOW - 30 * MIN,
+	});
+	const cloudflare = ev({
+		id: "cloudflare:outage:1",
+		family: "cloudflare",
+		at: NOW - 17 * HOUR,
+		lastAt: NOW,
+	});
+	const users = ev({ id: "crowd:x:luz", family: "usuarios", at: NOW - 11 * HOUR, lastAt: NOW });
+
+	test("a long join-only fact spanning two distant measured signals does not open an incident", () => {
+		for (const joiner of [cloudflare, users]) {
+			const out = correlate([corte(ioda), corte(ripe), corte(joiner)], [], NOW, stateName);
+			expect(out.filter((i) => i.tier === "incident")).toEqual([]);
+			expect(opens([ioda, ripe, joiner])).toBeNull();
+		}
+	});
+
+	test("it still joins the run it overlaps, and never turns press-only reports into nothing", () => {
+		const out = correlate([corte(iodaDrop()), corte(atlas()), corte(cloudflare)], [], NOW, stateName);
+		expect(out[0]?.tier).toBe("incident");
+		expect(out[0]?.families).toEqual(["ioda", "ripe-atlas", "cloudflare"]);
+		const press = [news("el-pitazo"), news("la-verdad"), cloudflare];
+		expect(opens(press)).toBe("reports");
+		const reports = correlate(
+			press.map((e) => corte(e)),
+			[],
+			NOW,
+			stateName,
+		);
+		expect(reports[0]?.openedBy).toBe("reports");
+		// Join-only evidence alone makes nothing.
+		expect(correlate([corte(cloudflare), corte(users)], [], NOW, stateName)).toEqual([]);
+	});
+});
+
+describe("whole-release review: join-only families never rename, displace or promote", () => {
+	const cam = (at = NOW - 25 * MIN) =>
+		ev({ id: `cam:dark:${at}`, family: "camaras", at, lastAt: at + 20 * MIN, speaks: "power" });
+	const cloud = (at = NOW - 25 * MIN) =>
+		ev({ id: `cloudflare:note:${at}`, family: "cloudflare", at, lastAt: NOW });
+	const crowd = (i: number) =>
+		ev({
+			id: `crowd:m${i}:${i % 2 ? "luz" : "internet"}`,
+			family: "usuarios",
+			at: NOW - 15 * MIN,
+			speaks: "power",
+		});
+
+	test("M1: every family is named as itself (a camera is never 'Cloudflare Radar')", () => {
+		const names = Object.values(FAMILY_NAMES).map((n) => n.es);
+		expect(new Set(names).size).toBe(names.length);
+		for (const f of JOIN_ONLY) {
+			const label = corroborationLabel({
+				corroboration: 3,
+				reportsOnly: false,
+				outlets: 0,
+				families: ["ioda", "ripe-atlas", f],
+			});
+			expect(label.es).toBe(`3 fuentes independientes, entre ellas ${FAMILY_NAMES[f].es}`);
+		}
+		const [i] = opened([corte(iodaDrop()), corte(atlas()), corte(cam()), corte(cloud())], [], NOW, stateName);
+		expect(corroborationLabel(i as Incident).es).toBe(
+			"4 fuentes independientes, entre ellas cámaras públicas y Cloudflare Radar",
+		);
+	});
+
+	test("M2: crowd reports never push out the evidence that opened the incident", () => {
+		const base = [corte(iodaDrop()), corte(news("el-pitazo", NOW - 40 * MIN))];
+		const [first] = opened(base, [], NOW, stateName);
+		expect(first?.title.es).toBe("Posible apagón en Zulia");
+		const flooded = [...base, ...Array.from({ length: 42 }, (_, i) => corte(crowd(i)))];
+		let prev: Incident[] = [];
+		for (let pass = 0; pass < 3; pass++) {
+			const [i] = opened(flooded, prev, NOW + pass * MIN, stateName);
+			expect(i?.title.es).toBe("Posible apagón en Zulia");
+			expect(i?.families).toEqual(["ioda", "prensa", "usuarios"]);
+			expect(i?.evidence.some((e) => e.family === "prensa")).toBe(true);
+			expect(i?.evidence.length).toBeLessThanOrEqual(RULES.maxEvidence);
+			prev = i ? [i] : [];
+		}
+	});
+
+	test("M3: a watch item never takes in join-only families on a later pass", () => {
+		const [w] = correlate([corte(iodaDrop())], [], NOW, stateName);
+		expect(w?.tier).toBe("watch");
+		const [again] = correlate([corte(iodaDrop()), corte(cam())], w ? [w] : [], NOW + MIN, stateName);
+		expect(again?.tier).toBe("watch");
+		expect(again?.families).toEqual(["ioda"]);
+		expect(again?.corroboration).toBe(1);
+	});
 });

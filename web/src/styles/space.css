@@ -1,0 +1,237 @@
+/*
+ * The space and movement panels (panels/Space.tsx): a lead figure, the caveat always visible, small linear bar
+ * charts in one neutral data colour (a band for what the satellite could not see, hatching for a running period),
+ * and ranked rows. Loaded with their chunk.
+ */
+.sp {
+	display: grid;
+	gap: var(--s-3);
+}
+.sp-lead {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px var(--s-2);
+}
+.sp-lead__v {
+	font-size: var(--fs-2xl);
+	font-weight: 600;
+	line-height: 1;
+}
+.sp-lead__t {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.sp-unseen {
+	margin-left: var(--s-2);
+	font-family: var(--font-data);
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	border: 1px dashed var(--line-strong);
+	border-radius: var(--r-sm);
+	padding: 0 4px;
+	white-space: nowrap;
+}
+.sp-note,
+.sp-caveat {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.sp-caveat {
+	padding-left: var(--s-2);
+	border-left: 2px solid var(--line-strong);
+	color: var(--text-3);
+}
+.sp-recurring {
+	color: var(--text-3);
+}
+.sp-h {
+	margin: var(--s-1) 0 0;
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.sp-fig {
+	margin: 0;
+	display: grid;
+	gap: 4px;
+}
+.sp-bars {
+	display: block;
+	width: 100%;
+	height: 56px;
+	border-bottom: 1px solid var(--line-strong);
+}
+.sp-bar {
+	fill: var(--data-infra);
+}
+.sp-bar--running {
+	fill-opacity: 0.45;
+	stroke: var(--data-infra);
+	stroke-width: 1px;
+	stroke-dasharray: 2 2;
+	vector-effect: non-scaling-stroke;
+}
+.sp-bar--zero {
+	fill: var(--text-3);
+}
+.sp-bar__unseen {
+	fill: var(--muted-soft);
+}
+.sp-bar__hit {
+	fill: transparent;
+}
+.sp-axis {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.sp-rows {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.sp-rows li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px var(--s-3);
+	padding: 6px var(--s-3);
+	background: var(--surface-0);
+	font-size: var(--fs-sm);
+}
+.sp-row__name {
+	flex: 1 1 12em;
+	min-width: 0;
+	font-weight: 600;
+}
+a.sp-row__name {
+	color: var(--accent);
+	line-height: 24px;
+}
+.sp-dim {
+	color: var(--text-3);
+	font-size: var(--fs-xs);
+	font-weight: 400;
+}
+.sp-small {
+	margin: 0;
+	font-size: var(--fs-2xs);
+	line-height: 1.5;
+}
+.sp-plumes {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.sp-plumes li {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: 2px var(--s-3);
+	padding: 6px var(--s-3);
+	background: var(--surface-0);
+	font-size: var(--fs-sm);
+	align-items: baseline;
+}
+.sp-plume__when {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.sp-plume__where {
+	font-weight: 600;
+}
+.sp-plumes .sp-dim {
+	grid-column: 2 / 3;
+}
+.sp-link {
+	color: var(--accent);
+	font-size: var(--fs-xs);
+	line-height: 24px;
+}
+.sp-more {
+	justify-self: start;
+	margin: 0;
+	min-height: 24px;
+}
+.sp-computed summary {
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	cursor: pointer;
+	text-decoration: underline dotted;
+	text-underline-offset: 2px;
+	min-height: 24px;
+	display: inline-flex;
+	align-items: center;
+}
+.sp-computed p {
+	margin: 4px 0 0;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.sp-figs {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+	gap: 1px;
+	margin: 0;
+	background: var(--line);
+	border: 1px solid var(--line);
+}
+.sp-figs div {
+	padding: 6px var(--s-2);
+	background: var(--surface-0);
+}
+.sp-figs dt {
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.sp-figs dd {
+	margin: 0;
+	font-size: var(--fs-md);
+}
+
+/* ---------- Map layers: flood cells and methane plumes ---------- */
+.flood-cell {
+	fill: var(--accent);
+}
+.flood-cell--recurring {
+	fill: var(--text-2);
+}
+.plume-mark {
+	fill: none;
+	stroke: var(--data-heat);
+	stroke-width: 1.4px;
+	vector-effect: non-scaling-stroke;
+}
+.plume-mark--fac {
+	fill: color-mix(in srgb, var(--data-heat) 30%, transparent);
+}
+.space-key {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px var(--s-3);
+	align-items: center;
+	font-size: var(--fs-2xs);
+	color: var(--text-2);
+}
+.space-key svg {
+	vertical-align: -2px;
+	margin-right: 4px;
+}

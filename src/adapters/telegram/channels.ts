@@ -32,6 +32,7 @@ const CHANNELS: readonly Channel[] = [
 		name: "Últimas Noticias (Telegram)",
 		region: "national",
 		stance: "state-aligned",
+		publisher: "gn-ultimas-noticias",
 		intervalMs: 15 * MIN,
 	},
 	{
@@ -60,6 +61,7 @@ const CHANNELS: readonly Channel[] = [
 		name: "Banca y Negocios (Telegram)",
 		region: "national",
 		stance: "independent",
+		publisher: "gn-banca-y-negocios",
 		intervalMs: 20 * MIN,
 	},
 	{

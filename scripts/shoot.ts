@@ -13,6 +13,8 @@ mkdirSync(out, { recursive: true });
 const sizes = [
 	{ name: "desk", width: 1440, height: 900, scale: 1 },
 	{ name: "wall", width: 1920, height: 1080, scale: 1 },
+	// The smallest desk: the workstation starts at 1000 px.
+	{ name: "mid", width: 1100, height: 760, scale: 1 },
 	{ name: "phone", width: 390, height: 844, scale: 2 },
 ];
 const theme = process.env.THEME ?? "dark";

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { addStyles } from "../lib/css.ts";
+import { dataSaverAsk } from "../lib/data.ts";
 import { t } from "../lib/i18n.ts";
 import { applyPreset, markOnboarded, PANEL_IDS, type PanelId, shouldOnboard } from "../lib/layout.ts";
 import onboardingCss from "../styles/onboarding.css?inline";
@@ -21,11 +22,13 @@ interface Preset {
 export function Onboarding() {
 	const ref = useRef<HTMLDialogElement>(null);
 	const [open, setOpen] = useState(shouldOnboard);
+	// The connection question (ui/DataSaver.tsx) goes first: two dialogs never stack.
+	const show = open && !dataSaverAsk.value;
 	useEffect(() => {
 		const d = ref.current;
-		if (open && d && !d.open) d.showModal();
-	}, [open]);
-	if (!open) return null;
+		if (show && d && !d.open) d.showModal();
+	}, [show]);
+	if (!show) return null;
 	const presets: Preset[] = [
 		{
 			id: "esencial",

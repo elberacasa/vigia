@@ -29,6 +29,43 @@ weather panels).
 | 2026-09-24 | trim, repeat visit 1.5 s after the first (worker registered once the app is on screen, installs with the page only, precaches the 35 on-demand files and fonts after the first data) | 52–60 ms | 166–183 ms | 0 KiB |
 | 2026-09-25 | master (markets, live TV, atlas pages, bcv-api, honesty fixes) merged into trim; markets and live TV bodies and the atlas styles on demand. First load 78.7 KiB gz (master alone 115.5); the light `/api/panels` grew, so data arrives later | 484 ms | 3,770 ms | 124.6 KiB |
 | 2026-09-25 | same, repeat visit | 48–52 ms | 161–162 ms | 0 KiB |
+| 2026-09-28 | baseline for the next rows: master at 6d13c9e, served from a copy of the live archive with `--no-fetch` (one run) | 500 ms | 4,764 ms | 173.4 KiB |
+| 2026-09-28 | workstation branch: the priority list replaced the Ahora line, so "data on screen" is now when the list renders (`.prio__list`, the same rule-built clauses); first load 84.4 → 86.1 KiB gz (priority list, module table, router, preferences menu); the desk shell is not in the first load below 1000 px (the worker precaches it later with the other on-demand chunks; one run) | 492 ms | 4,808 ms | 175.1 KiB |
+| 2026-09-28 | same, repeat visit | 80 ms | 204 ms | 0 KiB |
+| 2026-09-28 | workstation after the review fixes, a fresher copy of the archive (larger panels, so not strictly comparable with the rows above); first load 86.6 KiB gz (one run) | 508 ms | 4,950 ms | 177.0 KiB |
+| 2026-09-28 | ui-live: TV wall and radio, GDELT, fact-checks and the five sources-data panels (nine new panels, all on demand: none in the bulk `/api/panels`), a fresh archive copy plus the new adapters' rows; first load 88.2 KiB gz (one run) | 576 ms | 5,018 ms | 188.9 KiB |
+| 2026-09-28 | same, repeat visit | 100 ms | 224 ms | 0 KiB |
+| 2026-09-29 | ui-entities: entity pages, inspector, palette search and facilities layer on the ontology API, all on demand (page 5.9 KiB gz, inspector 1.6, timeline and view in shared chunks; facilities data 21.5 KiB gz, health centres 18.4 only when that group is shown). First load 88.2 → 88.9 KiB gz (router's entity paths, selection state, the layer's row, tab bar on pages); a fresh copy of the live archive plus the sources-data rows (one run) | 572 ms | 4,883 ms | 184.7 KiB |
+| 2026-09-29 | same, repeat visit | 76 ms | 178 ms | 0 KiB |
+| 2026-09-29 | an entity page opened cold: `/lugar/zulia` (data on screen = its facts grid, `PERF_WAIT='.entity--page:not(.entity--loading) .facts'`) | 576 ms | 4,970 ms | 184.7 KiB |
+| 2026-09-29 | `/infra/guri`, same rule (the server's view is its only source: no panel fallback for a facility) | 576 ms | 5,873 ms | 188.8 KiB |
+| 2026-09-29 | `/infra/guri` on the desk (1440×900, `PERF_VIEW=desk`); the room itself on the desk: 592 / 5,485 ms / 197.4 KiB | 580 ms | 6,385 ms | 201.6 KiB |
+| 2026-09-29 | ui-entities after the independent review's fixes (the map zooms to a municipality, so `pathBox` joins the entry; the facility marks keep one vnode while nothing changes; entity views on the 15 s tick instead of the 1 s clock): first load 89.2 KiB gz (one run) | 572 ms | 4,984 ms | 189.0 KiB |
+| 2026-09-29 | same, `/infra/guri` cold | 576 ms | 5,874 ms | 193.2 KiB |
+| 2026-09-29 | ui-signals merged with master (crowd report entry, "lo inusual", TV stills, cameras, six space panels, all on demand; the new layer rows, the flare/lightning/facility rows and the map's method text moved out of the entry): first load 90.0 KiB gz; the same archive copy plus 5.5 h of stills and the space rows (one run) | 576 ms | 5,151 ms | 197.4 KiB |
+| 2026-09-29 | same, repeat visit | 100 ms | 216 ms | 0 KiB |
+| 2026-09-29 | `/camara/charallave-oeste` cold (data on screen = the still, `PERF_WAIT='.cam-still img'`; its stills strip loads after) | 588 ms | 6,987 ms | 256.9 KiB |
+| 2026-09-29 | ficha: the entity page as a dossier (key strip, signals table), `/lugar/zulia` cold, data on screen = the table (`PERF_WAIT='.entity--page:not(.entity--loading) .sigt'`); the base commit f1ae706 on the same archive copy, alternated run by run, gave 5,394 and 4,974 ms against the ficha's 5,387 and 4,975 (the tiles' `.facts` marker): no change. Entity view chunk 21.4 → 30.7 KiB gz (on demand: the table's and strip's words in two languages, JS +8.5, CSS +0.9); first load 90.0 → 90.1 KiB gz (the incident focus in `lib/keys.ts`) | 576 ms | 4,952 ms | 192.4 KiB |
+| 2026-09-29 | same, `/infra/guri` cold (three runs: 5,980, 6,008 and one outlier at 6,376; the base gave 5,926 and 5,925) | 572 ms | 5,980 ms | 198.9 KiB |
+| 2026-09-29 | same, repeat visits (`/lugar/zulia`, `/infra/guri`) | 56–104 ms | 161–226 ms | 0 KiB |
+
+### Desk (1440×900, the same slow link and CPU: `PERF_VIEW=desk bun scripts/perf.ts`)
+
+The desk's workstation shell is a chunk of its own (10.5 KiB gzip with its styles). Same snapshot, one run each.
+
+| Date | Change | First paint | Data on screen | Transferred |
+|---|---|---|---|---|
+| 2026-09-28 | master at 6d13c9e (the wall; marker `.ahora__text`) | 488 ms | 4,772 ms | 173.4 KiB |
+| 2026-09-28 | workstation, the shell fetched after the entry script | 484 ms | 5,802 ms | 186.1 KiB |
+| 2026-09-28 | workstation, the shell `modulepreload`ed from the HTML with `media="(min-width: 1000px)"` | 500 ms | 5,221 ms | 186.2 KiB |
+| 2026-09-28 | same, after the review fixes, fresher archive copy | 504 ms | 5,036 ms | 188.3 KiB |
+| 2026-09-28 | ui-live (Situación; the new panels load only when their module opens) | 596 ms | 5,369 ms | 200.6 KiB |
+| 2026-09-29 | ui-signals (Situación with "lo inusual" in the inspector: the anomalies view is fetched with it) | 592 ms | 5,865 ms | 210.2 KiB |
+| 2026-09-29 | ficha: `/infra/guri` on the desk, data on screen = the signals table (`.sigt`) | 576 ms | 6,899 ms | 211.7 KiB |
+
+The remaining 0.45 s is the shell's own bytes on a 400 kbit/s link; on a desk's usual connection it is a few
+milliseconds. The static shell in `index.html` draws the workstation's silhouette (rail, strip, inspector) so the
+first paint already has the right shape.
 
 "Transferred" counts what the page itself fetched until 1.5 s after data on screen, so rows before and after the
 preloads are not strictly comparable (the heavy lists now finish inside that window, the fonts and the worker's
@@ -45,6 +82,15 @@ visiting /ahora.txt and a 404, a panel body and /guia from the cache).
 | 2026-09-24 | Client with map, news, quakes, guide, status | 102 KB JS + 23 KB CSS | 44.1 KiB | map geometry (states + neighbours) is ~17 KB gz of that |
 | 2026-09-24 | Fonts | 28.4 + 18.2 KB woff2 | (already compressed) | `font-display: swap`; first paint does not wait |
 | 2026-09-24 | `/api/panels` (quakes + news, 76 feeds) | 82.8 KB | 9.9 KB | gzip on every JSON response > 1 KB |
+| 2026-09-28 | Workstation branch, first load (JS + CSS + HTML) | | 86.6 KiB | on demand: the desk-only shell 10.5 KiB, the place page 1.0, the keys sheet 1.5 |
+| 2026-09-28 | ui-live, first load | | 88.2 KiB | +1.6: nine panel frames (title, question, feeds, loader), the on-demand fetch, the desk column choice, the Rayos layer row. Kept out: the on-demand panels' summaries (registered by their chunks), the desk arrangement (in the shell), the flare and lightning layers (chunks loaded when switched on; the flare layer was in the first load before) |
+
+On demand (gzip), ui-live, 2026-09-28. Chunks: TV and radio 11.2 KiB, hls.js light 116.7 KiB (self-hosted; fetched
+only when a press needs it: a browser without native HLS; Chromium and Safari play natively), GDELT 3.3, fact-checks
+1.6, monetary 3.4, predictions 2.4, sanctions and offices 8.9, lightning 4.6, its map layer 0.9, the flare layer 0.8.
+Views, fetched when their panel opens and then only on the stream's word while it stays asked for: `mediadir`
+125.4 KB raw / 20.0 KB gzip, `sanctions` 14.7, `desmentidos` 6.9, `monetary` 5.8, `gdelt` 4.8, `predictions` 4.0,
+`officials` 2.9, `lightning` 1.2. None is kept in the last-known cache (localStorage).
 
 Per-panel JSON, gzip (live, 2026-09-24): news 32.2 KB, connectivity 11.6, censorship 9.9, quakes 3.8, night lights
 3.3, weather 2.7, money 2.6, fires 1.7, satellite 1.3, hazards 1.2, oil 0.8.
@@ -65,6 +111,16 @@ Per-panel JSON, gzip (live, 2026-09-24): news 32.2 KB, connectivity 11.6, censor
 | 2026-09-25 | CSV responses gzipped (were not: text/csv missing from the compressible types) | money figures CSV 42.0 KB → 2.5 KB |
 | 2026-09-25 | `vigia backup` / `vigia restore`, 47 MB archive (124,331 observations, 1 sealed day) | backup 0.36 s on the host with Vigía running (VACUUM INTO + verification); restore 1.6 s (hash, verify, swap, re-verify). In the container: 2.8 s and 1.4 s |
 | 2026-09-25 | Graceful stop (SIGTERM) with a request in flight | request answered 200 in full; process closed in 135 ms; `docker stop` 386 ms |
+| 2026-09-28 | Entity registry build (3,126 entities: places, facilities, networks, outlets, institutions), first use | 38–43 ms; search 1–3 ms; `/api/v1/locate` 0.7 ms |
+| 2026-09-28 | Linking a copy of the live archive (257,785 observations, 4 days) into `entity_links` | 2.1 s in one piece (41,879 links, 3.7 MB table + index); in the server, sliced in the background: backlog 218k → 0 in about 10 s |
+| 2026-09-28 | The alternative, computing links per request: re-tagging 7 days of headlines (10,395) | 1.4 s per request, so links are stored (a timeline from the table: 0.1–2.5 ms) |
+| 2026-09-28 | Entity API on that copy (`--no-fetch` server, 12 sequential requests per route after one warm-up, gzip) | p50 / p95: state 3.6 / 4.6 ms (8.1 KiB gz); municipality 3.4 / 43 (7.5 KiB); parish 3.1 / 42; country 2.7 / 3.4 (10.4 KiB); facility 1.3 / 41; ISP 1.2 / 41; institution 2.8 / 4.4; outlet 1.8 / 52; state timeline 4.2 / 8.3 (12.6 KiB); search 2.5 / 3.2. The p95 is the 10 s feed-health cache refreshing (health of 313 feeds: ~40 ms, which was every request's cost before the cache) |
+| 2026-09-28 | After review: source filter and revision rule in SQL, exact counts (same copy) | full link 38,643 links in 2.5 s (3.5 MB); timeline 0.1–1.9 ms; count of the country's 7 days 4.6 ms; entity pages p50 1.4–7.0 ms (state 7.0, it now counts exactly); rare p95 spikes up to 0.5 s when a panel's 60 s cache expires during the request (inst.bcv reads the money panel's figures) |
+| 2026-09-28 | Rules v4 (new sources linked), copy of the ui-live archive (264,127 observations) | full link 40,433 links in 4.7 s (874 from the new sources) |
+| 2026-09-28 | Anomaly engine ("lo inusual ahora"), same copy, in-process | panel compute 20 ms p50, 102 ms max (235 series; the connectivity view it reads costs 191 ms but comes from that panel's cache); replay: 190 ms per hourly tick including a fresh connectivity view. The archive holds only 5 days of Yadio, Binance, headlines and GDELT: readers take the day's close and GDELT's batches in SQL so the cost follows days, not polls; re-measure when a month is stored |
+| 2026-09-28 | Entity API and `/api/v1/anomalies` on that copy (`--no-fetch` server, 12 sequential requests after 3 warm-ups, gzip) | p50 / p95: anomalies 0.6 / 0.7 ms (2.1 KiB); country 5.7 / 6.1 (12.4 KiB); state 5.9 / 46 (10.4 KiB); municipality 4.1 / 44.5; institution (BCV) 6.1 / 46.8; PDVSA 2.2 / 2.8; facility 1.6 / 3.4; outlet 2.8 / 43.3; state timeline (default kinds, now an explicit source list) 2.5 / 2.6 (14.5 KiB); on-request kinds 0.7–1.1. The p95s are the 10 s feed-health cache refreshing, as before |
+| 2026-09-29 | Rules v5 (names in titles only, parish rule, dates), copy of the ui-entities archive (265,352 observations) | full relink 40,140 links in 1.4 s (text links 8,011 → 7,515; `text-name` 564); headline linking alone 11,720 headlines in 1.2 s (was 2.0 s: the summary is no longer searched for names) |
+| 2026-09-28 | Entity data files (server-only; the client imports none) | parishes.geo.json 675 KB (157 KB gz), infrastructure.json 444 KB (85 KB gz), population.json 323 KB (89 KB gz); client first load unchanged at 84.4 KiB gz |
 
 ## Binary
 
@@ -73,6 +129,160 @@ Per-panel JSON, gzip (live, 2026-09-24): news 32.2 KB, connectivity 11.6, censor
 | 2026-09-24 | linux-x64 (web client embedded) | 78.8 MB | 94 ms compile; runs from any directory, serves every asset |
 | 2026-09-24 | linux-x64, trim branch | 87.6 MB | 117 ms compile; all 36 JS/CSS files (entry and on-demand chunks) and the stamped sw.js served from the embedded bundle (run from /tmp, each 200); `scripts/offline.ts` passes against it |
 | 2026-09-25 | Docker image (that executable on debian:stable-slim) | 71.3 MB compressed, 250 MB unpacked | 10 s build with cached layers; 83–86 MiB RSS serving the snapshot |
+
+## Crowd reports: proof of work and server cost (2026-09-28, branch crowd)
+
+`taskset -c 8 bun scripts/crowd-pow.ts` (one core of this desktop), and `BUN_JSC_useJIT=0` for the interpreter only:
+
+| What | Measured |
+|---|---|
+| The page's solver (`src/crowd/pow-solve.ts`), JIT | 1,218,534 hashes/s |
+| Same, baseline JIT only (`BUN_JSC_useDFGJIT=0`) | 135,682 hashes/s |
+| Same, interpreter only (`BUN_JSC_useJIT=0`) | 30,481 hashes/s |
+| Public, 18 bits, 200 real solves | median 0.141 s, p90 0.425 s, p99 0.920 s, mean 0.189 s |
+| Public under load, 20 bits (from the rate) | 0.86 s on average |
+| Local, 12 bits, 200 real solves | median 0.002 s, p99 0.013 s |
+| Interpreter only (from the rate): 18 / 20 / 12 bits | 8.6 s / 34.4 s / 0.13 s on average |
+| Native SHA-256, `node:crypto`, one call per attempt | 1,819,750 hashes/s |
+| Native SHA-256, `openssl speed -bytes 128 -evp sha256` | 939 MB/s ≈ 7.3 M hashes/s of 128-byte messages |
+
+- **Slow phone:** at the 4× CPU profile of the page measurements above, 18 bits is about 0.8 s on average and 1.7 s
+  at p90 (6×: 1.1 s and 2.6 s). These are the desktop numbers scaled, not a phone measurement. With the JIT off (iOS
+  Lockdown Mode) a phone would take tens of seconds: the page should start solving when the question opens, in a Web
+  Worker, and show progress.
+- **Attacker:** ≈ 35 ms of one core per report with native code (≈ 30 reports a second per core), much less on a GPU:
+  a small price per report, no wall against someone with many addresses. The rate limits, per-answer ceilings, the
+  minimum of connections and the join-only incident rule carry the defence (SECURITY.md, "Crowd reports").
+- **Server:** a submission with four answers, SQLite on disk, 2,000 in a row: p50 0.08 ms, p99 1.8 ms. Publishing
+  1,436 aggregates (every municipality active): 25 ms. The panel over them: 112 ms (cached until the next publish).
+
+## The report sheet and the room's pictures (2026-09-29, branch ui-signals)
+
+| What | Measured |
+|---|---|
+| Proof of work in headless Chromium, the built same-origin worker (`scripts/qa/crowd-pow.ts`, 100 solves each) | 12 bits: median 2 ms, p90 7; 18 bits: median 59 ms, mean 83, p90 175, max 477; 20 bits: median 313 ms, p90 888, max 1,944; 2.8 M hashes/s |
+| Same with Chromium's CPU throttle at 4× | the same times: the throttle does not reach workers, so a slow phone is estimated from the rate (a quarter of it: 18 bits ≈ 0.4 s mean) |
+| Report flow on the local copy (`scripts/qa/crowd-flow.ts`) | the work done before the first tap (30 ms at 12 bits); three requests: `/api/crowd`, one challenge, one report |
+| Report sheet chunk + worker + municipality index | sheet ≈ 9 KiB gz, worker 1.6, names index 8 (all on first open) |
+| TV wall pictures (desk only; phones load none) | ≈ 20–30 KB per visible card, lazy; about 40 cards re-fetched each 30-min round while the wall is open |
+| Camera stills | 480 px JPEGs, 25–60 KB; the map strip loads the 5 current ones; a camera page the 6 h film (≈ 18) lazily |
+
+## TV stills and public cameras (2026-09-29, branch visual)
+
+Measured on this desktop (cores 8–15, `nice 10`), from outside Venezuela, the project User-Agent, hosts paced.
+
+| What | Measured |
+|---|---|
+| TV stills round, first after a start (128 KB reads) | 38/68 stills, 5.7 MB read, 43 s wall |
+| TV stills rounds with learned read sizes (three in a row) | 37–38 stills, 4.0–4.4 MB read (median 74 KB, largest 0.5 MB per channel), 38–40 s wall |
+| TV stills CPU per round | ffmpeg decode + JPEG encode 1.5–1.6 s (one process at a time, ~30–50 ms per keyframe, 1080p the slowest); Bun 0.65 s |
+| TV still size | 480 × 270 JPEG q72: median 20 KB, largest 31 KB (a day ≈ 45 MB for 38 channels) |
+| Keyframe position in the newest segment (38 TS streams) | ends 6–160 KB in (segments 0.4–8 MB); 4 streams split the IDR over several 64 KB PES packets |
+| Pure-TS keyframe demux | < 1 ms per segment prefix |
+| Channel logos, first run (70) | 64 stored, 1.4 MB of PNG; later runs: logos.json 304, nothing downloaded |
+| YouTube live thumbnail | ~31 KB per live channel per check (sddefault_live) |
+| Public cameras round (5 stills) | 2.3 MB read (four 525–675 KB JPEGs at 1600 × 1200, one 55 KB), 0.67 s CPU (pure-JS JPEG decode ≈ 120 ms per 1600 × 1200 frame) |
+| Public cameras per day | ≈ 118 MB (Charallave west/east every 20 min, north/south hourly, Bonaire every 10 min) |
+| Blob store listing, 3,600 stills | cold 17 ms (reads every metadata file); in-memory after the first read: < 0.01 ms; 3,600 puts 2.6 s |
+| `cameras` panel over 15 days of stills (5,045 rows) | 58 ms the first time (point-in-polygon, JIT), 7 ms after |
+| `/api/v1/stills` view at a moment 3 days back | 6–7 ms |
+
+## Daily download per feed, and the data saver (2026-09-29, branch data-saver)
+
+What each feed downloads in a day at its default interval, measured from this desktop (outside Venezuela, project
+User-Agent, hosts paced, no keys, ffmpeg present) with `bun scripts/bandwidth.ts`: one run of every feed on by
+default through the scheduler's new byte meter (`RequestOptions.onWire`: response headers plus bodies as the
+connection carried them, compressed; TLS and TCP overhead not counted), × runs a day (24 h / interval), × the share
+of runs that downloaded a body at all in an archive's run history (the ui-signals copy, 63,354 runs; a run answered
+"not modified" records 0 bytes). Two corrections, each said in the row:
+
+- **Second run** (`--twice`): feeds whose first run in a process does extra work once (read sizes learned per
+  stream, Kalshi's daily discovery, logos not yet stored) count their second run × runs a day, plus the first run's
+  extra once a day.
+- **Steady state**: feeds whose single run is a catch-up (a loop, a window or a backlog fetched at once) take the
+  steady-state figure measured by their own branch, cited.
+
+The running instance on this machine could not be read for this: `/api/health` and `/api/meta` carry no byte counts,
+and before this branch `runs.bytes` held the size of the bodies an adapter *returned* (decoded, base64 for images),
+not what it downloaded: 19 KB a round for the TV stills that download 5 MB. From 0.2.0 every run records `wire`
+(what it downloaded), and the guide shows what the machine actually downloaded in the last 24 h next to the estimate.
+
+**Heavy = 20 MB a day or more** (`HEAVY_MB_PER_DAY`, src/core/bandwidth.ts). The threshold sits in a gap of the
+distribution: the lightest heavy feed downloads 31.3 MB a day, the heaviest light one 15.6. Bold rows are heavy.
+
+| Feed | KB a run | Runs a day | Runs that download | MB a day | Basis |
+|---|---:|---:|---:|---:|---|
+| **`tv-stills`** | 5008 | 48 |  | **236.0** | second run in a process (first 6283 KB; its extra counted once a day) |
+| **`goes-nsa`** | 45738 | 144 |  | **185.0** | steady state, goes-nsa/frame.ts: one 1800-px frame every 10 min (DECISIONS 2026-09-24); a first run fetches the whole loop |
+| **`youtube-live`** | 3935 | 48 |  | **184.5** | second run in a process (first 3917 KB; its extra counted once a day) |
+| **`public-cams`** | 2861 | 144 |  | **118.0** | steady state, PERF 2026-09-29 (visual): each camera on its own 10–60 min schedule; a first run fetches every camera at once |
+| **`goes-glm`** | 2709 | 96 |  | **100.0** | steady state, LOG 2026-09-28 (sources-data): ≈24 KB of range reads per 20-s file, 45 files every 15 min; a first run reads two windows |
+| **`iptv-ve-probe`** | 674 | 48 |  | **33.7** | second run in a process (first 2861 KB; its extra counted once a day) |
+| **`firms-fires`** | 1346 | 24 | 100 % | **31.5** | one run |
+| **`radio-browser-probe`** | 1325 | 24 |  | **31.3** | second run in a process (first 1546 KB; its extra counted once a day) |
+| `radio-streams` | 111 | 144 |  | 15.6 | second run in a process (first 111 KB; its extra counted once a day) |
+| `gdelt-ve` | 1047 | 96 |  | 12.0 | steady state, gdelt-ve/index.ts, measured over 24 h: 11.7 MB of zips a day (≈60 KB per 15-min file, two streams) plus two lastupdate files a run; a first run backfills 8 batches a stream |
+| `ioda-states` | 70 | 144 | 100 % | 9.9 | one run |
+| `firms-flares` | 6246 | 1 | 100 % | 6.1 | one run |
+| `rnv` | 44 | 144 | 98 % | 6.0 | one run |
+| `primicia` | 94 | 144 | 45 % | 5.9 | one run |
+| `infobae-venezuela` | 228 | 24 | 100 % | 5.3 | one run |
+| `la-prensa-de-monagas` | 51 | 144 | 66 % | 4.7 | one run |
+| `iptv-ve` | 2208 | 2 |  | 4.3 | one run |
+| `atlantic-council` | 176 | 24 | 100 % | 4.1 | one run |
+| `tv-logos` | 1 | 4 |  | 3.9 | second run in a process (first 4017 KB; its extra counted once a day) |
+| `el-heraldo-co` | 164 | 24 | 100 % | 3.8 | one run |
+| `abc-es` | 50 | 72 | 100 % | 3.5 | one run |
+| `el-comercio-pe-mundo` | 147 | 24 | 100 % | 3.5 | one run |
+| `ioda-asn` | 25 | 144 | 100 % | 3.5 | one run |
+| `polymarket` | 128 | 24 |  | 3.0 | one run |
+| `caracol-radio` | 127 | 24 | 100 % | 3.0 | one run |
+| `radio-mundial` | 39 | 72 | 100 % | 2.7 | one run |
+| `nhc-storms` | 29 | 96 | 100 % | 2.7 | one run |
+| `gn-ntn24` | 57 | 48 |  | 2.7 | one run |
+| `g1-mundo` | 159 | 24 | 70 % | 2.6 | one run |
+| `ofac-sdn` | 7621 | 12 |  | 2.5 | steady state, 12 runs × the publication history (≈7 KB) + 0.36 publications a day in 2026 (97 by 09-28) × the 5.7 MB SDN.CSV, 0.75 MB Wikidata query and delta; a first run fetches the snapshot |
+| `semafor` | 257 | 24 | 40 % | 2.4 | one run |
+| `occrp` | 102 | 24 | 100 % | 2.4 | one run |
+| `abc-color-py` | 97 | 24 | 100 % | 2.3 | one run |
+| `impacto-ve` | 31 | 72 | 100 % | 2.2 | one run |
+| `elpais-america` | 31 | 72 | 100 % | 2.1 | one run |
+| `euronews-es` | 35 | 144 | 43 % | 2.1 | one run |
+| `diario-libre-mundo` | 90 | 24 | 100 % | 2.1 | one run |
+| `eldiario-es-internacional` | 90 | 24 | 100 % | 2.1 | one run |
+| `kalshi` | 52 | 24 |  | 2.0 | second run in a process (first 911 KB; its extra counted once a day) |
+| `vtv` | 14 | 144 | 100 % | 2.0 | one run |
+| `tg-vtv` | 21 | 96 | 100 % | 2.0 | one run |
+| `la-verdad` | 70 | 144 | 20 % | 2.0 | one run |
+
+34 more feeds download 1–2 MB a day (44.7 together) and 248 under 1 MB each (73.3 together). Not measured (28,
+counted as "sin medición"): 18 behind a bot wall that answered 415, 202 or an HTML page, 3 that answered 404 or 444,
+4 that need a key (`cloudflare-radar`, `dahiti-guri`, `gfw-vessels`, `windy-webcams`), and the 3 opt-in feeds.
+
+| Configuration (defaults, no keys) | MB a day |
+|---|---:|
+| Everything on, ffmpeg present | ≈ 1,175 (1.1 GiB) |
+| Everything on, no ffmpeg (no TV stills downloaded) | ≈ 939 |
+| Data saver on (8 heavy feeds off) | ≈ 255 |
+| With the free FIRMS key, data saver off | ≈ 1,144 (fires query Venezuela only; not measured with the key, tens of KB an hour) |
+
+What the measurement found:
+
+- **Byte counts that ignored what the connection carried were low: 5×, 23× on a first run.** A probe that asks for the first
+  2 KB of a segment receives whole TCP/TLS records (tens of KB) before it can stop: `iptv-ve-probe`'s 123 KB a round
+  (SOURCES) is 674 KB measured (2.9 MB on a first run), 33.7 MB a day instead of ~6. The TV stills' "4–6 MB a round"
+  is 5.0 MB measured with learned sizes, 236 MB a day. YouTube's live check, 184 MB a day, matches its note (~150).
+- **The heavy set** (8): `tv-stills` 236, `goes-nsa` 185, `youtube-live` 184, `public-cams` 118, `goes-glm` 100,
+  `iptv-ve-probe` 34, `firms-fires` 32 (without its free key), `radio-browser-probe` 31. Without ffmpeg the TV stills
+  download nothing and are not heavy; with the FIRMS key, fires are not heavy. Both are decided again on every
+  scheduler tick.
+- 324 of 352 feeds measured; 1 run each (plus 9 feeds twice); 139 MB downloaded by the measurement itself (107 MB the full pass, 32 MB the nine feeds run twice).
+
+The first-run question and its sections: the question loads with the Personalizar chunk (it already had to be
+fetched to change a setting), so the first load grows by the one check that opens it: **92,163 → 92,203 B gz
+(90.0 KiB printed)**, after moving `safeHref` (used only by the alerts tab and the toasts) out of the first load.
+The data-saver chunk (the question, the section, the ffmpeg item and their CSS) is on demand. axe: 0 violations on
+128 checks (32 pages, the question itself and Personalizar › Mis fuentes included, × dark/light × desk/phone).
 
 ## How to add a row
 
@@ -185,3 +395,9 @@ Lighthouse 12.8.2 (mobile, simulated slow 4G), `next start` on :7765, headless C
 - The map's outlines are the app's own geometry at a quarter scale, Douglas-Peucker to half a unit, relative
   integer path commands: 55 KB of JSON rings become 7.7 KB of path data.
 - Phone 390 px: no horizontal overflow on any of the six pages, dark and light.
+
+
+### 1.0.0 (2026-09-29, release build, slow-phone profile, a live instance's data)
+
+First visit: FCP 600 ms, data on screen 5,413 ms, 203.9 KiB transferred; repeat visit: FCP 64 ms, data on screen
+221 ms, 0 KiB. First load 90.6 KiB gzip (on demand 491.3 KiB).

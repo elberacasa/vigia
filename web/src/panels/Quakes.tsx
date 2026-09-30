@@ -5,6 +5,8 @@ import { ago, int, num, stamp } from "../lib/format.ts";
 import { lang, t } from "../lib/i18n.ts";
 import { PANEL_META } from "../lib/panel-meta.ts";
 import { useFresh } from "../lib/seen.ts";
+import { stateName } from "../lib/states.ts";
+import { selectedState, selectState } from "../map/view.ts";
 import panelsCss from "../styles/panels.css?inline";
 import { Digits, NewPill, NewTag } from "../ui/Digits.tsx";
 import { Panel } from "../ui/Panel.tsx";
@@ -105,7 +107,12 @@ export function QuakesPanel() {
 	const view = panels.value.quakes as QuakesView | undefined;
 	const [showFar, setShowFar] = useState(false);
 	const l = lang.value;
-	const rows = (view?.items ?? []).filter((q) => showFar || q.zone !== "far").slice(0, 12);
+	// A place selected on the map (or in the inspector) narrows the list to quakes with their epicentre there; the
+	// window figures above stay national, and the chip says so.
+	const state = selectedState.value;
+	const rows = (view?.items ?? [])
+		.filter((q) => (state ? q.state === state : showFar || q.zone !== "far"))
+		.slice(0, 12);
 	const incomplete = view ? !view.windows.month.funvisisComplete : false;
 	// Rows new to this device get the "nuevo" mark (all quakes in the list, so hiding far ones changes nothing).
 	const quakeAt = new Map((view?.items ?? []).map((q) => [q.id, q.at]));
@@ -140,6 +147,27 @@ export function QuakesPanel() {
 						<WindowFigure label={t("30 días", "30 days")} w={view.windows.month} />
 					</div>
 					{incomplete ? <p class="note">* {view.coverage.funvisisNoteEs}</p> : null}
+					{state ? (
+						<div class="news-controls">
+							<button type="button" class="filter-chip is-on" onClick={() => selectState(null)}>
+								{stateName(state)} ✕
+							</button>
+							<span class="note">
+								{t(
+									"La lista muestra solo este estado; las cifras de arriba son de todo el país.",
+									"The list shows this state only; the figures above are for the whole country.",
+								)}
+							</span>
+						</div>
+					) : null}
+					{state && !rows.length ? (
+						<p class="empty">
+							{t(
+								`Ningún sismo listado con epicentro en ${stateName(state)} (la lista cubre 30 días).`,
+								`No listed quake with its epicentre in ${stateName(state)} (the list covers 30 days).`,
+							)}
+						</p>
+					) : null}
 					<ul class="quakes">
 						{rows.map((q) => (
 							<li

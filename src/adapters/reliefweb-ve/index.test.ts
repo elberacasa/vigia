@@ -1,8 +1,9 @@
 import { expect, test } from "bun:test";
 import { join } from "node:path";
 import { hasFixture, loadFixture } from "../../core/fixtures.ts";
-import type { RawResponse } from "../../core/types.ts";
-import { RW_DISASTERS, RW_UPDATES, reliefwebVe } from "./index.ts";
+import type { FetchContext, RawResponse } from "../../core/types.ts";
+import { MissingKeyError } from "../../core/types.ts";
+import { apiQuery, RW_API, RW_DISASTERS, RW_UPDATES, reliefwebVe } from "./index.ts";
 
 const recorded = join(import.meta.dir, "fixtures", "2026-09-25");
 
@@ -74,4 +75,90 @@ test("synthetic: organisations, GLIDE, and items with a foreign link, no date or
 
 test("a body that is not an RSS feed fails the run", () => {
 	expect(() => reliefwebVe.normalise([raw(RW_UPDATES, "<html><body>busy</body></html>")])).toThrow("channel");
+});
+
+// Since 2026-09-29: reliefweb.int answers 444 ("not available for scraping"), so Vigía reads the API with an
+// approved appname. A synthetic answer in the API's documented shape (apidoc.reliefweb.int/result-structure).
+const api = (kind: "reports" | "disasters", data: unknown[]): RawResponse => ({
+	url: apiQuery(kind),
+	status: 200,
+	contentType: "application/json",
+	body: JSON.stringify({ time: 5, href: "x", totalCount: data.length, count: data.length, data }),
+	fetchedAt: Date.UTC(2026, 8, 29, 12),
+});
+
+test("API: reports and disasters give the same values the RSS gave; bad rows skipped", () => {
+	const obs = reliefwebVe.normalise([
+		api("reports", [
+			{
+				id: 1,
+				fields: {
+					title: "Informe  de situación",
+					url: "https://reliefweb.int/node/1",
+					url_alias: "https://reliefweb.int/report/venezuela/informe-de-situacion",
+					source: [{ name: "Organización Uno" }, { name: "Organización Dos" }],
+					date: { created: "2026-09-28T14:00:00+00:00" },
+				},
+			},
+			{
+				id: 2,
+				fields: {
+					title: "Fuera",
+					url: "https://example.org/x",
+					date: { created: "2026-09-28T14:00:00+00:00" },
+				},
+			},
+			{ id: 3, fields: { title: "Sin fecha", url: "https://reliefweb.int/node/3" } },
+			{ id: 4, fields: { title: 7 } },
+		]),
+		api("disasters", [
+			{
+				id: 9,
+				fields: {
+					name: "Venezuela: Floods - Jun 2025",
+					url: "https://reliefweb.int/taxonomy/term/9",
+					url_alias: "https://reliefweb.int/disaster/fl-2025-000090-ven",
+					glide: "FL-2025-000090-VEN",
+					date: { event: "2025-06-07T00:00:00+00:00", created: "2025-06-09T10:00:00+00:00" },
+				},
+			},
+		]),
+	]);
+	expect(obs.map((o) => o.value.title)).toEqual(["Informe de situación", "Venezuela: Floods - Jun 2025"]);
+	expect(obs[0]?.value).toEqual({
+		kind: "report",
+		title: "Informe de situación",
+		url: "https://reliefweb.int/report/venezuela/informe-de-situacion",
+		orgs: ["Organización Uno", "Organización Dos"],
+		glide: null,
+	});
+	expect(obs[0]?.observedAt).toBe(Date.UTC(2026, 8, 28, 14));
+	expect(obs[1]?.value.glide).toBe("FL-2025-000090-VEN");
+	// A disaster is dated by the event, as the RSS did.
+	expect(obs[1]?.observedAt).toBe(Date.UTC(2025, 5, 7));
+	expect(() => reliefwebVe.normalise([{ ...api("reports", []), body: '{"error":{}}' }])).toThrow("data");
+	expect(() => reliefwebVe.normalise([{ ...api("reports", []), body: "<html>444</html>" }])).toThrow("JSON");
+});
+
+test("API: locked without an appname; the appname is sent but never stored in the recorded URL", async () => {
+	const asked: string[] = [];
+	const ctx = (key: string | null) =>
+		({
+			http: {
+				request: async (url: string) => {
+					asked.push(url);
+					return { ...api(url.includes("/reports") ? "reports" : "disasters", []), url };
+				},
+			},
+			key: () => key,
+			now: Date.now,
+			signal: new AbortController().signal,
+		}) as unknown as FetchContext;
+	await expect(reliefwebVe.fetch(ctx(null))).rejects.toBeInstanceOf(MissingKeyError);
+	expect(asked).toEqual([]);
+	const raws = await reliefwebVe.fetch(ctx("yo-vigia-x7k2"));
+	expect(asked.every((u) => u.startsWith(RW_API) && u.includes("appname=yo-vigia-x7k2"))).toBe(true);
+	expect(raws.map((r) => r.url)).toEqual([apiQuery("reports"), apiQuery("disasters")]);
+	expect(raws.some((r) => r.url.includes("appname"))).toBe(false);
+	expect(apiQuery("reports")).toContain("filter%5Bfield%5D=primary_country.iso3");
 });

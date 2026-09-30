@@ -223,3 +223,29 @@ test("a run cut short by stopping Vigía is not recorded as the source failing (
 	expect(s.runtime("slow")).toMatchObject({ running: false, consecutiveFailures: 0 });
 	expect(s.activeRuns).toBe(0);
 });
+
+test("every run records what it downloaded: headers and bodies as the connection carried them", async () => {
+	const store = new Store(":memory:");
+	// The shared client reports 300 bytes of headers and a 1,200-byte compressed body for each request.
+	const wired: HttpLike = {
+		request: async (_url, options) => {
+			options?.onWire?.(300);
+			options?.onWire?.(1_200);
+			return { url: "", status: 200, contentType: "", body: "7", fetchedAt: 0 };
+		},
+	};
+	const twice = adapter("twice", {
+		fetch: async (ctx) => [
+			await ctx.http.request("https://example.org/a"),
+			await ctx.http.request("https://example.org/b"),
+		],
+		normalise: () => [],
+	});
+	const s = new Scheduler([twice], { store, http: wired, key: () => undefined });
+	await s.runOnce("twice");
+	const [run] = store.recentRuns("twice", 1);
+	expect(run?.wire).toBe(3_000);
+	// `bytes` keeps its meaning: the size of the bodies the adapter returned.
+	expect(run?.bytes).toBe(2);
+	expect(store.downloadedSince(0).get("twice")).toMatchObject({ wire: 3_000, runs: 1 });
+});

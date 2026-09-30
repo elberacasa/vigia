@@ -6,8 +6,10 @@
  */
 import { TELEGRAM_CHANNELS } from "../telegram/channels.ts";
 import type { OutletSpec } from "./factory.ts";
+import { GOOGLE_NEWS_OUTLETS, WALLED_DIRECT, WALLED_NOTE } from "./google-news.ts";
 
 const MIN = 60_000;
+const DAY = 86_400_000;
 
 /**
  * The host's robots.txt excludes this feed for automated agents (YouTube's /feeds/videos.xml, and four outlets,
@@ -69,6 +71,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "independent",
 		homepage: "https://armando.info/",
 		intervalMs: 180 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "caraota-digital",
@@ -162,7 +167,10 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://espaciopublico.ong/",
 		intervalMs: 60 * MIN,
 		genre: "rights",
-		note: ROBOTS_NOTE,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts). Its robots.txt also
+		// excludes feed readers (the robots note it carried until then).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "foro-penal",
@@ -298,6 +306,8 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://televen.com/",
 		intervalMs: 20 * MIN,
 	},
+	// TVes posts in batches (10 posts within seconds on 2026-09-24): its last 100 posts span 81 days on 15 days, the
+	// longest gap 14 days (WordPress API, 2026-09-29). Hourly, and stale after 21 days.
 	{
 		id: "tves",
 		name: "TVes",
@@ -306,7 +316,8 @@ export const OUTLETS: readonly OutletSpec[] = [
 		region: "national",
 		stance: "state",
 		homepage: "https://tves.gob.ve/",
-		intervalMs: 10 * MIN,
+		intervalMs: 60 * MIN,
+		dataBudgetMs: 21 * DAY,
 	},
 	{
 		id: "vtv",
@@ -817,6 +828,39 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "independent",
 		homepage: "https://efectococuyo.com/",
 		intervalMs: 20 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
+	},
+	// Venezuelan fact-checkers (verified 2026-09-28). Cazadores de Fake News moved to cazadores.info (the old domain
+	// 301s through an eQualitie Deflect cookie); 10 items, 12 KB. Cotejo.info (Medianálisis) sends the full text of 20
+	// items (255 KB) and sits behind SiteGround: 200, then a 202 captcha, then TLS resets within minutes; since
+	// 2026-09-29 it is read through Google News in a personal Vigía (google-news.ts) and directly, every 2 h, on a
+	// public mirror. EsPaja (Transparencia Venezuela) answers 403 and Google News lists nothing from it: not read.
+	{
+		id: "cazadores-fake-news",
+		name: "Cazadores de Fake News",
+		url: "https://cazadores.info/feed/",
+		kind: "rss",
+		region: "national",
+		stance: "independent",
+		homepage: "https://cazadores.info/",
+		genre: "fact-check",
+		intervalMs: 60 * MIN,
+	},
+	{
+		id: "cotejo",
+		name: "Cotejo.info",
+		url: "https://cotejo.info/feed/",
+		kind: "rss",
+		region: "national",
+		stance: "ngo",
+		homepage: "https://cotejo.info/",
+		genre: "fact-check",
+		intervalMs: 120 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "el-politico",
@@ -939,7 +983,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "state",
 		homepage: "https://guarico.gob.ve/",
 		genre: "official",
-		intervalMs: 10 * MIN,
+		// Bursts of posts: its last 100 span 18 days on 11 days, the longest gap 3.9 days (WordPress API, 2026-09-29).
+		intervalMs: 30 * MIN,
+		dataBudgetMs: 6 * DAY,
 	},
 	{
 		id: "gob-lara",
@@ -995,11 +1041,14 @@ export const OUTLETS: readonly OutletSpec[] = [
 		lang: "en",
 		intervalMs: 60 * MIN,
 	},
+	// Radio Mundial's RSS and Atom feeds are frozen at 2026-09-19/20 (lastBuildDate, ETag unchanged) while the site
+	// publishes ~50 posts a day (its WordPress API: 100 posts in 2.1 days, the newest minutes old, 2026-09-29). Read
+	// through that API, which every page advertises in its Link header: title, link, excerpt and date of 20 posts.
 	{
 		id: "radio-mundial",
 		name: "Radio Mundial YVKE",
-		url: "https://radiomundial.com.ve/feed/",
-		kind: "rss",
+		url: "https://radiomundial.com.ve/wp-json/wp/v2/posts?per_page=20&_fields=date_gmt,link,title,excerpt",
+		kind: "wp-json",
 		region: "national",
 		stance: "state",
 		homepage: "https://radiomundial.com.ve/",
@@ -1059,6 +1108,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://cecodap.org/",
 		genre: "rights",
 		intervalMs: 180 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "cepaz",
@@ -1070,6 +1122,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://cepaz.org/",
 		genre: "rights",
 		intervalMs: 180 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "cnp",
@@ -1121,6 +1176,8 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "trade-body",
 		homepage: "https://www.fedecamaras.org.ve/",
 		intervalMs: 180 * MIN,
+		// Its last 10 posts span 90 days, the longest gap 34.3 days (2026-09-29).
+		dataBudgetMs: 52 * DAY,
 	},
 	{
 		id: "labpaz",
@@ -1165,6 +1222,8 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://utopix.cc/",
 		genre: "rights",
 		intervalMs: 180 * MIN,
+		// Its last 12 posts span 86 days, the longest gap 29.3 days (2026-09-29).
+		dataBudgetMs: 44 * DAY,
 	},
 	{
 		id: "venamcham",
@@ -1175,6 +1234,8 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "trade-body",
 		homepage: "https://venamcham.org/",
 		intervalMs: 180 * MIN,
+		// Its last 10 posts span 60 days, the longest gap 17.9 days (2026-09-29).
+		dataBudgetMs: 27 * DAY,
 	},
 	// Regional outlets, by state.
 	{
@@ -1186,6 +1247,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://www.diarioeltigrense.com/",
 		intervalMs: 10 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "diario-el-vistazo",
@@ -1216,6 +1280,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://notiapure.com.ve/",
 		intervalMs: 10 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "ciudad-maracay",
@@ -1256,6 +1323,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://infosurguayana.com.ve/",
 		intervalMs: 20 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "acn",
@@ -1276,6 +1346,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "independent",
 		homepage: "https://www.el-carabobeno.com/",
 		intervalMs: 10 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "noticias24-carabobo",
@@ -1346,6 +1419,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "state",
 		homepage: "https://www.ciudadbqto.com/",
 		intervalMs: 60 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "naguara",
@@ -1356,6 +1432,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://naguara.com/",
 		intervalMs: 180 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "comunicacion-continua",
@@ -1366,6 +1445,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "independent",
 		homepage: "https://comunicacioncontinua.com/",
 		intervalMs: 20 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "reporteros-de-merida",
@@ -1386,6 +1468,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://larevistadeltuy.com/",
 		intervalMs: 20 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "la-voz-del-tuy",
@@ -1406,6 +1491,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://www.tuyinforma.com/",
 		intervalMs: 60 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "la-prensa-de-monagas",
@@ -1506,6 +1594,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		stance: "commercial",
 		homepage: "https://digital58.com.ve/",
 		intervalMs: 60 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "noticia-al-minuto",
@@ -1548,6 +1639,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://alnavio.es/",
 		lang: "es",
 		intervalMs: 10 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "el-venezolano-hou",
@@ -1803,6 +1897,8 @@ export const OUTLETS: readonly OutletSpec[] = [
 		lang: "es",
 		country: "ES",
 		intervalMs: 180 * MIN,
+		// A topic page: its 14 items span 233 days, the median gap 7 days, the longest 63.9 (2026-09-29).
+		dataBudgetMs: 96 * DAY,
 	},
 	{
 		id: "el-tiempo-co-venezuela",
@@ -2056,6 +2152,9 @@ export const OUTLETS: readonly OutletSpec[] = [
 		genre: "fact-check",
 		onlyVenezuela: true,
 		intervalMs: 60 * MIN,
+		// Bot wall (2026-09-29): read through Google News in a personal Vigía (google-news.ts).
+		defaultIn: WALLED_DIRECT,
+		note: WALLED_NOTE,
 	},
 	{
 		id: "mercopress-es",
@@ -2496,15 +2595,19 @@ export const OUTLETS: readonly OutletSpec[] = [
 		onlyVenezuela: true,
 		intervalMs: 180 * MIN,
 	},
+	// The tag feed stopped at 2026-09-09 (a median gap of 0.44 days before) while the main feed carried stories about
+	// Venezuela 0.9 and 1.1 days old (2026-09-29): the site no longer tags them. The main feed (99 items in 2.9 days),
+	// filtered to Venezuela.
 	{
 		id: "brasil-de-fato-venezuela",
-		name: "Brasil de Fato (tag Venezuela)",
-		url: "https://www.brasildefato.com.br/tag/venezuela/feed/",
+		name: "Brasil de Fato",
+		url: "https://www.brasildefato.com.br/feed/",
 		kind: "rss",
 		region: "international",
 		stance: "independent",
 		homepage: "https://www.brasildefato.com.br/",
 		lang: "pt",
+		onlyVenezuela: true,
 		intervalMs: 180 * MIN,
 	},
 	{
@@ -2828,6 +2931,8 @@ export const OUTLETS: readonly OutletSpec[] = [
 		homepage: "https://www.analitica.com/",
 		publisher: "analitica",
 		intervalMs: 60 * MIN,
+		// Its 15 videos span 82 days, the median gap 5 days, the longest 12 (2026-09-29; then silent for 21 days).
+		dataBudgetMs: 18 * DAY,
 		note: ROBOTS_NOTE,
 	},
 	{
@@ -2861,6 +2966,7 @@ export const OUTLETS: readonly OutletSpec[] = [
 		region: "national",
 		stance: "commercial",
 		homepage: "https://www.elnacional.com/",
+		publisher: "gn-el-nacional",
 		intervalMs: 60 * MIN,
 		note: ROBOTS_NOTE,
 	},
@@ -2943,9 +3049,12 @@ export const OUTLETS: readonly OutletSpec[] = [
 		region: "national",
 		stance: "commercial",
 		homepage: "https://unionradio.net/",
+		publisher: "gn-union-radio",
 		intervalMs: 60 * MIN,
 		note: ROBOTS_NOTE,
 	},
 	// Public Telegram channels (src/adapters/telegram/channels.ts): each counts under its outlet when it has one.
 	...TELEGRAM_CHANNELS,
+	// Outlets read through Google News: on in a personal Vigía, off on a public mirror (google-news.ts).
+	...GOOGLE_NEWS_OUTLETS,
 ];

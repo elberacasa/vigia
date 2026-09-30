@@ -60,10 +60,18 @@ button {
 .source__age,
 .badge,
 .topbar__clock time,
-.loop__time,
-.ahora__when .data {
+.loop__time {
 	font-family: var(--font-data);
 	font-variant-numeric: tabular-nums slashed-zero;
+}
+/* Stroke icons drawn in the text colour (paths inherit these from the svg). */
+.ico {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	flex: none;
 }
 .caps {
 	text-transform: uppercase;
@@ -162,7 +170,7 @@ button {
 	gap: var(--s-2);
 	padding: 4px 6px 4px var(--s-3);
 	border-bottom: 1px solid var(--line);
-	min-height: 52px;
+	min-height: 50px;
 }
 .panel__title {
 	margin: 0;
@@ -382,6 +390,20 @@ button {
 .panel--collapsed .panel__tools > :not(.badge--age) {
 	pointer-events: auto;
 }
+/* The row's name shares its line with the age badge and ⋯ (absolutely placed): the name gives way with an ellipsis,
+   the badge never does (its age is the point), so they never overlap ("Salud, migración y ayuda" ran under
+   "Parcial · hace 15 d"). */
+.panel--collapsed .panel__eyebrow {
+	max-width: calc(100% - 236px);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+/* Without an age badge (a view fetched on demand) the name has the room the badge would take. */
+.panel--collapsed:not(:has(.badge--age)) .panel__eyebrow {
+	max-width: calc(100% - 72px);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 .panel--collapsed .panel__question {
 	font-size: var(--fs-sm);
 	font-weight: 550;
@@ -389,18 +411,26 @@ button {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+/* A collapsed row whose summary is not normal: a 2 px rule in the state's colour, beside its coloured words. */
 .panel--collapsed.panel--tone-warn {
-	border-color: color-mix(in srgb, var(--warn) 35%, var(--line));
-	background: linear-gradient(90deg, var(--warn-soft), transparent 75%), var(--surface-1);
+	box-shadow: inset 2px 0 0 var(--warn);
 }
 .panel--collapsed.panel--tone-alert {
-	border-color: color-mix(in srgb, var(--alert) 40%, var(--line));
-	background: linear-gradient(90deg, var(--alert-soft), transparent 75%), var(--surface-1);
+	box-shadow: inset 2px 0 0 var(--alert);
 }
 .panel__figures {
 	display: flex;
-	gap: var(--s-5);
+	flex-wrap: wrap;
+	column-gap: var(--s-5);
+	row-gap: var(--s-1);
+	min-width: 0;
 	margin-top: 2px;
+}
+/* A summary row of three big figures (Dólar: BCV, Yadio, brecha) ran 13 px past a 320 px phone: smaller there. */
+@media (max-width: 360px) {
+	.panel__figures .panel__figure-value {
+		font-size: var(--fs-lg);
+	}
 }
 .panel__figure {
 	display: grid;
@@ -494,8 +524,8 @@ button {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	height: 22px;
-	padding: 0 9px;
+	height: 20px;
+	padding: 0 7px;
 	border-radius: var(--r-pill);
 	font-size: var(--fs-2xs);
 	font-weight: 600;
@@ -587,7 +617,6 @@ button {
 @keyframes figure-flash {
 	0% {
 		color: var(--signal-2);
-		text-shadow: 0 0 18px var(--signal-soft);
 	}
 	100% {
 		color: inherit;
@@ -646,22 +675,11 @@ button {
 }
 
 /* ---------- Skeletons (loading) ---------- */
+/* Loading placeholders are flat and still: nothing moves unless data moves. */
 .skeleton {
-	background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface-3) 50%, var(--surface-2) 100%);
-	background-size: 200% 100%;
-	animation: skeleton 1.4s linear infinite;
+	background: var(--surface-3);
 	border-radius: var(--r-sm);
 	color: transparent;
-}
-@keyframes skeleton {
-	to {
-		background-position: -200% 0;
-	}
-}
-@media (prefers-reduced-motion: reduce) {
-	.skeleton {
-		animation: none;
-	}
 }
 
 /* ---------- Notes ---------- */

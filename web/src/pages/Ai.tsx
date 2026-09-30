@@ -156,9 +156,11 @@ export function AiPage() {
 						class="table-wrap"
 						// biome-ignore lint/a11y/noNoninteractiveTabindex: a scrollable region must be reachable by keyboard (WCAG 2.1.1).
 						tabIndex={0}
-						aria-labelledby="ai-eval-title"
+						aria-labelledby="ai-classify-title"
 					>
-						<h2 class="guide__step-title">{t("Clasificar noticias", "Classify news")}</h2>
+						<h2 class="guide__step-title" id="ai-classify-title">
+							{t("Clasificar noticias", "Classify news")}
+						</h2>
 						<p class="note">
 							{t(
 								"Tema, tipo de hecho, estado, gravedad y si reporta un apagón. Sirve para detectar reportes de apagón por estado y hechos graves.",

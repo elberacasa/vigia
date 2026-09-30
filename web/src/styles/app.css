@@ -38,6 +38,39 @@
 .topbar__late {
 	color: var(--warn);
 }
+/*
+ * Narrow headers (whole-release review, M14/M15, measured): at 360 px the bar was 373 px wide (13 px of sideways
+ * scroll, Preferencias cut off); at 768 px the status words wrapped and the bar grew to 121 px. Below the desk
+ * (1000 px) the status is its dot, a 24 px target whose words stay for screen readers and in its title; the gaps
+ * tighten on phones, and under 350 px the clock gives way (the phone shows the time).
+ */
+@media (max-width: 999px) {
+	.topbar__status {
+		min-width: 24px;
+		min-height: 24px;
+		justify-content: center;
+	}
+	.topbar__status > span:not(.dot) {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+}
+@media (max-width: 400px) {
+	.topbar {
+		gap: var(--s-2);
+		padding-left: var(--s-3);
+		padding-right: var(--s-3);
+	}
+}
+@media (max-width: 350px) {
+	.topbar__clock {
+		display: none;
+	}
+}
 .chip {
 	height: 28px;
 	padding: 0 10px;
@@ -89,7 +122,6 @@
 }
 .sheet::backdrop {
 	background: rgb(0 0 0 / 0.55);
-	backdrop-filter: blur(2px);
 }
 .sheet__inner {
 	padding: var(--s-5);
@@ -100,7 +132,7 @@
 	gap: var(--s-4);
 }
 .sheet__kicker {
-	color: var(--signal);
+	color: var(--text-3);
 	margin: 0;
 }
 .sheet__title {
@@ -114,9 +146,9 @@
 	font-size: var(--fs-sm);
 }
 .sheet__close {
-	width: 36px;
-	height: 36px;
-	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--r-md);
 	border: 1px solid var(--line);
 	flex: none;
 }
@@ -168,6 +200,7 @@
 }
 .topbar__nav a {
 	color: var(--text-3);
+	white-space: nowrap;
 	padding: 4px 0;
 	border-bottom: 2px solid transparent;
 }
@@ -178,7 +211,8 @@
 .page {
 	max-width: 1100px;
 	margin: 0 auto;
-	padding: var(--s-8) var(--s-4) var(--s-12);
+	/* On a phone the tab bar sits over the bottom: the page ends above it. */
+	padding: var(--s-8) var(--s-4) calc(var(--s-12) + var(--tabbar-h));
 }
 @media (max-width: 760px) {
 	.topbar__nav {
@@ -421,105 +455,171 @@
 	opacity: 0.55;
 }
 
-/* ---------- Ahora ---------- */
-.ahora {
-	display: flex;
-	gap: var(--s-4);
-	align-items: baseline;
-	padding: var(--s-3) var(--s-4);
-	margin-bottom: var(--s-3);
-	border: 1px solid color-mix(in srgb, var(--signal) 30%, var(--line));
-	border-radius: var(--r-lg);
-	background: linear-gradient(90deg, var(--signal-soft), transparent 60%), var(--surface-1);
+/* ---------- Small controls shared by the desk shell and the phone (icon buttons, quiet buttons, live dot) ---------- */
+.icon-btn {
+	display: inline-grid;
+	place-items: center;
+	min-width: 28px;
+	height: 28px;
+	padding: 0 6px;
+	border-radius: var(--r-md);
+	color: var(--text-2);
+	font-size: var(--fs-xs);
+	font-weight: 650;
+	letter-spacing: 0.04em;
 }
-.ahora__when {
-	display: flex;
-	flex-direction: column;
+.icon-btn:hover {
+	background: var(--surface-3);
+	color: var(--text);
+}
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 26px;
+	padding: 0 10px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text);
+	white-space: nowrap;
+}
+.btn:hover {
+	border-color: var(--accent);
+	color: var(--accent);
+}
+.btn--quiet {
+	border-color: var(--line);
+	color: var(--text-2);
+	background: var(--surface-1);
+}
+.live-dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--text-3);
 	flex: none;
+}
+.live-dot.is-live,
+.status__conn--live .live-dot {
+	background: var(--signal);
+	box-shadow: 0 0 0 3px var(--signal-soft);
+}
+
+/* ---------- Prioridad: the rule-built priority list (panels/Ahora.tsx) ---------- */
+.prio {
+	border: 1px solid var(--line);
+	border-radius: var(--r-panel);
+	background: var(--surface-1);
+	min-width: 0;
+}
+.prio__head {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s-2);
+	padding: 10px var(--s-3) 8px;
+	border-bottom: 1px solid var(--line);
+}
+.prio__title {
+	margin: 0;
 	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+}
+.prio__time {
+	font-size: var(--fs-xs);
 	color: var(--text-3);
 }
-.ahora__label {
+.prio__count {
+	margin-left: auto;
 	font-size: var(--fs-xs);
-	font-weight: 800;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-	color: var(--signal);
+	color: var(--text-3);
 }
-.ahora__text {
+.prio__list {
+	list-style: none;
 	margin: 0;
-	font-size: clamp(1rem, 1.5vw, 1.35rem);
-	font-weight: 650;
-	line-height: 1.35;
-	letter-spacing: -0.01em;
-	text-wrap: balance;
+	padding: 4px 0;
 }
-.ahora__clause:hover {
+.prio__link {
+	display: grid;
+	grid-template-columns: 5.8em minmax(0, 1fr);
+	align-items: baseline;
+	column-gap: var(--s-2);
+	padding: 6px var(--s-3);
+	font-size: var(--fs-sm);
+	line-height: 1.4;
+}
+.prio__text {
+	min-width: 0;
+}
+.prio__main {
+	color: var(--text);
+	font-weight: 500;
+}
+.prio__row--alert .prio__main {
+	font-weight: 600;
+}
+.prio__link:hover {
+	background: var(--surface-2);
+}
+.prio__link:hover .prio__main {
 	text-decoration: underline;
-	text-underline-offset: 3px;
+	text-underline-offset: 2px;
 }
-.ahora__clause--alert {
-	color: var(--alert);
+.prio__meta,
+.prio__stale {
+	margin-left: 6px;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
 }
-.ahora__clause--warn {
+.prio__stale {
 	color: var(--warn);
 }
-.ahora__clause--stale {
-	opacity: 0.72;
+.prio__row.is-stale .prio__main {
+	color: var(--text-2);
 }
-.ahora__stale {
-	font-size: 0.7em;
-	font-weight: 500;
-	color: var(--text-3);
-	letter-spacing: 0;
-}
-/* Replaying the map's history: the note shares the row with the sentence instead of wrapping onto a new one, which
-   pushed the whole wall (map and columns) 102 px down at 1920 px every time the slider left "now". */
-.ahora__replay {
-	order: 3;
+.prio__note {
 	margin: 0;
-	font-size: 13px;
+	padding: 6px var(--s-3);
+	font-size: var(--fs-xs);
 	line-height: 1.45;
 	color: var(--warn);
+	border-bottom: 1px solid var(--line);
 }
-/* From 1000 px the note's column is reserved even while live (an empty placeholder of the same size), so entering or
-   leaving a replay never rewraps the sentence nor changes the row's height: it moved the map and both columns
-   16 px at 1920 px with a one-line sentence. Top-aligned, so no baseline offset differs between the two states. */
-@media (min-width: 1000px) {
-	.ahora {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr) clamp(15rem, 22vw, 26rem);
-		column-gap: var(--s-4);
-	}
-	.ahora__when {
-		grid-column: 1;
-		grid-row: 1;
-	}
-	.ahora__text {
-		grid-column: 2;
-		grid-row: 1;
-	}
-	.ahora__replay,
-	.ahora::after {
-		grid-column: 3;
-		grid-row: 1;
-		align-self: start;
-		min-height: calc(3 * 1.45 * 13px);
-	}
-	.ahora:not(:has(.ahora__replay))::after {
-		content: "";
-	}
-}
-/* Wide enough for the note in two lines: reserve two, not three. */
-@media (min-width: 1300px) {
-	.ahora__replay,
-	.ahora::after {
-		min-height: calc(2 * 1.45 * 13px);
-	}
-}
-.ahora__sep {
+.prio__empty {
+	margin: 0;
+	padding: var(--s-3);
+	font-size: var(--fs-sm);
 	color: var(--text-3);
-	font-weight: 400;
+}
+/* Severity: a word and a shape, coloured by state (never colour alone). */
+.sev {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.sev svg {
+	flex: none;
+	fill: currentColor;
+}
+.sev--alert {
+	color: var(--alert);
+}
+.sev--warn {
+	color: var(--warn);
+}
+.sev--normal svg {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.4;
 }
 @media (max-width: 999px) {
 	.pulse {
@@ -527,15 +627,6 @@
 		grid-template-columns: 1fr 1fr;
 		grid-auto-columns: unset;
 		overflow: visible;
-	}
-	.ahora {
-		flex-direction: column;
-		gap: var(--s-1);
-	}
-	/* Stacked, the replay note is one more row (with a 100% basis in a wrapping column it sat in a second column
-	   off the right edge of the phone: 78 px of horizontal overflow). */
-	.ahora__replay {
-		flex-basis: auto;
 	}
 }
 .tile--nodata .tile__value {
@@ -545,4 +636,23 @@
 .segmented button:disabled {
 	opacity: 0.4;
 	cursor: not-allowed;
+}
+
+/* The phone header's three tools share one shape: a 36 px square with a hairline. */
+.topbar .palette-btn,
+.topbar .custom-open,
+.topbar .prefs > summary {
+	width: 36px;
+	min-width: 36px;
+	height: 36px;
+	padding: 0;
+	display: grid;
+	place-items: center;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	background: none;
+	color: var(--text-2);
+}
+.topbar .custom-open__label {
+	display: none;
 }

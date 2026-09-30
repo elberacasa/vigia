@@ -585,18 +585,26 @@ export function pruneInBackground(
  * A row of an unsealed day is replaced with the same times. A row of a sealed day is deleted with its hash kept in
  * `chain_pruned`, exactly as retention does, so the day still verifies wherever its row hashes were kept, and the
  * rewritten value is stored as a new row received at `now` (what was sealed stays provable; what is kept is safe).
- * Returns how many rows were rewritten.
+ * `rewrite` may also return `DROP`: the row is deleted the same way and nothing is stored in its place (a court
+ * notice naming private persons). `where` narrows the rows read with a fixed SQL condition on `value` (a cheap
+ * prefilter, so a purge that runs at every start does not read every headline). Returns how many rows changed.
  */
+export const DROP: unique symbol = Symbol("drop");
+
 export function redactRows(
 	store: Store,
-	source: string,
-	rewrite: (value: Json) => Json | null,
+	source: string | readonly string[],
+	rewrite: (value: Json) => Json | null | typeof DROP,
 	now: number,
+	where?: string,
 ): number {
 	ensureTable(store);
+	const sources = typeof source === "string" ? [source] : source;
 	const rows = store.db
-		.query<RawRow & { id: number }, [string]>(`SELECT id, ${ROW_COLUMNS} FROM obs WHERE source = ?`)
-		.all(source);
+		.query<RawRow & { id: number }, [string]>(
+			`SELECT id, ${ROW_COLUMNS} FROM obs WHERE source IN (SELECT value FROM json_each(?))${where ? ` AND (${where})` : ""}`,
+		)
+		.all(JSON.stringify(sources));
 	const tomb = store.db.query("INSERT OR IGNORE INTO chain_pruned (day, hash, pruned_at) VALUES (?, ?, ?)");
 	const del = store.db.query("DELETE FROM obs WHERE id = ?");
 	const formats = new Map<string, string | null>();
@@ -604,12 +612,16 @@ export function redactRows(
 	store.db.transaction(() => {
 		for (const r of rows) {
 			const next = rewrite(JSON.parse(r.value) as Json);
-			if (next === null || canonicalJson(next) === r.value) continue;
+			if (next === null || (next !== DROP && canonicalJson(next) === r.value)) continue;
 			const day = utcDay(r.fetched_at);
 			if (!formats.has(day)) formats.set(day, chainEntry(store, day)?.format ?? null);
 			const format = formats.get(day) ?? null;
 			if (format !== null) tomb.run(day, bytes(rawHash(r, format)), now);
 			del.run(r.id);
+			if (next === DROP) {
+				rewritten++;
+				continue;
+			}
 			const o: Observation = {
 				source: r.source,
 				series: r.series,

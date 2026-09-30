@@ -4,7 +4,6 @@ import { t } from "../lib/i18n.ts";
 import { cleanView, helpOpen, installKeys, paletteOpen, setCleanView } from "../lib/keys.ts";
 import { shading, showQuakes } from "../panels/MapPanel.tsx";
 import { Announcer } from "./Digits.tsx";
-import { loadDesk } from "./StatusBar.tsx";
 
 /**
  * Command palette (/ or Ctrl/⌘K; the search button on phones) and keyboard shortcuts (?). This shell is in the
@@ -33,13 +32,13 @@ function LazySearch() {
 	return Search ? <Search /> : null;
 }
 
-/** The shortcuts sheet lives in the desktop chunk; on a phone it loads the first time it is asked for. */
+/** The shortcuts sheet is its own chunk, loaded the first time it is asked for. */
 function LazyHelp() {
 	const [Help, setHelp] = useState<FunctionComponent | null>(null);
 	const open = helpOpen.value;
 	useEffect(() => {
 		if (!open || Help) return;
-		loadDesk()
+		import("./KeysHelp.tsx")
 			.then((m) => setHelp(() => m.HelpDialog))
 			.catch(() => {
 				helpOpen.value = false;

@@ -286,3 +286,44 @@ export function internetWord(
 		tone: "muted",
 	};
 }
+
+/** A feed whose data budget is longer than this publishes daily or slower: within budget it is "al día", not live. */
+export const LIVE_BUDGET_MS = 24 * 3_600_000;
+
+/**
+ * A feed's state in words for a row that also prints its age (the palette's source rows). The state is the server's;
+ * only the word for "within budget" depends on the feed's cadence: "En vivo" for a feed whose data budget is a day
+ * or less (or an event feed), "Al día" for one that publishes daily, weekly or monthly, so a monthly index read 59
+ * days ago never shows as "En vivo · hace 59 d".
+ */
+export function feedStateWord(
+	state: FeedState,
+	meta: Pick<MetaLite, "freshness"> | undefined,
+	lang: Lang,
+): string {
+	const es = lang === "es";
+	switch (state) {
+		case "ok": {
+			const budget = meta?.freshness.dataMs ?? null;
+			return budget !== null && budget > LIVE_BUDGET_MS
+				? es
+					? "Al día"
+					: "Up to date"
+				: es
+					? "En vivo"
+					: "Live";
+		}
+		case "degraded":
+			return es ? "Reintentando" : "Retrying";
+		case "stale":
+			return es ? "Con retraso" : "Delayed";
+		case "failing":
+			return es ? "Sin conexión con la fuente" : "Source unreachable";
+		case "locked":
+			return es ? "Necesita clave" : "Needs a key";
+		case "off":
+			return es ? "Apagada" : "Off";
+		case "pending":
+			return es ? "Cargando" : "Loading";
+	}
+}

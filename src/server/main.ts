@@ -9,12 +9,17 @@ import { openKeyStore } from "../config/keys.ts";
 import { resolvePaths } from "../config/paths.ts";
 import { loadSessionToken } from "../config/session.ts";
 import { openSettings } from "../config/settings.ts";
+import { isHeavy, type Machine, saverState } from "../core/bandwidth.ts";
 import { BlobStore } from "../core/blobs.ts";
 import { HttpClient } from "../core/http.ts";
 import { Scheduler, type SchedulerEvent } from "../core/scheduler.ts";
 import { Store } from "../core/store.ts";
-import type { Json } from "../core/types.ts";
+import type { Adapter, Json } from "../core/types.ts";
+import { CROWD_SOURCE } from "../crowd/rules.ts";
+import { CrowdService } from "../crowd/service.ts";
 import { pruneInBackground, sealInBackground } from "../intel/chain.ts";
+import { findDecoder } from "../media/decoder.ts";
+import { purgeStoredNews } from "../news/purge.ts";
 import { acquireInstanceLock } from "../ops/instance-lock.ts";
 import { createLookup } from "../panels/netwatch-lookup.ts";
 import { KEY_SPECS } from "../sources/keys.ts";
@@ -22,7 +27,7 @@ import { SafeHttp } from "../userfeeds/net.ts";
 import { userNewsPanel } from "../userfeeds/panel.ts";
 import { UserFeeds } from "../userfeeds/service.ts";
 import { createApp } from "./app.ts";
-import { clientAddress, type DeployConfig, deployDisables } from "./config.ts";
+import { clientAddress, type DeployConfig, deployDisables, trusted } from "./config.ts";
 import { EMBEDDED } from "./embedded.gen.ts";
 import { PANELS } from "./panel-registry.ts";
 import { PanelCache } from "./panels.ts";
@@ -39,7 +44,7 @@ export interface ServeOptions {
 	readonly noFetch?: boolean;
 	/** Deployment settings validated at start (src/server/config.ts); absent: local mode defaults. */
 	readonly deploy?: Pick<DeployConfig, "mode" | "cors" | "metrics" | "trustProxy"> &
-		Partial<Pick<DeployConfig, "bcvApi">>;
+		Partial<Pick<DeployConfig, "bcvApi" | "crowd" | "dataSaver">>;
 }
 
 export async function serve(options: ServeOptions) {
@@ -56,6 +61,10 @@ export async function serve(options: ServeOptions) {
 	const store = new Store(join(paths.data, "vigia.sqlite"));
 	// Gaceta titles stored by older versions under the old redaction (code review 4, H1).
 	purgeStoredGaceta(store, Date.now());
+	// Court notices and identity numbers in news items stored by older versions (whole-release review, B1).
+	const purgedNews = purgeStoredNews(store, Date.now());
+	if (purgedNews > 0)
+		console.log(`[privacy] ${purgedNews} noticias antiguas limpiadas (edictos o números de cédula)`);
 	const keys = openKeyStore(paths.config);
 	const settings = openSettings(paths.config);
 	const sessionToken = loadSessionToken(paths.config);
@@ -94,11 +103,19 @@ export async function serve(options: ServeOptions) {
 		publish: (alert) => app.notify({ type: "alert", alert: alert as unknown as Json }),
 		log: options.quiet ? () => {} : (line) => console.log(`[vigia] ${line}`),
 	});
+	// "Conexión limitada" (core/bandwidth.ts): the flag wins over the setting; heavy feeds off; the user's switch wins.
+	const saver = () => saverState(options.deploy?.dataSaver, settings.data.dataSaver);
+	// Keys and ffmpeg change what a feed downloads (FIRMS with its key; TV stills only with ffmpeg); findDecoder
+	// caches its lookup for an hour, so this costs nothing per tick.
+	const machine = (): Machine => ({ hasKey: (id) => keys.has(id), ffmpeg: findDecoder() !== null });
+	const enabledWith = (adapter: Adapter, saverOn: boolean) =>
+		!deployDisables(adapter.id, options.deploy) &&
+		settings.feedEnabled(adapter, options.deploy?.mode ?? "local", saverOn && isHeavy(adapter.id, machine()));
 	const scheduler = new Scheduler([...ADAPTERS, ...(personal ? userFeeds.adapters() : [])], {
 		store,
 		http,
 		key: (id) => keys.get(id),
-		enabled: (adapter) => !deployDisables(adapter.id, options.deploy) && settings.feedEnabled(adapter),
+		enabled: (adapter) => enabledWith(adapter, saver().on),
 		blobs,
 		onEvent: (event) => {
 			publish?.(event);
@@ -112,6 +129,16 @@ export async function serve(options: ServeOptions) {
 		log: options.quiet ? () => {} : (line) => console.log(`[feed] ${line}`),
 	});
 
+	// Crowd reports: counts per municipality and 15-minute bucket, published as "vigia-crowd" observations.
+	const crowd = new CrowdService({
+		store,
+		mode: options.deploy?.mode ?? "local",
+		enabled: options.deploy?.crowd ?? true,
+		lan: !["127.0.0.1", "localhost", "::1"].includes(options.host),
+		trustedProxy: (ip) => trusted(ip, options.deploy?.trustProxy ?? []),
+		onInserted: (inserted) =>
+			app.publish({ type: "run", source: CROWD_SOURCE, ok: true, inserted, series: [], at: Date.now() }),
+	});
 	const app = createApp({
 		store,
 		scheduler,
@@ -119,6 +146,13 @@ export async function serve(options: ServeOptions) {
 		keys,
 		keySpecs: KEY_SPECS,
 		setFeedEnabled: (id, on) => settings.setFeed(id, on),
+		bandwidth: {
+			state: saver,
+			set: (on) => settings.setDataSaver(on),
+			wouldRun: (adapter, on) => !scheduler.isLocked(adapter) && enabledWith(adapter, on),
+			machine,
+			userSwitch: (id) => settings.data.feeds[id],
+		},
 		writeBrief: () => ai.writeTodaysBrief(),
 		lookupDomain: createLookup({ store, http, live: !options.noFetch }),
 		setAi: (next) => {
@@ -135,7 +169,9 @@ export async function serve(options: ServeOptions) {
 		...(options.deploy ? { deploy: options.deploy } : {}),
 		staticFile: staticServer(join(import.meta.dir, "..", "..", "web", "dist"), EMBEDDED),
 		...(personal ? { userFeeds, alerts } : {}),
+		crowd,
 	});
+	crowd.start();
 	if (personal) {
 		userFeeds.attach(scheduler);
 		alerts.start();
@@ -192,6 +228,9 @@ export async function serve(options: ServeOptions) {
 	// current (App.publish).
 	const warmTimer = setTimeout(() => void app.warmHistory(), 15_000);
 	warmTimer.unref?.();
+	// Link the archive to entities (the first start after an upgrade links it all, in slices: docs/PERF.md).
+	const linksTimer = setTimeout(() => void app.syncLinks(), 20_000);
+	linksTimer.unref?.();
 	// Computing incidents archives them: do it every 5 min so they are recorded even with nobody looking.
 	const incidentsTimer = setInterval(() => panels.get("incidents"), 5 * 60_000);
 	incidentsTimer.unref?.();
@@ -215,10 +254,11 @@ export async function serve(options: ServeOptions) {
 			store.pruneRuns(now - 30 * 86_400_000);
 			// Never below 35 days: the panels read 30-day windows (quakes, blocks, night lights).
 			const days = settings.data.retentionDays;
-			if (days > 0)
-				await pruneInBackground(store, now - Math.max(MIN_RETENTION_DAYS, days) * 86_400_000, now, {
-					signal: closing.signal,
-				});
+			if (days > 0) {
+				const before = now - Math.max(MIN_RETENTION_DAYS, days) * 86_400_000;
+				await pruneInBackground(store, before, now, { signal: closing.signal });
+				await app.pruneLinks();
+			}
 		} catch (error) {
 			if (!closing.signal.aborted)
 				console.error("[vigia] limpieza:", error instanceof Error ? error.message : error);
@@ -237,9 +277,11 @@ export async function serve(options: ServeOptions) {
 		const deadline = Date.now() + graceMs;
 		closing.abort();
 		clearTimeout(warmTimer);
+		clearTimeout(linksTimer);
 		clearInterval(housekeepingTimer);
 		clearInterval(incidentsTimer);
 		clearInterval(sealTimer);
+		crowd.stop();
 		alerts.stop();
 		scheduler.stop();
 		app.closeStreams();
@@ -251,6 +293,8 @@ export async function serve(options: ServeOptions) {
 		await scheduler.drain(deadline);
 		void server.stop(true);
 		try {
+			// Crowd counts still in memory (the open bucket) are written, in key order, before the store closes.
+			crowd.counts.flush(Number.POSITIVE_INFINITY);
 			// Fold the WAL into the database file, so a stopped Vigía leaves one self-contained file behind.
 			store.db.run("PRAGMA wal_checkpoint(TRUNCATE)");
 		} catch (error) {

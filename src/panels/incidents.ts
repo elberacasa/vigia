@@ -1,5 +1,7 @@
 import { OUTLETS } from "../adapters/rss/outlets.ts";
+import { CAMERAS_SOURCE } from "../cameras/evidence.ts";
 import type { Store } from "../core/store.ts";
+import { CROWD_SOURCE } from "../crowd/rules.ts";
 import { states } from "../geo/index.ts";
 import { archive, archivedIncidents, INCIDENTS_SOURCE } from "../intel/archive.ts";
 import {
@@ -8,6 +10,7 @@ import {
 	type Incident,
 	isActive,
 	type LateCorroboration,
+	openingFamilies,
 	RULES,
 	rulesText,
 } from "../intel/incidents.ts";
@@ -21,10 +24,13 @@ import {
 	tagHeadlines,
 } from "../intel/signals.ts";
 import type { Panel, PanelReader } from "../server/panels.ts";
+import { type CamerasView, camerasView } from "./cameras.ts";
 import { connectivityView } from "./connectivity.ts";
+import { type CrowdView, crowdView } from "./crowd.ts";
 import { hazardsView } from "./hazards.ts";
 import { nightlightsView } from "./nightlights.ts";
 import { quakesView } from "./quakes.ts";
+import { radarInputs, radarRows } from "./radar.ts";
 
 /**
  * The incidents panel: signals from the other panels' tested computations, fused by the correlator, archived,
@@ -88,6 +94,8 @@ export function signalInputs(store: Store, now: number, read?: PanelReader): Sig
 	const night = view("nightlights", () => nightlightsView(store, now));
 	const quakes = view("quakes", () => quakesView(store, now));
 	const hazards = view("hazards", () => hazardsView(store, now));
+	const crowd = view<CrowdView>("crowd", () => crowdView(store, now));
+	const cameras = view<CamerasView>("cameras", () => camerasView(store, now));
 	const isoByName = new Map(
 		[...new Set(hazards.gdacs.events.map((e) => e.stateName))]
 			.filter((n): n is string => n !== null)
@@ -102,6 +110,9 @@ export function signalInputs(store: Store, now: number, read?: PanelReader): Sig
 			...e,
 			state: e.stateName ? (isoByName.get(e.stateName) ?? null) : null,
 		})),
+		crowd: crowd.municipalities,
+		cameras: cameras.cameras,
+		radar: radarInputs(radarRows(store, now), now),
 	};
 }
 
@@ -112,7 +123,8 @@ function findIso(stateName: string): string | null {
 const ORDER = (a: IncidentItem, b: IncidentItem) =>
 	Number(b.status === "active") - Number(a.status === "active") ||
 	Number(a.reportsOnly) - Number(b.reportsOnly) ||
-	b.corroboration - a.corroboration ||
+	// Opening families only: join-only evidence (users' reports, cameras, Cloudflare) never ranks an item up.
+	openingFamilies(b.families) - openingFamilies(a.families) ||
 	b.lastEvidenceAt - a.lastEvidenceAt ||
 	a.id.localeCompare(b.id);
 
@@ -201,7 +213,10 @@ export const incidentsPanel: Panel<IncidentsView> = {
 		"usgs-quakes",
 		"funvisis-quakes",
 		"gdacs-events",
+		CROWD_SOURCE,
+		CAMERAS_SOURCE,
 		...OUTLETS.map((o) => o.id),
+		"cloudflare-radar",
 	],
 	compute: (store: Store, now: number, read?: PanelReader) => {
 		const hit = memo.get(store);

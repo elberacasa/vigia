@@ -1,6 +1,6 @@
 {
 	"name": "vigia",
-	"version": "0.1.6",
+	"version": "1.0.0",
 	"description": "Sala de situación abierta de Venezuela: tasas, sismos, incendios, conectividad, apagones y noticias, con fuente y hora en cada cifra.",
 	"license": "PolyForm-Noncommercial-1.0.0",
 	"private": true,
@@ -30,6 +30,7 @@
 		"@preact/signals": "^2.11.2",
 		"fast-png": "8.0.0",
 		"fast-xml-parser": "^5.11.1",
+		"hls.js": "^1.7.3",
 		"jpeg-js": "0.4.4",
 		"preact": "^10.29.8",
 		"zod": "^4.6.5"

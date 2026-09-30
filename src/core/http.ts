@@ -90,7 +90,7 @@ export class HttpClient implements HttpLike {
 			method: options.method ?? "GET",
 			headers,
 			signal,
-			redirect: "follow",
+			redirect: options.redirect ?? "follow",
 			...NO_AUTO_DECOMPRESS,
 		};
 		if (options.body !== undefined) init.body = options.body;
@@ -104,6 +104,7 @@ export class HttpClient implements HttpLike {
 			throw new HttpError(`network: ${reason}`, 0, url);
 		}
 
+		options.onWire?.(headerBytes(response));
 		const ok = response.ok || (options.okStatuses?.includes(response.status) ?? false);
 		if (!ok) {
 			await response.body?.cancel();
@@ -113,12 +114,13 @@ export class HttpClient implements HttpLike {
 			throw new HttpError(message, response.status, url);
 		}
 
+		const wire = options.onWire ? { onRaw: options.onWire } : {};
 		let bytes: Uint8Array;
 		try {
 			bytes =
 				options.readBytes !== undefined
-					? await readBody(response, { maxBytes: options.readBytes, truncate: true })
-					: await readBody(response, { maxBytes: options.maxBytes ?? DEFAULT_MAX_BYTES });
+					? await readBody(response, { maxBytes: options.readBytes, truncate: true, ...wire })
+					: await readBody(response, { maxBytes: options.maxBytes ?? DEFAULT_MAX_BYTES, ...wire });
 		} catch (error) {
 			// A refused or oversized body is not retried: the same server would send the same bytes.
 			if (error instanceof BodyError) throw new BodyRefused(error.message, 0, url);
@@ -127,6 +129,11 @@ export class HttpClient implements HttpLike {
 		const body = options.binary ? Buffer.from(bytes).toString("base64") : decodeText(bytes, response);
 		const etag = response.headers.get("etag");
 		const lastModified = response.headers.get("last-modified");
+		const captured: Record<string, string> = {};
+		for (const name of options.captureHeaders ?? []) {
+			const value = response.headers.get(name);
+			if (value !== null) captured[name.toLowerCase()] = value;
+		}
 		return {
 			url: response.url || url,
 			status: response.status,
@@ -135,8 +142,22 @@ export class HttpClient implements HttpLike {
 			fetchedAt: this.#now(),
 			...(etag ? { etag } : {}),
 			...(lastModified ? { lastModified } : {}),
+			...(options.captureHeaders ? { headers: captured } : {}),
 		};
 	}
+}
+
+/**
+ * The size of a response's status line and headers as they were sent, estimated from the parsed list
+ * ("HTTP/1.1 200 OK" and "name: value" lines with their CRLFs). HTTP/2 compresses headers (HPACK), so there the
+ * wire carried less: an upper bound.
+ */
+export function headerBytes(response: Pick<Response, "headers" | "status" | "statusText">): number {
+	let n = `HTTP/1.1 ${response.status} ${response.statusText}\r\n\r\n`.length;
+	response.headers.forEach((value, name) => {
+		n += name.length + 2 + value.length + 2;
+	});
+	return n;
 }
 
 /** A body that was too large, corrupt or in a coding not decoded here. */

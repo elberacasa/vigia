@@ -34,6 +34,8 @@ Despliegue (también por variables de entorno, ver docs/OPERATIONS.md):
   --log json            Registro en líneas JSON (VIGIA_LOG_FORMAT=json)
   --trust-proxy         Detrás de un proxy en este equipo: toma el cliente de X-Forwarded-For (VIGIA_TRUST_PROXY=1)
   VIGIA_BCV_API=0       Apaga la segunda vía a la tasa del BCV (bcv-api, el servicio público del mantenedor)
+  --no-crowd            Apaga los reportes de usuarios («¿tienes luz, agua…?») en este Vigía (VIGIA_CROWD=0)
+  --data-saver          Conexión limitada: apaga las fuentes pesadas, ≥ 20 MB al día (VIGIA_DATA_SAVER=1; =0 la fija apagada)
 `;
 
 async function main(argv: string[]): Promise<number> {

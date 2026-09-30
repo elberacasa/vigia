@@ -1,8 +1,9 @@
 import { signal } from "@preact/signals";
+import { clearEntity, pickedPoint, selectedEntity, selectState } from "../map/view.ts";
 import { type Shading, selectedState, shading, showQuakes } from "../panels/MapPanel.tsx";
 import { addStyles } from "./css.ts";
 import { lang, setLang } from "./i18n.ts";
-import { isPanelId, reveal, visibleOrder } from "./layout.ts";
+import { isPanelId, reveal, revealHook, visibleOrder } from "./layout.ts";
 import { letterKeys, reducedMotion, setTheme, theme } from "./prefs.ts";
 import { go, route } from "./router.ts";
 
@@ -100,6 +101,8 @@ function smooth(): ScrollBehavior {
 export function jumpTo(id: string): void {
 	const run = () => {
 		if (isPanelId(id)) reveal(id, true);
+		else if (revealHook.current?.(id))
+			requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: "start" }));
 		else document.getElementById(id)?.scrollIntoView({ behavior: smooth(), block: "start" });
 		requestAnimationFrame(() => {
 			const el = document.getElementById(id);
@@ -117,6 +120,20 @@ export function jumpTo(id: string): void {
 		go("wall");
 		requestAnimationFrame(() => requestAnimationFrame(run));
 	} else run();
+}
+
+/**
+ * The incident the reader asked for by name ("ya es un incidente: …", an incident on an entity page): the room's
+ * incidents panel opens, shows it (a folded group opened, a filter that hid it moved to its state) and scrolls to it.
+ */
+export const incidentFocus = signal<string | null>(null);
+export function openIncident(id: string): void {
+	incidentFocus.value = id;
+	jumpTo("incidentes");
+	// A panel that is hidden or never mounts does not keep the request for later.
+	setTimeout(() => {
+		if (incidentFocus.value === id) incidentFocus.value = null;
+	}, 10_000);
 }
 
 export function toggleTheme(): void {
@@ -142,6 +159,8 @@ export function setCleanView(on: boolean): void {
 		return;
 	}
 	if (route.value !== "wall") go("wall");
+	// On a desk the clean view is the map: bring Situación forward (the workstation's hook; a no-op on phones).
+	revealHook.current?.("mapa");
 	cleanStyles ??= import("../styles/clean.css?inline").then((m) => addStyles(m.default));
 	cleanStyles.then(
 		() => {
@@ -178,7 +197,10 @@ function onKey(e: KeyboardEvent): void {
 		// Open dialogs close themselves (native <dialog> cancel); this handles what is left.
 		if (paletteOpen.value || helpOpen.value || document.querySelector("dialog[open]")) return;
 		if (cleanView.value) setCleanView(false);
-		else if (selectedState.value) selectedState.value = null;
+		// One step back at a time: the finer selection (a municipality, a facility…), the picked point, the state.
+		else if (selectedEntity.value) clearEntity();
+		else if (pickedPoint.value) pickedPoint.value = null;
+		else if (selectedState.value) selectState(null);
 		return;
 	}
 	if (e.ctrlKey || e.metaKey || e.altKey || typing(e.target)) return;
@@ -192,7 +214,8 @@ function onKey(e: KeyboardEvent): void {
 	}
 	if (paletteOpen.value || helpOpen.value || document.querySelector("dialog[open]")) return;
 	if (!letterKeys.value) return;
-	const handler = SINGLE[k] ?? SINGLE[k.toLowerCase()] ?? digit(k);
+	const handler =
+		deskKeys[k] ?? deskKeys[k.toLowerCase()] ?? SINGLE[k] ?? SINGLE[k.toLowerCase()] ?? digit(k);
 	if (!handler) return;
 	e.preventDefault();
 	handler();
@@ -203,6 +226,12 @@ function digit(k: string): (() => void) | undefined {
 	const id = /^[1-9]$/.test(k) ? panelKeyOrder()[Number(k) - 1] : undefined;
 	return id ? () => jumpTo(id) : undefined;
 }
+
+/**
+ * Keys the desk's workstation adds or takes over while it is mounted (1–0 open modules, I the inspector, B the event
+ * strip…); ui/ws/Workstation.tsx fills and empties it.
+ */
+export const deskKeys: Record<string, () => void> = {};
 
 const SINGLE: Record<string, () => void> = {
 	"/": () => {

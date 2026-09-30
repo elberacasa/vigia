@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-19138737-27"></script>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments)};gtag("js", new Date());gtag("set", "developer_id.dMDhkMT", true);gtag("config", "UA-19138737-27", {"groups":"default","anonymize_ip":true,"page_placeholder":"PLACEHOLDER_page_path","allow_ad_personalization_signals":false});gtag("config", "G-LL5Q69D404", {"groups":"default","page_placeholder":"PLACEHOLDER_page_location","allow_ad_personalization_signals":false});</script>
+<link rel="canonical" href="https://ofac.treasury.gov/sanctions-programs-and-country-information/venezuela-related-sanctions" />
+<meta property="og:site_name" content="Office of Foreign Assets Control | U.S. Department of the Treasury" />
+<meta name="twitter:site" content="@USTreasury" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/themes/custom/ofac/favicon.ico" type="image/vnd.microsoft.icon" />
+<script>window.a2a_config=window.a2a_config||{};a2a_config.callbacks=[];a2a_config.overlays=[];a2a_config.templates={};</script>
+
+    <title>Venezuela-Related Sanctions | Office of Foreign Assets Control</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_5fx2p6cpJc7-p8yVdo5TIzDjopzKWBSvTb2RQLT8Q8g.css?delta=0&amp;language=en&amp;theme=ofac&amp;include=eJw9i1sOhDAIRTdEypIMFjQ1tEyg6tTVz8vMz8l9EnM3agPpFmlxax0oQvpU2ia5m2OOSCzVJjvEvbAEzErX-BSQ9b0eWCWCVvn7ZiyQzQXZ9wdpoo2ev6CZV9JyCdhCGVe1mRRiRJeKM4XAHifHfbzNl3AUOQO_TNV4V3kBFQJLyw" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_X7QfqgD8TrtWxYtAx7ayqCZIwsXBaOlrCvJ-mOegB4o.css?delta=1&amp;language=en&amp;theme=ofac&amp;include=eJw9i1sOhDAIRTdEypIMFjQ1tEyg6tTVz8vMz8l9EnM3agPpFmlxax0oQvpU2ia5m2OOSCzVJjvEvbAEzErX-BSQ9b0eWCWCVvn7ZiyQzQXZ9wdpoo2ev6CZV9JyCdhCGVe1mRRiRJeKM4XAHifHfbzNl3AUOQO_TNV4V3kBFQJLyw" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_BHZfstOyLYn0EnXDiiZjChCQ4ByM9nDyowU920yCFpk.css?delta=2&amp;language=en&amp;theme=ofac&amp;include=eJw9i1sOhDAIRTdEypIMFjQ1tEyg6tTVz8vMz8l9EnM3agPpFmlxax0oQvpU2ia5m2OOSCzVJjvEvbAEzErX-BSQ9b0eWCWCVvn7ZiyQzQXZ9wdpoo2ev6CZV9JyCdhCGVe1mRRiRJeKM4XAHifHfbzNl3AUOQO_TNV4V3kBFQJLyw" />
+
+    <script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&amp;yt=1" id="_fed_an_ua_tag" async></script>
+
+  
+                                <script>!function(a){var e="https://s.go-mpulse.net/boomerang/",t="addEventListener";if("False"=="True")a.BOOMR_config=a.BOOMR_config||{},a.BOOMR_config.PageParams=a.BOOMR_config.PageParams||{},a.BOOMR_config.PageParams.pci=!0,e="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="84QAW-PTX96-C63E4-6CACM-662PE",function(){function n(e){a.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!a.BOOMR||!a.BOOMR.version&&!a.BOOMR.snippetExecuted){a.BOOMR=a.BOOMR||{},a.BOOMR.snippetExecuted=!0;var i,_,o,r=document.createElement("iframe");if(a[t])a[t]("load",n,!1);else if(a.attachEvent)a.attachEvent("onload",n);r.src="javascript:void(0)",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="width:0;height:0;border:0;display:none;",o=document.getElementsByTagName("script")[0],o.parentNode.insertBefore(r,o);try{_=r.contentWindow.document}catch(O){i=document.domain,r.src="javascript:var d=document.open();d.domain='"+i+"';void(0);",_=r.contentWindow.document}_.open()._l=function(){var a=this.createElement("script");if(i)this.domain=i;a.id="boomr-if-as",a.src=e+"84QAW-PTX96-C63E4-6CACM-662PE",BOOMR_lstart=(new Date).getTime(),this.body.appendChild(a)},_.write("<bo"+'dy onload="document._l();">'),_.close()}}(),"".length>0)if(a&&"performance"in a&&a.performance&&"function"==typeof a.performance.setResourceTimingBufferSize)a.performance.setResourceTimingBufferSize();!function(){if(BOOMR=a.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var e=""=="true"?1:0,t="",n="fwjdpraxaeqrg2v3dz3q-f-9cd5cbe60-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,_={"ak.v":"41","ak.cp":"1442937","ak.ai":parseInt("889092",10),"ak.ol":"0","ak.cr":0,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"45201e26","ak.r":47465,"ak.a2":e,"ak.m":"dscb","ak.n":"essl","ak.cport":51263,"ak.gh":"23.1.104.198","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1790647927","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==LIXhsibq8wU/APWDL2FfuzSibwKUi5k3NDHx8YrXGsA4eV6pFJfOwtJfflVztiiV2BC8Snw/9ohdn4GXs9lzsxHFoLUnWOcjbI0YR9fOrgPoJR7iGCV26M1YKCb2UgTz8zYiK91+W7/Pez9NlYSbmKvt+gwgeuNUu3dt9M07NwVlZeI0ucy96EHXCFONq5CA4GoU5ktABjsx7c7uOqu/KFV7ilEFErfGNgvvlbCnin5Hx2x4u1EEcr1QQjcC8H20hWVv43OaJk1oyMwToKSLgPrcoZ5UUrb4rzk9ZbtYM9oAHTvSmGLZ8zMRZ7s5znfBpjO6OCUvUR0XWytYWjbKalvmdr91dXhAaFogeToPJislutnuoHg9hkgJWWOYGE3GAuJv8BaiujDoknRMKE0jKJBVqRhTA8aRhFZTzhnf4nA=","ak.pv":"35","ak.dpoabenc":"","ak.tf":i};if(""!==t)_["ak.ruds"]=t;var o={i:!1,av:function(e){var t="http.initiator";if(e&&(!e[t]||"spa_hard"===e[t]))_["ak.feo"]=void 0!==a.aFeoApplied?1:0,BOOMR.addVar(_)},rv:function(){var a=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(a)}};BOOMR.plugins.AK={akVars:_,akDNSPreFetchDomain:n,init:function(){if(!o.i){var a=BOOMR.subscribe;a("before_beacon",o.av,null,null),a("onbeacon",o.rv,null,null),o.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+  <body class="path-node page-node-type-sanctions-program">
+        <a href="#main-content" class="visually-hidden focusable skip-link">
+      Skip to main content
+    </a>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+  <div class="usa-banner">
+  <div class="usa-accordion">
+    <header class="usa-banner__header">
+      <div class="usa-banner__inner">
+        <div class="grid-col-auto">
+          <img class="usa-banner__header-flag" src="/libraries/uswds/dist/img/us_flag_small.png" alt="U.S. flag">
+        </div>
+        <div class="grid-col-fill tablet:grid-col-auto">
+          <p class="usa-banner__header-text">An official website of the United States government</p>
+          <p class="usa-banner__header-action" aria-hidden="true">Here’s how you know</p>
+        </div>
+        <button class="usa-accordion__button usa-banner__button"
+          aria-expanded="false" aria-controls="gov-banner">
+          <span class="usa-banner__button-text">Here’s how you know</span>
+        </button>
+      </div>
+    </header>
+    <div class="usa-banner__content usa-accordion__content" id="gov-banner" hidden>
+      <div class="grid-row grid-gap-lg">
+        <div class="usa-banner__guidance tablet:grid-col-6">
+          <img class="usa-banner__icon usa-media-block__img" src="/libraries/uswds/dist/img/icon-dot-gov.svg" alt="Dot gov">
+          <div class="usa-media-block__body">
+            <p>
+              <strong>The .gov means it’s official.</strong>
+            </p>
+            <p>
+              Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you’re on a federal government site.
+            </p>
+          </div>
+        </div>
+        <div class="usa-banner__guidance tablet:grid-col-6">
+          <img class="usa-banner__icon usa-media-block__img" src="/libraries/uswds/dist/img/icon-https.svg" alt="Https">
+          <div class="usa-media-block__body">
+            <p>
+              <strong>The site is secure.</strong>
+            </p>
+            <p>
+              The <strong>https://</strong> ensures that you are connecting to the official website and that any information you provide is encrypted and transmitted securely.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="usa-overlay"></div>
+
+  <header class="treas-mini-banner">
+    <div class="usa-banner__inner grid-row">
+        <div class="display-flex flex-wrap flex-align-center tablet:grid-col-6">
+            <img class="treas-mini-banner__header-icon" src="/themes/custom/gallatin/assets/img/mark_treasury.svg" alt="Treasury Seal">
+            <div class="treas-mini-banner__header-text">
+                <a class="treas-mini-banner__treas-link" href="https://home.treasury.gov">U.S. Department of the Treasury</a>
+            </div>
+        </div>
+        <div class="tablet:grid-col display-flex tablet:flex-justify-end grid-offset-1">
+            <a class="treas-mini-banner__link" href="https://home.treasury.gov/news">Read the latest Treasury news</a>
+        </div>
+    </div>
+</header>
+
+
+<header class="treas-header" role="banner">
+           <div class="treas-header__wrap">
+          <div class="region region-header">
+    <div id="block-ofac-branding" class="block block-system block-system-branding-block">
+  
+    
+   <div id="treas-logo-title">
+  <a href="/" title="Home" rel="home" class="navbar-brand d-flex align-items-center treas-header__title">
+              <span class="treas-header__name">Office of Foreign Assets Control</span>
+          </a>
+</div>
+</div>
+<div id="block-headerapartoftreasurysofficeofterrorismandfinancialintelligence" class="block block-block-content block-block-content5a604116-e182-46cc-b55c-96c90ac38dbe">
+  
+    
+      <div class="content">
+      
+            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"><div class="tablet:font-sans-3xs text-white desktop:padding-0 tablet:padding-top-1 padding-bottom-1 text-uppercase tablet:grid-col-7 align-right text-ls-1 treas-header__office">A Part of Treasury's Office of Terrorism and<br />
+Financial Intelligence</div>
+</div>
+      
+    </div>
+  </div>
+
+  </div>
+
+        <button class="navbar-toggler treas-burger-menu usa-menu-btn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">MENU</span>
+          <span class="treas-burger-menu__line"></span>
+          <span class="treas-burger-menu__line"></span>
+          <span class="treas-burger-menu__line"></span>
+        </button>
+      </div>
+    </header>
+<div class="treas-main-nav usa-nav">
+  <button class="usa-nav__close">
+    <img src="/themes/custom/gallatin/assets/img/close-white.svg" alt="close" />
+  </button>
+  <nav class="treas-main-nav__wrap" role="navigation">
+    
+            <div class="region region-primary-menu">
+    
+  
+  
+          <ul class="usa-nav__primary treas-main-nav__list usa-accordion">
+
+      
+                      <li class="usa-nav__primary-item treas-main-nav__list-item  ">
+
+                              <button class="usa-accordion__button usa-nav__link treas-main-nav__link" aria-expanded="false" aria-controls="megamenu-1">
+                  <span>About OFAC</span>
+                </button>
+              
+                                
+  
+            <ul id="megamenu-1" class="usa-nav__submenu " hidden>
+
+                  
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/about-ofac" class="">
+                  <span>History</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/media/935656/download?inline=" class="">
+                  <span>Introductory Document</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/ofac-video-series" class="">
+                  <span>Video Overview</span>
+                </a>
+              
+            </li>
+                    
+
+        </ul>
+          
+              
+            </li>
+                      <li class="usa-nav__primary-item treas-main-nav__list-item  ">
+
+              
+                              <a href="/recent-actions" class="usa-nav__link treas-main-nav__link ">
+                  <span>Recent Actions</span>
+                </a>
+              
+            </li>
+                      <li class="usa-nav__primary-item treas-main-nav__list-item  ">
+
+                              <button class="usa-accordion__button usa-nav__link treas-main-nav__link" aria-expanded="false" aria-controls="megamenu-3">
+                  <span>Sanctions Lists</span>
+                </button>
+              
+                                
+  
+            <ul id="megamenu-3" class="usa-nav__submenu " hidden>
+
+                  
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-list-service" class="">
+                  <span>Sanctions List Service</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/specially-designated-nationals-and-blocked-persons-list-sdn-human-readable-lists" class="">
+                  <span> Specially Designated Nationals (SDN) List</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="https://sanctionslist.ofac.treas.gov/Home/ConsolidatedList" class="">
+                  <span>Consolidated Sanctions List (Non-SDN Lists)</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/other-ofac-sanctions-lists" class="">
+                  <span>Other OFAC Sanctions Lists</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="https://sanctionssearch.ofac.treas.gov/" class="">
+                  <span>Sanctions List Search</span>
+                </a>
+              
+            </li>
+                    
+
+        </ul>
+          
+              
+            </li>
+                      <li class="usa-nav__primary-item treas-main-nav__list-item  ">
+
+                              <button class="usa-accordion__button usa-nav__link treas-main-nav__link usa-current active" aria-expanded="false" aria-controls="megamenu-4">
+                  <span>Sanctions Programs</span>
+                </button>
+              
+                                
+  
+            <ul id="megamenu-4" class="usa-nav__submenu " hidden>
+
+                  
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information/russia-related-sanctions" class="">
+                  <span>Russia-related Sanctions</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information/iran-sanctions" class="">
+                  <span>Iran Sanctions</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information/north-korea-sanctions" class="">
+                  <span>North Korea Sanctions</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information/cuba-sanctions" class="">
+                  <span>Cuba Sanctions</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information/counter-narcotics-trafficking-sanctions" class="">
+                  <span>Counter Narcotics Sanctions</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information/sanctions-related-to-significant-malicious-cyber-enabled-activities" class="">
+                  <span>Cyber-related Sanctions</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information/venezuela-related-sanctions" class="usa-current active">
+                  <span>Venezuela-related Sanctions</span>
+                </a>
+              
+            </li>
+                      <li class=" usa-nav__submenu-item treas-main-nav__submenu-item ">
+
+              
+                              <a href="/sanctions-programs-and-country-information" class="">
+                  <span>Complete List of Sanctions Programs and Country Information</span>
+                </a>
+              
+            </li>
+                    
+
+        </ul>
+          
+              
+            </li>
+                      <li class="usa-nav__primary-item treas-main-nav__list-item  ">
+
+              
+                              <a href="/ofac-reporting-system" class="usa-nav__link treas-main-nav__link ">
+                  <span>Submit a Report</span>
+                </a>
+              
+            </li>
+                      <li class="usa-nav__primary-item treas-main-nav__list-item  ">
+
+              
+                              <a href="/contact-ofac" class="usa-nav__link treas-main-nav__link ">
+                  <span>Contact Us</span>
+                </a>
+              
+            </li>
+                                <li class="treas-main-nav__list-item treas-search-nav desktop:order-last order-first">
+              <button class="usa-accordion__button search-btn treas-main-nav__link" aria-expanded="false" aria-controls="megamenu-search">
+                <span>Search</span>
+              </button>
+            </li>
+          
+
+        </ul>
+          
+
+
+
+  </div>
+
+    
+      </nav>
+</div>
+<div class="treas-search-menu grid-container" id="megamenu-search" hidden>
+      <div class="grid-row">
+      <div class="grid-col">
+        <div class="treas-search-menu__component">
+            <div class="region region-search-menu">
+    <div id="block-searchgovblock" class="block block-searchgov-drupal block-searchgov-block">
+  
+    
+      <div class="content">
+      
+        <form id="search_form" action="https://search.usa.gov/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓" />
+
+           <input type="hidden" name="affiliate" id="affiliate" value="ofac" />
+           <label for="query">Enter Search Term(s):</label>
+           <input type="text" name="query" id="query" autocomplete="off" placeholder="Enter keywords" class="usagov-search-autocomplete" />
+           <input type="submit" name="commit" value="Search" data-disable-with="Search" />
+        </form>
+    </div>
+  </div>
+
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+    <div class="region region-breadcrumb">
+    <div id="block-ofac-breadcrumbs" class="block block-system block-system-breadcrumb-block">
+  
+    
+      <div class="content">
+        <div class="treas-breadcrumb">
+    <div class="grid-container">
+      <div class="grid-row">
+        <div class="grid-col">
+          <nav aria-label="breadcrumb" class="treas-breadcrumb__nav">
+            <span id="system-breadcrumb" class="visually-hidden">Breadcrumb</span>
+            <ol class="treas-breadcrumb__list">
+                              <li class="treas-breadcrumb__item" title="Home">
+                                      <a href="/" class="treas-breadcrumb__link">Home</a>
+                                  </li>
+                              <li class="treas-breadcrumb__item" title="Sanctions Programs and Country Information">
+                                      <a href="/sanctions-programs-and-country-information" class="treas-breadcrumb__link">Sanctions Programs and Country Information</a>
+                                  </li>
+                              <li class="treas-breadcrumb__item" title="Venezuela-Related Sanctions">
+                                      <a href="/sanctions-programs-and-country-information/venezuela-related-sanctions" class="treas-breadcrumb__link">Venezuela-Related Sanctions</a>
+                                  </li>
+                          </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+  </div>
+
+
+ <main class="usa-section">
+   <div class="grid-container">
+     <div class="grid-row grid-gap">
+       <div class="grid-col-12">
+           <div class="region region-highlighted">
+    <div data-drupal-messages-fallback class="hidden"></div>
+
+  </div>
+
+
+         
+      </div>
+     </div>
+
+     <div class="grid-row grid-gap">
+
+              <aside class="tablet:grid-col-3 order-2-sm margin-top-5 margin-bottom-5 tablet:margin-top-0 tablet:margin-bottom-2">
+            <div class="region region-sidebar-first">
+    
+              <ul class="usa-sidenav">
+                    <li class="menu-item menu-item--collapsed usa-sidenav__item">
+                        <a href="/specially-designated-nationals-and-blocked-persons-list-sdn-human-readable-lists">
+                  <span>Specially Designated Nationals List (SDN List)</span>
+        </a>
+              </li>
+                <li class="menu-item menu-item--collapsed usa-sidenav__item">
+                        <a href="/consolidated-sanctions-list-non-sdn-lists">
+                  <span>Consolidated Sanctions List (Non-SDN Lists)</span>
+        </a>
+              </li>
+                <li class="menu-item usa-sidenav__item">
+                        <a href="/other-ofac-sanctions-lists">
+                  <span>Additional Sanctions Lists</span>
+        </a>
+              </li>
+                <li class="menu-item usa-sidenav__item">
+                        <a href="/sanctions-list-search-tool">
+                  <span>Search OFAC&#039;s Sanctions Lists</span>
+        </a>
+              </li>
+                <li class="menu-item menu-item--collapsed menu-item--active-trail usa-sidenav__item">
+                        <a href="/sanctions-programs-and-country-information" class="usa-current">
+                  <span>Sanctions Programs and Country Information</span>
+        </a>
+              </li>
+                <li class="menu-item menu-item--collapsed usa-sidenav__item">
+                        <a href="/recent-actions">
+                  <span>Recent Actions</span>
+        </a>
+              </li>
+                <li class="menu-item menu-item--collapsed usa-sidenav__item">
+                        <a href="/ofac-license-application-page">
+                  <span>OFAC License Application Page</span>
+        </a>
+              </li>
+                <li class="menu-item menu-item--collapsed usa-sidenav__item">
+                        <a href="/additional-ofac-resources">
+                  <span>Additional OFAC Resources</span>
+        </a>
+              </li>
+                <li class="menu-item menu-item--collapsed usa-sidenav__item">
+                        <a href="/faqs">
+                  <span>Frequently Asked Questions</span>
+        </a>
+              </li>
+                <li class="menu-item menu-item--collapsed usa-sidenav__item">
+                        <a href="/civil-penalties-and-enforcement-information">
+                  <span>Civil Penalties and Enforcement Information</span>
+        </a>
+              </li>
+                <li class="menu-item usa-sidenav__item">
+                        <a href="/ofac-reporting-system">
+                  <span>OFAC Reporting System</span>
+        </a>
+              </li>
+                <li class="menu-item usa-sidenav__item">
+                        <a href="/selected-general-licenses-issued-ofac">
+                  <span>Selected General Licenses Issued by OFAC</span>
+        </a>
+              </li>
+                <li class="menu-item usa-sidenav__item">
+                        <a href="/contact-ofac">
+                  <span>Contact OFAC</span>
+        </a>
+              </li>
+        </ul>
+  
+
+
+
+  </div>
+
+        </aside>
+      
+       <div id="main-content" class="visually-hidden"></div>
+
+       <div class="region-content tablet:grid-col-6">
+           <div class="region region-content">
+    <div id="block-ofac-page-title" class="block block-core block-page-title-block">
+  
+    
+      <div class="content">
+      
+  <h1 class="uswds-page-title page-title"><span class="treas-page-title">Venezuela-Related Sanctions</span></h1>
+
+
+    </div>
+  </div>
+<div id="block-ofac-content" class="block block-system block-system-main-block">
+  
+    
+      <div class="content">
+      
+
+<article id="node-6446"  class="node node--type-sanctions-program node--promoted node--view-mode-full">
+  	
+  
+  	
+            <div class="clearfix text-formatted usa-prose field field--name-field-page-body field--type-text-long field--label-hidden field__item"><style>
+.usa-accordion__button {
+    background-color: #005ea2;
+    color: #fff;
+}
+.usa-accordion__button:hover {
+    background-color: #2581fa;
+    color: #fff;
+}
+</style><p><a class="external" href="https://public.govdelivery.com/accounts/USTREAS/subscriber/new?topic_id=USTREAS_1030" title="Sign up for Venezuela Sanctions e-mail updates">Sign up for Venezuela-related Sanctions e-mail updates.</a></p><div class="usa-accordion usa-accordion--multiselectable" aria-multiselectable="true"><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="true" aria-controls="a4">
+                                    Frequently Asked Questions
+                                </button></h4><div class="usa-accordion__content usa-prose" id="a4"><p>OFAC has compiled hundreds of frequently asked questions (FAQs) about its sanctions programs and related policies. The link below sends the user to the entire list of OFAC's FAQs.</p><ul><li data-list-item-id="e59a12247b67916275401155e22309c8c"><a href="/faqs/topic/1581">Venezuela Sanctions FAQ Topic Page</a></li><li data-list-item-id="e93fe03ded7bc40b1d27d3ed71fd1db8f"><a href="/faqs">OFAC Frequently Asked Questions</a></li><li data-list-item-id="e6f83fa3353abb01d9ebac4493bde3151"><a href="/media/932821/download?inline" data-entity-type="media" data-entity-uuid="e159241e-6ad6-495e-9635-22d201f9fad5" data-entity-substitution="media_download_inline" title="20250305_venezuela_sanctions_faqs_superseded.pdf">Frequently Asked Questions Related to the Suspension of Certain U.S. Sanctions with Respect to Venezuela on October 18, 2023</a><strong> </strong>(Updated April 17, 2024; <strong>Superseded on March 05, 2025 </strong>by <a href="/faqs/topic/1581">Venezuela Sanctions FAQ Topic Page</a>)<ul><li data-list-item-id="eb74bc6e1b2e8ca8c845ecb2d4c19c20d"><a href="/media/932581/download?inline" data-entity-type="media" data-entity-uuid="89d45faa-6bbb-4723-956a-7d5d65f9fd61" data-entity-substitution="media_download_inline" title="20240202_venezuela_sanctions_faqs.pdf">Frequently Asked Questions Related to the Suspension of Certain U.S. Sanctions with Respect to Venezuela on October 18, 2023</a> (Updated February 02, 2024)</li><li data-list-item-id="ea66afcde27b83e2d919fa6a7204ce959"><a href="/media/932586/download?inline" data-entity-type="media" data-entity-uuid="e5fcfa2d-5976-410d-beb3-9e1dd4f95a4f" data-entity-substitution="media_download_inline" title="20231116_venezuela_sanctions_faqs.pdf">Frequently Asked Questions Related to the Suspension of Certain U.S. Sanctions with Respect to Venezuela on October 18, 2023</a> (Updated November 16, 2023)</li><li data-list-item-id="e7a93ba8b55740bffab71035af9591bd7"><a href="/media/932241/download?inline" data-entity-type="media" data-entity-uuid="d011341b-df14-4032-96ce-6126829b374f" data-entity-substitution="media_download_inline" title="20231018_venezuela_sanctions_faqs.pdf">Frequently Asked Questions Related to the Suspension of Certain U.S. Sanctions with Respect to Venezuela on October 18, 2023</a></li></ul></li><li data-list-item-id="eaaeb3d398bf4250f20588d360d2cac36">Frequently Asked Questions <a href="/faqs/search?field_faq_number[min]=1226&amp;field_faq_number[max]=1244">1226 through 1244</a><ul><li data-list-item-id="ea2881bde3aebcf8d30c8e1bc2aa85491"><a href="/sanctions-programs-and-country-information/non-english-translations-of-advisories-and-other-documents#vz_oil_faqs" data-entity-type="node" data-entity-uuid="62cc813e-5770-461d-a276-240991275b89" data-entity-substitution="canonical" title="Non-English Translations of Advisories and Other Documents">Non-English Translations of Frequently Asked Questions 1226 through 1244</a></li></ul></li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="a5">
+                                    Interpretive Guidance
+                                </button></h4><div class="usa-accordion__content usa-prose" id="a5"><p>OFAC issues interpretive guidance on specific issues related to the sanctions programs it administers. These interpretations of OFAC policy are sometimes published in response to a public request for guidance or may be released proactively by OFAC in order to address a complex topic.</p><ul><li data-list-item-id="eea3ec6b858403131ae1ee21c5e9a016c"><a href="/media/6211/download?inline" data-entity-type="media" data-entity-uuid="206a742b-f605-428e-8465-1bad8d6dd7b7" data-entity-substitution="media_download_inline" media_library="Media Library" title="compliance_services_guidance.pdf">Guidance on the Provision of Certain Services Relating to the Requirements of U.S. Sanctions Laws</a> (January 12, 2017)</li><li data-list-item-id="e677c6ecef6e2b65c3c103e488846ac52"><a href="/sanctions-programs-and-country-information/iran-sanctions/interpretative-rulings-on-ofac-policy">Index of Interpretative Guidance</a></li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="a6">
+                                    Applying for a Specific OFAC License 
+                                </button></h4><div class="usa-accordion__content usa-prose" id="a6"><p>It may be in your and the U.S. government's interest to authorize particular economic activity related to the Venezuela-Related Sanctions. Certain activities related to the Venezuela-Related Sanctions may be allowed if they are licensed by OFAC. Visit the link below to apply for an OFAC license.</p><ul><li data-list-item-id="e92727d7524804ff2bd62879d7287c1c0"><a href="/ofac-license-application-page" target="_blank">Apply for an OFAC License Online</a> - Authorization from OFAC to engage in a transaction that otherwise would be prohibited.</li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="a8">
+                                    Guidance on OFAC Licensing Policy
+                                </button></h4><div class="usa-accordion__content usa-prose" id="a8"><p>Certain activities related to the Venezuela-related Sanctions may be allowed if they are licensed by OFAC. Below OFAC has issued guidance and statements on specific licensing policies as they relate to the Venezuela-related Sanctions.</p><ul><li data-list-item-id="e80e5a0cea8459457c1b0035177686631"><a href="/media/6191/download?inline" data-entity-type="media" data-entity-uuid="1e65864a-43af-4f71-ae7b-9fbb249dea70" data-entity-substitution="media_download_inline" media_library="Media Library" title="legal_fee_guide.pdf">Licenses for Legal Fees and Costs</a> - Guidance on the Release of Limited Amounts of Blocked Funds for Payment of Legal Fees and Costs Incurred in Challenging the Blocking of U.S. Persons in Administrative or Civil Proceedings</li><li data-list-item-id="e9b8294af7c2fbe6990836c5497c76958"><a href="/media/6186/download?inline" data-entity-type="media" data-entity-uuid="a0da0a6a-43b0-4d87-afef-33acb474bc0e" data-entity-substitution="media_download_inline" media_library="Media Library" title="licensing_guidance.pdf">Entities Owned By Blocked Persons</a> - Guidance On Entities Owned By Persons Whose Property And Interests In Property Are Blocked</li><li data-list-item-id="e1f0a6a0a2380766a1fd90579448c58e6"><a href="/media/26781/download?inline" data-entity-type="media" data-entity-uuid="8c87e585-fc86-4545-8531-f6bbbd625edd" data-entity-substitution="media_download_inline" media_library="Media Library" title="20190805_vz_humanitarian_guidance.pdf">Guidance Related to the Provision of Humanitarian Assistance and Support to the Venezuelan People</a></li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="a10">
+                                    General Licenses
+                                </button></h4><div class="usa-accordion__content usa-prose" id="a10"><p>OFAC issues general licenses in order to authorize activities that would otherwise be prohibited with regard to Venezuela. General licenses allow all US persons to engage in the activity described in the general license without needing to apply for a specific license.</p><ul><li data-list-item-id="e916d7e68445b0079e276eea473cfbbbb"><a href="/media/34121/download?inline" data-entity-type="media" data-entity-uuid="cd122b24-60b5-4b5c-aabf-a3278d1003db" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl2a.pdf">Venezuela General License 2A</a> - Authorizing Certain New Debt, New Equity, and Securities Transactions Involving PDV Holding, Inc. and CITGO Holding, Inc. (August 05, 2019)</li><li data-list-item-id="e68cfa9a210205d0fed7c882dee1a15c6"><a href="/media/932211/download?inline" data-entity-type="media" data-entity-uuid="3c92532b-f42d-4290-9248-196b5b812520" data-entity-substitution="media_download_inline" title="venezuela_gl3i.pdf">Venezuela General License 3I</a> - Authorizing Transactions Related to, Provision of Financing for, and Other Dealings in Certain Bonds (October 18, 2023)</li><li data-list-item-id="ebcc256f706223edce88b41d9a59764d1"><a href="/media/31741/download?inline" data-entity-type="media" data-entity-uuid="479ad5fc-5813-4ee3-9f21-c8007daf002e" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl4c.pdf">Venezuela General License 4C</a> - Authorizing Certain New Debt Transactions and Other Transactions Involving Certain Blocked Persons Related to the Exportation or Reexportation of Agricultural Commodities, Medicine, Medical Devices, Replacement Parts and Components, or Software Updates (August 05, 2019)</li><li data-list-item-id="e4667fbefd671240b62aa200b1ddd65ae"><a href="/media/936946/download?inline" data-entity-type="media" data-entity-uuid="4555ffa4-bc86-4558-9570-f4b4afdd6bac" data-entity-substitution="media_download_inline" title="venezuela_gl5z.pdf">Venezuela General License 5Z</a> - Authorizing Certain Transactions Related to the Petróleos de Venezuela, S.A. 2020 8.5 Percent Bond on or After November 5, 2026 (September 16, 2026)</li><li data-list-item-id="e373b6273f54dc0050ac6eada0d6da85c"><a href="/media/34136/download?inline" data-entity-type="media" data-entity-uuid="03cb614a-d39c-4e33-a169-e9ec400a3d19" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl7c.pdf">Venezuela General License 7C </a>- Authorizing Certain Activities Involving PDV Holding, Inc. and CITGO Holding, Inc. (August 05, 2019)</li><li data-list-item-id="e61b3f51c05fd6f8bead772d9404f35ca"><a href="/media/932221/download?inline" data-entity-type="media" data-entity-uuid="3fddb8b4-96da-4b54-8a67-89dac3d36885" data-entity-substitution="media_download_inline" title="venezuela_gl9h.pdf">Venezuela General License 9H</a> - Authorizing Transactions Related to Dealings in Certain Securities (October 18, 2023)</li><li data-list-item-id="e9de03c7d0af6e296fb8e788ef46f3d63"><a href="/media/34131/download?inline" data-entity-type="media" data-entity-uuid="f9e61140-8ce4-4488-9ffc-56afc0ef6f02" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl10a.pdf">Venezuela General License 10A </a>- Authorizing the Purchase in Venezuela of Refined Petroleum Products from Petróleos de Venezuela, S.A. (PdVSA) (August 05, 2019)</li><li data-list-item-id="e7c990078e220e78a30516562e9b85bee"><a href="/media/33126/download?inline" data-entity-type="media" data-entity-uuid="4728d703-8fc6-4591-844f-158bfbaea483" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl15c.pdf">Venezuela General License 15C</a> - Authorizing Transactions Involving Certain Banks for Certain Entities (May 12, 2020)</li><li data-list-item-id="ea46c792e9101e37952db4526a1cdfb4a"><a href="/media/33121/download?inline" data-entity-type="media" data-entity-uuid="7bb1f59f-faaf-4d95-bc28-b97ff7e989b8" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl16c.pdf">Venezuela General License 16C</a> - Authorizing Maintenance of U.S. Person Accounts and Noncommercial, Personal Remittances involving Certain Banks (March 12, 2020)</li><li data-list-item-id="e50a92d3b82f268d76ef54991e0aa6d01"><a href="/media/34126/download?inline" data-entity-type="media" data-entity-uuid="ea5db936-f80f-4853-b1af-1672b3bea54a" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl18a.pdf">Venezuela General License 18A</a> - Authorizing Certain Transactions Involving Integración Administradora de Fondos de Ahorro Previsional, S.A. (August 05, 2019)</li><li data-list-item-id="ed2679b54e724d6ea0b9864ad5c7720a1"><div id="gl21"><a href="/media/46421/download?inline" data-entity-type="media" data-entity-uuid="b0dd49ec-dfac-4b3a-9412-0b9456b40019" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl21.pdf">Venezuela General License 21</a> - Entries in Certain Accounts for Normal Service Charges and Payments and Transfers to Blocked Accounts in U.S. Financial Institutions Authorized (August 05, 2019)</div></li><li data-list-item-id="e21d4a872b7c451a3687246ef6c1beff4"><a href="/media/30601/download?inline" data-entity-type="media" data-entity-uuid="849bd757-ece9-4d6b-801d-873138e02b6a" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl22.pdf">Venezuela General License 22</a> - Venezuela’s Mission to the United Nations (August 05, 2019)</li><li data-list-item-id="e3c80e910933263e97d829ab197385140"><a href="/media/34116/download?inline" data-entity-type="media" data-entity-uuid="e922d06d-6730-4c1c-860d-315d68840e76" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl23.pdf">Venezuela General License 23</a> - Third-country Diplomatic and Consular Funds Transfers Authorized (August 05, 2019)</li><li data-list-item-id="e03023a28c51d659771a40b747d09ddcb"><a href="/media/935731/download?inline" data-entity-type="media" data-entity-uuid="6fcf29a2-e3ac-4361-9893-8ce9980df39c" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl24a.pdf">Venezuela General License 24A</a> - Certain Transactions Involving the Government of Venezuela Related to Telecommunications and Mail Authorized (June 18, 2026)</li><li data-list-item-id="ed55272b8717d7c664c4f9e173d95facf"><a href="/media/31761/download?inline" data-entity-type="media" data-entity-uuid="617bf869-23c9-41df-a033-3f85884aa88d" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl25.pdf">Venezuela General License 25</a> - Exportation of Certain Services, Software, Hardware, and Technology Incident to the Exchange of Communications over the Internet Authorized (August 05, 2019)</li><li data-list-item-id="edfc456c563766679d815dc7f95bb37e4"><a href="/media/31766/download?inline" data-entity-type="media" data-entity-uuid="76c627e4-f7ec-4cf0-b9c2-d653e085a0b8" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl26.pdf">Venezuela General License 26</a> - Emergency and Certain Other Medical Services Authorized (August 05, 2019)</li><li data-list-item-id="efb681ebe860b52d6363d624d414e9cb1"><a href="/media/34111/download?inline" data-entity-type="media" data-entity-uuid="7eddf7b7-3c36-4fb0-b142-bd80b7201249" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl27.pdf">Venezuela General License 27</a> - Certain Transactions Related to Patents, Trademarks, and Copyrights Authorized (August 05, 2019)</li><li data-list-item-id="ee8f89556404ae31ea9d9ad4ccb1e0943"><a href="/media/31771/download?inline" data-entity-type="media" data-entity-uuid="01f7ac55-e244-4814-aa89-de7391148234" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl29.pdf">Venezuela General License 29</a> - Certain Transactions Involving the Government of Venezuela in Support of Certain Nongovernmental Organizations' Activities Authorized (August 05, 2019)</li><li data-list-item-id="ec4df58f3e279de5fac851e702a454170"><a href="/media/934996/download?inline" data-entity-type="media" data-entity-uuid="ff714980-c064-4c65-b3fe-abdfb955f3a3" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl30b.pdf">Venezuela General License 30B</a> - Authorizing Certain Transactions Necessary to Port and Airport Operations (February 10, 2026)</li><li data-list-item-id="ecd7731b33d59b344e79f9529d9359d15"><a href="/media/930241/download?inline" data-entity-type="media" data-entity-uuid="738ca054-bf86-4d5a-939c-6700f8f3f255" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl31b.pdf">Venezuela General License 31B</a> - Certain Transactions Involving the IV Venezuelan National Assembly and Certain Other Persons (January 09, 2023)</li><li data-list-item-id="e47707ef94ae6ff59de4fd22e5fce02b2"><a href="/media/34101/download?inline" data-entity-type="media" data-entity-uuid="c5180609-4935-48e9-9c3a-2378738284cf" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl32.pdf">Venezuela General License 32</a> - Authorizing Certain Transactions Related to Personal Maintenance of Individuals who are U.S. Persons Residing in Venezuela (August 05, 2019)</li><li data-list-item-id="efea58cae2c821f78dcee6e2f1ad88857"><a href="/media/34096/download?inline" data-entity-type="media" data-entity-uuid="561ec8ed-0df3-4df9-aec5-baec35606dfd" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl33.pdf">Venezuela General License 33</a> - Authorizing Overflight Payments, Emergency Landings, and Air Ambulance Services (August 05, 2019)</li><li data-list-item-id="edab6bbd7162e9bed4ed78b7d5a11d9ef"><a href="/media/25966/download?inline" data-entity-type="media" data-entity-uuid="445a50ed-b1ab-4656-9efb-929eec882f43" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl34a.pdf">Venezuela General License 34A</a> - Authorizing Transactions Involving Certain Government of Venezuela Persons (November 05, 2019)</li><li data-list-item-id="ede3caf7007b29a0c12d915e5c6671808"><a href="/media/25961/download?inline" data-entity-type="media" data-entity-uuid="fb4289af-5f2d-46db-82a6-2698d978819c" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl35.pdf">Venezuela General License 35</a> - Authorizing Certain Administrative Transactions with the Government of Venezuela (November 05, 2019)</li><li data-list-item-id="e383a9b268e978c134319b1dd6a484478"><a href="/media/931696/download?inline" data-entity-type="media" data-entity-uuid="c03dcf85-6453-4730-8aac-94b9b15966f0" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_gl42.pdf">Venezuela General License 42</a> - Authorizing Certain Transactions Related to the Negotiation of Certain Settlement Agreements with the IV Venezuelan National Assembly and Certain Other Persons (May 01, 2023)</li><li data-list-item-id="e0e3453c591cf465e5dc50806d7f3c37f"><a href="/media/932686/download?inline" data-entity-type="media" data-entity-uuid="babfa537-b6d5-4c24-bee9-34a91c14b2b3" data-entity-substitution="media_download_inline" title="venezuela_gl45b.pdf">Venezuela General License 45B</a> - Authorizing Certain Repatriation Transactions Involving Consorcio Venezolano de Industrias Aeronáuticas y Servicios Aéreos, S.A. (February 29, 2024)</li><li data-list-item-id="e04d23a56efcc0204ca30bd5b3a731d6c"><a href="/media/936996/download?inline" data-entity-type="media" data-entity-uuid="f2b1c5ee-a5cc-4deb-8782-07b312502a80" data-entity-substitution="media_download_inline" title="venezuela_gl46e.pdf">Venezuela General License 46E</a> - Authorizing Certain Activities Involving Venezuelan-Origin Oil or Petrochemical Products (September 28, 2026)</li><li data-list-item-id="eb953d35ed9daaefd167a0f46a8b3a30e"><a href="/media/936811/download?inline" data-entity-type="media" data-entity-uuid="951a82ff-6f77-43ae-9e13-233c851310f9" data-entity-substitution="media_download_inline" title="venezuela_gl47b.pdf">Venezuela General License 47B</a> - Authorizing the Sale of U.S.-Origin Diluents to Venezuela (August 27, 2026)</li><li data-list-item-id="e8a4072adc19890250e01fccdebc687a3"><a href="/media/937001/download?inline" data-entity-type="media" data-entity-uuid="cd22cb91-c389-4496-9887-448667b67355" data-entity-substitution="media_download_inline" title="venezuela_gl48d.pdf">Venezuela General License 48D</a> - Authorizing the Supply of Certain Items and Services to Venezuela (September 28, 2026)</li><li data-list-item-id="e27dd7d2cf549bcf9f8e934aa199dc0f0"><a href="/media/937006/download?inline" data-entity-type="media" data-entity-uuid="1aeb0af2-5fb2-4fd6-9bdb-aa946720a2da" data-entity-substitution="media_download_inline" title="venezuela_gl49b.pdf">Venezuela General License 49B</a> - Authorizing Negotiations of and Entry Into Contingent Contracts for Certain Investment in Venezuela (September 28, 2026)</li><li data-list-item-id="ed2208c1ee1b816c38a8e2a95a7c723b5"><a href="/media/936821/download?inline" data-entity-type="media" data-entity-uuid="1bf0ad5e-146e-476d-969b-5a1c4c90bf62" data-entity-substitution="media_download_inline" title="venezuela_gl50c.pdf">Venezuela General License 50C</a> - Authorizing Transactions Related to Oil or Gas Sector Operations in Venezuela of Certain Entities (August 27, 2026)</li><li data-list-item-id="e077b3872c7790d49aa3f3a74f8294ab8"><a href="/media/936856/download?inline" data-entity-type="media" data-entity-uuid="9a50aa2b-26d0-4f14-af40-405c0c6ba1ec" data-entity-substitution="media_download_inline" title="venezuela_gl51d.pdf">Venezuela General License 51D</a> - Authorizing Certain Activities Involving Venezuelan-Origin Coal or Minerals, Including Gold (September 02, 2026)</li><li data-list-item-id="e270e8d9eeadbf880951a328ae1649687"><a href="/media/936926/download?inline" data-entity-type="media" data-entity-uuid="500d7b4a-eaa1-4321-8258-67ee81c8d405" data-entity-substitution="media_download_inline" title="venezuela_gl52c.pdf">Venezuela General License 52C</a> - Authorizing Certain Transactions Involving Petróleos de Venezuela, S.A. (September 14, 2026)</li><li data-list-item-id="e3d97268663ad27ea96544a1a4260888a"><a href="/media/935386/download?inline" data-entity-type="media" data-entity-uuid="f3c961bf-3900-41b9-ae66-8528f2428573" data-entity-substitution="media_download_inline" title="venezuela_gl53.pdf">Venezuela General License 53</a> - Official Missions of the Government of Venezuela to the United States (March 24, 2026)</li><li data-list-item-id="e573bdffafb50e96efdc48a6d61a93127"><a href="/media/936861/download?inline" data-entity-type="media" data-entity-uuid="dc557b39-d541-4b37-a822-c60e5916e73e" data-entity-substitution="media_download_inline" title="venezuela_gl54c.pdf">Venezuela General License 54C</a> - Authorizing the Supply of Certain Items and Services for Coal or Minerals Operations in Venezuela (September 02, 2026)</li><li data-list-item-id="ec300570e9989f0e3aa261183e9298a7d"><a href="/media/936866/download?inline" data-entity-type="media" data-entity-uuid="d69492b7-4b98-4e63-860b-6ef700871bfa" data-entity-substitution="media_download_inline" title="venezuela_gl55a.pdf">Venezuela General License 55A</a> - Authorizing Negotiations of and Entry Into Contingent Contracts for Certain Investment in Venezuela's Coal or Minerals Sectors (September 02, 2026)</li><li data-list-item-id="e29da013bf7b10d14003426cff4cf0226"><a href="/media/935401/download?inline" data-entity-type="media" data-entity-uuid="da431e1b-8301-4adb-9c43-fec24b44b406" data-entity-substitution="media_download_inline" title="venezuela_gl56.pdf">Venezuela General License 56</a> - Authorizing Commercial-Related Negotiations of Contingent Contracts with the Government of Venezuela (April 14, 2026)</li><li data-list-item-id="ec2bb72df3638e56937c2e922c6bc498d"><a href="/media/935516/download?inline" data-entity-type="media" data-entity-uuid="c9992d1a-d756-4c60-944b-c2c82fbad9b4" data-entity-substitution="media_download_inline" title="venezuela_gl57.pdf">Venezuela General License 57</a> - Authorizing Financial Services Transactions Involving Certain Venezuelan Banks and Government of Venezuela Individuals (April 14, 2026)</li><li data-list-item-id="e77e9a83dd9183063dd04a925b6c452c3"><a href="/media/935566/download?inline" data-entity-type="media" data-entity-uuid="bc3df908-fc44-4f85-997a-187306020916" data-entity-substitution="media_download_inline" title="venezuela_gl58.pdf">Venezuela General License 58</a> - Authorizing Certain Services to the Government of Venezuela in Connection with Potential Debt Restructuring (May 05, 2026)</li><li data-list-item-id="ebd2a82914a377559e792301351cc1d2a"><a href="/media/935736/download?inline" data-entity-type="media" data-entity-uuid="d19ea615-8408-434b-a3a0-d8e5817a05f7" data-entity-substitution="media_download_inline" title="venezuela_gl59.pdf">Venezuela General License 59</a> - Authorizing the Supply of Certain Items and Services Involving Consorcio Venezolano de Industrias Aeronáuticas y Servicios Aéreos, S.A. (Conviasa) (June 18, 2026)</li><li data-list-item-id="ecfc588fc01ac140e7041b4cfea138a52"><a href="/media/936396/download?inline" data-entity-type="media" data-entity-uuid="a4cf9975-06b9-4f5b-957c-5fc82466f81a" data-entity-substitution="media_download_inline" title="venezuela_gl60.pdf">Venezuela General License 60</a> - Authorizing Transactions Related to Earthquake Relief Efforts in Venezuela (June 25, 2026)</li><li data-list-item-id="ee54d65e26396bc500be95c3fc2567b55"><a href="/media/936841/download?inline" data-entity-type="media" data-entity-uuid="29ce5eb7-d07d-4edb-a5dc-8ae15d44c772" data-entity-substitution="media_download_inline" title="venezuela_gl61a.pdf">Venezuela General License 61A</a> - Authorizing the Supply of Certain Items and Services to Venezuela Related to Telecommunications (August 27, 2026)</li><li data-list-item-id="e565d74082801dfb5c2a522217eea33b0"><a href="/media/936741/download?inline" data-entity-type="media" data-entity-uuid="2f404894-51af-4012-a60b-0dcd1374a408" data-entity-substitution="media_download_inline" title="venezuela_gl62.pdf">Venezuela General License 62</a> - Authorizing Negotiations of and Entry Into Contingent Contracts for Investment in the Telecommunications Sector of Venezuela (August 21, 2026)</li><li data-list-item-id="e258b6af4e11e034f356c8c2143f87131"><a href="/sanctions-programs-and-country-information/non-english-translations-of-advisories-and-other-documents#vz_oil_gls" data-entity-type="node" data-entity-uuid="62cc813e-5770-461d-a276-240991275b89" data-entity-substitution="canonical" title="Non-English Translations of Advisories and Other Documents">Non-English Translations of "Venezuela-Related General Licenses"</a></li><li data-list-item-id="e717501cc645f1c841e30904c07534d36"><a href="/sanctions-programs-and-country-information/venezuela-related-sanctions/archive-of-selected-revoked-and-expired-general-licenses" data-entity-type="node" data-entity-uuid="922f186e-1534-49a1-abdc-f04cc625160d" data-entity-substitution="canonical" media_library="Media Library" title="Archive of Selected Revoked and Expired General Licenses">Archive of Expired General Licenses</a></li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="a11">
+                                    Press Charts
+                                </button></h4><div class="usa-accordion__content usa-prose" id="a11"><div><div>OFAC releases press charts related to illicit activity in Venezuela.</div></div><div><ul><li data-list-item-id="e505aa1920d0f0015c2ba95455f416483"><a href="/media/43236/download?inline" data-entity-type="media" data-entity-uuid="42fffc05-60e5-4c72-929b-d187e9e42230" data-entity-substitution="media_download_inline" media_library="Media Library" title="pdvsa_network_chart_20200618.pdf">PDVSA Sanctions Evasion Network</a> - June 2020</li><li data-list-item-id="e4d29e3ce57ebcd4bc8885fc49553650a"><a href="/media/9021/download?inline" data-entity-type="media" data-entity-uuid="e3c7fd8a-b988-4c58-80f2-2b01b7c321a9" data-entity-substitution="media_download_inline" media_library="Media Library" title="gorrin_network_chart_20190108.pdf">Venezuela Currency Exchange Network Scheme</a> - January 2019</li></ul></div></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="b1">
+                                    Legal Framework for Venezuela-related Sanctions
+                                </button></h4><div class="usa-accordion__content usa-prose" id="b1"><p>The Venezuela-related Sanctions program represents the implementation of multiple legal authorities. Some of these authorities are in the form of an executive order issued by the President. Other authorities are public laws (statutes) passed by The Congress. These authorities are further codified by OFAC in its regulations which are published in the Code of Federal Regulations (CFR). Modifications to these regulations are posted in the Federal Register.</p><div class="usa-accordion usa-accordion--multiselectable" aria-multiselectable="true"><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="b2">
+                                                                    Executive Orders
+                                                                </button></h4><div class="usa-accordion__content usa-prose" id="b2"><ul><li data-list-item-id="ec62290f91b1625b5038638f556129f48"><a href="/media/934901/download?inline" data-entity-type="media" data-entity-uuid="852b060f-a511-411e-9e45-39eff4a91970" data-entity-substitution="media_download_inline" title="eo14373.pdf">14373</a> - Safeguarding Venezuelan Oil Revenue for the Good of the American and Venezuelan People (January 09, 2026)</li><li data-list-item-id="e8dbcc8c6e94f3689ccc9095ff10f7371"><a href="/media/26786/download?inline" data-entity-type="media" data-entity-uuid="d2e34339-546f-458e-985f-a811e8d635b4" data-entity-substitution="media_download_inline" media_library="Media Library" title="13884_0.pdf">13884</a> - Blocking Property of the Government of Venezuela (August 05, 2019)</li><li data-list-item-id="e3d343d811503781e0377ed1e28b97f67"><a href="/media/5491/download?inline" data-entity-type="media" data-entity-uuid="afc82e2f-d45d-4d66-af8d-c1ec81842610" data-entity-substitution="media_download_inline" media_library="Media Library" title="13857.pdf">13857</a> - Taking Additional Steps to Address the National Emergency With Respect to Venezuela (January 25, 2019)</li><li data-list-item-id="ec31e9389add953b934832dd8968404ce"><a href="/media/5516/download?inline" data-entity-type="media" data-entity-uuid="d286886c-c95f-41a5-b4ab-4386c13b76bb" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_eo_13850.pdf">13850</a> - Blocking Property of Additional Persons Contributing to the Situation in Venezuela (November 01, 2018)</li><li data-list-item-id="e559513e802bcde67689ee5f96a353447"><a href="/media/5511/download?inline" data-entity-type="media" data-entity-uuid="a7de888b-3035-48a5-88b7-9f6ae3e70cd1" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_eo_13835.pdf">13835</a> - Prohibiting Certain Additional Transactions with Respect to Venezuela (May 21, 2018)</li><li data-list-item-id="e093c564a53783675b28ebb7c10498e89"><a href="/media/5486/download?inline" data-entity-type="media" data-entity-uuid="4cc28893-2ca0-4c78-b356-5504e9db1095" data-entity-substitution="media_download_inline" media_library="Media Library" title="13827.pdf">13827</a> - Taking Additional Steps to Address the Situation in Venezuela (March 19, 2018)</li><li data-list-item-id="e078cd6a2afbd2a4ba9021a13ffc3899c"><a href="/media/5476/download?inline" data-entity-type="media" data-entity-uuid="08936ffd-00ff-427f-84a5-c85dbd2a785e" data-entity-substitution="media_download_inline" media_library="Media Library" title="13808.pdf">13808</a> - Imposing Additional Sanctions with Respect to the Situation in Venezuela (August 24, 2017)</li><li data-list-item-id="ece93060133a2b9cc1735bffaa8062ac9"><a href="/media/5906/download?inline" data-entity-type="media" data-entity-uuid="dc139d4a-4d53-44ac-8dca-08d92c024f7d" data-entity-substitution="media_download_inline" media_library="Media Library" title="13692.pdf">13692</a> - Blocking Property and Suspending Entry of Certain Persons Contributing to the Situation in Venezuela (March 08, 2015)</li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="b3">
+                                                                    Statutes
+                                                                </button></h4><div class="usa-accordion__content usa-prose" id="b3"><ul><li data-list-item-id="e9279a440e124fdf845b22dbf9d11d64e"><a href="/media/5821/download?inline" data-entity-type="media" data-entity-uuid="f0636772-a8b8-4339-8888-12e6bd62b3b1" data-entity-substitution="media_download_inline" media_library="Media Library" title="venezuela_publ_113_278.pdf">Venezuela Defense of Human Rights and Civil Society Act of 2014</a></li><li data-list-item-id="e8b5594ab0db066f83dd65c83137ef98a"><a href="/media/5736/download?inline" data-entity-type="media" data-entity-uuid="449910c7-79ee-4730-9f7e-74e2fc61f5c6" data-entity-substitution="media_download_inline" media_library="Media Library" title="ieepa.pdf">International Emergency Economic Powers Act (IEEPA), 50 U.S.C. §§ 1701-1706</a></li><li data-list-item-id="e44001b3f729cca90e583c2d36005ba23"><a href="/media/5766/download?inline" data-entity-type="media" data-entity-uuid="2fa9ac7c-2aef-4bd7-8996-cee771959e17" data-entity-substitution="media_download_inline" media_library="Media Library" title="nea.pdf">National Emergencies Act (NEA), 50 U.S.C. §§ 1601-1651</a></li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="b4">
+                                                                    Code of Federal Regulations
+                                                                </button></h4><div class="usa-accordion__content usa-prose" id="b4"><ul><li data-list-item-id="e8d4ee4fa83c0aa2b40fcac6005c7231e"><a class="external" href="http://www.ecfr.gov/cgi-bin/text-idx?SID=7c1591ec8d3e9614b72bccc8177b84e2&amp;mc=true&amp;tpl=/ecfrbrowse/Title31/31cfr591_main_02.tpl">31 CFR Part 591</a> - Venezuela Sanctions Regulations</li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="b5">
+                                                                    Federal Register Notices
+                                                                </button></h4><div class="usa-accordion__content usa-prose" id="b5"><ul><li data-list-item-id="e60ae26cca1d9c3afa70ad61a0cab9258"><a href="/media/936961/download?inline" data-entity-type="media" data-entity-uuid="2c383789-7dc8-4037-a280-f0206bb3345a" data-entity-substitution="media_download_inline" title="fr91_60304_vz.pdf">91 FR 60304-26</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 5X and 5Y</li><li data-list-item-id="e151df421ce9bd21437b05c31729868bf"><a href="/media/936941/download?inline" data-entity-type="media" data-entity-uuid="02123ef5-7384-4cfb-9886-51261e6a14eb" data-entity-substitution="media_download_inline" title="fr91_57793.pdf">91 FR 57793-26</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 30B and 51</li><li data-list-item-id="e85c453b2f7cbd77159827a2df3b34043"><a href="/media/936936/download?inline" data-entity-type="media" data-entity-uuid="126fb8ee-f6ca-4200-a61e-225792cbde51" data-entity-substitution="media_download_inline" title="fr91_57791.pdf">91 FR 57791-26</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 50A and 51A</li><li data-list-item-id="ee0595b066a5ae3dbf12636d21491a03a"><a href="/media/935711/download?inline" data-entity-type="media" data-entity-uuid="c1434245-fbad-492e-8ebd-78cc4c0fb5d7" data-entity-substitution="media_download_inline" title="fr91_35143.pdf">91 FR 35143-26</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 48A and 49A</li><li data-list-item-id="e78e2d0ece40ac2ca7f0125e8cba115da"><a href="/media/935706/download?inline" data-entity-type="media" data-entity-uuid="dd0fb531-0919-4fbc-b04b-f3b7992e1794" data-entity-substitution="media_download_inline" title="fr91_35142vz.pdf">91 FR 35142-26</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 5U and 5V</li><li data-list-item-id="e08e84fc7f28959f31eae7d46689b4d8a"><a href="/media/935621/download?inline" data-entity-type="media" data-entity-uuid="af2d29f1-1a06-48a1-bf80-a0001acdb3d0" data-entity-substitution="media_download_inline" title="fr91_24719vz.pdf">91 FR 24719-26</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 46, 46A, and 46B</li><li data-list-item-id="e4f302342260ec6b511cd96aecef24227"><a href="/media/935626/download?inline" data-entity-type="media" data-entity-uuid="ee366228-867a-4fe1-8fbd-88d920e74a57" data-entity-substitution="media_download_inline" title="fr91_24716vz.pdf">91 FR 24716-26</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 47, 48, 49, and 50</li><li data-list-item-id="ea4c56253bca19555303274b1a5f2a27e"><a href="/media/935051/download?inline" data-entity-type="media" data-entity-uuid="4e4c3192-154d-4a1f-9c48-aca85a9393a5" data-entity-substitution="media_download_inline" title="fr91_10008.pdf">91 FR 10008-26</a> - Publication of Venezuela Sanctions Regulations Web General License 5T</li><li data-list-item-id="eed301420da171373abc211284ba20d36"><a href="/media/934621/download?inline" data-entity-type="media" data-entity-uuid="cca4f05a-2255-4d30-a912-6c9ae59352ea" data-entity-substitution="media_download_inline" title="fr90_43557.pdf">90 FR 43557-25</a> - Publication of Venezuela Sanctions Regulations Web General License 5S</li><li data-list-item-id="eb09a2a7ccd68661780a3196fc8cf06d0"><a href="/media/934616/download?inline" data-entity-type="media" data-entity-uuid="85096f90-fc07-4721-9fef-56fa5ea6b92b" data-entity-substitution="media_download_inline" title="fr90_43556.pdf">90 FR 43556-25</a> - Publication of Venezuela Sanctions Regulations Web General License 40D</li><li data-list-item-id="e892c5f73bd7dcf79c2d7497761591033"><a href="/media/934511/download?inline" data-entity-type="media" data-entity-uuid="fe879d50-bd39-4edf-8163-3cdb90608bd4" data-entity-substitution="media_download_inline" title="fr90_34598.pdf">90 FR 34598-25</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 41A, 5R, and 41B</li><li data-list-item-id="efcb2c040730c5ab5578c9c7aeecf2a16"><a href="/media/933756/download?inline" data-entity-type="media" data-entity-uuid="3a4959d8-0b3d-404f-82b1-1cae9eed13d9" data-entity-substitution="media_download_inline" title="fr89_103651.pdf">89 FR 103651-24</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 5Q and 8O</li><li data-list-item-id="e85c81828dc738e6ab8b107fe1c7b8f10"><a href="/media/933231/download?inline" data-entity-type="media" data-entity-uuid="86ce901f-5c3c-4c60-89e3-263cf5634c2d" data-entity-substitution="media_download_inline" title="fr89_72986.pdf">89 FR 72986-24</a> - Publication of Venezuela Sanctions Regulations Web General License 5P</li><li data-list-item-id="e71e2ce1af71bdbb71cf4902a98708bc7"><a href="/media/933356/download?inline" data-entity-type="media" data-entity-uuid="671debe7-9743-49bf-8b95-fee37d9795ef" data-entity-substitution="media_download_inline" title="fr89_67557.pdf">89 FR 67557-24</a> - Publication of Venezuela Sanctions Regulations Web General License 40C</li><li data-list-item-id="ecced1e8c5acdba7f6331ddaea4cf47e7"><a href="/media/933261/download?inline" data-entity-type="media" data-entity-uuid="0bbc39b3-a758-414e-9315-d80c7042a5c7" data-entity-substitution="media_download_inline" title="fr89_46802.pdf">89 FR 46802-24</a> - Publication of Venezuela Sanctions Regulations Web General License 8N</li><li data-list-item-id="e44c2b2f947e37ad1d1e9dde08c0c128d"><a href="/media/933266/download?inline" data-entity-type="media" data-entity-uuid="30d1c6bd-3be0-44e1-b4fc-a34988b138bd" data-entity-substitution="media_download_inline" title="fr89_35703.pdf">89 FR 35703-24</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 5O, 8M, and 44A</li><li data-list-item-id="ef0b6040cae1b03bbf7cf6dcb3db7681c"><a href="/media/933271/download?inline" data-entity-type="media" data-entity-uuid="7c46b7b7-d4cd-4601-9f7d-4943a82913b9" data-entity-substitution="media_download_inline" title="fr89_20120.pdf">89 FR 20120-24</a> - Publication of Venezuela Sanctions Regulations Web General License 45B</li><li data-list-item-id="e07f808625171dabf5c19c1ec43ad5585"><a href="/media/933276/download?inline" data-entity-type="media" data-entity-uuid="f7eee900-4629-4889-b394-cff87f963f4e" data-entity-substitution="media_download_inline" title="fr89_16452.pdf">89 FR 16452-24</a> - Publication of Venezuela Sanctions Regulations Web General License 43A</li><li data-list-item-id="eff824a0834a01b7c2a6cd131ce9198b9"><a href="/media/933291/download?inline" data-entity-type="media" data-entity-uuid="6745482a-6c8a-4c0c-ad6a-38a3e899bbe3" data-entity-substitution="media_download_inline" title="fr89_13271.pdf">89 FR 13271-24</a> - Publication of Venezuela Sanctions Regulations Web General License 5N</li><li data-list-item-id="e7c3ed9a557d2e06bda522e45a577b539"><a href="/media/933296/download?inline" data-entity-type="media" data-entity-uuid="f5579cb2-bc3b-4923-af79-99b8a908fbe9" data-entity-substitution="media_download_inline" title="fr89_3353.pdf">89 FR 3353-24</a> - Publication of Venezuela Sanctions Regulations Web General License 45A</li><li data-list-item-id="e71fafec7ba276aed974d419a9a46c201"><a href="/media/933321/download?inline" data-entity-type="media" data-entity-uuid="a9fdaece-00b6-4abc-a72d-b5dd76dafffc" data-entity-substitution="media_download_inline" title="fr88_76991.pdf">88 FR 76991-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 3I, 5M, 9H, 43, 44, and 45</li><li data-list-item-id="e4c5c1c7a38c173742c630228f0cc3a81"><a href="/media/933331/download?inline" data-entity-type="media" data-entity-uuid="371f1dda-3bab-4758-9b95-ccd6ccebee0a" data-entity-substitution="media_download_inline" title="fr88_65816.pdf">88 FR 65816-23</a> - Publication of Venezuela Sanctions Regulations Web General License 42</li><li data-list-item-id="e5938d77ed814546fb398bcd23b0f2628"><a href="/media/932061/download?inline" data-entity-type="media" data-entity-uuid="618b66e2-d4aa-4a4c-a9d4-ded5a4117999" data-entity-substitution="media_download_inline" title="fr88_52039.pdf">88 FR 52039-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 5K and 5L</li><li data-list-item-id="ec8a4bb30144c64036d49a596f603c633"><a href="/media/932056/download?inline" data-entity-type="media" data-entity-uuid="40ce976a-64dc-42db-a4e8-c5e433c55d4c" data-entity-substitution="media_download_inline" title="fr88_52038.pdf">88 FR 52038-23</a> - Publication of Venezuela Sanctions Regulations Web General License 40B</li><li data-list-item-id="e638898d81567c09c52ef04df11df8abc"><a href="/media/932001/download?inline" data-entity-type="media" data-entity-uuid="68556e5a-26a2-4317-9db0-9864d4d5bb9c" data-entity-substitution="media_download_inline" title="fr88_45816.pdf">88 FR 45816-23</a> - Publication of Covid-Related Web General Licenses Related to Syria Sanctions Regulations, Iranian Transactions and Sanctions Regulations, Global Terrorism Sanctions Regulations, and Venezuela Sanctions Regulations</li><li data-list-item-id="ec313449a0707ca63688e85731d6e6da5"><a href="/media/933341/download?inline" data-entity-type="media" data-entity-uuid="f69fb5a5-1927-4d8b-9baa-ce2fd914407f" data-entity-substitution="media_download_inline" title="fr88_40713.pdf">88 FR 40713-23</a> - Publication of Venezuela Sanctions Regulations Web General License 8L</li><li data-list-item-id="eebbd8648ad75e0e323cd2e0f1ab9b938"><a href="/media/931601/download?inline" data-entity-type="media" data-entity-uuid="5d691aeb-40ff-45f3-94a7-5f80ed64af3a" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_19842.pdf">88 FR 19842-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 32, 33, 34, 34A, and 35</li><li data-list-item-id="eedbd4fb84f2ff606b8c0e4735c49e89d"><a href="/media/931596/download?inline" data-entity-type="media" data-entity-uuid="91d1c543-3d0e-4ed6-966e-55e5b0b626a7" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_19840.pdf">88 FR 19840-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 29, 30, 30A, 31, and 31A</li><li data-list-item-id="eadcfc9d4ec93a31b941beee55eaa878f"><a href="/media/931481/download?inline" data-entity-type="media" data-entity-uuid="5080c5c9-d8f8-4d4c-aa37-015267aac75b" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_13024.pdf">88 FR 13024-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 19, 20, 21, 22, and Subsequent Iterations</li><li data-list-item-id="e9f3d2ba2bcda53645fa49b18f91209d6"><a href="/media/931476/download?inline" data-entity-type="media" data-entity-uuid="dfc925b2-ccef-49a5-9f34-4751f03b1859" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_13022.pdf">88 FR 13022-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 36, 36A, 37, 38, and 39</li><li data-list-item-id="edd5365a461a7247c54a8d1032b7ea827"><a href="/media/931416/download?inline" data-entity-type="media" data-entity-uuid="da841fc6-e7e8-4fdd-8a93-09fb9de51473" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_10022.pdf">88 FR 10022-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 23, 24, 25, 26, 27, and 28</li><li data-list-item-id="ef2ba54f6e126fb4133036fcca74a6eb1"><a href="/media/931406/download?inline" data-entity-type="media" data-entity-uuid="e3f68252-6e98-40db-b33a-6130e10a3c4e" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_9397.pdf">88 FR 9397-23</a> - Publication of Venezuela Sanctions Regulations Web General License 31B</li><li data-list-item-id="ea4b81baa9b331c365dee312bc2fc511b"><a href="/media/931411/download?inline" data-entity-type="media" data-entity-uuid="2543988d-8bfd-4a75-96c8-6ec3d8467943" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_9394.pdf">88 FR 9394-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 16, 17, 18, and Subsequent Iterations</li><li data-list-item-id="ee68701bdfc843de919816951c86b0a64"><a href="/media/930996/download?inline" data-entity-type="media" data-entity-uuid="9d074bf1-6ac5-4835-b7bf-1ae122d0ee80" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_6628.pdf">88 FR 6628-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 14, 15, and Subsequent Iterations</li><li data-list-item-id="e9eb7c82251256bb8810ee9c71b420360"><a href="/media/930991/download?inline" data-entity-type="media" data-entity-uuid="3cefeaa7-04f3-4612-ac31-51b23ca95dc8" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_6625.pdf">88 FR 6625-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 6, 10, 11, and Subsequent Iterations</li><li data-list-item-id="e6dcc362e35e4b03654546f6a3bb122fd"><a href="/media/930986/download?inline" data-entity-type="media" data-entity-uuid="6fe30498-cf34-4799-a5c9-8ceadd3c1116" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_6624.pdf">88 FR 6624-23</a> - Publication of Venezuela Sanctions Regulations Web General License 5F and Subsequent Iterations</li><li data-list-item-id="e4e19378aba0ead78f584084cf3b4d131"><a href="/media/930531/download?inline" data-entity-type="media" data-entity-uuid="d0aaaa0b-eb8c-4cb5-894d-c480742a1544" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_2237.pdf">88 FR 2237-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 8K and 41</li><li data-list-item-id="e823d9a12e7cf5212c58d364fe6781f9a"><a href="/media/930526/download?inline" data-entity-type="media" data-entity-uuid="c2b9e630-bec1-41b0-9813-ab7153bab707" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_2234.pdf">88 FR 2234-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 12, 13, and Subsequent Iterations</li><li data-list-item-id="e0647b052f7e6872d1fc7dfaad43dc7d2"><a href="/media/930521/download?inline" data-entity-type="media" data-entity-uuid="13e8cf9e-d7f8-42e6-9fe8-cf099b620aaa" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr88_1507.pdf">88 FR 1507-23</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 1, 2, 4, and Subsequent Iterations</li><li data-list-item-id="e7bdc8106b6bc415584c88656e26f9057"><a href="/media/930146/download?inline" data-entity-type="media" data-entity-uuid="c0edc93a-3c97-4d11-847b-01633c8966bd" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr87_78470.pdf">87 FR 78470-22</a> - Publication of United States Government and International Organizations Official Business Sanctions Regulations Amendment and General Licenses</li><li data-list-item-id="e83b4d1dbf33d9c6a2c67d6b1d1b42d0f"><a href="/media/928911/download?inline" data-entity-type="media" data-entity-uuid="23582748-93ce-4af0-84ab-2c290a6b9d7b" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr87_62020.pdf">87 FR 62020-22</a> - Publication of Venezuela Sanctions Regulations Web General License 9 and Subsequent Iterations</li><li data-list-item-id="e2b898069290ccefbc9f0ad88a9544ba4"><a href="/media/928906/download?inline" data-entity-type="media" data-entity-uuid="fcc5f9ee-b673-4858-9187-a30d6ef4ec78" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr87_62007.pdf">87 FR 62007-22</a> - Publication of Venezuela Sanctions Regulations Web General License 3 and Subsequent Iterations</li><li data-list-item-id="ee37cc3a9be7e390e0a5ae1f94ec3361a"><a href="/media/925311/download?inline" data-entity-type="media" data-entity-uuid="d9a7e2fe-9fb6-456c-8ea4-4e37fb5b8da7" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr87_50573.pdf">87 FR 50573-22</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 8I and 8J</li><li data-list-item-id="e02e27093cebb90d17c402850b0de0d64"><a href="/media/925306/download?inline" data-entity-type="media" data-entity-uuid="01a1a47c-00f9-4e6b-8ab4-3a4bd3f8e6c4" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr87_50572.pdf">87 FR 50572-22</a> - Publication of Venezuela Sanctions Regulations Web General Licenses 40 and 40A</li><li data-list-item-id="eb472b454f940329555b0ae3f3ac2ebb3"><a href="/media/925126/download?inline" data-entity-type="media" data-entity-uuid="b8ac0682-8213-4702-9e1a-a220cc2d0dae" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr87_47932.pdf">87 FR 47932-22</a> - Publication of Covid-Related Web General Licenses Related to Syria Sanctions Regulations, Iran Transactions and Sanctions Regulations, Global Terrorism Sanctions Regulations, and Venezuela Sanctions Regulations</li><li data-list-item-id="e1446c48e974cddf46510756e638a5018"><a href="/media/913836/download?inline" data-entity-type="media" data-entity-uuid="01f96c58-540c-4516-b064-2c3287194266" data-entity-substitution="media_download_inline" media_library="Media Library" title="86_fr_59024.pdf">86 FR 59024-21</a> - Publication of Venezuela Web General License 8 and Subsequent Iterations</li><li data-list-item-id="e3d050cf1aa3647ea5dda758e366035fa"><a href="/media/913701/download?inline" data-entity-type="media" data-entity-uuid="fa140c85-6bd7-4904-809a-e4aeceb72970" data-entity-substitution="media_download_inline" media_library="Media Library" title="86_fr_58016.pdf">86 FR 58016-21</a> - Publication of Venezuela Web General License 7 and Subsequent Iterations</li><li data-list-item-id="ea6f83a9624a2879f172019c24c56e412"><a href="/media/913706/download?inline" data-entity-type="media" data-entity-uuid="4d3bde00-e720-448d-8a80-3bf7aac4b569" data-entity-substitution="media_download_inline" media_library="Media Library" title="85_fr_76450.pdf">85 FR 76450-20</a> - Publication of Web General Licenses (GL 5) Issued Pursuant to the Venezuela Sanctions Regulations</li><li data-list-item-id="e652cb0a2612f61ca8a97b223ea0cbaa4"><a href="/media/930516/download?inline" data-entity-type="media" data-entity-uuid="7e80a4c7-a664-4da9-9855-ac678288d58a" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr85_14572.pdf">85 FR 14572-20</a> - General Licenses Issued Pursuant to Venezuela-Related Executive Order 13835</li><li data-list-item-id="ee5559fd728202e672edef8cf4701ba7d"><a href="/media/25936/download?inline" data-entity-type="media" data-entity-uuid="1979853f-63cb-4c79-8bd1-f78fc9426b79" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr84_64415.pdf">84 FR 64415-19</a> - Publication of Amended Venezuela Sanctions Regulations</li><li data-list-item-id="e10e377da237c7489e08b6d068c5aeec6"><a href="/media/9016/download?inline" data-entity-type="media" data-entity-uuid="a850b765-31d3-4b04-9aa9-935330ba6598" data-entity-substitution="media_download_inline" media_library="Media Library" title="fr80_39676.pdf">80 FR 39676-15</a> - Final Rule Issuing the Venezuela Sanctions Regulations</li></ul></div><h4 class="usa-accordion__heading"><button class="usa-accordion__button" type="button" aria-expanded="false" aria-controls="b6">
+                                                                    Determinations
+                                                                </button></h4><div class="usa-accordion__content usa-prose" id="b6"><ul><li data-list-item-id="eea7652e22f50e05746a32bcb7630f500"><a href="/media/34151/download?inline" data-entity-type="media" data-entity-uuid="b1ec52b5-f7fb-4cb3-9b83-21ebf44f1794" data-entity-substitution="media_download_inline" media_library="Media Library" title="vz_sector_determination_defense_20190509.pdf">Determination Pursuant to Executive Order 13850 of November 1, 2018, as Amended</a> (Effective date - May 09, 2019) - Defense and Security Sector</li><li data-list-item-id="e971b7fa06fbcdf8b653736680d279b52"><a href="/media/34146/download?inline" data-entity-type="media" data-entity-uuid="5299d571-fcad-4a1d-af85-c82dc2e4f113" data-entity-substitution="media_download_inline" media_library="Media Library" title="vz_sector_determination_financial_20190322.pdf">Determination Pursuant to Executive Order 13850 of November 1, 2018, as Amended</a> (Effective date - March 22, 2019) - Financial Sector</li><li data-list-item-id="e208451a1ebdcb0fbd9a0775e524018bf"><a href="/media/34141/download?inline" data-entity-type="media" data-entity-uuid="f5277aba-c75a-43ac-a289-4b3a539ecfe8" data-entity-substitution="media_download_inline" media_library="Media Library" title="vz_sector_determination_oil_20190128.pdf">Determination Pursuant to Executive Order 13850 of November 1, 2018, as Amended</a> (Effective date - January 28, 2019) - Oil Sector</li></ul></div></div></div></div></div>
+      
+</article>
+    </div>
+  </div>
+
+  </div>
+
+       </div>
+
+              <aside class="tablet:grid-col-3">
+            <div class="region region-sidebar-second">
+    <div class="views-element-container block block-views block-views-blockrecent-actions-on-sanctions-block-1" id="block-views-block-recent-actions-on-sanctions-block-1">
+  
+    
+      <div class="content">
+      <div><div class="usa-summary-box margin-left-3 view view-recent-actions-on-sanctions view-id-recent_actions_on_sanctions view-display-id-block_1 js-view-dom-id-c92effdcec6da28d842c77ffb412619b0e09aa4c12170f8e86db0ee873699dbc">
+  
+    
+      <div class="view-header">
+      <h3 class="usa-summary-box__heading">Recent Actions regarding Venezuela-Related Sanctions</h3>
+    </div>
+      
+      <div class="view-content">
+      <div class="item-list">
+  
+  <ul class="add-list-reset">
+
+          <li class="margin-top-3"><div class="views-field views-field-title-1"><span class="field-content"><a href="/recent-actions/20260928" hreflang="en">Issuance of Amended Venezuela General Licenses</a></span></div><div class="font-sans-3xs text-accent-cool-darker"><span>Release Date: </span><span><time datetime="2026-09-28T12:00:00Z" class="datetime">Sep 28, 2026</time>
+</span></div></li>
+          <li class="margin-top-3"><div class="views-field views-field-title-1"><span class="field-content"><a href="/recent-actions/20260916" hreflang="en">Russia-related Designations Removals; Counter Narcotics Designation Removal; Issuance of Amended Venezuela General License and Frequently Asked Question</a></span></div><div class="font-sans-3xs text-accent-cool-darker"><span>Release Date: </span><span><time datetime="2026-09-16T12:00:00Z" class="datetime">Sep 16, 2026</time>
+</span></div></li>
+          <li class="margin-top-3"><div class="views-field views-field-title-1"><span class="field-content"><a href="/recent-actions/20260914" hreflang="en">Iran-related Designation; Issuance of Amended Venezuela-related General License and Frequently Asked Question</a></span></div><div class="font-sans-3xs text-accent-cool-darker"><span>Release Date: </span><span><time datetime="2026-09-14T12:00:00Z" class="datetime">Sep 14, 2026</time>
+</span></div></li>
+    
+  </ul>
+
+</div>
+
+    </div>
+  
+          </div></div>
+
+    </div>
+  </div>
+
+  </div>
+
+        </aside>
+      
+    </div>
+   </div>
+
+   </main>
+
+
+<footer class="usa-footer usa-footer--medium" role="contentinfo">
+  <div class="usa-footer__primary-section">
+    <div class="grid-container">
+        <div class="grid-row grid-gap">
+          <div class="mobile-lg:grid-col-12">
+              <div class="region region-footer grid-row grid-gap">
+    <div id="block-footerofficeofterrorismandfinancialintelligence" class="block block-block-content block-block-content045f44ac-2f52-44b4-bf69-9a91a4cd1755">
+  
+    
+      <div class="content">
+      
+            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"><div class="display-flex maxw-mobile flex-align-start margin-top-4"><img class="width-10 margin-right-2" src="/themes/custom/gallatin/logo.svg" alt="Treasury seal"><h3 class="ofac-footer-logo display-flex text-uppercase grid-col-8 margin-0">Office of Terrorism and Financial Intelligence</h3></div></div>
+      
+    </div>
+  </div>
+<nav role="navigation" aria-labelledby="block-footeradditionalresources-menu" id="block-footeradditionalresources" class="block block-menu navigation menu--footer---additional-resources mobile-lg:grid-col-6 desktop:grid-col">
+      
+    <h3 class="treas-text--h2" id="block-footeradditionalresources-menu">Additional Resources</h3>
+  
+
+        
+              <ul class="menu">
+                    <li class="menu-item">
+        <a href="https://home.treasury.gov/footer/privacy-act">Privacy Act</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/policy-issues/small-business-programs/small-and-disadvantaged-business-utilization/bureau-small-business-specialists">Small Business Contacts</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/about/budget-financial-reporting-planning-and-performance">Budget and Performance</a>
+              </li>
+                <li class="menu-item">
+        <a href="http://www.treasurydirect.gov/">TreasuryDirect.gov Securities/Bonds</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/footer/freedom-of-information-act">Freedom of Information Act (FOIA)</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/footer/no-fear-act">No FEAR Act Data</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/footer/prohibited-personnel-practices-and-whistleblower-protection">Whistleblower Protection</a>
+              </li>
+        </ul>
+  
+
+
+  </nav>
+<nav role="navigation" aria-labelledby="block-ofacfootermenu-menu" id="block-ofacfootermenu" class="block block-menu navigation menu--ofac-footer-menu mobile-lg:grid-col-6 desktop:grid-col">
+      
+    <h3 class="treas-text--h2" id="block-ofacfootermenu-menu">Helpful OFAC Links</h3>
+  
+
+        
+              <ul class="menu">
+                    <li class="menu-item">
+        <a href="https://service.govdelivery.com/accounts/USTREAS/subscriber/new?topic_id=USTREAS_89">Sign Up For OFAC E-mail Alerts</a>
+              </li>
+                <li class="menu-item">
+        <a href="/contact-ofac" data-drupal-link-system-path="node/6926">Contact OFAC</a>
+              </li>
+                <li class="menu-item">
+        <a href="/faqs/71" data-drupal-link-system-path="node/17431">Dealing with an &quot;OFAC Alert&quot;</a>
+              </li>
+                <li class="menu-item">
+        <a href="/sanctions-programs-and-country-information/where-is-ofacs-country-list-what-countries-do-i-need-to-worry-about-in-terms-of-us-sanctions" data-drupal-link-system-path="node/6756">List of Country-related Sanctions</a>
+              </li>
+                <li class="menu-item">
+        <a href="/specially-designated-nationals-list-sdn-list/filing-a-petition-for-removal-from-an-ofac-list" data-drupal-link-system-path="node/6771">Appeal an OFAC designation or other listing</a>
+              </li>
+        </ul>
+  
+
+
+  </nav>
+<nav role="navigation" aria-labelledby="block-footerothergovernmentsites-menu" id="block-footerothergovernmentsites" class="block block-menu navigation menu--footer---other-government-sites mobile-lg:grid-col-6 desktop:grid-col">
+      
+    <h3 class="treas-text--h2" id="block-footerothergovernmentsites-menu">Other Government Sites</h3>
+  
+
+        
+              <ul class="menu">
+                    <li class="menu-item">
+        <a href="https://www.usa.gov/">USA.gov</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.usajobs.gov">USAJOBS.gov</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.opm.gov">OPM.gov</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.mymoney.gov">MyMoney.gov</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://www.data.gov">Data.gov</a>
+              </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+        <div class="usa-footer__secondary-section">
+      <div class="grid-container">
+        <div class="grid-row grid-gap">
+          <div class="mobile-lg:grid-col-12">
+              <div class="region region-footer-secondary">
+    <nav role="navigation" aria-labelledby="block-footer-menu" id="block-footer" class="block block-menu navigation menu--footer">
+            
+  <h2 class="visually-hidden" id="block-footer-menu">Footer</h2>
+  
+
+        
+              <ul class="menu">
+                    <li class="menu-item">
+        <a href="https://home.treasury.gov/subfooter/privacy-policy">Privacy Policy </a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/subfooter/google-privacy-policy">Google Privacy </a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/subfooter/site-policies-and-notices">Site Policies and Notices</a>
+              </li>
+                <li class="menu-item">
+        <a href="https://home.treasury.gov/utility/accessibility">Accessibility</a>
+              </li>
+        </ul>
+  
+
+
+  </nav>
+
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  </div>
+
+    
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/6446","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ajaxPageState":{"libraries":"eJxlj2sOwjAMgy9U1iNNXpNVRWmDmm5jOz0VA4TgT-QvD1sBUVOU3eMlhrlqaQ5m3MZUrhyaVh_MBuKso65cayI2NwmO3U9JB1xxd0H6SWcYv3VmM8S--uKi1GdauauaIelgFyGClopfbCNzUTUKjyiQvaVg_rfhdEbwUXSCONutcT4zF5uZoq7jn4Uo6PLBS6DinmGe6nLrLiec-Wvizfyznm99N7LSIvwAl3J3dg","theme":"ofac","theme_token":null},"ajaxTrustedUrl":[],"google_analytics":{"account":"UA-19138737-27","trackOutbound":true,"trackMailto":true,"trackTel":true,"trackDownload":true,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip"},"views":{"ajax_path":"\/views\/ajax","ajaxViews":{"views_dom_id:c92effdcec6da28d842c77ffb412619b0e09aa4c12170f8e86db0ee873699dbc":{"view_name":"recent_actions_on_sanctions","view_display_id":"block_1","view_args":"6446","view_path":"\/node\/6446","view_base_path":null,"view_dom_id":"c92effdcec6da28d842c77ffb412619b0e09aa4c12170f8e86db0ee873699dbc","pager_element":0}}},"user":{"uid":0,"permissionsHash":"56a9fbda291a3adcca19d203c23a90a47279e9e7f599b4c944fdf8ea2fc4857c"}}</script>
+<script src="/sites/default/files/js/js_bIkpf8FdXtM5MawXNxzcuZ7T6qcQF-Ihpcwuptp2VIM.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=ofac&amp;include=eJxljdsKhDAMRH8omk-SsamlS0jA1Ev9ekGWfVhfhjnDgYFIc1hnfMu4rG6NZsXVea4-4oOTClTRqvEWhwQV96J5gkF7qyn4f6AtlizF9-mlqkOGHw5JjPaaj-Ann7sbHQg6eQ"></script>
+<script src="https://static.addtoany.com/menu/page.js" defer></script>
+<script src="/sites/default/files/js/js_NRgG43XQWXy7n1-mrF51pLiiVCn80ZISFtv31XdbGwM.js?scope=footer&amp;delta=2&amp;language=en&amp;theme=ofac&amp;include=eJxljdsKhDAMRH8omk-SsamlS0jA1Ev9ekGWfVhfhjnDgYFIc1hnfMu4rG6NZsXVea4-4oOTClTRqvEWhwQV96J5gkF7qyn4f6AtlizF9-mlqkOGHw5JjPaaj-Ann7sbHQg6eQ"></script>
+
+  </body>
+</html>

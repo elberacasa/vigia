@@ -32,9 +32,9 @@
 	color: var(--text-3);
 }
 .filter-chip.is-on {
-	border-color: var(--signal);
+	border-color: var(--accent);
 	color: var(--text);
-	background: var(--signal-soft);
+	background: var(--accent-soft);
 }
 .stories {
 	list-style: none;
@@ -204,18 +204,18 @@ fieldset.topic-chips {
 	border-radius: var(--r-md);
 	padding: var(--s-3) var(--s-4);
 	margin-bottom: var(--s-3);
-	background: var(--ok-soft);
-	border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
+	/* A neutral surface with a 2 px rule in the state's colour: tints stay behind their own colour's text only. */
+	background: var(--surface-2);
+	border: 1px solid var(--line);
+	border-left: 2px solid var(--ok);
 	display: grid;
 	gap: var(--s-2);
 }
 .verdict--drop {
-	background: var(--warn-soft);
-	border-color: color-mix(in srgb, var(--warn) 40%, transparent);
+	border-left-color: var(--warn);
 }
 .verdict--severe {
-	background: var(--alert-soft);
-	border-color: color-mix(in srgb, var(--alert) 45%, transparent);
+	border-left-color: var(--alert);
 }
 .verdict__text {
 	margin: 0;
@@ -386,6 +386,9 @@ fieldset.topic-chips {
 	display: inline-flex;
 	align-items: baseline;
 	gap: 6px;
+	/* A link: at least 24 px tall (WCAG 2.5.8), whatever the type scale. */
+	min-height: 24px;
+	padding-top: 3px;
 }
 .reading__who {
 	font-size: 9px;
@@ -513,7 +516,7 @@ fieldset.topic-chips {
 	color: var(--text-2);
 }
 .gap strong {
-	color: var(--signal);
+	color: var(--text);
 }
 .p2p {
 	list-style: none;
@@ -948,4 +951,9 @@ fieldset.topic-chips {
 }
 .rate-chart__note {
 	margin: 2px 0 0;
+}
+
+/* A pressed chip's count stays readable on the accent tint (axe). */
+.filter-chip.is-on .data {
+	color: var(--text-2);
 }

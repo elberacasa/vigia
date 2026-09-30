@@ -1,4 +1,7 @@
 import { expect, test } from "bun:test";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { canonicalJson, Store } from "./store.ts";
 import type { Observation } from "./types.ts";
 
@@ -117,4 +120,36 @@ test("retention keeps the newest row of every series, however old (review 2, M7)
 	store.pruneObservations(100);
 	expect(store.history("s", "monthly", 0, 1_000).map((o) => o.value)).toEqual([{ v: 2 }]);
 	expect(store.history("s", "fast", 0, 1_000).map((o) => o.value)).toEqual([{ v: 3 }]);
+});
+
+test("runs gain a nullable `wire` column in place: older rows read as null, reopening is a no-op", () => {
+	const dir = mkdtempSync(join(tmpdir(), "vigia-wire-"));
+	try {
+		const path = join(dir, "v.sqlite");
+		const old = new Store(path);
+		// A file written before 0.2.0: the column did not exist and its rows have no figure.
+		old.db.run("ALTER TABLE runs DROP COLUMN wire");
+		old.db.run(
+			"INSERT INTO runs (source, started_at, finished_at, ok, error, bytes, received, inserted) VALUES ('a', 1, 2, 1, NULL, 10, 1, 1)",
+		);
+		old.db.close();
+		const store = new Store(path);
+		store.recordRun({
+			source: "a",
+			startedAt: 5,
+			finishedAt: 6,
+			ok: true,
+			error: null,
+			bytes: 10,
+			wire: 900,
+			received: 1,
+			inserted: 0,
+		});
+		expect(store.recentRuns("a", 5).map((r) => r.wire)).toEqual([900, null]);
+		expect(store.downloadedSince(0).get("a")).toEqual({ wire: 900, runs: 1, first: 5 });
+		store.db.close();
+		new Store(path).db.close();
+	} finally {
+		rmSync(dir, { recursive: true, force: true });
+	}
 });

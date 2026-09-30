@@ -21,6 +21,8 @@ interface Adapter<V extends Json> {
   intervalMs: number;                  // how often to poll
   freshness: { fetchMs: number; dataMs: number | null };
   optIn?: { es: string; en: string };  // off by default, with the reason shown in the guide
+  note?: { es: string; en: string };   // on by default, with a note on how Vigía reads it
+  defaultIn?: { local: boolean; public: boolean }; // default per deployment mode; overrides optIn
   blobs?: BlobPolicy;                  // retention for images it stores, if any
   fetch(ctx: FetchContext): Promise<readonly RawResponse[]>;   // network only
   normalise(raw: readonly RawResponse[]): Observation<V>[];    // pure
@@ -75,7 +77,9 @@ still show what Vigía derives from them. Never add a source whose terms forbid 
 ## Step by step
 
 1. **Read the source's terms** and rate limits. Note the licence, whether redistribution is allowed, and whether
-   automated access is permitted. Sources with unclear terms for automated access are `optIn`.
+   automated access is permitted. Sources with unclear terms for automated access are `optIn`. When the terms allow
+   one use but not another (a personal reader yes, a public mirror no), set `defaultIn` per deployment mode with a
+   `note` that says why (`src/core/defaults.ts`).
 2. **Create the directory** `src/adapters/<id>/`:
 
    ```

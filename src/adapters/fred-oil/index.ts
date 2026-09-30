@@ -6,8 +6,12 @@ import { utcDateToMs } from "../../formats/time.ts";
 /**
  * Brent and WTI daily spot prices from FRED's keyless CSV. FRED republishes the U.S. Energy Information
  * Administration's series (DCOILBRENTEU = EIA RBRTE, DCOILWTICO = EIA RWTC; identical values checked on
- * 2026-09-22), so the attribution is "U.S. EIA vía FRED". Values are US$ per barrel; the newest day usually
- * lags by one or two business days.
+ * 2026-09-22), so the attribution is "U.S. EIA vía FRED". Values are US$ per barrel.
+ *
+ * Release cadence (FRED's release calendar for "Spot Prices", rid=212, read 2026-09-29): **weekly**, Wednesdays at
+ * 12:00 US Central (a Thursday after a Monday holiday), each release carrying the days up to the day before. On
+ * 2026-09-29 the newest day was 2026-09-22 (released 2026-09-23, next release 2026-09-30): a newest day 7 days old
+ * is normal, and just before a Thursday release it is 9 days 17 hours old.
  *
  * Quirks:
  * - FRED's firewall resets connections for User-Agents that do not start with a known client token, so this
@@ -80,10 +84,11 @@ export const fredOil: Adapter<OilPrice> = {
 	homepage: "https://fred.stlouisfed.org/series/DCOILBRENTEU",
 	licence: EIA_VIA_FRED,
 	keys: [],
-	// Daily data published once a day; every 6 h is plenty.
+	// Daily values released weekly; every 6 h picks a release up within hours.
 	intervalMs: 6 * 3_600_000,
-	// Stale when the newest trading day is more than 6 calendar days old (≈ 4 business days).
-	freshness: { fetchMs: 24 * 3_600_000, dataMs: 6 * 86_400_000 },
+	// Stale when the newest trading day is more than 11 days old: the longest normal age (9 d 17 h, above) plus a
+	// poll and a margin, so a missed weekly release shows within a day or two.
+	freshness: { fetchMs: 24 * 3_600_000, dataMs: 11 * 86_400_000 },
 
 	async fetch(ctx) {
 		const out: RawResponse[] = [];

@@ -243,7 +243,10 @@ function Blocks({ v }: { v: NetwatchView["methods"] }) {
 			<div class="nw-lead">
 				<div class="figure">
 					<span class="figure__label">
-						{t("Sitios bloqueados en al menos un proveedor", "Sites blocked on at least one ISP")}
+						{t(
+							"Sitios bloqueados en al menos un proveedor (regla de Vigía sobre OONI)",
+							"Sites blocked on at least one ISP (Vigía's rule on OONI)",
+						)}
 					</span>
 					<span class="figure__value">{int(v.totalBlocked, l)}</span>
 					<span class="note">

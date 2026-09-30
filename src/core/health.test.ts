@@ -50,6 +50,11 @@ test("states", () => {
 	expect(
 		computeHealth(input({ lastSuccessAt: 50_000, newestObservedAt: 50_000, runtime: rt(3) })).state,
 	).toBe("failing");
+	// Data stored but its runs pruned from the log: stale with its data's age, never "Esperando datos" (review).
+	expect(computeHealth(input({ newestObservedAt: 50_000 })).state).toBe("stale");
+	expect(computeHealth(input({ newestObservedAt: 50_000, runs: [run(false, 99_000)] })).state).toBe(
+		"failing",
+	);
 });
 
 test("event feeds never go stale on silence", () => {

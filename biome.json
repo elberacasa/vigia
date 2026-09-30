@@ -8,6 +8,7 @@
 			"!**/fixtures",
 			"!**/*.geojson",
 			"!src/geo/data",
+			"!src/ontology/data",
 			"!web/assets/generated",
 			"!web/static/sw.js",
 			"!src/ai/evaluation.ts",
@@ -25,6 +26,12 @@
 			"correctness": { "noUnusedVariables": "error", "noUnusedImports": "error" }
 		}
 	},
+	"overrides": [
+		{
+			"includes": ["web/src/ui/entity/EntityView.tsx"],
+			"linter": { "rules": { "a11y": { "noRedundantRoles": "off" } } }
+		}
+	],
 	"javascript": { "formatter": { "quoteStyle": "double" } },
 	"assist": { "enabled": true, "actions": { "source": { "organizeImports": "on" } } }
 }

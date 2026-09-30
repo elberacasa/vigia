@@ -34,6 +34,8 @@ interface Entry {
 	name: string;
 	kind: "state" | "municipality" | "city" | "sector";
 	stateCode: string;
+	/** P-code of the municipality a city, sector or parish lies in (the municipality's own code for municipalities). */
+	municipalityCode?: string;
 	/** A place like Caracas that spans more than one state still has one primary state. */
 	population?: number;
 }
@@ -55,6 +57,10 @@ export interface PlaceMention {
 	readonly state: string;
 	readonly confidence: number;
 	readonly how: "unambiguous" | "cue" | "context" | "outlet-local";
+	/** The gazetteer entry the term resolved to ("mun:VE0513", "parish:VE010121", "gn:3646738", "state:VE01"). */
+	readonly entry: string;
+	/** P-code of the municipality the place lies in, when the gazetteer knows it (not for states). */
+	readonly municipality?: string;
 }
 
 export interface PlaceTags {
@@ -101,7 +107,31 @@ const ALWAYS_CUE = new Set([
 	"la montana",
 	"el cementerio",
 	"la carlota",
+	// Surnames and ordinary phrases that are also place names (whole-release review, M4, measured on 11,756 real
+	// headlines: "Rubio" was Marco Rubio 57 times of 65, "García"/"Gómez" people, "las mesas" of negotiation, "el
+	// consejo" of ministers, "obispos" the bishops). A cue ("municipio García") or a place of their state still works.
+	"rubio",
+	"garcia",
+	"gomez",
+	"las mesas",
+	"el consejo",
+	"obispos",
+	// Foreign first: the Dominican capital, the Californian city and its baseball team.
+	"santo domingo",
+	"san diego",
 ]);
+
+/** Alternate names that are never a place by themselves: "del Zulia" (GeoNames' name for San Carlos del Zulia) is
+ * how headlines say "Universidad del Zulia", "Sur del Lago del Zulia": it linked 69 of 69 wrongly to Colón. */
+const NEVER_TERMS = new Set(["del zulia"]);
+
+/** Phrases that name something else, masked before matching: a gang, a team. */
+const MASKED = ["tren de aragua", "padres de san diego"];
+function mask(normalized: string): string {
+	let out = normalized;
+	for (const m of MASKED) out = out.split(m).join(" ");
+	return out;
+}
 /**
  * Curated: overwhelmingly places in Venezuelan news despite a flag in the list (a mountain range, a Peruvian port,
  * a region). Accepted from Venezuelan outlets like unambiguous terms, at the foreign-homonym confidence.
@@ -151,6 +181,81 @@ const FOREIGN = new Set([
 	"filipinas",
 ]);
 
+const MONTHS = new Set([
+	"enero",
+	"febrero",
+	"marzo",
+	"abril",
+	"mayo",
+	"junio",
+	"julio",
+	"agosto",
+	"septiembre",
+	"setiembre",
+	"octubre",
+	"noviembre",
+	"diciembre",
+]);
+/** Words before a date ("desde el 23 de enero", "el pasado 7 de septiembre", "el sábado 24 de julio"). */
+const DATE_BEFORE = new Set([
+	"desde",
+	"hasta",
+	"del",
+	"al",
+	"entre",
+	"este",
+	"esta",
+	"pasado",
+	"proximo",
+	"dia",
+	"fecha",
+	"hoy",
+	"lunes",
+	"martes",
+	"miercoles",
+	"jueves",
+	"viernes",
+	"sabado",
+	"domingo",
+]);
+/** Words that make a date-shaped name a place: "sector 7 de Septiembre", "parroquia 23 de Enero". */
+const PLACE_BEFORE = new Set([
+	"parroquia",
+	"sector",
+	"barrio",
+	"urbanizacion",
+	"urb",
+	"comunidad",
+	"avenida",
+]);
+const isNumber = (w: string | undefined) => w !== undefined && /^\d+$/.test(w);
+
+/**
+ * Numbers are dates and figures before they are places (measured 2026-09-29: "El 23", the curated name of the
+ * parish 23 de Enero, matched "el 23 de septiembre" in 11 of 69 sampled parish links).
+ * - A term that ends in a number ("el 23", "ud 5") is never a place by itself; "el 23 de Enero" is still matched by
+ *   the full name from the next word.
+ * - A term shaped "<number> de <month>" is a date when a year follows ("23 de enero de 1958") or a date word comes
+ *   before it ("desde el 24 de julio"); one that is not a parish ("7 de septiembre", "24 de julio": sectors) also
+ *   needs a place word before it ("sector 7 de Septiembre").
+ */
+export function readsAsDate(
+	phrase: string,
+	words: readonly string[],
+	start: number,
+	parish: boolean,
+): boolean {
+	const parts = phrase.split(" ");
+	if (isNumber(parts.at(-1))) return true;
+	if (!(parts.length === 3 && isNumber(parts[0]) && parts[1] === "de" && MONTHS.has(parts[2] ?? "")))
+		return false;
+	const after = start + parts.length;
+	if ((words[after] === "de" || words[after] === "del") && isNumber(words[after + 1])) return true;
+	const before = words[start - 1] === "el" ? words[start - 2] : words[start - 1];
+	if (before !== undefined && DATE_BEFORE.has(before)) return true;
+	return !parish && !PLACE_BEFORE.has(words[start - 1] ?? "");
+}
+
 interface Index {
 	/** First token → terms starting with it, longest first. */
 	byFirst: Map<string, Term[]>;
@@ -164,7 +269,7 @@ function buildIndex(): Index {
 	const terms = new Map<string, Term>();
 	const add = (phrase: string, entry: Entry, curated: boolean) => {
 		const key = normalize(phrase);
-		if (!key) return;
+		if (!key || NEVER_TERMS.has(key)) return;
 		const iso = isoOf(entry.stateCode);
 		if (!iso) return;
 		let term = terms.get(key);
@@ -244,10 +349,11 @@ function findHits(words: readonly string[]): Hit[] {
 		if (candidates) {
 			for (const term of candidates) {
 				const parts = term.phrase.split(" ");
-				if (parts.every((p, k) => words[i + k] === p)) {
-					matched = term;
-					break;
-				}
+				if (!parts.every((p, k) => words[i + k] === p)) continue;
+				const parish = term.entries.some((e) => e.id.startsWith("parish:"));
+				if (readsAsDate(term.phrase, words, i, parish)) continue;
+				matched = term;
+				break;
 			}
 		}
 		if (matched) {
@@ -300,7 +406,7 @@ function datelineTerm(text: string): string | null {
 }
 
 export function tagPlaces(text: string, options: TagOptions = {}): PlaceTags {
-	const words = normalize(text).split(" ").filter(Boolean);
+	const words = mask(normalize(text)).split(" ").filter(Boolean);
 	const hits = findHits(words);
 	const dateline = datelineTerm(text);
 	const accepted: PlaceMention[] = [];
@@ -311,7 +417,16 @@ export function tagPlaces(text: string, options: TagOptions = {}): PlaceTags {
 	const accept = (hit: Hit, state: string, confidence: number, how: PlaceMention["how"]) => {
 		const entry = bestEntry(hit.term, state);
 		if (!entry) return;
-		accepted.push({ term: hit.term.phrase, place: entry.name, kind: entry.kind, state, confidence, how });
+		accepted.push({
+			term: hit.term.phrase,
+			place: entry.name,
+			kind: entry.kind,
+			state,
+			confidence,
+			how,
+			entry: entry.id,
+			...(entry.municipalityCode ? { municipality: entry.municipalityCode } : {}),
+		});
 	};
 
 	for (const hit of hits) {
@@ -332,7 +447,8 @@ export function tagPlaces(text: string, options: TagOptions = {}): PlaceTags {
 		// Dateline: the first words before ":" name a state (or a city whose state is clear).
 		if (hit.start === 0 && dateline === term.phrase) {
 			const stateEntry = term.entries.find((e) => e.kind === "state");
-			const iso = stateEntry ? isoOf(stateEntry.stateCode) : onlyState;
+			// A surname or ordinary word opening a headline is a speaker, not a dateline ("Rubio: Trump y Delcy…").
+			const iso = stateEntry ? isoOf(stateEntry.stateCode) : ALWAYS_CUE.has(term.phrase) ? null : onlyState;
 			if (iso) {
 				accept(hit, iso, 0.85, "cue");
 				continue;

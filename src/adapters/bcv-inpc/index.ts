@@ -22,6 +22,24 @@ import { bcvRequest } from "../bcv-official/tls.ts";
 export const BCV_INPC_URL = "https://www.bcv.org.ve/sites/default/files/precios_consumidor/4_5_7.xls";
 export const BCV_INPC_PAGE = "https://www.bcv.org.ve/estadisticas/consumidor";
 
+/**
+ * The index base as the BCV prints it at the head of 4_5_7.xls ("( BASE Diciembre 2007 = 100 )"). The reader checks
+ * the file says exactly this; a new base would make every level incomparable with the archive, so it is an error.
+ */
+export const INPC_BASE = { es: "diciembre 2007 = 100", en: "December 2007 = 100" } as const;
+const BASE_LINE = /^\(?\s*base\s+diciembre\s+2007\s*=\s*100\s*\)?$/i;
+
+/** The base line of the sheet, if any ("( BASE Diciembre 2007 = 100 )"), and whether it is the one we know. */
+export function baseOf(rows: readonly (readonly Cell[])[]): { text: string; known: boolean } | null {
+	for (const row of rows.slice(0, 12))
+		for (const cell of row)
+			if (typeof cell === "string" && /\bbase\b/i.test(cell)) {
+				const text = cell.replace(/\s+/g, " ").trim();
+				return { text, known: BASE_LINE.test(text) };
+			}
+	return null;
+}
+
 export type InpcMonth = {
 	/** The month the figure refers to, "YYYY-MM". */
 	readonly period: string;
@@ -93,6 +111,10 @@ export const bcvInpc: Adapter<InpcMonth> = {
 		} catch (error) {
 			throw new SchemaError(`BCV 4_5_7.xls ilegible: ${(error as Error).message}`);
 		}
+		const base = baseOf(rows);
+		if (!base) throw new SchemaError("BCV INPC: el archivo no dice la base del índice");
+		if (!base.known)
+			throw new SchemaError(`BCV INPC: base nueva («${base.text}»), se esperaba diciembre 2007 = 100`);
 		const out: Observation<InpcMonth>[] = [];
 		const seen = new Set<string>();
 		let year: { year: number; provisional: boolean } | null = null;

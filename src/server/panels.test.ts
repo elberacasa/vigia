@@ -71,3 +71,28 @@ test("a failing panel is marked, not recomputed on every request; excluded panel
 	cache.get("a");
 	expect(calls).toBe(2);
 });
+
+test("an on-demand panel is never in the bulk list, only when asked for by id", () => {
+	const store = new Store(":memory:");
+	let computed = 0;
+	const cache = new PanelCache(
+		[
+			{ id: "a", sources: [], compute: () => 1 },
+			{
+				id: "big",
+				sources: [],
+				onDemand: true,
+				compute: () => {
+					computed++;
+					return 2;
+				},
+			},
+		],
+		store,
+	);
+	expect(cache.all()).toEqual({ a: 1 });
+	expect(cache.all(undefined, new Set(["a"]))).toEqual({});
+	expect(computed).toBe(0);
+	expect(cache.all(new Set(["big"]))).toEqual({ big: 2 });
+	expect(cache.get("big")).toBe(2);
+});

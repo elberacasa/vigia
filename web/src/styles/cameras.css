@@ -1,0 +1,401 @@
+/*
+ * Public cameras (panels/Cameras.tsx, map/CameraLayer.tsx): cards with the still Vigía took, its time always
+ * visible, the state in a word and a shape. A last picture that is not current is dimmed and says so. Loaded with
+ * the chunks that draw them.
+ */
+.cams {
+	display: grid;
+	gap: var(--s-3);
+}
+.cams__lead {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.cams__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.cam {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	background: var(--surface-1);
+	min-width: 0;
+}
+.cam.is-on {
+	box-shadow: inset 0 0 0 1px var(--accent);
+}
+.cam__media {
+	position: relative;
+	background: #0b0e13;
+	border-bottom: 1px solid var(--line);
+	min-height: 60px;
+}
+.cam-player {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	border: 0;
+	background: #000;
+}
+.cam-fail,
+.cam__none {
+	margin: 0;
+	padding: var(--s-3);
+	font-size: var(--fs-xs);
+	color: #a3adbb;
+	line-height: 1.5;
+}
+.cam-still {
+	margin: 0;
+	position: relative;
+}
+.cam-still img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.cam-still__gone {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	padding: var(--s-3);
+	font-size: var(--fs-xs);
+	color: #a3adbb;
+	background: repeating-linear-gradient(135deg, #11161d 0 6px, #0d1117 6px 12px);
+}
+.cam-still__cap {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 0 var(--s-2);
+	padding: 3px var(--s-2);
+	background: rgb(8 10 14 / 0.84);
+	color: #e3e7ed;
+	font-size: var(--fs-2xs);
+	line-height: 1.35;
+}
+.cam-still__cap .mono {
+	color: #a3adbb;
+}
+.cam-still.is-last .cam-still__cap {
+	border-top: 1px dashed #7f8a9b;
+}
+.cam-still__credit {
+	color: #a3adbb;
+}
+.cam__body {
+	display: grid;
+	align-content: start;
+	gap: 6px;
+	padding: var(--s-2) var(--s-3) var(--s-3);
+	min-width: 0;
+}
+.cam__head {
+	display: grid;
+	gap: 3px;
+}
+.cam__name {
+	margin: 0;
+	font-size: var(--fs-sm);
+	font-weight: 650;
+	line-height: 1.3;
+}
+.cam__name a {
+	color: inherit;
+}
+.cam__view,
+.cam__meta,
+.cam__night,
+.cam__note {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: 1.45;
+}
+.cam__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--s-3);
+	color: var(--text-3);
+}
+.cam__meta a {
+	color: var(--accent);
+}
+.cam__note {
+	color: var(--text-3);
+}
+.cam__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-2);
+	margin-top: 2px;
+}
+.cam__actions .btn {
+	height: 30px;
+}
+.cam__details summary {
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	cursor: pointer;
+}
+.cam__details p {
+	margin: 4px 0 0;
+	font-size: var(--fs-2xs);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.cam-state {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.cam-state svg {
+	fill: currentColor;
+	flex: none;
+}
+.cam-state__ring {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.3;
+}
+.cam-state--live {
+	color: var(--signal);
+}
+.cam-state--down {
+	color: var(--alert);
+}
+.cam-state--frozen {
+	color: var(--warn);
+}
+.cam--outside .cam-state,
+.cam--muted .cam-state {
+	color: var(--text-3);
+}
+
+/* ---------- The camera layer on the map, and the filmstrip under it ---------- */
+.layer-cameras .cam-mark {
+	cursor: pointer;
+}
+.cam-fan {
+	fill: var(--data-camera);
+	fill-opacity: 0.32;
+	stroke: var(--data-camera);
+	stroke-width: calc(1.1px * var(--u, 1));
+}
+.cam-dot {
+	fill: var(--data-camera);
+	stroke: var(--map-sea);
+	stroke-width: calc(1px * var(--u, 1));
+}
+.cam-mark--no-stills .cam-fan,
+.cam-mark--muted .cam-fan {
+	fill: none;
+	stroke-dasharray: calc(2.5px * var(--u, 1)) calc(2px * var(--u, 1));
+}
+.cam-mark--down .cam-fan,
+.cam-mark--frozen .cam-fan {
+	fill: none;
+}
+.cam-mark--muted .cam-fan,
+.cam-mark--muted .cam-dot {
+	opacity: 0.55;
+}
+.cam-x {
+	stroke: var(--data-camera);
+	stroke-width: calc(1.4px * var(--u, 1));
+	fill: none;
+}
+.cam-hit {
+	fill: transparent;
+}
+.cam-mark.is-selected .cam-dot {
+	stroke: var(--accent);
+	stroke-width: calc(2px * var(--u, 1));
+}
+.cam-key {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px var(--s-3);
+	align-items: center;
+	font-size: var(--fs-2xs);
+	color: var(--text-2);
+}
+.cam-key svg {
+	vertical-align: -2px;
+	margin-right: 3px;
+}
+.cam-strip {
+	display: grid;
+	gap: 4px;
+	padding: 6px 0 0;
+}
+.cam-strip__head {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--s-3);
+	align-items: baseline;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.cam-strip__title {
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-2);
+}
+.cam-strip__list {
+	list-style: none;
+	margin: 0;
+	padding: 0 0 4px;
+	display: flex;
+	gap: 6px;
+	overflow-x: auto;
+	scrollbar-width: thin;
+}
+.cam-strip__item {
+	flex: 0 0 116px;
+	display: grid;
+	gap: 2px;
+	font-size: var(--fs-2xs);
+	color: var(--text-2);
+}
+.cam-strip__item button {
+	display: grid;
+	gap: 2px;
+	padding: 0;
+	text-align: left;
+	color: inherit;
+}
+.cam-strip__pic {
+	position: relative;
+	display: block;
+	width: 116px;
+	aspect-ratio: 4 / 3;
+	background: #0b0e13;
+	border: 1px solid var(--line);
+	border-radius: var(--r-sm);
+	overflow: hidden;
+}
+.cam-strip__pic img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+.cam-strip__none {
+	display: grid;
+	place-items: center;
+	height: 100%;
+	padding: 4px;
+	text-align: center;
+	color: #a3adbb;
+	font-size: var(--fs-2xs);
+	line-height: 1.3;
+}
+.cam-strip__name {
+	font-weight: 600;
+	color: var(--text);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	line-height: 1.3;
+}
+.cam-strip__time {
+	font-family: var(--font-data);
+	color: var(--text-3);
+}
+
+/* ---------- A camera's page: its strip of stills (its timeline) ---------- */
+.cam-page {
+	display: grid;
+	gap: var(--s-4);
+}
+.cam-page .cam {
+	grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+	grid-template-rows: auto;
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.cam-page .cam__media {
+	border-bottom: 0;
+	border-right: 1px solid var(--line);
+}
+@media (max-width: 720px) {
+	.cam-page .cam {
+		grid-template-columns: 1fr;
+	}
+	.cam-page .cam__media {
+		border-right: 0;
+		border-bottom: 1px solid var(--line);
+	}
+}
+.cam-film {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	gap: 6px;
+}
+.cam-film li {
+	display: grid;
+	gap: 2px;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.cam-film img,
+.cam-film .cam-film__none {
+	display: block;
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	background: #0b0e13;
+	border: 1px solid var(--line);
+	border-radius: var(--r-sm);
+}
+.cam-film .cam-film__none {
+	display: grid;
+	place-items: center;
+	color: #a3adbb;
+	text-align: center;
+	padding: 4px;
+}
+.cam-film .mono {
+	color: var(--text-2);
+}
+
+/* On an entity page the camera and its kept pictures take the whole main column. */
+.entity--page .entity__main > .cam-page,
+.entity--page .entity__main > .esec--camfilm {
+	grid-column: 1 / -1;
+}
+.esec--camfilm .segmented button {
+	white-space: nowrap;
+}
+
+/* Last in the file: a last picture that is not current, dimmed (after every other img rule). */
+.cam-still.is-last img {
+	filter: grayscale(0.7) brightness(0.55);
+}
+/* Links in the card's meta line keep a 24 px target (WCAG 2.5.8) even when the line wraps. */
+.cam__meta {
+	line-height: 24px;
+}

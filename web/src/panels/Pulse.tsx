@@ -24,7 +24,11 @@ function Tile(props: {
 	/** The figure is a count of zero: on late data it is a dash, not a bold "0" (review 4, M2). */
 	zero?: boolean;
 }) {
-	const states = props.feeds.map((f) => healthById.value.get(f)?.state ?? "pending");
+	// Only feeds that are on judge the tile (whole-release review, M11: a walled outlet's feed, off, kept "every feed
+	// stale" from ever being true, so the headline count never showed as out of date).
+	const states = props.feeds
+		.map((f) => healthById.value.get(f)?.state ?? "pending")
+		.filter((st) => st !== "off" && st !== "locked");
 	const usable = states.some((st) => st === "ok" || st === "degraded" || st === "stale");
 	const stale = usable && states.every((st) => st === "stale" || st === "failing" || st === "pending");
 	if (!usable) {
@@ -97,7 +101,7 @@ export function Pulse() {
 			<Tile
 				href="#conectividad"
 				feeds={["ioda-states"]}
-				label={t("Estados con caída de señal", "States with a signal drop")}
+				label={t("Caídas de señal", "Signal drops")}
 				value={
 					dropped === null
 						? WAIT
@@ -118,7 +122,7 @@ export function Pulse() {
 							? `${t("datos de", "data for")} ${conn.summary.states.normal} ${t("de", "of")} ${conn.states.length} · IODA`
 							: t("sin datos suficientes · IODA", "not enough data · IODA")
 						: conn
-							? `${t("de", "of")} ${conn.states.length} · IODA`
+							? `${t("de", "of")} ${conn.states.length} ${t("estados", "states")} · IODA`
 							: "IODA"
 				}
 				tone={dropped ? (conn?.summary.states.severe ? "alert" : "warn") : "normal"}
@@ -135,13 +139,14 @@ export function Pulse() {
 			<Tile
 				href="#incendios"
 				feeds={["firms-fires"]}
-				label={t("Focos de calor 24 h", "Heat spots 24 h")}
+				label={t("Focos de calor", "Heat spots")}
 				value={fig(
 					t("Focos de calor en 24 h", "Heat spots in 24 h"),
 					fires ? fires.venezuela.last24h - fires.venezuela.persistent24h : null,
 					(n) => int(n, l),
 				)}
-				sub="NASA FIRMS"
+				sub={t("24 h · NASA FIRMS", "24 h · NASA FIRMS")}
+				zero={fires ? fires.venezuela.last24h - fires.venezuela.persistent24h === 0 : false}
 			/>
 			<Tile
 				href="#alertas"
@@ -154,7 +159,7 @@ export function Pulse() {
 			/>
 			<Tile
 				href="#noticias"
-				feeds={["el-pitazo", "efecto-cocuyo", "tal-cual", "cronica-uno", "runrunes", "el-diario"]}
+				feeds={["el-pitazo", "gn-efecto-cocuyo", "tal-cual", "cronica-uno", "runrunes", "el-diario"]}
 				label={t("Titulares 24 h", "Headlines 24 h")}
 				value={fig(t("Titulares en 24 h", "Headlines in 24 h"), news?.items24h, (n) => int(n, l))}
 				sub={news ? `${news.outletsReporting24h} ${t("medios", "outlets")}` : ""}

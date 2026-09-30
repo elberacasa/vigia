@@ -26,10 +26,49 @@ if (wrapper && !process.env.VIGIA_HEAVY_LOCKED && existsSync(wrapper)) {
 }
 
 const base = (process.argv[2] ?? "http://localhost:7722").replace(/\/+$/, "");
+/** Not an address: the room with the crowd report sheet opened from its button (desk: the command bar; phone: Ahora). */
+const SHEET = "/#reporte";
+/**
+ * Not an address: the first-run question "¿Tu conexión es limitada?" (ui/DataSaver.tsx). Only a browser holding the
+ * session may answer it, so it runs when A11Y_TOKEN (the terminal link's token) is set and the server still asks;
+ * it is then dismissed with Escape ("ahora no": nothing is written), so the pages after it are checked as usual.
+ */
+const FIRST_RUN = "/#conexion";
+const token = process.env.A11Y_TOKEN;
 const PAGES = [
+	...(token ? [FIRST_RUN] : []),
 	"/",
+	// Desk modules and a place page (the workstation, 2026-09-28).
+	"/internet",
+	"/tierra",
+	"/en-vivo",
+	"/noticias",
+	"/dinero",
+	"/oficial",
+	"/lugar/carabobo",
+	"/lugar/carabobo/naguanagua",
+	// Entity pages of every type and the room with facilities and a selection (ontology UI, 2026-09-29).
+	"/lugar/distrito-capital/libertador/catedral",
+	"/infra/guri",
+	"/red/cantv",
+	"/institucion/bcv",
+	"/medio/el-pitazo",
+	"/?instalaciones=energia,petroleo,transporte,agua,salud&estado=VE-F&entidad=infra.guri",
+	// Crowd reports, unusual readings, TV stills and public cameras (ui-signals, 2026-09-29): the Energía module
+	// (user reports), a camera's page, a municipality with its report button, the room with both new layers and a
+	// camera selected, and the report sheet itself (opened by its button: see SHEET).
+	"/energia",
+	"/camara/charallave-oeste",
+	"/lugar/miranda/chacao",
+	"/?camaras=1&reportes=1&estado=VE-M&entidad=cam.charallave-este",
+	SHEET,
+	// The space and movement views (on demand in Tierra, Energía, Internet, Oficial) and their map layers.
+	"/?inundacion=1&metano=1",
+	"/infra/campo-faja-carabobo",
 	"/estado",
 	"/guia",
+	// Personalizar › Mis fuentes, with the data saver's switch, figures and heavy feeds (data-saver, 2026-09-29).
+	"/?personalizar=fuentes",
 	"/fuentes",
 	"/ia",
 	"/resumen",
@@ -37,12 +76,34 @@ const PAGES = [
 	"/api",
 	"/informe",
 ] as const;
+/** Panels opened on the phone runs (the ones added with the live-media and data wave, 2026-09-28). */
+const PHONE_OPEN = [
+	"tv",
+	"radio",
+	"gdelt",
+	"desmentidos",
+	"monetario",
+	"sanciones",
+	"cargos",
+	"rayos",
+	"apuestas",
+	"inusual",
+	"reportes",
+	"camaras",
+	"inundaciones",
+	"bosque",
+	"metano",
+	"buques",
+	"cloudflare",
+	"vuelos",
+];
 const THEMES = (process.env.THEMES ?? "dark,light").split(",") as ("dark" | "light")[];
 const SIZES = [
 	{ name: "desk", width: 1440, height: 900 },
 	{ name: "phone", width: 390, height: 844 },
 ].filter((s) => !process.env.SIZES || process.env.SIZES.split(",").includes(s.name));
-const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
+// best-practice too (whole-release review, M17): landmarks, one main, a page heading, region rules.
+const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"];
 const axeSource = readFileSync(join(import.meta.dir, "..", "node_modules", "axe-core", "axe.min.js"), "utf8");
 
 interface Violation {
@@ -67,11 +128,33 @@ try {
 				bypassCSP: true,
 				serviceWorkers: "block",
 			});
+			// On a phone the panels are one-line rows; these open, so their bodies are checked too.
+			if (size.name === "phone")
+				await context.addInitScript((open: string[]) => {
+					const collapsed = Object.fromEntries(open.map((id) => [id, false]));
+					try {
+						localStorage.setItem(
+							"vigia:layout:v1",
+							JSON.stringify({ v: 1, collapsed: { phone: collapsed, desk: {} } }),
+						);
+					} catch {}
+				}, PHONE_OPEN);
 			const page = await context.newPage();
 			for (const path of PAGES) {
-				await page.goto(`${base}${path}`, { waitUntil: "domcontentloaded" });
+				const target = path === SHEET ? "/" : path === FIRST_RUN ? `/?token=${token}` : path;
+				await page.goto(`${base}${target}`, { waitUntil: "domcontentloaded" });
 				// The app fills its panels from the API; give it time to render real data, not skeletons.
 				await page.waitForTimeout(Number(process.env.WAIT ?? 2_500));
+				if (path === SHEET) {
+					await page.locator(".cmd__report, .report-cta").first().click();
+					await page.waitForSelector(".sheet--report[open] .rep-form", { timeout: 10_000 });
+					await page.locator("#rep-muni-q").fill("chacao");
+					await page.waitForTimeout(400);
+				}
+				if (path === FIRST_RUN)
+					await page.waitForSelector(".sheet--saver[open]", { timeout: 10_000 }).catch(() => {
+						console.log("  (el servidor ya no pregunta por la conexión: se revisa la sala)");
+					});
 				await page.addScriptTag({ content: axeSource });
 				const violations = (await page.evaluate(async (tags) => {
 					const axe = (window as unknown as { axe: { run: (c: unknown, o: unknown) => Promise<unknown> } })
@@ -92,6 +175,7 @@ try {
 					}));
 				}, TAGS)) as Violation[];
 				report.push({ page: path, theme, size: size.name, violations });
+				if (path === FIRST_RUN) await page.keyboard.press("Escape");
 				const line = violations.length
 					? violations.map((v) => `${v.id} (${v.impact ?? "?"}, ${v.nodes.length})`).join(", ")
 					: "sin problemas";

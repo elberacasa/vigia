@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { hasFixture } from "../../core/fixtures.ts";
-import type { RawResponse, RequestOptions } from "../../core/types.ts";
+import { HttpError, type RawResponse, type RequestOptions } from "../../core/types.ts";
 import { publisherCount, publisherOf } from "../../news/publishers.ts";
 import {
 	conditionalHeaders,
@@ -13,6 +13,7 @@ import {
 	rssAdapter,
 	STANCE_LABELS,
 } from "./factory.ts";
+import { WALLED_DIRECT, WALLED_NOTE } from "./google-news.ts";
 import { OUTLETS, ROBOTS_NOTE } from "./outlets.ts";
 
 // Recorded feeds carry the outlets' own text, so they are absent from the public repository (see hasFixture);
@@ -117,6 +118,23 @@ describe("fetch guards", () => {
 	test("a 202 captcha page is a failure, not an empty feed", async () => {
 		await expect(run(raw(202, "<html>wait</html>"))).rejects.toThrow("202");
 	});
+	test("a 415 from a bot wall is named as one, and not retried", async () => {
+		let calls = 0;
+		const adapter = rssAdapter(spec("el-pitazo"));
+		const run415 = adapter.fetch({
+			http: {
+				request: async (url: string) => {
+					calls++;
+					throw new HttpError(`HTTP 415 from ${url}`, 415, url);
+				},
+			},
+			key: () => undefined,
+			now: () => FETCHED,
+			signal: new AbortController().signal,
+		});
+		await expect(run415).rejects.toThrow("respuesta 415: probable muro anti-bots");
+		expect(calls).toBe(1);
+	});
 	test("an HTML challenge with 200 is a failure", async () => {
 		await expect(run(raw(200, "<!DOCTYPE html><html>js challenge</html>"))).rejects.toThrow("HTML");
 	});
@@ -216,14 +234,15 @@ test("outlet list is sane", () => {
 test("robots-excluded feeds are on by default with a neutral note, at their own interval (2026-09-25)", () => {
 	const robots = OUTLETS.filter((o) => o.note === ROBOTS_NOTE);
 	// The four outlets whose robots.txt excludes their feed, and every YouTube channel feed.
-	for (const id of ["el-diario", "espacio-publico", "observatorio-dd-hh", "globovision"])
+	// (Espacio Público's feed is behind a bot wall since 2026-09-29: it carries the wall's note instead.)
+	for (const id of ["el-diario", "observatorio-dd-hh", "globovision"])
 		expect(robots.map((o) => o.id)).toContain(id);
 	expect(
 		robots
 			.filter((o) => o.kind !== "youtube")
 			.map((o) => o.id)
 			.sort(),
-	).toEqual(["el-diario", "espacio-publico", "globovision", "observatorio-dd-hh"]);
+	).toEqual(["el-diario", "globovision", "observatorio-dd-hh"]);
 	expect(robots.filter((o) => o.kind === "youtube").length).toBe(
 		OUTLETS.filter((o) => o.kind === "youtube").length,
 	);
@@ -309,4 +328,76 @@ describe("fixtures of the 2026-09-24 wave (recorded by scripts/probe-feeds.ts)",
 			expect(ve.length).toBeLessThan(all.length);
 		},
 	);
+});
+
+describe("Google News and fact-checkers (recorded 2026-09-28)", () => {
+	test.skipIf(!recorded("gn-el-nacional"))(
+		"El Nacional via Google News: 56 stories of 100 items, suffix removed, all from elnacional.com",
+		() => {
+			const obs = parseFeed(fixture("gn-el-nacional"), spec("gn-el-nacional"), Date.UTC(2026, 8, 29, 2, 0));
+			// 100 items: 40 tag or archive pages ("Sucesos Archives", "Latinoamérica - Página 899 de 1700") and 4
+			// re-indexed pages older than the window are not stories (2026-09-29).
+			expect(obs).toHaveLength(56);
+			for (const o of obs) {
+				expect(o.value.title).not.toMatch(/ - El Nacional$/);
+				expect(o.value.link).toStartWith("https://news.google.com/rss/articles/");
+				expect(o.value.dateMissing).toBe(false);
+			}
+		},
+	);
+
+	test.skipIf(!recorded("cazadores-fake-news"))(
+		"Cazadores de Fake News: 10 dated items on cazadores.info",
+		() => {
+			const obs = parseFeed(
+				fixture("cazadores-fake-news"),
+				spec("cazadores-fake-news"),
+				Date.UTC(2026, 8, 29, 2, 0),
+			);
+			expect(obs).toHaveLength(10);
+			expect(obs.every((o) => o.value.link.startsWith("https://cazadores.info/"))).toBe(true);
+		},
+	);
+
+	test("every Google News feed is on locally and off on a public mirror, a site: search on its own host", () => {
+		const gn = OUTLETS.filter((o) => o.via);
+		expect(gn.length).toBe(28);
+		for (const o of gn) {
+			expect(o.optIn).toBeUndefined();
+			expect(o.defaultIn).toEqual({ local: true, public: false });
+			expect(o.note?.es).toContain("lector personal");
+			expect(rssAdapter(o).defaultIn).toEqual({ local: true, public: false });
+			expect(o.url).toStartWith(`https://news.google.com/rss/search?q=site:${o.via?.host}+when:`);
+			expect(new URL(o.homepage).hostname.endsWith(o.via?.host ?? "?")).toBe(true);
+			expect(o.name).not.toMatch(/google/i);
+		}
+		// Outlets that already had a YouTube or Telegram feed count once.
+		expect(publisherOf("yt-el-nacional").id).toBe("gn-el-nacional");
+		expect(publisherOf("tg-ultimas-noticias").id).toBe("gn-ultimas-noticias");
+		expect(publisherOf("gn-efecto-cocuyo").id).toBe("efecto-cocuyo");
+		expect(publisherOf("gn-cotejo").id).toBe("cotejo");
+	});
+
+	test("a walled outlet's own feed is off in both modes; its Google News route reads it in a personal Vigía (review M12)", () => {
+		const walled = OUTLETS.filter((o) => o.note === WALLED_NOTE);
+		expect(walled.length).toBe(18);
+		for (const o of walled) {
+			expect(o.defaultIn).toEqual(WALLED_DIRECT);
+			expect(o.via).toBeUndefined();
+			// Its Google News route exists, belongs to it, and reads its own host.
+			const route = OUTLETS.find((g) => g.via && publisherOf(g.id).id === o.id);
+			expect(route?.defaultIn).toEqual({ local: true, public: false });
+			expect(new URL(o.homepage).hostname.endsWith(route?.via?.host ?? "?")).toBe(true);
+			// Never both on (every story twice); the direct feed is never on by default (SAFETY: if a source blocks
+			// us, stop). A public mirror reads neither unless its operator switches one on.
+			const a = rssAdapter(o);
+			const b = rssAdapter(route as OutletSpec);
+			expect(a.defaultIn).toEqual({ local: false, public: false });
+			expect(b.defaultIn).toEqual({ local: true, public: false });
+		}
+		for (const id of ["cecodap", "el-carabobeno", "al-navio", "armando-info", "efecto-cocuyo", "cotejo"])
+			expect(walled.map((o) => o.id)).toContain(id);
+		// Not walled (Cactus24's site is down; Fedeagro has no Google News route): honest status, on everywhere.
+		for (const id of ["cactus24", "fedeagro"]) expect(spec(id).defaultIn).toBeUndefined();
+	});
 });

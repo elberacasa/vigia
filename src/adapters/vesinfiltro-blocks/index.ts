@@ -4,12 +4,22 @@ import { domainKey } from "../ooni-ve/categories.ts";
 
 /**
  * VE sin Filtro's hand-checked list of sites blocked in Venezuela, with the blocking method per ISP
- * (https://bloqueos.vesinfiltro.org/). The CSV has no date; the page shows "Actualización: <time
- * datetime=YYYY-MM-DD>", which is the observed date of every row. The CSV is served by Cloudflare with an ETag
- * and no Last-Modified, so a run asks with If-None-Match and stores nothing when it is unchanged.
+ * (https://bloqueos.vesinfiltro.org/).
  *
- * Series: `site:<host>` (as listed, lower case), observed at the page's update date (00:00 Venezuela time).
- * Every 6 hours, two small requests (17 KB page, 16 KB CSV), 5 s apart.
+ * Where the list lives (measured 2026-09-29): the CSV moved from a fixed `static/blocking-data.csv` (now 404) to a
+ * dated file, `static/blocking-data-2026-09-29.csv`. The site names it in `data-config.js`, which its own source
+ * calls "the one place that says which data file the site uses and when it was updated" and keeps "a single JSON
+ * object literal" so tools can parse it: `window.VSF_DATA = {"file": "static/blocking-data-<date>.csv",
+ * "updated": "<date>"}`. Vigía reads that pointer, then the file it names. If the pointer ever fails or changes
+ * shape, the page's download link (`id="csv-download"`) and its "Actualización: <time datetime>" say the same thing
+ * and are read instead. The file has no date inside; `updated` is the observed date of every row.
+ *
+ * The CSV is served by Cloudflare with an ETag and no Last-Modified, so a run asks with If-None-Match (for the same
+ * file name) and stores nothing when it is unchanged. The 2026-09-29 file dropped the G-Network column (7 ISPs);
+ * a column that is missing is simply not reported.
+ *
+ * Series: `site:<host>` (as listed, lower case), observed at the update date (00:00 Venezuela time).
+ * Every 6 hours, two small requests (0.3 KB pointer, 16 KB CSV), 5 s apart.
  */
 
 export const VESINFILTRO_LICENCE: Licence = {
@@ -21,9 +31,10 @@ export const VESINFILTRO_LICENCE: Licence = {
 };
 
 export const PAGE_URL = "https://bloqueos.vesinfiltro.org/";
-export const CSV_URL = "https://bloqueos.vesinfiltro.org/static/blocking-data.csv";
+/** The site's own pointer to the current CSV and its date (see the header). */
+export const CONFIG_URL = "https://bloqueos.vesinfiltro.org/data-config.js";
 
-/** CSV column → our ISP id (src/adapters/ioda-asn ISPS). The page's own table omits G-Network; the CSV has it. */
+/** CSV column → our ISP id (src/adapters/ioda-asn ISPS). G-Network was in the CSV until 2026-09-29, never on the page. */
 export const ISP_COLUMNS: Readonly<Record<string, string>> = {
 	CANTV: "cantv",
 	Movistar: "movistar",
@@ -74,36 +85,9 @@ export function parseCell(raw: string): Omit<VsfCell, "isp"> | null {
 	return { status: "blocked", methods: parts as Method[] };
 }
 
-/** Minimal RFC 4180 reader (quotes, doubled quotes, CRLF); the file has none today but may. */
-export function parseCsv(text: string): string[][] {
-	const rows: string[][] = [];
-	let row: string[] = [];
-	let field = "";
-	let quoted = false;
-	for (let i = 0; i < text.length; i++) {
-		const ch = text[i];
-		if (quoted) {
-			if (ch === '"' && text[i + 1] === '"') {
-				field += '"';
-				i++;
-			} else if (ch === '"') quoted = false;
-			else field += ch;
-		} else if (ch === '"') quoted = true;
-		else if (ch === ",") {
-			row.push(field);
-			field = "";
-		} else if (ch === "\n" || ch === "\r") {
-			if (ch === "\r" && text[i + 1] === "\n") i++;
-			row.push(field);
-			if (row.some((f) => f !== "")) rows.push(row);
-			row = [];
-			field = "";
-		} else field += ch;
-	}
-	row.push(field);
-	if (row.some((f) => f !== "")) rows.push(row);
-	return rows;
-}
+import { parseCsv } from "../../formats/csv.ts";
+
+export { parseCsv };
 
 /** The "Actualización" date on the page, as YYYY-MM-DD. */
 export function updateDate(html: string): string | null {
@@ -112,7 +96,47 @@ export function updateDate(html: string): string | null {
 	return any?.[1] ?? null;
 }
 
-let lastEtag: string | null = null;
+/** Where the current CSV is and its date: from `data-config.js`, or from the page's download link and date. */
+export type DataPointer = { readonly csvUrl: string; readonly updated: string };
+
+const CSV_PATH = /^static\/[A-Za-z0-9._-]+\.csv$/;
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** `window.VSF_DATA = {"file": "static/blocking-data-2026-09-29.csv", "updated": "2026-09-29"};` */
+export function pointerFromConfig(js: string): DataPointer | null {
+	const m = /window\.VSF_DATA\s*=\s*(\{[^}]*\})/.exec(js);
+	if (!m?.[1]) return null;
+	let parsed: unknown;
+	try {
+		parsed = JSON.parse(m[1]);
+	} catch {
+		return null;
+	}
+	if (!parsed || typeof parsed !== "object") return null;
+	const { file, updated } = parsed as Record<string, unknown>;
+	if (typeof file !== "string" || !CSV_PATH.test(file)) return null;
+	if (typeof updated !== "string" || !DATE.test(updated)) return null;
+	return { csvUrl: new URL(file, PAGE_URL).toString(), updated };
+}
+
+/** The page's own "Descargar .csv" link and its "Actualización" date. */
+export function pointerFromPage(html: string): DataPointer | null {
+	const link =
+		/<a[^>]*id="csv-download"[^>]*>/i.exec(html)?.[0] ??
+		/<a[^>]*href="static\/[^"]*\.csv"[^>]*>/i.exec(html)?.[0];
+	const file = link ? /href="([^"]+)"/.exec(link)?.[1] : undefined;
+	const updated = updateDate(html);
+	if (!file || !CSV_PATH.test(file) || !updated) return null;
+	return { csvUrl: new URL(file, PAGE_URL).toString(), updated };
+}
+
+/** The pointer in a recorded response: the config file or, as a fallback, the page. */
+function pointerOf(raw: { url: string; body: string }): DataPointer | null {
+	return raw.url.startsWith(CONFIG_URL) ? pointerFromConfig(raw.body) : pointerFromPage(raw.body);
+}
+
+/** The ETag of the last CSV that parsed, for that file name only (each update is a new file). */
+let lastCsv: { url: string; etag: string } | null = null;
 
 export const vesinfiltroBlocks: Adapter<VsfSite> = {
 	id: "vesinfiltro-blocks",
@@ -123,36 +147,51 @@ export const vesinfiltroBlocks: Adapter<VsfSite> = {
 	licence: VESINFILTRO_LICENCE,
 	keys: [],
 	intervalMs: 6 * 3_600_000,
-	// Hand-curated and updated every few days: stale when the page date is 30 days old.
+	// Hand-curated and updated every few days: stale when the list's date is 30 days old.
 	freshness: { fetchMs: 20 * 3_600_000, dataMs: 30 * 86_400_000 },
 
 	async fetch(ctx) {
 		const options = { hostGapMs: 5_000, maxBytes: 2 * 1024 * 1024, signal: ctx.signal };
-		const page = await ctx.http.request(PAGE_URL, { ...options, headers: { accept: "text/html" } });
-		const csv = await ctx.http.request(CSV_URL, {
+		let meta = await ctx.http
+			.request(CONFIG_URL, {
+				...options,
+				headers: { accept: "application/javascript, text/javascript, */*" },
+			})
+			.catch(() => null);
+		if (!meta || !pointerOf(meta)) {
+			meta = await ctx.http.request(PAGE_URL, { ...options, headers: { accept: "text/html" } });
+		}
+		const pointer = pointerOf(meta);
+		if (!pointer)
+			throw new SchemaError("VE sin Filtro: ni data-config.js ni la página dicen dónde está el CSV");
+		const etag = lastCsv?.url === pointer.csvUrl ? lastCsv.etag : null;
+		const csv = await ctx.http.request(pointer.csvUrl, {
 			...options,
-			headers: { accept: "text/csv", ...(lastEtag ? { "if-none-match": lastEtag } : {}) },
+			headers: { accept: "text/csv", ...(etag ? { "if-none-match": etag } : {}) },
 			okStatuses: [304],
 		});
 		// The ETag is remembered only for a CSV that parses: a broken file must be fetched again in full next
 		// time, not answered with 304 forever. normalise ignores the CSV when the server answers 304.
-		if (csv.status === 200 && csv.etag) {
-			try {
-				vesinfiltroBlocks.normalise([page, csv]);
-				lastEtag = csv.etag;
-			} catch {
-				lastEtag = null;
+		if (csv.status === 200) {
+			lastCsv = null;
+			if (csv.etag) {
+				try {
+					vesinfiltroBlocks.normalise([meta, csv]);
+					lastCsv = { url: pointer.csvUrl, etag: csv.etag };
+				} catch {
+					// normalise reports the error on the run; nothing is remembered.
+				}
 			}
 		}
-		return [page, csv];
+		return [meta, csv];
 	},
 
 	normalise(raws) {
-		const [page, csv] = raws;
-		if (!page || !csv) throw new SchemaError("VE sin Filtro: faltan respuestas");
+		const [meta, csv] = raws;
+		if (!meta || !csv) throw new SchemaError("VE sin Filtro: faltan respuestas");
 		if (csv.status === 304) return [];
-		const updated = updateDate(page.body);
-		if (!updated) throw new SchemaError("VE sin Filtro: la página no trae fecha de actualización");
+		const updated = pointerOf(meta)?.updated;
+		if (!updated) throw new SchemaError("VE sin Filtro: sin fecha de actualización");
 		// The date is Venezuelan (UTC−4, no DST): midnight there is 04:00 UTC.
 		const observedAt = Date.parse(`${updated}T04:00:00Z`);
 		if (!Number.isFinite(observedAt) || observedAt > csv.fetchedAt + 86_400_000) {

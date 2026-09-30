@@ -1,0 +1,506 @@
+/*
+ * "Sanciones de EE. UU." and "Cargos públicos" (web/src/panels/Sanctions.tsx). Tokens only (docs/DESIGN.md):
+ * hairlines, mono tabular figures, micro-labels; the accent only for links; no status colour without its word.
+ */
+
+.sx,
+.of {
+	display: grid;
+	gap: var(--s-3);
+	min-width: 0;
+}
+
+/* ---------- Figures strip ---------- */
+.sx-figs {
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.sx-fig {
+	padding: var(--s-2) var(--s-3);
+	/* Hairlines right and below each cell; the strip clips those on its edges, so wrapped rows keep them. */
+	box-shadow:
+		1px 0 0 var(--line),
+		0 1px 0 var(--line);
+	min-width: 0;
+}
+.sx-fig dt {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+	overflow-wrap: anywhere;
+}
+.sx-fig dd {
+	margin: 2px 0 0;
+	display: grid;
+}
+.sx-fig__v {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	font-size: var(--fs-xl);
+	line-height: var(--lh-tight);
+	color: var(--text);
+}
+.sx-fig__note {
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+
+.sx-asof {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	line-height: var(--lh);
+}
+.sx-behind {
+	color: var(--warn);
+}
+
+/* ---------- Sections ---------- */
+.sx-sec {
+	display: grid;
+	gap: var(--s-2);
+	min-width: 0;
+	border-top: 1px solid var(--line);
+	padding-top: var(--s-3);
+}
+.sx-h {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--s-1) var(--s-2);
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	color: var(--text-2);
+}
+.sx-h__hint {
+	font-weight: 400;
+	letter-spacing: 0;
+	text-transform: none;
+	color: var(--text-3);
+	font-size: var(--fs-xs);
+}
+.sx-h4 {
+	margin: var(--s-2) 0 0;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.sx-note,
+.sx-rule,
+.sx-unnamed {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	line-height: var(--lh);
+}
+.sx-unnamed .mono {
+	color: var(--text);
+	font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Rows ---------- */
+.sx-rows {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+}
+.sx-rows > li {
+	padding: 6px 0;
+	border-top: 1px solid var(--line);
+	font-size: var(--fs-sm);
+	line-height: var(--lh-tight);
+	min-width: 0;
+}
+.sx-rows > li:first-child {
+	border-top: 0;
+}
+.sx-rows a,
+.sx-prog a {
+	color: var(--text);
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+.sx-rows a:hover,
+.sx-rows a:focus-visible {
+	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+.sx-rows--cols {
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	column-gap: var(--s-4);
+}
+.sx-rows--cols > li:nth-child(-n + 2) {
+	border-top: 0;
+}
+
+/* A change: time · action · what · publication. */
+.sx-change {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr);
+	align-items: baseline;
+	gap: 2px var(--s-2);
+}
+.sx-change__at {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.sx-change__meta {
+	grid-column: 3;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.sx-act {
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	padding: 0 5px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	color: var(--text-2);
+	white-space: nowrap;
+}
+.sx-act--remove {
+	border-style: dashed;
+}
+
+/* Twelve months of changes. */
+.sx-months {
+	margin: 0;
+}
+.sx-months__bars {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 3px;
+}
+.sx-months__bars li {
+	display: grid;
+	grid-template-rows: 40px auto auto;
+	justify-items: center;
+	gap: 2px;
+	min-width: 0;
+}
+.sx-months__col {
+	width: 100%;
+	height: 40px;
+	display: flex;
+	flex-direction: column-reverse;
+	justify-content: flex-start;
+	background: var(--muted-soft);
+	border-radius: var(--r-sm);
+	overflow: hidden;
+}
+.sx-bar {
+	display: block;
+	width: 100%;
+	min-height: 2px;
+}
+.sx-bar--add {
+	background: var(--accent);
+}
+.sx-bar--remove {
+	background: var(--text-3);
+}
+.sx-bar--update {
+	background: var(--line-strong);
+}
+.sx-months__n {
+	font-size: var(--fs-2xs);
+	color: var(--text-2);
+	min-height: 1.2em;
+	font-variant-numeric: tabular-nums;
+}
+.sx-months__m {
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.sx-legend {
+	margin: var(--s-1) 0 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-3);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.sx-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+.sx-legend .sx-bar {
+	width: 8px;
+	height: 8px;
+	border-radius: 1px;
+}
+
+/* By programme: name · count. */
+.sx-prog {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	column-gap: var(--s-4);
+}
+.sx-prog li {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--s-2);
+	padding: 4px 0;
+	border-bottom: 1px solid var(--line);
+	font-size: var(--fs-sm);
+}
+.sx-prog .mono {
+	font-variant-numeric: tabular-nums;
+	color: var(--text);
+}
+
+/* Named officials: name · basis · role. */
+.sx-person {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px var(--s-2);
+}
+.sx-person__name {
+	font-weight: 600;
+}
+.sx-person__role {
+	flex-basis: 100%;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	overflow-wrap: anywhere;
+}
+.sx-basis,
+.sx-tag {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	padding: 0 5px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	color: var(--text-2);
+	white-space: nowrap;
+}
+.sx-basis--wikidata {
+	border-style: dashed;
+}
+
+.sx-vessel {
+	display: grid;
+	gap: 2px;
+}
+.sx-vessel__meta,
+.sx-doc__meta {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+
+.sx-aircraft {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	line-height: var(--lh);
+}
+.sx-aircraft__h {
+	color: var(--text-2);
+}
+.sx-aircraft__m {
+	color: var(--text);
+}
+.sx-aircraft__m .mono {
+	color: var(--text-3);
+}
+
+/* General licences: id · badge · title · date. */
+.sx-gl {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: baseline;
+	gap: 2px var(--s-2);
+}
+.sx-gl__id {
+	font-size: var(--fs-xs);
+	color: var(--text);
+	white-space: nowrap;
+}
+.sx-gl .sx-tag {
+	grid-column: 1;
+	grid-row: 2;
+	justify-self: start;
+}
+.sx-gl__title {
+	grid-column: 2;
+	grid-row: 1 / span 2;
+}
+.sx-gl__date {
+	grid-column: 3;
+	grid-row: 1;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	white-space: nowrap;
+}
+/* Badges are words, not colours: "nueva" solid, "enmendada" dashed. */
+.sx-tag--new {
+	color: var(--text);
+	border-color: var(--text-3);
+}
+.sx-tag--amended {
+	border-style: dashed;
+}
+
+.sx-doc {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 2px var(--s-2);
+	align-items: baseline;
+}
+.sx-doc__date {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.sx-doc__meta {
+	grid-column: 2;
+}
+
+/* Long lists behind a disclosure that says its count. */
+.sx-more > summary {
+	cursor: pointer;
+	min-height: 28px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text-2);
+}
+.sx-more > summary:hover {
+	color: var(--text);
+}
+.sx-more > summary:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: var(--r-sm);
+}
+.sx-more[open] > summary {
+	margin-bottom: var(--s-1);
+}
+
+/* ---------- Offices ---------- */
+.of-label {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--s-2);
+}
+.of-label .mono {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.of-stale {
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--warn);
+}
+.of-group {
+	display: grid;
+	gap: var(--s-1);
+	border-top: 1px solid var(--line);
+	padding-top: var(--s-3);
+}
+.of-row {
+	display: grid;
+	gap: 3px;
+}
+.of-row__office {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--s-2);
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.sx-rows .of-row__office a {
+	color: var(--text-2);
+}
+.of-row__state {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.of-row__holder {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px var(--s-2);
+}
+.of-row__person {
+	font-weight: 600;
+}
+.of-row__line {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.of-row--ended .of-row__person,
+.of-row--ended .of-row__line {
+	color: var(--text-2);
+}
+.of-status {
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	padding: 0 5px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	color: var(--text);
+	white-space: nowrap;
+}
+.of-status--ended {
+	border-style: dashed;
+	color: var(--text-2);
+}
+.of-status--unknown {
+	border-color: var(--line);
+	color: var(--text-3);
+}
+.of-row__warn,
+.of-row__undated {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.of-row__warn {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	color: var(--warn);
+}
+.of-row__warn svg {
+	flex: none;
+	fill: currentColor;
+}
+
+@media (min-width: 1000px) {
+	.sx-fig__v {
+		font-size: var(--fs-lg);
+	}
+}

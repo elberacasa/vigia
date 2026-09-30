@@ -1,0 +1,427 @@
+/*
+ * "Liquidez, reservas e intervención" (panels/Monetary.tsx) and "Mercados de predicción" (panels/Predictions.tsx).
+ * Tokens only (docs/DESIGN.md): hairlines, mono tabular figures, micro-labels; the accent only for links and the
+ * price bars; status colours only next to their word (the "Desactualizado" mark, the quiet-market line).
+ */
+
+/* ---------- Shared ---------- */
+.mon,
+.pm {
+	display: grid;
+	gap: var(--s-4);
+	min-width: 0;
+}
+.mon-empty {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.mon-note,
+.pm-disclaimer {
+	margin: 0;
+	padding: var(--s-2) var(--s-3);
+	border-left: 2px solid var(--line-strong);
+	background: var(--surface-2);
+	font-size: var(--fs-sm);
+	line-height: var(--lh);
+	color: var(--text-2);
+}
+.mon-sub {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+
+/* ---------- Monetary blocks ---------- */
+.mon-block {
+	display: grid;
+	gap: var(--s-3);
+	min-width: 0;
+}
+.mon-block + .mon-block {
+	padding-top: var(--s-4);
+	border-top: 1px solid var(--line);
+}
+.mon-block__h {
+	margin: 0;
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.mon-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--s-3) var(--s-6);
+}
+.mon-fig {
+	margin: 0;
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+.mon-fig__label {
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	color: var(--text-2);
+}
+.mon-fig__v {
+	font-family: var(--font-ui);
+	font-variant-numeric: tabular-nums lining-nums;
+	font-size: var(--fs-2xl);
+	font-weight: 650;
+	line-height: var(--lh-tight);
+	color: var(--text);
+}
+.mon-fig__v--sm {
+	font-size: var(--fs-xl);
+}
+.mon-fig__unit {
+	font-size: var(--fs-md);
+	font-weight: 500;
+	color: var(--text-2);
+}
+.mon-fig__when {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s-1) var(--s-2);
+	font-family: var(--font-data);
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.mon-derived {
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	max-width: 32ch;
+	line-height: var(--lh);
+}
+.mon-fig--derived {
+	padding-left: var(--s-4);
+	border-left: 1px solid var(--line);
+}
+
+/* The BCV's own marks, and the stale label: words with a hairline, never colour alone. */
+.mon-mark {
+	font-family: var(--font-ui);
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	padding: 0 5px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	color: var(--text-2);
+	white-space: nowrap;
+}
+.mon-mark--stale {
+	color: var(--warn);
+	border-color: color-mix(in srgb, var(--warn) 45%, var(--line-strong));
+}
+
+/* Changes: a row of labelled cells separated by hairlines. */
+.mon-deltas {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+}
+.mon-delta {
+	display: grid;
+	gap: 2px;
+	padding: 6px var(--s-2);
+	border-left: 1px solid var(--line);
+	min-width: 0;
+}
+.mon-delta:first-child {
+	border-left: 0;
+}
+.mon-delta__label {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--text-3);
+	white-space: nowrap;
+}
+.mon-delta__v {
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	font-size: var(--fs-sm);
+	color: var(--text);
+	white-space: nowrap;
+}
+.mon-delta__g {
+	font-size: 0.7em;
+	margin-right: 3px;
+	color: var(--text-2);
+}
+.mon-delta--none .mon-delta__v {
+	color: var(--text-3);
+}
+
+.mon-chart {
+	display: grid;
+	gap: 2px;
+}
+.mon-axis {
+	margin: 0;
+	display: flex;
+	justify-content: space-between;
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+
+/* M2's components: M1 and its parts (indented), then quasi-money. */
+.mon-parts {
+	margin: 0;
+	display: grid;
+}
+.mon-parts__row {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--s-3);
+	padding: 4px 0;
+	border-top: 1px solid var(--line);
+	font-size: var(--fs-sm);
+}
+.mon-parts__row dt {
+	color: var(--text-2);
+}
+.mon-parts__row dd {
+	margin: 0;
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+	color: var(--text);
+}
+.mon-parts__row--sum dt {
+	color: var(--text);
+	font-weight: 600;
+}
+.mon-parts__row--in {
+	padding-left: var(--s-4);
+}
+.mon-parts__row--in dt,
+.mon-parts__row--in dd {
+	color: var(--text-2);
+}
+
+/* BCV / FEM split and intervention day counts. */
+.mon-split {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s-2) var(--s-5);
+}
+.mon-split > div {
+	display: grid;
+	gap: 2px;
+}
+.mon-split dt {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.mon-split dd {
+	margin: 0;
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	font-size: var(--fs-md);
+	color: var(--text);
+}
+
+.mon-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--fs-sm);
+}
+.mon-table th {
+	text-align: left;
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--text-3);
+	padding: 0 0 4px;
+	border-bottom: 1px solid var(--line-strong);
+}
+.mon-table td {
+	padding: 4px 0;
+	border-bottom: 1px solid var(--line);
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	color: var(--text);
+}
+.mon-table .num {
+	text-align: right;
+}
+
+/* ---------- Prediction markets ---------- */
+.pm-stale {
+	margin: 0;
+	font-size: var(--fs-sm);
+	color: var(--warn);
+}
+.pm-events {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0;
+}
+.pm-event {
+	display: grid;
+	gap: var(--s-2);
+	padding: var(--s-3) 0;
+	border-top: 1px solid var(--line);
+	min-width: 0;
+}
+.pm-event:first-child {
+	border-top: 0;
+	padding-top: 0;
+}
+.pm-event__head {
+	display: flex;
+	align-items: baseline;
+	gap: var(--s-2);
+	min-width: 0;
+}
+.pm-venue {
+	flex: none;
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	padding: 0 5px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	color: var(--text-2);
+	background: var(--surface-2);
+}
+.pm-event__q {
+	font-size: var(--fs-md);
+	font-weight: 650;
+	line-height: var(--lh-tight);
+	color: var(--text);
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+.pm-event__q:hover {
+	color: var(--accent);
+}
+.pm-event__q:focus-visible,
+.pm-more:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: var(--r-sm);
+}
+.pm-opts {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 6px;
+}
+.pm-opt {
+	display: grid;
+	gap: 3px;
+	min-width: 0;
+}
+.pm-opt__line {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: var(--s-3);
+	font-size: var(--fs-sm);
+}
+.pm-opt__name {
+	color: var(--text);
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.pm-opt__price {
+	flex: none;
+	font-family: var(--font-data);
+	font-variant-numeric: tabular-nums;
+	color: var(--text);
+	white-space: nowrap;
+}
+.pm-opt__word {
+	font-family: var(--font-ui);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.pm-opt__bar {
+	display: block;
+	height: 3px;
+	background: var(--muted-soft);
+	border-radius: var(--r-sm);
+	overflow: hidden;
+}
+.pm-opt__bar i {
+	display: block;
+	height: 100%;
+	background: var(--accent);
+	opacity: 0.8;
+}
+.pm-opt.is-quiet .pm-opt__bar i {
+	background: var(--text-3);
+}
+.pm-opt__meta {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--s-3);
+	font-family: var(--font-data);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.pm-quiet {
+	color: var(--warn);
+}
+.pm-event__foot {
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--s-3);
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.pm-more {
+	width: 100%;
+	min-height: 32px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text-2);
+}
+.pm-more:hover {
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+@media (max-width: 640px) {
+	.mon-fig--derived {
+		padding-left: 0;
+		border-left: 0;
+	}
+	.mon-deltas {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.mon-delta:nth-child(odd) {
+		border-left: 0;
+	}
+	.mon-delta:nth-child(n + 3) {
+		border-top: 1px solid var(--line);
+	}
+}

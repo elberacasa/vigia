@@ -6,12 +6,12 @@ import { panelFreshness } from "../lib/fresh.ts";
 import { lang, t } from "../lib/i18n.ts";
 import {
 	announcement,
-	columnOf,
+	deskPlacement,
 	hidePanel,
 	isCollapsed,
 	isPanelId,
+	moveDeskColumn,
 	movePanel,
-	moveToColumn,
 	type PanelId,
 	positionOf,
 	setCollapsed,
@@ -78,7 +78,7 @@ function Loading() {
 }
 
 /** Every source needs a key the user has not set: a quiet silhouette of the panel and the way to unlock it. */
-function Locked({ feeds }: { feeds: readonly string[] }) {
+function Locked({ feeds, freeKey }: { feeds: readonly string[]; freeKey?: string | undefined }) {
 	const providers = [...new Set(feeds.map((id) => metaById.value.get(id)?.provider ?? id))].join(", ");
 	return (
 		<div class="locked">
@@ -90,13 +90,34 @@ function Locked({ feeds }: { feeds: readonly string[] }) {
 			</div>
 			<div class="locked__cta">
 				<p>
-					{t(
-						`Este panel se activa con una clave de ${providers}. La guía dice cuánto cuesta y cómo obtenerla.`,
-						`This panel turns on with a ${providers} key. The guide says what it costs and how to get it.`,
-					)}
+					{freeKey
+						? t(
+								`Este panel se activa con una clave gratuita de ${providers}. La guía dice cómo obtenerla.`,
+								`This panel turns on with a free ${providers} key. The guide says how to get it.`,
+							)
+						: t(
+								`Este panel se activa con una clave de ${providers}. La guía dice cuánto cuesta y cómo obtenerla.`,
+								`This panel turns on with a ${providers} key. The guide says what it costs and how to get it.`,
+							)}
 				</p>
-				<a class="button button--primary" {...link("guide")}>
-					{t("Desbloquear", "Unlock")} →
+				<a
+					class="button button--primary"
+					href={freeKey ? `/guia#key-${freeKey}` : link("guide").href}
+					onClick={(e: MouseEvent) => {
+						link("guide").onClick(e);
+						// The guide renders after the route changes: bring the key's entry into view once it exists.
+						if (freeKey && e.defaultPrevented)
+							for (const ms of [50, 250, 800])
+								setTimeout(
+									() => document.getElementById(`key-${freeKey}`)?.scrollIntoView({ block: "start" }),
+									ms,
+								);
+					}}
+				>
+					{freeKey
+						? t("Desbloquear con una clave gratuita", "Unlock with a free key")
+						: t("Desbloquear", "Unlock")}{" "}
+					→
 				</a>
 			</div>
 		</div>
@@ -128,8 +149,7 @@ function PanelMenu({ id, title }: { id: PanelId; title: string }) {
 		};
 	}, [open]);
 	const pos = positionOf(id);
-	const vp = viewport.value;
-	const col = columnOf(id);
+	const desk = deskPlacement(id);
 	const act = (fn: () => void) => () => {
 		openMenu.value = null;
 		fn();
@@ -177,20 +197,25 @@ function PanelMenu({ id, title }: { id: PanelId; title: string }) {
 						{t("Bajar", "Move down")}
 						<kbd>Alt ↓</kbd>
 					</button>
-					{vp === "wide" || vp === "mid" ? (
-						<button
-							type="button"
-							role="menuitem"
-							onClick={act(() => moveToColumn(id, col === "left" ? "right" : "left"))}
-						>
-							{vp === "mid"
-								? col === "left"
-									? t("Llevar junto al mapa", "Move beside the map")
-									: t("Llevar debajo del mapa", "Move below the map")
-								: col === "left"
-									? t("Llevar a la columna derecha", "Move to the right column")
-									: t("Llevar a la columna izquierda", "Move to the left column")}
-						</button>
+					{desk && desk.cols > 1 ? (
+						<>
+							<button
+								type="button"
+								role="menuitem"
+								disabled={desk.target(-1) === null}
+								onClick={act(() => moveDeskColumn(id, -1))}
+							>
+								{t("Llevar a la columna de la izquierda", "Move to the left column")}
+							</button>
+							<button
+								type="button"
+								role="menuitem"
+								disabled={desk.target(1) === null}
+								onClick={act(() => moveDeskColumn(id, 1))}
+							>
+								{t("Llevar a la columna de la derecha", "Move to the right column")}
+							</button>
+						</>
 					) : null}
 					<a
 						role="menuitem"
@@ -253,13 +278,17 @@ export function Panel(props: {
 	 * own date, a directory not measured yet): "Esperando datos" above data reads as a contradiction (review 4, L9).
 	 */
 	whenWaiting?: string | undefined;
+	/** Overrides "has the data arrived": a view served on demand (lib/data.ts `wantPanel`) that failed to load. */
+	ready?: boolean;
+	/** Locked behind a free key: the guide's entry for it (`key-<id>`), and "Desbloquear con una clave gratuita". */
+	freeKey?: string;
 	class?: string;
 }) {
 	const { id, title, feeds } = props;
 	const managed = isPanelId(id);
 	const collapsed = managed && isCollapsed(id);
 	const summary = managed ? summarize(id) : null;
-	const ready = panelReady(id);
+	const ready = props.ready ?? panelReady(id);
 	const state = feeds.length
 		? panelFreshness(feeds, healthById.value, metaById.value, now.value, lang.value).state
 		: "ok";
@@ -364,7 +393,13 @@ export function Panel(props: {
 						id={`${id}-body`}
 						onAnimationEnd={() => setOpening(false)}
 					>
-						{locked ? <Locked feeds={feeds} /> : ready && !props.loading ? props.children : <Loading />}
+						{locked ? (
+							<Locked feeds={feeds} freeKey={props.freeKey} />
+						) : ready && !props.loading ? (
+							props.children
+						) : (
+							<Loading />
+						)}
 					</div>
 				</>
 			)}

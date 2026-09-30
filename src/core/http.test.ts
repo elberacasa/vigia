@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { decodeText, HttpClient, parseRetryAfter, USER_AGENT } from "./http.ts";
+import { decodeText, HttpClient, headerBytes, parseRetryAfter, USER_AGENT } from "./http.ts";
 import { HttpError } from "./types.ts";
 
 function fakeFetch(responses: Array<Response | Error>, seen: Request[] = []): typeof fetch {
@@ -48,6 +48,22 @@ describe("HttpClient", () => {
 		expect(notModified.body).toBe("");
 		const plain = await http.request("https://example.org/g");
 		expect("etag" in plain || "lastModified" in plain).toBe(false);
+	});
+
+	test("keeps only the response headers asked for", async () => {
+		const http = new HttpClient({
+			fetchImpl: fakeFetch([
+				new Response("#EXTM3U", { headers: { "Access-Control-Allow-Origin": "*", "set-cookie": "a=b" } }),
+			]),
+			sleep: noSleep,
+			defaultHostGapMs: 0,
+		});
+		const raw = await http.request("https://example.org/a.m3u8", {
+			captureHeaders: ["access-control-allow-origin", "x-absent"],
+		});
+		expect(raw.headers).toEqual({ "access-control-allow-origin": "*" });
+		const plain = await http.request("https://example.org/b");
+		expect("headers" in plain).toBe(false);
 	});
 
 	test("retries 503 then succeeds", async () => {
@@ -167,5 +183,48 @@ describe("parseRetryAfter", () => {
 		expect(parseRetryAfter(new Date(10_000).toUTCString(), 4_000)).toBe(6_000);
 		expect(parseRetryAfter("soon", 0)).toBeNull();
 		expect(parseRetryAfter(null, 0)).toBeNull();
+	});
+});
+
+describe("onWire", () => {
+	test("reports the headers and the body as sent (compressed), not as decoded", async () => {
+		const text = "a".repeat(50_000);
+		const gz = Bun.gzipSync(new TextEncoder().encode(text));
+		const http = new HttpClient({
+			fetchImpl: fakeFetch([
+				new Response(gz, { headers: { "content-encoding": "gzip", "content-type": "text/plain" } }),
+			]),
+			sleep: noSleep,
+			defaultHostGapMs: 0,
+		});
+		let wire = 0;
+		const raw = await http.request("https://example.org/big", {
+			onWire: (n) => {
+				wire += n;
+			},
+		});
+		expect(raw.body.length).toBe(50_000);
+		const headers = headerBytes(
+			new Response(null, { headers: { "content-encoding": "gzip", "content-type": "text/plain" } }),
+		);
+		expect(headers).toBeGreaterThan(40);
+		expect(wire).toBe(gz.byteLength + headers);
+		expect(wire).toBeLessThan(1_000);
+	});
+
+	test("counts a refused answer's headers, and every retry", async () => {
+		const http = new HttpClient({
+			fetchImpl: fakeFetch([new Response("busy", { status: 503 }), new Response("ok")]),
+			sleep: noSleep,
+			defaultHostGapMs: 0,
+		});
+		let calls = 0;
+		await http.request("https://example.org/x", {
+			onWire: () => {
+				calls++;
+			},
+		});
+		// 503: headers only (its body is cancelled unread); 200: headers and body.
+		expect(calls).toBe(3);
 	});
 });

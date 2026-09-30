@@ -17,6 +17,7 @@
 import { z } from "zod";
 import type { Licence, Observation } from "../../core/types.ts";
 import { SchemaError } from "../../core/types.ts";
+import { isCourtNotice, redactNewsText } from "../../news/privacy.ts";
 import { stripHtml } from "../../news/text.ts";
 import { itemId, mentionsVenezuela, type NewsItem, type OutletSpec } from "../rss/factory.ts";
 
@@ -156,8 +157,10 @@ export function parsePreview(html: string, outlet: OutletSpec, fetchedAt: number
 		const handle = previewHandle(outlet.url);
 		if (handle && post.channel.toLowerCase() !== handle.toLowerCase()) continue;
 		const [first = "", ...rest] = post.lines;
-		const title = cut(first, TITLE_MAX);
-		const summary = cut(rest.join(" "), SUMMARY_MAX);
+		// Court notices never stored; identity numbers stripped (docs/ETHICS.md, src/news/privacy.ts).
+		if (isCourtNotice(first, rest.join(" "))) continue;
+		const title = cut(redactNewsText(first), TITLE_MAX);
+		const summary = cut(redactNewsText(rest.join(" ")), SUMMARY_MAX);
 		if (outlet.onlyVenezuela && !mentionsVenezuela(`${first} ${rest.join(" ")}`)) continue;
 		const link = `https://t.me/${post.channel}/${post.id}`;
 		const published = Date.parse(post.datetime);

@@ -1,0 +1,23 @@
+[
+  {
+    "file": "00.txt",
+    "url": "https://data-api.globalforestwatch.org/dataset/gadm__integrated_alerts__adm2_daily_alerts/v20260929",
+    "status": 200,
+    "contentType": "application/json",
+    "fetchedAt": 1790655594950
+  },
+  {
+    "file": "01.txt",
+    "url": "https://data-api.globalforestwatch.org/dataset/gadm__integrated_alerts__adm2_daily_alerts/v20260929/download/json?sql=SELECT+adm1%2C+adm2%2C+date_trunc%28%27week%27%2C+gfw_integrated_alerts__date%29+AS+w%2C+gfw_integrated_alerts__confidence+AS+c%2C+CASE+WHEN+sbtn_natural_forests__class+%3D+%27Natural+Forest%27+THEN+1+ELSE+0+END+AS+nf%2C+SUM%28alert__count%29+AS+n%2C+SUM%28alert_area__ha%29+AS+ha+FROM+data+WHERE+iso+%3D+%27VEN%27+AND+gfw_integrated_alerts__date+%3E%3D+%272026-08-10%27+GROUP+BY+1%2C+2%2C+3%2C+4%2C+5",
+    "status": 200,
+    "contentType": "application/json",
+    "fetchedAt": 1790655597895
+  },
+  {
+    "file": "02.txt",
+    "url": "https://data-api.globalforestwatch.org/dataset/wdpa_protected_areas__integrated_alerts__daily_alerts/v20260929/download/json?sql=SELECT+wdpa_protected_area__id+AS+id%2C+wdpa_protected_area__name+AS+name%2C+wdpa_protected_area__iucn_cat+AS+cat%2C+date_trunc%28%27week%27%2C+gfw_integrated_alerts__date%29+AS+w%2C+gfw_integrated_alerts__confidence+AS+c%2C+CASE+WHEN+sbtn_natural_forests__class+%3D+%27Natural+Forest%27+THEN+1+ELSE+0+END+AS+nf%2C+SUM%28alert__count%29+AS+n%2C+SUM%28alert_area__ha%29+AS+ha+FROM+data+WHERE+wdpa_protected_area__iso+%3D+%27VEN%27+AND+gfw_integrated_alerts__date+%3E%3D+%272026-08-10%27+GROUP+BY+1%2C+2%2C+3%2C+4%2C+5%2C+6",
+    "status": 200,
+    "contentType": "application/json",
+    "fetchedAt": 1790655603915
+  }
+]

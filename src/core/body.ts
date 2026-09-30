@@ -50,6 +50,8 @@ export interface ReadBodyOptions {
 	readonly maxBytes: number;
 	/** Return the first `maxBytes` decoded bytes instead of failing (a live stream that never ends). */
 	readonly truncate?: boolean;
+	/** Told of every chunk as it came off the network, before decoding (what the connection actually carried). */
+	readonly onRaw?: (bytes: number) => void;
 }
 
 /**
@@ -69,14 +71,14 @@ export async function readBody(response: Response, options: ReadBodyOptions): Pr
 	const raw = response.body.getReader();
 	let stream: ReadableStream<Uint8Array>;
 	if (coding === "identity") {
-		stream = readerStream(raw, null);
+		stream = readerStream(raw, null, undefined, options.onRaw);
 	} else {
 		const first = await raw.read();
 		if (first.done) return new Uint8Array();
 		const format: CompressionFormat =
 			coding === "gzip" ? "gzip" : isZlibHeader(first.value) ? "deflate" : "deflate-raw";
 		// The compressed input is capped too, so a body that inflates to nothing cannot stream forever.
-		stream = readerStream(raw, first.value, truncate ? undefined : maxBytes).pipeThrough(
+		stream = readerStream(raw, first.value, truncate ? undefined : maxBytes, options.onRaw).pipeThrough(
 			new DecompressionStream(format) as unknown as ReadableWritablePair<Uint8Array, Uint8Array>,
 		);
 	}
@@ -112,11 +114,15 @@ export async function readBody(response: Response, options: ReadBodyOptions): Pr
 	return concat(chunks, total);
 }
 
-/** A pull stream over a reader, optionally starting with a chunk already read, optionally capping raw bytes. */
+/**
+ * A pull stream over a reader, optionally starting with a chunk already read, optionally capping raw bytes, and
+ * reporting each raw chunk's size to `onRaw`.
+ */
 function readerStream(
 	reader: ReadableStreamDefaultReader<Uint8Array>,
 	first: Uint8Array | null,
 	maxRaw?: number,
+	onRaw?: (bytes: number) => void,
 ): ReadableStream<Uint8Array> {
 	let pending = first;
 	let seen = 0;
@@ -136,6 +142,7 @@ function readerStream(
 					chunk = step.value;
 				}
 				seen += chunk.byteLength;
+				onRaw?.(chunk.byteLength);
 				if (maxRaw !== undefined && seen > maxRaw) {
 					controller.error(new BodyError("too-large", `response exceeded ${maxRaw} bytes`));
 					await reader.cancel().catch(() => {});

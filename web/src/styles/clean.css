@@ -6,46 +6,49 @@
 	.topbar__status,
 	.prefs,
 	.palette-btn,
-	.statusbar,
+	.custom-open,
+	.prio,
 	.pulse,
-	.wall__col,
 	.wall__rows,
-	.wall__more,
-	.wall__note,
 	.hidden-panels,
-	.state-panel,
+	.state-slot,
 	.tabbar,
 	.map-toolbar,
-	.offline
+	.offline,
+	.rail,
+	.insp,
+	.insp-tab,
+	.bstrip,
+	.status,
+	.cmd__search,
+	.cmd__health,
+	.cmd__tools,
+	.cmd__crumbs,
+	.sit__canvas .layers,
+	.sit__canvas .panel__tools
 ) {
 	display: none;
 }
 :root[data-view="clean"] .topbar__clock {
 	display: flex;
 }
-/* One poster, centred: the width follows the height so the map, its legend and sources line fit one screen. */
+/* Phones and narrow screens: one poster, centred. */
 :root[data-view="clean"] .wall {
-	--clean-w: max(560px, min(1280px, calc((100dvh - 300px) * 1.13)));
-	display: grid;
+	--clean-w: max(320px, min(1280px, calc((100dvh - 300px) * 1.13)));
 	grid-template-columns: minmax(0, var(--clean-w));
-	grid-template-areas: none;
-	grid-template-rows: auto;
 	justify-content: center;
-	height: auto;
-	overflow: visible;
-	margin-bottom: 0;
 }
-:root[data-view="clean"] .wall > *,
-:root[data-view="clean"] .wall--mid .wall__frame {
-	grid-area: auto;
-	grid-column: 1;
+/* Desk: the map alone under the brand and the clock, with room at the foot for the sources line. */
+:root[data-view="clean"] .ws {
+	grid-template-columns: 0 minmax(0, 1fr) 0;
+	grid-template-rows: var(--cmd-h) minmax(0, 1fr) 0 48px;
 }
-:root[data-view="clean"] .wall--mid .wall__frame {
-	display: block;
-	height: auto;
+:root[data-view="clean"] .cmd__clock {
+	margin-left: auto;
+	border-right: 0;
 }
-:root[data-view="clean"] body:has(.wall--wide) #app {
-	height: auto;
+:root[data-view="clean"] .sit__canvas .mapview {
+	grid-template-columns: minmax(0, 1fr);
 }
 .clean-sources {
 	position: fixed;

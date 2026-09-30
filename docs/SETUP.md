@@ -71,6 +71,7 @@ vigia --port 8080        use another port
 vigia --host 0.0.0.0     let phones and other devices on your network open it (read-only for them)
 vigia --no-open          do not open the browser
 vigia --no-fetch         serve what is stored without querying any source
+vigia --data-saver       limited connection: turn off the sources that download 20 MB a day or more
 vigia sources            list every source and whether it needs a key
 vigia fetch <source>     query one source once and print what came back
 vigia paths              where settings, keys and data are stored
@@ -104,6 +105,33 @@ budget set, Vigía makes no paid request.
   AI section. Vigía talks to it at `http://127.0.0.1:11434`.
 - **Your own Claude Code**: if the `claude` command is installed and signed in on this machine, Vigía can use it for
   the written brief under your own subscription, with no tools and no access to your files.
+
+### Limited connection (data saver)
+
+Vigía downloads every source from your computer: about 1.1 GB a day with everything on (measured per source, see
+[PERF.md](PERF.md)). Eight sources download 20 MB a day or more each (TV stills, the GOES satellite loop, the
+YouTube live check, public cameras, GLM lightning, the IPTV and radio stream checks, and fires without their free
+key). On the first run the page asks **"¿Tu conexión es limitada?"**: answering yes turns those eight off (about
+255 MB a day). You can change it later in Personalizar › Mis fuentes or in the guide (`/guia`, "Conexión
+limitada"), which also shows what this computer actually downloaded in the last 24 hours. Your own switch for a
+source always wins. To fix it from the command line: `vigia --data-saver` or `VIGIA_DATA_SAVER=1` (`=0` fixes it off).
+
+### TV stills: needs ffmpeg (optional)
+
+To show a recent frame of each live TV channel, Vigía decodes one picture of its stream with
+[ffmpeg](https://ffmpeg.org), if the computer has it. Without it the TV cards show the channel's logo and say so;
+nothing else changes. The guide (`/guia`) says whether Vigía found it, and checks again after you install it.
+
+| System | Install |
+|---|---|
+| Debian, Ubuntu, Mint | `sudo apt install ffmpeg` |
+| Fedora | enable RPM Fusion, then `sudo dnf install ffmpeg --allowerasing` (Fedora's own `ffmpeg-free` lacks the H.264 decoder) |
+| Arch, Manjaro | `sudo pacman -S ffmpeg` |
+| macOS | `brew install ffmpeg` (Homebrew) |
+| Windows | `winget install --id Gyan.FFmpeg -e`, then close and reopen Vigía (Windows gives the new PATH only to new programs) |
+| Docker | already in the image |
+
+`VIGIA_FFMPEG=/path/to/ffmpeg` points Vigía at a specific one; `VIGIA_FFMPEG=0` turns the stills off.
 
 ### Opt-in sources
 

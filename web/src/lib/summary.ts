@@ -8,7 +8,6 @@ import { type EnergyView, NOTABLE } from "../panels/energy-view.ts";
 import type { HumanitarianView } from "../panels/Humanitarian.tsx";
 import type { NightlightsView, SatelliteView } from "../panels/Imagery.tsx";
 import type { IncidentsView } from "../panels/Incidents.tsx";
-import type { LiveTvView } from "../panels/LiveTv.tsx";
 import type { MarketsView } from "../panels/Markets.tsx";
 import type { MoneyView } from "../panels/Money.tsx";
 import type { NetwatchView } from "../panels/Netwatch.tsx";
@@ -19,6 +18,8 @@ import { ago, clock, int, num, pct } from "./format.ts";
 import { groupFreshness, internetWord, isLive } from "./fresh.ts";
 import { lang, t } from "./i18n.ts";
 import type { PanelId } from "./layout.ts";
+import type { CuratedView as LiveTvView } from "./media.ts";
+import { PANEL_META } from "./panel-meta.ts";
 
 /**
  * The one line a collapsed panel keeps, so it still answers its question: "Sismos · 9 en 24 h · el mayor M3,6…".
@@ -36,6 +37,15 @@ export interface Summary {
 /** The key of each panel's computed view in /api/panels. */
 const DATA: Record<PanelId, string> = {
 	incidentes: "incidents",
+	inusual: "anomalies",
+	reportes: "crowd",
+	camaras: "cameras",
+	inundaciones: "floods",
+	bosque: "forest",
+	metano: "methane",
+	buques: "vessels",
+	cloudflare: "radar",
+	vuelos: "flights",
 	dinero: "money",
 	bolsillo: "pocket",
 	servicios: "services",
@@ -55,8 +65,16 @@ const DATA: Record<PanelId, string> = {
 	energia: "energy",
 	"espacio-aereo": "airspace",
 	atencion: "attention",
-	tv: "livetv",
+	tv: "mediadir",
+	radio: "mediadir",
 	humanitario: "humanitarian",
+	gdelt: "gdelt",
+	desmentidos: "desmentidos",
+	monetario: "monetary",
+	sanciones: "sanctions",
+	cargos: "officials",
+	rayos: "lightning",
+	apuestas: "predictions",
 };
 
 /** The server's panel id behind a wall panel (for /api/panels and /api/evidence). */
@@ -92,6 +110,16 @@ function plural(n: number, one: string, many: string): string {
  */
 export const SUMMARY_FEEDS: Record<PanelId, readonly string[] | (() => readonly string[])> = {
 	incidentes: () => (panels.value.incidents as { feeds?: string[] } | undefined)?.feeds ?? ["ioda-states"],
+	// Each unusual reading carries its own source and age; user reports carry theirs (no feed health to gate on).
+	inusual: [],
+	reportes: [],
+	camaras: ["public-cams"],
+	inundaciones: ["modis-floods"],
+	bosque: ["gfw-alerts"],
+	metano: ["carbon-mapper"],
+	buques: ["gfw-vessels"],
+	cloudflare: ["cloudflare-radar"],
+	vuelos: ["adsb-flights"],
 	dinero: ["bcv-official", "bcv-api", "bcv-history"],
 	bolsillo: ["bcv-official", "bcv-api", "bcv-history"],
 	servicios: ["dahiti-guri"],
@@ -112,8 +140,17 @@ export const SUMMARY_FEEDS: Record<PanelId, readonly string[] | (() => readonly 
 	energia: ["firms-flares"],
 	"espacio-aereo": ["easa-czib", "faa-prohibitions"],
 	atencion: ["wiki-attention"],
-	tv: ["radio-streams", "youtube-live"],
+	tv: ["iptv-ve-probe"],
+	radio: ["radio-browser-probe", "radio-streams"],
 	humanitario: ["mpps-boletin", "who-gho", "r4v-figures", "unhcr-population", "ocha-fts"],
+	gdelt: ["gdelt-ve"],
+	// Fact-checks are dated by the checks themselves (several checkers, one quiet is normal).
+	desmentidos: [],
+	monetario: ["bcv-liquidity", "bcv-reserves"],
+	sanciones: ["ofac-sdn"],
+	cargos: ["wikidata-officials"],
+	rayos: ["goes-glm"],
+	apuestas: ["polymarket", "kalshi"],
 };
 
 /** The feeds behind a panel's one-line summary. */
@@ -147,7 +184,18 @@ export function summarize(id: PanelId): Summary | null {
 	};
 }
 
+/**
+ * Summaries of views served on demand live in their panel's chunk, registered when it loads: the view exists only
+ * once that panel has asked for it, so their code stays out of the first load.
+ */
+const LATE = new Map<PanelId, () => Summary | null>();
+export function registerSummary(id: PanelId, fn: () => Summary | null): void {
+	LATE.set(id, fn);
+}
+
 function compute(id: PanelId): Draft | null {
+	const late = LATE.get(id)?.();
+	if (late) return late;
 	const p = panels.value;
 	const l = lang.value;
 	switch (id) {
@@ -397,8 +445,8 @@ function compute(id: PanelId): Draft | null {
 			if (v.methods.days.length)
 				parts.push(
 					t(
-						`${int(v.methods.totalBlocked, l)} sitios bloqueados (OONI)`,
-						`${int(v.methods.totalBlocked, l)} sites blocked (OONI)`,
+						`${int(v.methods.totalBlocked, l)} sitios bloqueados (regla de Vigía sobre OONI)`,
+						`${int(v.methods.totalBlocked, l)} sites blocked (Vigía's rule on OONI)`,
 					),
 				);
 			if (v.tor.latest?.relay != null)
@@ -502,18 +550,27 @@ function compute(id: PanelId): Draft | null {
 			return parts.length ? { text: parts.join(" · "), tone: "normal" } : null;
 		}
 		case "tv": {
-			const v = p.livetv as LiveTvView | undefined;
-			if (!v || (!v.tv.measured && !v.radio.measured)) return null;
-			const tv = v.tv.measured
-				? t(`${v.tv.live} de ${v.tv.total} canales en vivo`, `${v.tv.live} of ${v.tv.total} channels live`)
-				: t("TV sin medir", "TV not measured");
-			const radio = v.radio.measured
-				? t(
-						`${v.radio.live} de ${v.radio.total} radios emitiendo`,
-						`${v.radio.live} of ${v.radio.total} radios on air`,
-					)
-				: t("radio sin medir", "radio not measured");
-			return { text: `${tv} · ${radio}`, tone: "normal" };
+			// The directory's count is registered by the panel's chunk (it holds the merge); until then, the curated list.
+			const c = p.livetv as LiveTvView | undefined;
+			if (!c?.tv.measured) return null;
+			return {
+				text: t(
+					`${c.tv.live} de ${c.tv.total} canales de YouTube en vivo`,
+					`${c.tv.live} of ${c.tv.total} YouTube channels live`,
+				),
+				tone: "normal",
+			};
+		}
+		case "radio": {
+			const c = p.livetv as LiveTvView | undefined;
+			if (!c?.radio.measured) return null;
+			return {
+				text: t(
+					`${c.radio.live} de ${c.radio.total} emisoras de la lista de Vigía emiten`,
+					`${c.radio.live} of ${c.radio.total} stations on Vigía's list on air`,
+				),
+				tone: "normal",
+			};
 		}
 		case "bolsillo": {
 			const v = p.pocket as PocketView | undefined;
@@ -576,35 +633,23 @@ function compute(id: PanelId): Draft | null {
 				tone: "normal",
 			};
 		}
+		default:
+			return null;
 	}
 }
 
-/** The panel's short name, as its header eyebrow says it. */
+/** Where a panel's short name differs from its title (lib/panel-meta.ts), for lists and the module header. */
+const SHORT: Partial<Record<PanelId, [string, string]>> = {
+	mercados: ["Mercados", "Markets"],
+	energia: ["Energía", "Energy"],
+	atencion: ["Atención", "Attention"],
+	gdelt: ["GDELT", "GDELT"],
+	monetario: ["Liquidez y reservas", "Money supply and reserves"],
+	sanciones: ["Sanciones", "Sanctions"],
+};
+
+/** The panel's short name: its title, or the shorter word above where one exists. */
 export function panelName(id: PanelId): string {
-	const NAMES: Record<PanelId, [string, string]> = {
-		incidentes: ["Incidentes", "Incidents"],
-		dinero: ["Dólar", "Dollar"],
-		bolsillo: ["Bolsillo", "Pocket"],
-		servicios: ["Servicios", "Services"],
-		gaceta: ["Gaceta Oficial", "Official Gazette"],
-		conectividad: ["Internet", "Internet"],
-		noticias: ["Noticias", "News"],
-		sismos: ["Sismos", "Earthquakes"],
-		clima: ["Clima", "Weather"],
-		luces: ["Luces nocturnas", "Night lights"],
-		incendios: ["Incendios", "Fires"],
-		alertas: ["Alertas", "Alerts"],
-		satelite: ["Satélite", "Satellite"],
-		petroleo: ["Petróleo", "Oil"],
-		mercados: ["Mercados", "Markets"],
-		censura: ["Censura", "Censorship"],
-		red: ["Red", "Network"],
-		energia: ["Energía", "Energy"],
-		"espacio-aereo": ["Espacio aéreo", "Airspace"],
-		atencion: ["Atención", "Attention"],
-		tv: ["TV y radio", "TV and radio"],
-		humanitario: ["Salud, migración y ayuda", "Health, migration and aid"],
-	};
-	const [es, en] = NAMES[id];
-	return t(es, en);
+	const short = SHORT[id];
+	return short ? t(short[0], short[1]) : PANEL_META[id].title();
 }

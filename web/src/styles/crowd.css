@@ -1,0 +1,469 @@
+/*
+ * Crowd reports ("¿tienes luz?"): the report sheet, the "Reportes de usuarios" panel and the entry buttons. Loaded
+ * with their chunks (lib/css.ts). Reports are never styled like a measurement: no status colours on answers, a
+ * hollow, hatched language on the map, the words "reportes de usuarios" everywhere.
+ */
+
+/* ---------- The sheet ---------- */
+.sheet--report {
+	width: min(560px, calc(100vw - 24px));
+	max-height: min(92dvh, 900px);
+}
+.sheet--report .sheet__inner {
+	display: grid;
+	gap: var(--s-4);
+	padding-bottom: calc(var(--s-5) + env(safe-area-inset-bottom));
+}
+.sheet--report .sheet__sub {
+	line-height: 1.5;
+}
+.rep-form {
+	display: grid;
+	gap: var(--s-4);
+}
+.rep-step {
+	display: grid;
+	gap: var(--s-2);
+	padding-top: var(--s-3);
+	border-top: 1px solid var(--line);
+}
+.rep-step__title {
+	margin: 0;
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.rep-label {
+	font-size: var(--fs-sm);
+	font-weight: 600;
+}
+.rep-hint {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	line-height: 1.5;
+}
+.rep-hint--note {
+	color: var(--text-2);
+}
+.rep-muni {
+	display: grid;
+	gap: var(--s-2);
+}
+.rep-muni__row {
+	display: flex;
+	gap: var(--s-2);
+	flex-wrap: wrap;
+}
+.rep-input {
+	flex: 1 1 14em;
+	min-width: 0;
+	height: 40px;
+	padding: 0 var(--s-3);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	background: var(--surface-0);
+	color: var(--text);
+	font: inherit;
+	font-size: var(--fs-md);
+}
+.rep-input:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+}
+.rep-locate {
+	height: 40px;
+}
+.rep-hits {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.rep-hit {
+	width: 100%;
+	min-height: 40px;
+	padding: 6px var(--s-3);
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: var(--s-3);
+	background: var(--surface-0);
+	text-align: left;
+}
+.rep-hit:hover {
+	background: var(--surface-2);
+}
+.rep-hit__name {
+	font-weight: 600;
+	font-size: var(--fs-md);
+}
+.rep-hit__state {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	text-align: right;
+}
+.rep-muni--chosen {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--s-3);
+	min-height: 44px;
+	padding: 0 var(--s-3);
+	border: 1px solid var(--accent);
+	border-radius: var(--r-md);
+	background: var(--accent-soft);
+}
+.rep-muni__name {
+	margin: 0;
+	font-size: var(--fs-md);
+}
+.rep-muni__name span {
+	color: var(--text-2);
+}
+.rep-check {
+	display: flex;
+	align-items: center;
+	gap: var(--s-2);
+	min-height: 32px;
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.rep-check input {
+	width: 16px;
+	height: 16px;
+	accent-color: var(--accent);
+}
+
+/* One question per service: three answers as a segmented radio group (a real radio input in each label). */
+.rep-q {
+	margin: 0;
+	border: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 6px var(--s-3);
+	padding: 6px 0;
+}
+.rep-q + .rep-q {
+	border-top: 1px dashed var(--line);
+}
+.rep-q__legend {
+	float: left;
+	padding: 0;
+	font-size: var(--fs-md);
+	font-weight: 600;
+}
+.rep-q__answers {
+	display: inline-flex;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.rep-a {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 4.2em;
+	height: 40px;
+	padding: 0 var(--s-3);
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text-2);
+	background: var(--surface-0);
+	cursor: pointer;
+}
+.rep-a + .rep-a {
+	border-left: 1px solid var(--line-strong);
+}
+.rep-a input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	margin: 0;
+	cursor: pointer;
+}
+.rep-a:has(input:focus-visible) {
+	outline: 2px solid var(--text);
+	outline-offset: -4px;
+}
+.rep-a.is-on {
+	background: var(--accent);
+	color: var(--text-inverse);
+}
+.rep-q__clear {
+	grid-column: 1 / -1;
+	justify-self: end;
+	margin: 0;
+}
+.rep-error {
+	margin: 0;
+	padding: var(--s-2) var(--s-3);
+	border-left: 2px solid var(--warn);
+	background: var(--surface-2);
+	font-size: var(--fs-sm);
+	line-height: 1.5;
+}
+.rep-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s-3);
+}
+.btn--primary,
+.rep-send {
+	height: 40px;
+	padding: 0 var(--s-5);
+	background: var(--accent);
+	border-color: var(--accent);
+	color: var(--text-inverse);
+	font-size: var(--fs-md);
+}
+.btn--primary:hover,
+.rep-send:hover {
+	color: var(--text-inverse);
+	filter: brightness(1.08);
+}
+.rep-send:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	filter: none;
+}
+.rep-status {
+	font-size: var(--fs-sm);
+	color: var(--text-3);
+	font-variant-numeric: tabular-nums;
+}
+.rep-more {
+	display: grid;
+	gap: 1px;
+	border-top: 1px solid var(--line);
+	padding-top: var(--s-2);
+}
+.rep-details summary {
+	min-height: 32px;
+	display: flex;
+	align-items: center;
+	font-size: var(--fs-sm);
+	font-weight: 600;
+	color: var(--text-2);
+	cursor: pointer;
+}
+.rep-details ul {
+	margin: 0 0 var(--s-2);
+	padding-left: 1.1em;
+	display: grid;
+	gap: 6px;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+	line-height: 1.5;
+}
+.rep-done {
+	display: grid;
+	gap: var(--s-3);
+}
+.rep-done__mark {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: var(--s-2);
+	font-size: var(--fs-xl);
+	font-weight: 700;
+}
+.rep-done__where {
+	margin: 0;
+	font-weight: 600;
+}
+.rep-done__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.rep-done__list li {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px var(--s-3);
+	background: var(--surface-0);
+	font-size: var(--fs-md);
+}
+.rep-off {
+	margin: 0;
+	color: var(--text-2);
+}
+@media (max-width: 640px) {
+	.sheet--report {
+		width: 100vw;
+		max-height: 94dvh;
+	}
+	.rep-q {
+		grid-template-columns: 1fr;
+	}
+	.rep-q__answers {
+		display: flex;
+	}
+	.rep-a {
+		flex: 1;
+		height: 44px;
+	}
+}
+
+/* ---------- The panel "Reportes de usuarios" ---------- */
+.crowd {
+	display: grid;
+	gap: var(--s-3);
+}
+.crowd__lead {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--s-3);
+}
+.crowd__note {
+	margin: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+	line-height: 1.5;
+}
+.crowd__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1px;
+	background: var(--line);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.crowd__row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 2px var(--s-3);
+	padding: 8px var(--s-3);
+	background: var(--surface-0);
+}
+.crowd__place {
+	font-weight: 600;
+	font-size: var(--fs-sm);
+}
+.crowd__place a {
+	color: inherit;
+}
+.crowd__svc {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.crowd__text {
+	grid-column: 1 / -1;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+}
+.crowd__held {
+	grid-column: 1 / -1;
+	justify-self: start;
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	color: var(--warn);
+	border: 1px dashed var(--warn);
+	border-radius: var(--r-sm);
+	padding: 1px 6px;
+}
+.crowd__meta {
+	grid-column: 1 / -1;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--s-2);
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+}
+.crowd__tag {
+	font-weight: 650;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+.crowd__stale {
+	color: var(--warn);
+	font-weight: 650;
+}
+.crowd__h {
+	margin: var(--s-2) 0 0;
+	font-size: var(--fs-2xs);
+	font-weight: 700;
+	letter-spacing: var(--tracking-caps);
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+
+/* ---------- The map layer: hatched outlines and a count, never a measurement's fill ---------- */
+.crowd-muni {
+	fill: url(#crowd-hatch);
+	stroke: var(--text);
+	stroke-width: 1.2px;
+	stroke-dasharray: 3 2;
+	vector-effect: non-scaling-stroke;
+}
+.crowd-muni--key {
+	fill: url(#crowd-hatch-key);
+	stroke-width: 1px;
+	stroke-dasharray: 3 2;
+}
+.crowd-hatch {
+	stroke: var(--text-2);
+	stroke-width: 1.2;
+	stroke-opacity: 0.55;
+}
+.crowd-count rect {
+	fill: var(--surface-1);
+	stroke: var(--text);
+	stroke-width: 1;
+}
+.crowd-count text {
+	font-family: var(--font-data);
+	font-size: 17px;
+	font-weight: 600;
+	text-anchor: middle;
+	fill: var(--text);
+}
+.crowd-key {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px var(--s-3);
+	align-items: center;
+	font-size: var(--fs-2xs);
+	color: var(--text-2);
+}
+.crowd-key svg {
+	vertical-align: -2px;
+	margin-right: 4px;
+}
+.rep-muni__how {
+	display: block;
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.rep-choose {
+	display: grid;
+	gap: var(--s-2);
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.rep-choose legend {
+	padding: 0;
+	margin-bottom: var(--s-2);
+}

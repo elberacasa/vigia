@@ -1,0 +1,30 @@
+[
+  {
+    "file": "channels.json",
+    "url": "https://iptv-org.github.io/api/channels.json",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790646727405
+  },
+  {
+    "file": "feeds.json",
+    "url": "https://iptv-org.github.io/api/feeds.json",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790646727928
+  },
+  {
+    "file": "streams.json",
+    "url": "https://iptv-org.github.io/api/streams.json",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790646728919
+  },
+  {
+    "file": "blocklist.json",
+    "url": "https://iptv-org.github.io/api/blocklist.json",
+    "status": 200,
+    "contentType": "application/json; charset=utf-8",
+    "fetchedAt": 1790646729900
+  }
+]

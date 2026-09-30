@@ -1,0 +1,2148 @@
+{
+ "ve.zulia.maracaibo": {
+  "entity": {
+   "id": "ve.zulia.maracaibo",
+   "type": "municipality",
+   "kind": null,
+   "name": {
+    "es": "Maracaibo",
+    "en": "Maracaibo"
+   },
+   "short": null,
+   "href": "/api/v1/entities/ve.zulia.maracaibo",
+   "aliases": [
+    "Municipio Maracaibo",
+    "Mcpio. Maracaibo",
+    "Mpio. Maracaibo"
+   ],
+   "point": {
+    "lat": 10.67672,
+    "lon": -71.69437
+   },
+   "geometry": "cod-ab:VE2313",
+   "codes": {
+    "pcode": "VE2313"
+   },
+   "attributes": {},
+   "related": [],
+   "dataset": {
+    "id": "cod-ab-ven",
+    "name": "Límites administrativos de Venezuela (OCHA COD-AB v01): estados, municipios y parroquias",
+    "url": "https://data.humdata.org/dataset/cod-ab-ven",
+    "licence": {
+     "id": "cc-by-igo-3.0",
+     "name": "CC BY-IGO 3.0",
+     "url": "https://creativecommons.org/licenses/by/3.0/igo/legalcode"
+    },
+    "attribution": "Límites administrativos: Instituto Nacional de Estadística (INE) Venezuela, vía OCHA Venezuela / OCHA FIS, HDX (CC BY-IGO 3.0)",
+    "retrieved": "2026-09-24"
+   }
+  },
+  "parents": [
+   {
+    "id": "ve.zulia",
+    "type": "state",
+    "kind": null,
+    "name": {
+     "es": "Zulia",
+     "en": "Zulia"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve.zulia"
+   },
+   {
+    "id": "ve",
+    "type": "country",
+    "kind": null,
+    "name": {
+     "es": "Venezuela",
+     "en": "Venezuela"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve"
+   }
+  ],
+  "children": {
+   "total": 18,
+   "byType": {
+    "parish": 18
+   },
+   "items": [
+    {
+     "id": "ve.zulia.maracaibo.antonio-borjas-romero",
+     "type": "parish",
+     "kind": null,
+     "name": {
+      "es": "Antonio Borjas Romero",
+      "en": "Antonio Borjas Romero"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia.maracaibo.antonio-borjas-romero"
+    },
+    {
+     "id": "ve.zulia.maracaibo.bolivar",
+     "type": "parish",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia.maracaibo.bolivar"
+    },
+    {
+     "id": "ve.zulia.maracaibo.cacique-mara",
+     "type": "parish",
+     "kind": null,
+     "name": {
+      "es": "Cacique Mara",
+      "en": "Cacique Mara"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia.maracaibo.cacique-mara"
+    },
+    {
+     "id": "ve.zulia.maracaibo.caracciolo-parra-perez",
+     "type": "parish",
+     "kind": null,
+     "name": {
+      "es": "Caracciolo Parra Perez",
+      "en": "Caracciolo Parra Perez"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia.maracaibo.caracciolo-parra-perez"
+    }
+   ],
+   "truncated": false
+  },
+  "now": [
+   {
+    "layer": "connectivity",
+    "label": {
+     "es": "Conectividad a internet (IODA)",
+     "en": "Internet connectivity (IODA)"
+    },
+    "text": {
+     "es": "Señal normal para esta hora",
+     "en": "IODA: normal"
+    },
+    "figures": {
+     "level": "normal",
+     "usableSignals": 1,
+     "agreeingSignals": 0,
+     "events7d": 1,
+     "bgpPctOfBaseline": null,
+     "ping-slash24PctOfBaseline": 100.2,
+     "merit-ntPctOfBaseline": null
+    },
+    "observedAt": 1790653200000,
+    "fetchedAt": 1790654244801,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Cada señal se compara con la mediana de la misma franja de 10 minutos en los 7 días anteriores (hora de Venezuela, sin horario de verano).",
+    "scope": {
+     "id": "ve.zulia",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Zulia",
+      "en": "Zulia"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia"
+    },
+    "source": {
+     "feed": "ioda-states",
+     "name": "Conectividad por estado (IODA)",
+     "sourceUrl": "https://ioda.inetintel.cc.gatech.edu/region/4488",
+     "licence": "ioda-all-rights-reserved",
+     "attribution": "Datos: IODA, Georgia Tech"
+    },
+    "stale": false
+   },
+   {
+    "layer": "nightlights",
+    "label": {
+     "es": "Luces nocturnas (NASA VIIRS)",
+     "en": "Night lights (NASA VIIRS)"
+    },
+    "text": {
+     "es": "Mayormente nublado: el valor repite sobre todo noches anteriores; no sirve para ver un apagón de esta noche.",
+     "en": "Not comparable tonight (clouds or no baseline)"
+    },
+    "figures": {
+     "radianceIndex": 0.9458521847869891,
+     "baseline": 0.7996241654074674,
+     "pctChange": null,
+     "comparable": false,
+     "quality": "cloudy",
+     "clearFraction": 0
+    },
+    "observedAt": 1790488560000,
+    "fetchedAt": 1790598130449,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Índice de radiancia medio del estado frente a la mediana de sus noches despejadas anteriores (calculado por Vigía).",
+    "scope": {
+     "id": "ve.zulia",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Zulia",
+      "en": "Zulia"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia"
+    },
+    "source": {
+     "feed": "gibs-nightlights",
+     "name": "Luces nocturnas (NASA VIIRS)",
+     "sourceUrl": "https://worldview.earthdata.nasa.gov/?v=-74,0,-59,13.5&l=VIIRS_NOAA20_GapFilled_BRDF_Corrected_DayNightBand_Radiance&t=2026-09-27-T00%3A00%3A00Z",
+     "licence": "nasa-gibs",
+     "attribution": "We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of NASA's Earth Science Data and Information System (ESDIS)."
+    },
+    "stale": false
+   },
+   {
+    "layer": "weather",
+    "label": {
+     "es": "Tiempo en Maracaibo (Open-Meteo)",
+     "en": "Weather in Maracaibo (Open-Meteo)"
+    },
+    "text": {
+     "es": "Maracaibo: Nublado, 27 °C, ráfagas de 10 km/h",
+     "en": "Maracaibo: 27 °C, gusts 10 km/h"
+    },
+    "figures": {
+     "temperatureC": 27.2,
+     "apparentC": 33.8,
+     "precipitationMmH": 0,
+     "gustsKmh": 10.4,
+     "weatherCode": 3,
+     "next24hPrecipMm": 0.6
+    },
+    "observedAt": 1790653500000,
+    "fetchedAt": 1790653747341,
+    "basis": "quote",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "ve.zulia",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Zulia",
+      "en": "Zulia"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia"
+    },
+    "source": {
+     "feed": "open-meteo-weather",
+     "name": "Tiempo en las capitales (modelo)",
+     "sourceUrl": "https://open-meteo.com/",
+     "licence": "cc-by-4.0-open-meteo",
+     "attribution": "Weather data by Open-Meteo.com"
+    },
+    "stale": false
+   },
+   {
+    "layer": "fires",
+    "label": {
+     "es": "Focos de calor en 48 h (NASA FIRMS, VIIRS)",
+     "en": "Heat detections in 48 h (NASA FIRMS, VIIRS)"
+    },
+    "text": {
+     "es": "0 detecciones en 48 h",
+     "en": "0 detections in 48 h"
+    },
+    "figures": {
+     "detections48h": 0
+    },
+    "observedAt": null,
+    "fetchedAt": null,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Detecciones VIIRS cuyo píxel cae en este lugar (punto en polígono), contadas por Vigía; incluye fuentes de calor persistentes.",
+    "scope": {
+     "id": "ve.zulia.maracaibo",
+     "type": "municipality",
+     "kind": null,
+     "name": {
+      "es": "Maracaibo",
+      "en": "Maracaibo"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia.maracaibo"
+    },
+    "source": {
+     "feed": "firms-fires",
+     "name": "Focos de calor (NASA FIRMS, VIIRS NOAA-20)",
+     "sourceUrl": null,
+     "licence": "nasa-firms-open",
+     "attribution": "NASA FIRMS"
+    },
+    "stale": false
+   },
+   {
+    "layer": "quakes",
+    "label": {
+     "es": "Sismos en 30 días (USGS y FUNVISIS)",
+     "en": "Quakes in 30 days (USGS and FUNVISIS)"
+    },
+    "text": {
+     "es": "Ningún sismo registrado en 30 días",
+     "en": "No quake recorded in 30 days"
+    },
+    "figures": {
+     "quakes30d": 0,
+     "strongestMag": null,
+     "newestAt": null
+    },
+    "observedAt": null,
+    "fetchedAt": null,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Conteo de los sismos del panel (USGS y FUNVISIS emparejados) con epicentro en este lugar (calculado por Vigía).",
+    "scope": {
+     "id": "ve.zulia.maracaibo",
+     "type": "municipality",
+     "kind": null,
+     "name": {
+      "es": "Maracaibo",
+      "en": "Maracaibo"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia.maracaibo"
+    },
+    "source": {
+     "feed": null,
+     "name": "USGS y FUNVISIS",
+     "sourceUrl": null,
+     "licence": "vigia-derived",
+     "attribution": "Calculado por Vigía a partir de las fuentes citadas"
+    },
+    "stale": false
+   },
+   {
+    "layer": "news",
+    "label": {
+     "es": "Titulares que lo nombran",
+     "en": "Headlines naming it"
+    },
+    "text": {
+     "es": "94 titulares en 48 h",
+     "en": "94 headlines in 48 h"
+    },
+    "figures": {
+     "headlines48h": 94
+    },
+    "observedAt": 1790650294837,
+    "fetchedAt": 1790650294837,
+    "basis": "report",
+    "computed": true,
+    "method": "Entradas de los feeds de medios vinculadas por el etiquetador de palabras clave o por nombre (ubicación por palabra clave), contadas por Vigía; un medio con dos feeds puede contar dos veces el mismo titular.",
+    "scope": {
+     "id": "ve.zulia.maracaibo",
+     "type": "municipality",
+     "kind": null,
+     "name": {
+      "es": "Maracaibo",
+      "en": "Maracaibo"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia.maracaibo"
+    },
+    "source": {
+     "feed": null,
+     "name": "Medios (titulares)",
+     "sourceUrl": "https://noticialdia.com/?p=674866",
+     "licence": "vigia-derived",
+     "attribution": "Calculado por Vigía a partir de las fuentes citadas"
+    },
+    "stale": false
+   }
+  ],
+  "incidents": [
+   {
+    "id": "corte:VE-V:1790590182000",
+    "kind": "corte",
+    "title": {
+     "es": "Posible apagón en Zulia",
+     "en": "Possible blackout in Zulia"
+    },
+    "status": "ended",
+    "tier": "incident",
+    "corroboration": 1,
+    "families": [
+     "prensa"
+    ],
+    "reportsOnly": true,
+    "startAt": 1790590182000,
+    "lastEvidenceAt": 1790622483000,
+    "scope": {
+     "id": "ve.zulia",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Zulia",
+      "en": "Zulia"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.zulia"
+    },
+    "populationInArea": {
+     "area": {
+      "es": "Personas que viven en Zulia (todo el estado)",
+      "en": "People living in Zulia (the whole state)"
+     },
+     "people": 4457294,
+     "radii": null,
+     "basis": "estimate",
+     "source": "WorldPop (www.worldpop.org), University of Southampton; Global2 R2025A (CC BY 4.0)",
+     "licence": "CC BY 4.0",
+     "note": "Estimación modelada por WorldPop para 2026; no es un censo ni un conteo de personas afectadas.",
+     "computed": true,
+     "method": "WorldPop 2026 sumado por municipio (calculado por Vigía).",
+     "caveat": {
+      "es": "No es el número de personas sin servicio: las señales se miden por estado y no dicen qué parte del estado está afectada.",
+      "en": "Not the number of people without service: the signals are per state and do not say which part of it is affected."
+     }
+    },
+    "href": "/api/v1/incidents/corte%3AVE-V%3A1790590182000"
+   }
+  ],
+  "stories": [
+   {
+    "title": "Maracaibo comanda la delegación del Zulia con 34 atletas clasificados a la fase nacional de los Judenacom 2026",
+    "url": "https://noticialdia.com/?p=674866",
+    "at": 1790650294837,
+    "fetchedAt": 1790650294837,
+    "outlet": {
+     "id": "outlet.noticia-al-dia",
+     "type": "outlet",
+     "kind": "commercial",
+     "name": {
+      "es": "Noticia al Día (Zulia)",
+      "en": "Noticia al Día (Zulia)"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.noticia-al-dia"
+    },
+    "outletName": "Noticia al Día (Zulia)",
+    "storyId": null,
+    "outlets": 1,
+    "rule": "text-place",
+    "confidence": 0.85
+   },
+   {
+    "title": "Instalado en Maracaibo el Congreso de Pueblos en Resistencia Antiimperialista",
+    "url": "https://www.aporrea.org/trabajadores/n424044.html",
+    "at": 1790647611000,
+    "fetchedAt": 1790648357112,
+    "outlet": {
+     "id": "outlet.aporrea",
+     "type": "outlet",
+     "kind": "partisan",
+     "name": {
+      "es": "Aporrea",
+      "en": "Aporrea"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.aporrea"
+    },
+    "outletName": "Aporrea",
+    "storyId": null,
+    "outlets": 1,
+    "rule": "text-place",
+    "confidence": 0.85
+   }
+  ],
+  "nearby": {
+   "rule": {
+    "es": "Instalaciones dentro de este lugar (punto en polígono)",
+    "en": "Facilities inside this place (point in polygon)"
+   },
+   "byKind": {
+    "hospital": 30,
+    "power-plant": 1,
+    "substation": 4
+   },
+   "items": [
+    {
+     "entity": {
+      "id": "infra.planta-termoelectrica-ramon-laguna",
+      "type": "infrastructure",
+      "kind": "power-plant",
+      "name": {
+       "es": "Planta Termoeléctrica Ramón Laguna",
+       "en": "Ramon Laguna Power Plant"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.planta-termoelectrica-ramon-laguna"
+     },
+     "km": 12.3,
+     "relation": "inside"
+    },
+    {
+     "entity": {
+      "id": "infra.subestacion-cuatricentenario",
+      "type": "infrastructure",
+      "kind": "substation",
+      "name": {
+       "es": "Subestación Cuatricentenario",
+       "en": "Cuatricentenario substation"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.subestacion-cuatricentenario"
+     },
+     "km": 5.3,
+     "relation": "inside"
+    },
+    {
+     "entity": {
+      "id": "infra.subestacion-osm-way-502761909",
+      "type": "infrastructure",
+      "kind": "substation",
+      "name": {
+       "es": "Subestación de 230 kV (sin nombre en OSM)",
+       "en": "Subestación de 230 kV (sin nombre en OSM)"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.subestacion-osm-way-502761909"
+     },
+     "km": 9.5,
+     "relation": "inside"
+    }
+   ],
+   "truncated": false
+  },
+  "population": {
+   "census2011": {
+    "people": 1459448,
+    "source": "Instituto Nacional de Estadística (INE) Venezuela, censo 2011, vía OCHA COD-PS (HDX)",
+    "licence": "CC BY-IGO 3.0",
+    "note": "Censo de 2011 (INE), la última cifra oficial por municipio: no refleja la emigración posterior."
+   },
+   "worldpop2026": {
+    "people": 1859347,
+    "source": "WorldPop (www.worldpop.org), University of Southampton; Global2 R2025A (CC BY 4.0)",
+    "licence": "CC BY 4.0",
+    "note": "Estimación modelada por WorldPop para 2026; no es un censo."
+   },
+   "computed": true,
+   "method": "Suma de las celdas de ~1 km de WorldPop 2026 cuyo centro cae en cada municipio o parroquia (límites COD-AB a resolución completa); las celdas costeras fuera de todo polígono van al más cercano a menos de 3 km. Es una estimación modelada, no un censo."
+  },
+  "links": {
+   "timeline": "/api/v1/entities/ve.zulia.maracaibo/timeline",
+   "rules": {
+    "es": [
+     "Los vínculos los hace el código, sin modelos: punto en polígono con los límites oficiales (COD-AB), códigos de la fuente (estado, ASN, proveedor), el medio de cada titular, y palabras clave."
+    ],
+    "en": [
+     "Links are made by code, with no model: point in polygon on the official boundaries (COD-AB), codes in the source (state, ASN, ISP), each headline's outlet, and keywords."
+    ]
+   },
+   "backlog": 0
+  },
+  "asOf": 1790656225186
+ },
+ "infra.guri": {
+  "entity": {
+   "id": "infra.guri",
+   "type": "infrastructure",
+   "kind": "power-plant",
+   "name": {
+    "es": "Central Hidroeléctrica Simón Bolívar (Guri)",
+    "en": "Simón Bolívar hydroelectric plant (Guri)"
+   },
+   "short": null,
+   "href": "/api/v1/entities/infra.guri",
+   "aliases": [
+    "Guri",
+    "Central Hidroeléctrica Guri",
+    "Guri"
+   ],
+   "point": {
+    "lat": 7.76732,
+    "lon": -63
+   },
+   "geometry": "osm:relation/15238110",
+   "codes": {
+    "osm": "relation/15238110"
+   },
+   "attributes": {
+    "source": "hydro",
+    "capacityMW": 10235,
+    "capacityTag": "10235 MW",
+    "operatorTag": "EDELCA"
+   },
+   "related": [
+    {
+     "rel": "operator",
+     "entity": {
+      "id": "inst.corpoelec",
+      "type": "institution",
+      "kind": "state-company",
+      "name": {
+       "es": "Corporación Eléctrica Nacional",
+       "en": "National Electric Corporation"
+      },
+      "short": "Corpoelec",
+      "href": "/api/v1/entities/inst.corpoelec"
+     }
+    }
+   ],
+   "dataset": {
+    "id": "osm",
+    "name": "OpenStreetMap (vía Overpass API): plantas, subestaciones, red de transmisión, refinerías, represas, embalses y hospitales",
+    "url": "https://www.openstreetmap.org/copyright",
+    "licence": {
+     "id": "odbl-1.0",
+     "name": "ODbL 1.0",
+     "url": "https://opendatacommons.org/licenses/odbl/1-0/"
+    },
+    "attribution": "© Colaboradores de OpenStreetMap (ODbL 1.0)",
+    "retrieved": "2026-09-29"
+   }
+  },
+  "parents": [
+   {
+    "id": "ve.bolivar.angostura.capital-angostura",
+    "type": "parish",
+    "kind": null,
+    "name": {
+     "es": "Capital Angostura",
+     "en": "Capital Angostura"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve.bolivar.angostura.capital-angostura"
+   },
+   {
+    "id": "ve.bolivar.angostura",
+    "type": "municipality",
+    "kind": null,
+    "name": {
+     "es": "Bolivariano Angostura",
+     "en": "Bolivariano Angostura"
+    },
+    "short": "Angostura",
+    "href": "/api/v1/entities/ve.bolivar.angostura"
+   },
+   {
+    "id": "ve.bolivar",
+    "type": "state",
+    "kind": null,
+    "name": {
+     "es": "Bolívar",
+     "en": "Bolívar"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve.bolivar"
+   },
+   {
+    "id": "ve",
+    "type": "country",
+    "kind": null,
+    "name": {
+     "es": "Venezuela",
+     "en": "Venezuela"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve"
+   }
+  ],
+  "children": {
+   "total": 0,
+   "byType": {},
+   "items": [],
+   "truncated": false
+  },
+  "now": [
+   {
+    "layer": "fires",
+    "label": {
+     "es": "Focos de calor cerca en 48 h (VIIRS)",
+     "en": "Heat detections nearby in 48 h (VIIRS)"
+    },
+    "text": {
+     "es": "0 detecciones en 48 h dentro de la distancia de la regla",
+     "en": "0 detections in 48 h within the rule's distance"
+    },
+    "figures": {
+     "detectionsNear48h": 0
+    },
+    "observedAt": null,
+    "fetchedAt": null,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Detecciones VIIRS a la distancia que fija la regla para este tipo de instalación (ver reglas), contadas por Vigía.",
+    "scope": {
+     "id": "infra.guri",
+     "type": "infrastructure",
+     "kind": "power-plant",
+     "name": {
+      "es": "Central Hidroeléctrica Simón Bolívar (Guri)",
+      "en": "Simón Bolívar hydroelectric plant (Guri)"
+     },
+     "short": null,
+     "href": "/api/v1/entities/infra.guri"
+    },
+    "source": {
+     "feed": "firms-fires",
+     "name": "Focos de calor (NASA FIRMS, VIIRS NOAA-20)",
+     "sourceUrl": null,
+     "licence": "nasa-firms-open",
+     "attribution": "NASA FIRMS"
+    },
+    "stale": false
+   }
+  ],
+  "incidents": [],
+  "stories": [],
+  "nearby": {
+   "rule": {
+    "es": "Otras instalaciones a menos de 20 km",
+    "en": "Other facilities within 20 km"
+   },
+   "byKind": {
+    "power-grid": 3,
+    "dam": 12,
+    "substation": 4,
+    "hospital": 1,
+    "reservoir": 1,
+    "power-plant": 1
+   },
+   "items": [
+    {
+     "entity": {
+      "id": "infra.red-765kv",
+      "type": "infrastructure",
+      "kind": "power-grid",
+      "name": {
+       "es": "Red de transmisión de 765 kV (trazado de OSM)",
+       "en": "765 kV transmission grid (OSM mapping)"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.red-765kv"
+     },
+     "km": 0,
+     "relation": "near"
+    },
+    {
+     "entity": {
+      "id": "infra.red-230kv",
+      "type": "infrastructure",
+      "kind": "power-grid",
+      "name": {
+       "es": "Red de transmisión de 230 kV (trazado de OSM)",
+       "en": "230 kV transmission grid (OSM mapping)"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.red-230kv"
+     },
+     "km": 0.1,
+     "relation": "near"
+    },
+    {
+     "entity": {
+      "id": "infra.red-400kv",
+      "type": "infrastructure",
+      "kind": "power-grid",
+      "name": {
+       "es": "Red de transmisión de 400 kV (trazado de OSM)",
+       "en": "400 kV transmission grid (OSM mapping)"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.red-400kv"
+     },
+     "km": 0.1,
+     "relation": "near"
+    }
+   ],
+   "truncated": false
+  },
+  "population": null,
+  "links": {
+   "timeline": "/api/v1/entities/infra.guri/timeline",
+   "rules": {
+    "es": [
+     "Los vínculos los hace el código, sin modelos: punto en polígono con los límites oficiales (COD-AB), códigos de la fuente (estado, ASN, proveedor), el medio de cada titular, y palabras clave."
+    ],
+    "en": [
+     "Links are made by code, with no model: point in polygon on the official boundaries (COD-AB), codes in the source (state, ASN, ISP), each headline's outlet, and keywords."
+    ]
+   },
+   "backlog": 0
+  },
+  "asOf": 1790656225413
+ },
+ "inst.bcv": {
+  "entity": {
+   "id": "inst.bcv",
+   "type": "institution",
+   "kind": "agency",
+   "name": {
+    "es": "Banco Central de Venezuela",
+    "en": "Central Bank of Venezuela"
+   },
+   "short": "BCV",
+   "href": "/api/v1/entities/inst.bcv",
+   "aliases": [
+    "BANCO CENTRAL DE VENEZUELA"
+   ],
+   "point": null,
+   "geometry": null,
+   "codes": {},
+   "attributes": {
+    "homepage": "https://www.bcv.org.ve/",
+    "gazetteOrgans": [
+     "BANCO CENTRAL DE VENEZUELA"
+    ],
+    "publishes": [
+     "bcv-official",
+     "bcv-history",
+     "bcv-inpc",
+     "bcv-api"
+    ]
+   },
+   "related": [],
+   "dataset": {
+    "id": "vigia-institutions",
+    "name": "Instituciones públicas (lista de Vigía; nombres de órganos según el índice de la Gaceta Oficial)",
+    "url": "http://www.gacetaoficial.gob.ve",
+    "licence": {
+     "id": "polyform-nc-1.0.0",
+     "name": "PolyForm Noncommercial 1.0.0 (lista de Vigía)",
+     "url": "https://polyformproject.org/licenses/noncommercial/1.0.0/"
+    },
+    "attribution": "Lista de Vigía; nombres de órganos tal como los imprime el índice de la Gaceta Oficial (2026-09-28)",
+    "retrieved": "2026-09-28"
+   }
+  },
+  "parents": [
+   {
+    "id": "ve",
+    "type": "country",
+    "kind": null,
+    "name": {
+     "es": "Venezuela",
+     "en": "Venezuela"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve"
+   }
+  ],
+  "children": {
+   "total": 0,
+   "byType": {},
+   "items": [],
+   "truncated": false
+  },
+  "now": [
+   {
+    "layer": "figure",
+    "label": {
+     "es": "Tasa oficial del dólar (Bs.)",
+     "en": "Official US dollar rate (Bs.)"
+    },
+    "text": {
+     "es": "Tasa oficial del dólar (Bs.): 857.8876",
+     "en": "Official US dollar rate (Bs.): 857.8876"
+    },
+    "figures": {
+     "value": 857.8876,
+     "path": "official.usd.current.vesPerUnit"
+    },
+    "observedAt": 1790654400000,
+    "fetchedAt": 1790624863267,
+    "basis": "official",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "bcv-official",
+     "name": "Tipo de cambio oficial (BCV)",
+     "sourceUrl": "https://www.bcv.org.ve/",
+     "licence": "bcv-attribution-nc",
+     "attribution": "Fuente: Banco Central de Venezuela (bcv.org.ve)"
+    },
+    "stale": false
+   },
+   {
+    "layer": "figure",
+    "label": {
+     "es": "Tasa oficial del euro (Bs.)",
+     "en": "Official euro rate (Bs.)"
+    },
+    "text": {
+     "es": "Tasa oficial del euro (Bs.): 974.71473336",
+     "en": "Official euro rate (Bs.): 974.71473336"
+    },
+    "figures": {
+     "value": 974.71473336,
+     "path": "official.eur.current.vesPerUnit"
+    },
+    "observedAt": 1790654400000,
+    "fetchedAt": 1790624863267,
+    "basis": "official",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "bcv-official",
+     "name": "Tipo de cambio oficial (BCV)",
+     "sourceUrl": "https://www.bcv.org.ve/",
+     "licence": "bcv-attribution-nc",
+     "attribution": "Fuente: Banco Central de Venezuela (bcv.org.ve)"
+    },
+    "stale": false
+   },
+   {
+    "layer": "feed",
+    "label": {
+     "es": "Historial del tipo de cambio oficial (BCV)",
+     "en": "Official exchange rate history (BCV)"
+    },
+    "text": {
+     "es": "Última publicación leída: 2026-09-25",
+     "en": "Newest publication read: 2026-09-25"
+    },
+    "figures": {
+     "state": "ok"
+    },
+    "observedAt": 1790308800000,
+    "fetchedAt": 1790628320680,
+    "basis": "official",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "bcv-history",
+     "name": "Historial del tipo de cambio oficial (BCV)",
+     "sourceUrl": "https://www.bcv.org.ve/estadisticas/tipo-de-cambio-de-referencia-0",
+     "licence": "bcv-attribution-nc",
+     "attribution": "Fuente: Banco Central de Venezuela (bcv.org.ve)"
+    },
+    "stale": false
+   },
+   {
+    "layer": "figure",
+    "label": {
+     "es": "INPC (índice)",
+     "en": "Consumer price index"
+    },
+    "text": {
+     "es": "INPC (índice): 637409769724000",
+     "en": "Consumer price index: 637409769724000"
+    },
+    "figures": {
+     "value": 637409769724000,
+     "path": "inflation.latest.index"
+    },
+    "observedAt": 1785556800000,
+    "fetchedAt": 1790298445036,
+    "basis": "official",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "bcv-inpc",
+     "name": "Inflación: INPC (BCV)",
+     "sourceUrl": "https://www.bcv.org.ve/estadisticas/consumidor",
+     "licence": "bcv-attribution-nc",
+     "attribution": "Fuente: Banco Central de Venezuela (bcv.org.ve)"
+    },
+    "stale": false
+   },
+   {
+    "layer": "figure",
+    "label": {
+     "es": "Inflación del mes (%)",
+     "en": "Monthly inflation (%)"
+    },
+    "text": {
+     "es": "Inflación del mes (%): 8.9",
+     "en": "Monthly inflation (%): 8.9"
+    },
+    "figures": {
+     "value": 8.9,
+     "path": "inflation.latest.monthlyPct"
+    },
+    "observedAt": 1785556800000,
+    "fetchedAt": 1790298445036,
+    "basis": "official",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "bcv-inpc",
+     "name": "Inflación: INPC (BCV)",
+     "sourceUrl": "https://www.bcv.org.ve/estadisticas/consumidor",
+     "licence": "bcv-attribution-nc",
+     "attribution": "Fuente: Banco Central de Venezuela (bcv.org.ve)"
+    },
+    "stale": false
+   },
+   {
+    "layer": "figure",
+    "label": {
+     "es": "Inflación interanual (%)",
+     "en": "Year-on-year inflation (%)"
+    },
+    "text": {
+     "es": "Inflación interanual (%): 534.213423555",
+     "en": "Year-on-year inflation (%): 534.213423555"
+    },
+    "figures": {
+     "value": 534.213423555,
+     "path": "inflation.yearOnYearPct"
+    },
+    "observedAt": null,
+    "fetchedAt": null,
+    "basis": "derived",
+    "computed": true,
+    "method": "Variación del INPC frente al mismo mes del año anterior, calculada por Vigía con los índices del BCV.",
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "bcv-inpc",
+     "name": "Inflación: INPC (BCV)",
+     "sourceUrl": "https://www.bcv.org.ve/estadisticas/consumidor",
+     "licence": "bcv-attribution-nc",
+     "attribution": "Fuente: Banco Central de Venezuela (bcv.org.ve)"
+    },
+    "stale": false
+   },
+   {
+    "layer": "feed",
+    "label": {
+     "es": "Tipo de cambio oficial (BCV, vía bcv-api)",
+     "en": "Official exchange rate (BCV, via bcv-api)"
+    },
+    "text": {
+     "es": "Última publicación leída: 2026-09-29",
+     "en": "Newest publication read: 2026-09-29"
+    },
+    "figures": {
+     "state": "ok"
+    },
+    "observedAt": 1790654400000,
+    "fetchedAt": 1790653900549,
+    "basis": "official",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "bcv-api",
+     "name": "Tipo de cambio oficial (BCV, vía bcv-api)",
+     "sourceUrl": "https://github.com/elberacasa/bcv-api",
+     "licence": "bcv-api-mirror",
+     "attribution": "Fuente: Banco Central de Venezuela, vía bcv-api (bcv-api.umbrabadge.workers.dev)"
+    },
+    "stale": false
+   },
+   {
+    "layer": "news",
+    "label": {
+     "es": "Titulares que lo nombran",
+     "en": "Headlines naming it"
+    },
+    "text": {
+     "es": "29 titulares en 48 h",
+     "en": "29 headlines in 48 h"
+    },
+    "figures": {
+     "headlines48h": 29
+    },
+    "observedAt": 1790636735000,
+    "fetchedAt": 1790637001715,
+    "basis": "report",
+    "computed": true,
+    "method": "Entradas de los feeds de medios vinculadas por el etiquetador de palabras clave o por nombre (ubicación por palabra clave), contadas por Vigía; un medio con dos feeds puede contar dos veces el mismo titular.",
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": null,
+     "name": "Medios (titulares)",
+     "sourceUrl": "https://t.me/vtv_canal8/199540",
+     "licence": "vigia-derived",
+     "attribution": "Calculado por Vigía a partir de las fuentes citadas"
+    },
+    "stale": false
+   },
+   {
+    "layer": "gazette",
+    "label": {
+     "es": "Gacetas Oficiales con actos suyos (30 días)",
+     "en": "Official Gazettes with its acts (30 days)"
+    },
+    "text": {
+     "es": "1 gacetas en 30 días",
+     "en": "1 gazettes in 30 days"
+    },
+    "figures": {
+     "gazettes30d": 1
+    },
+    "observedAt": 1789099200000,
+    "fetchedAt": 1790311279502,
+    "basis": "official",
+    "computed": true,
+    "method": "Números de la Gaceta Oficial cuyo índice lista un acto de este órgano, contados por Vigía.",
+    "scope": {
+     "id": "inst.bcv",
+     "type": "institution",
+     "kind": "agency",
+     "name": {
+      "es": "Banco Central de Venezuela",
+      "en": "Central Bank of Venezuela"
+     },
+     "short": "BCV",
+     "href": "/api/v1/entities/inst.bcv"
+    },
+    "source": {
+     "feed": "gaceta-oficial",
+     "name": "Gaceta Oficial: números nuevos y su sumario",
+     "sourceUrl": "http://www.gacetaoficial.gob.ve/gacetas/7073",
+     "licence": "gaceta-oficial-ve",
+     "attribution": "Gaceta Oficial de la República Bolivariana de Venezuela (Imprenta Nacional)"
+    },
+    "stale": false
+   }
+  ],
+  "incidents": [],
+  "stories": [
+   {
+    "title": "#EnVideo 📹 | Asesor financiero Eleazar Colmenares señaló que la economía venezolana transita hacia la sustitución de importaciones por exportaciones, impulsada por el rendimiento del sector…",
+    "url": "https://t.me/vtv_canal8/199540",
+    "at": 1790636735000,
+    "fetchedAt": 1790637001715,
+    "outlet": {
+     "id": "outlet.vtv",
+     "type": "outlet",
+     "kind": "state",
+     "name": {
+      "es": "VTV",
+      "en": "VTV"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.vtv"
+    },
+    "outletName": "VTV",
+    "storyId": null,
+    "outlets": 1,
+    "rule": "text-name",
+    "confidence": 0.9
+   },
+   {
+    "title": "BCV CIERRA EL GRIFO: MENOS DÓLARES Y MAS CAOS | #lagrieta #evtv| 09/28/26 1/5",
+    "url": "https://www.youtube.com/watch?v=8QLx0ElNMKg",
+    "at": 1790636426000,
+    "fetchedAt": 1790637913026,
+    "outlet": {
+     "id": "outlet.yt-evtv",
+     "type": "outlet",
+     "kind": "commercial",
+     "name": {
+      "es": "EVTV Miami (YouTube)",
+      "en": "EVTV Miami (YouTube)"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.yt-evtv"
+    },
+    "outletName": "EVTV Miami (YouTube)",
+    "storyId": null,
+    "outlets": 1,
+    "rule": "text-name",
+    "confidence": 0.9
+   }
+  ],
+  "nearby": {
+   "rule": {
+    "es": "Sin ubicación propia",
+    "en": "No location of its own"
+   },
+   "byKind": {},
+   "items": [],
+   "truncated": false
+  },
+  "population": null,
+  "links": {
+   "timeline": "/api/v1/entities/inst.bcv/timeline",
+   "rules": {
+    "es": [
+     "Los vínculos los hace el código, sin modelos: punto en polígono con los límites oficiales (COD-AB), códigos de la fuente (estado, ASN, proveedor), el medio de cada titular, y palabras clave."
+    ],
+    "en": [
+     "Links are made by code, with no model: point in polygon on the official boundaries (COD-AB), codes in the source (state, ASN, ISP), each headline's outlet, and keywords."
+    ]
+   },
+   "backlog": 0
+  },
+  "asOf": 1790656225415
+ },
+ "net.cantv": {
+  "entity": {
+   "id": "net.cantv",
+   "type": "network",
+   "kind": "isp",
+   "name": {
+    "es": "CANTV",
+    "en": "CANTV"
+   },
+   "short": null,
+   "href": "/api/v1/entities/net.cantv",
+   "aliases": [
+    "CANTV Servicios, Venezuela"
+   ],
+   "point": null,
+   "geometry": null,
+   "codes": {
+    "isp": "cantv"
+   },
+   "attributes": {
+    "service": "fijo",
+    "asns": [
+     "8048"
+    ],
+    "holder": "CANTV Servicios, Venezuela"
+   },
+   "related": [
+    {
+     "rel": "operator",
+     "entity": {
+      "id": "inst.cantv",
+      "type": "institution",
+      "kind": "state-company",
+      "name": {
+       "es": "Compañía Anónima Nacional Teléfonos de Venezuela",
+       "en": "CANTV (state telephone company)"
+      },
+      "short": "CANTV",
+      "href": "/api/v1/entities/inst.cantv"
+     }
+    }
+   ],
+   "dataset": {
+    "id": "vigia-isps",
+    "name": "Proveedores de internet y sus sistemas autónomos (tabla de Vigía)",
+    "url": "https://ioda.inetintel.cc.gatech.edu/country/VE",
+    "licence": {
+     "id": "polyform-nc-1.0.0",
+     "name": "PolyForm Noncommercial 1.0.0 (lista de Vigía)",
+     "url": "https://polyformproject.org/licenses/noncommercial/1.0.0/"
+    },
+    "attribution": "Tabla de Vigía; titulares de cada ASN según IODA y RIPE (verificado 2026-09-24)",
+    "retrieved": "2026-09-24"
+   }
+  },
+  "parents": [
+   {
+    "id": "ve",
+    "type": "country",
+    "kind": null,
+    "name": {
+     "es": "Venezuela",
+     "en": "Venezuela"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve"
+   }
+  ],
+  "children": {
+   "total": 1,
+   "byType": {
+    "network": 1
+   },
+   "items": [
+    {
+     "id": "asn.8048",
+     "type": "network",
+     "kind": "asn",
+     "name": {
+      "es": "AS8048 (CANTV)",
+      "en": "AS8048 (CANTV)"
+     },
+     "short": "AS8048",
+     "href": "/api/v1/entities/asn.8048"
+    }
+   ],
+   "truncated": false
+  },
+  "now": [
+   {
+    "layer": "connectivity",
+    "label": {
+     "es": "Conectividad a internet (IODA)",
+     "en": "Internet connectivity (IODA)"
+    },
+    "text": {
+     "es": "Señal normal para esta hora",
+     "en": "IODA: normal"
+    },
+    "figures": {
+     "level": "normal",
+     "usableSignals": 1,
+     "agreeingSignals": 0,
+     "events7d": 4,
+     "bgpPctOfBaseline": null,
+     "ping-slash24PctOfBaseline": 97.4,
+     "merit-ntPctOfBaseline": null
+    },
+    "observedAt": 1790653200000,
+    "fetchedAt": 1790654059857,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Cada señal se compara con la mediana de la misma franja de 10 minutos en los 7 días anteriores (hora de Venezuela, sin horario de verano).",
+    "scope": {
+     "id": "net.cantv",
+     "type": "network",
+     "kind": "isp",
+     "name": {
+      "es": "CANTV",
+      "en": "CANTV"
+     },
+     "short": null,
+     "href": "/api/v1/entities/net.cantv"
+    },
+    "source": {
+     "feed": "ioda-asn",
+     "name": "Conectividad por proveedor (IODA)",
+     "sourceUrl": "https://ioda.inetintel.cc.gatech.edu/asn/8048",
+     "licence": "ioda-all-rights-reserved",
+     "attribution": "Datos: IODA, Georgia Tech"
+    },
+    "stale": false
+   },
+   {
+    "layer": "censorship",
+    "label": {
+     "es": "Bloqueos de sitios (OONI y VE sin Filtro)",
+     "en": "Website blocking (OONI and VE sin Filtro)"
+    },
+    "text": {
+     "es": "VE sin Filtro: 100 sitios bloqueados; OONI: 163 dominios con anomalías de 2515 probados",
+     "en": "VE sin Filtro: 100 blocked sites; OONI: 163 flagged domains of 2515 tested"
+    },
+    "figures": {
+     "vsfBlocked": 100,
+     "ooniFlagged": 163,
+     "ooniTested": 2515,
+     "ooniAnomalyRatePct": 25
+    },
+    "observedAt": null,
+    "fetchedAt": null,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Conteos del panel de censura para este proveedor (calculado por Vigía).",
+    "scope": {
+     "id": "net.cantv",
+     "type": "network",
+     "kind": "isp",
+     "name": {
+      "es": "CANTV",
+      "en": "CANTV"
+     },
+     "short": null,
+     "href": "/api/v1/entities/net.cantv"
+    },
+    "source": {
+     "feed": null,
+     "name": "OONI y VE sin Filtro",
+     "sourceUrl": null,
+     "licence": "vigia-derived",
+     "attribution": "Calculado por Vigía a partir de las fuentes citadas"
+    },
+    "stale": false
+   },
+   {
+    "layer": "routing",
+    "label": {
+     "es": "Cambios de rutas (RIPEstat)",
+     "en": "Routing changes (RIPEstat)"
+    },
+    "text": {
+     "es": "3 cambios de prefijos por encima de la regla en la ventana",
+     "en": "3 prefix changes above the rule in the window"
+    },
+    "figures": {
+     "events": 3
+    },
+    "observedAt": 1790640000000,
+    "fetchedAt": null,
+    "basis": "derived",
+    "computed": true,
+    "method": "Retiros, anuncios y traspasos de prefijos entre instantáneas de RIPEstat que superan la regla del panel (solo cifras derivadas).",
+    "scope": {
+     "id": "net.cantv",
+     "type": "network",
+     "kind": "isp",
+     "name": {
+      "es": "CANTV",
+      "en": "CANTV"
+     },
+     "short": null,
+     "href": "/api/v1/entities/net.cantv"
+    },
+    "source": {
+     "feed": "ripestat-prefixes",
+     "name": "Cambios de rutas por proveedor (RIPE RIS)",
+     "sourceUrl": "https://stat.ripe.net/app/launchpad/AS8048",
+     "licence": "ripestat-no-redistribution",
+     "attribution": "Fuente: RIPEstat, RIPE NCC"
+    },
+    "stale": false
+   }
+  ],
+  "incidents": [],
+  "stories": [],
+  "nearby": {
+   "rule": {
+    "es": "Sin ubicación propia",
+    "en": "No location of its own"
+   },
+   "byKind": {},
+   "items": [],
+   "truncated": false
+  },
+  "population": null,
+  "links": {
+   "timeline": "/api/v1/entities/net.cantv/timeline",
+   "rules": {
+    "es": [
+     "Los vínculos los hace el código, sin modelos: punto en polígono con los límites oficiales (COD-AB), códigos de la fuente (estado, ASN, proveedor), el medio de cada titular, y palabras clave."
+    ],
+    "en": [
+     "Links are made by code, with no model: point in polygon on the official boundaries (COD-AB), codes in the source (state, ASN, ISP), each headline's outlet, and keywords."
+    ]
+   },
+   "backlog": 0
+  },
+  "asOf": 1790656225492
+ },
+ "ve.bolivar": {
+  "apiVersion": "1",
+  "generatedAt": 1790703786488,
+  "entity": {
+   "id": "ve.bolivar",
+   "type": "state",
+   "kind": null,
+   "name": {
+    "es": "Bolívar",
+    "en": "Bolívar"
+   },
+   "short": null,
+   "href": "/api/v1/entities/ve.bolivar",
+   "aliases": [
+    "Bolivar",
+    "Estado Bolívar",
+    "Edo. Bolívar",
+    "Edo Bolívar",
+    "estado Bolivar"
+   ],
+   "point": {
+    "lat": 6.14326,
+    "lon": -63.30891
+   },
+   "geometry": "cod-ab:VE07",
+   "codes": {
+    "pcode": "VE07",
+    "iso": "VE-F"
+   },
+   "attributes": {
+    "capital": "Ciudad Bolívar",
+    "areaKm2": 250723.8
+   },
+   "related": [],
+   "dataset": {
+    "id": "cod-ab-ven",
+    "name": "Límites administrativos de Venezuela (OCHA COD-AB v01): estados, municipios y parroquias",
+    "url": "https://data.humdata.org/dataset/cod-ab-ven",
+    "licence": {
+     "id": "cc-by-igo-3.0",
+     "name": "CC BY-IGO 3.0",
+     "url": "https://creativecommons.org/licenses/by/3.0/igo/legalcode"
+    },
+    "attribution": "Límites administrativos: Instituto Nacional de Estadística (INE) Venezuela, vía OCHA Venezuela / OCHA FIS, HDX (CC BY-IGO 3.0)",
+    "retrieved": "2026-09-24"
+   }
+  },
+  "parents": [
+   {
+    "id": "ve",
+    "type": "country",
+    "kind": null,
+    "name": {
+     "es": "Venezuela",
+     "en": "Venezuela"
+    },
+    "short": null,
+    "href": "/api/v1/entities/ve"
+   }
+  ],
+  "children": {
+   "total": 14,
+   "byType": {
+    "outlet": 3,
+    "municipality": 11
+   },
+   "items": [
+    {
+     "id": "outlet.el-guayanes",
+     "type": "outlet",
+     "kind": "commercial",
+     "name": {
+      "es": "Diario El Guayanés (Bolívar)",
+      "en": "Diario El Guayanés (Bolívar)"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.el-guayanes"
+    },
+    {
+     "id": "outlet.infosur-guayana",
+     "type": "outlet",
+     "kind": "commercial",
+     "name": {
+      "es": "InfoSur Guayana (Bolívar)",
+      "en": "InfoSur Guayana (Bolívar)"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.infosur-guayana"
+    },
+    {
+     "id": "outlet.primicia",
+     "type": "outlet",
+     "kind": "commercial",
+     "name": {
+      "es": "Primicia (Bolívar)",
+      "en": "Primicia (Bolívar)"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.primicia"
+    }
+   ],
+   "truncated": false
+  },
+  "now": [
+   {
+    "layer": "connectivity",
+    "label": {
+     "es": "Conectividad a internet (IODA)",
+     "en": "Internet connectivity (IODA)"
+    },
+    "text": {
+     "es": "Sin datos suficientes para juzgar",
+     "en": "IODA: not enough data"
+    },
+    "figures": {
+     "level": "no-data",
+     "usableSignals": 0,
+     "agreeingSignals": 0,
+     "events7d": 2,
+     "bgpPctOfBaseline": null,
+     "ping-slash24PctOfBaseline": null,
+     "merit-ntPctOfBaseline": null
+    },
+    "observedAt": 1790679000000,
+    "fetchedAt": 1790680113054,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Cada señal se compara con la mediana de la misma franja de 10 minutos en los 7 días anteriores (hora de Venezuela, sin horario de verano).",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": "ioda-states",
+     "name": "Conectividad por estado (IODA)",
+     "sourceUrl": "https://ioda.inetintel.cc.gatech.edu/region/4495",
+     "licence": "ioda-all-rights-reserved",
+     "attribution": "Datos: IODA, Georgia Tech"
+    },
+    "stale": true
+   },
+   {
+    "layer": "nightlights",
+    "label": {
+     "es": "Luces nocturnas (NASA VIIRS)",
+     "en": "Night lights (NASA VIIRS)"
+    },
+    "text": {
+     "es": "Mayormente nublado: el valor repite sobre todo noches anteriores; no sirve para ver un apagón de esta noche.",
+     "en": "Not comparable tonight (clouds or no baseline)"
+    },
+    "figures": {
+     "radianceIndex": 0.09142057882735617,
+     "baseline": 0.07388836206056912,
+     "pctChange": null,
+     "comparable": false,
+     "quality": "cloudy",
+     "clearFraction": 0.2793647562612144
+    },
+    "observedAt": 1790488560000,
+    "fetchedAt": 1790598130449,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Índice de radiancia medio del estado frente a la mediana de sus noches despejadas anteriores (calculado por Vigía).",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": "gibs-nightlights",
+     "name": "Luces nocturnas (NASA VIIRS)",
+     "sourceUrl": "https://worldview.earthdata.nasa.gov/?v=-74,0,-59,13.5&l=VIIRS_NOAA20_GapFilled_BRDF_Corrected_DayNightBand_Radiance&t=2026-09-27-T00%3A00%3A00Z",
+     "licence": "nasa-gibs",
+     "attribution": "We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of NASA's Earth Science Data and Information System (ESDIS)."
+    },
+    "stale": true
+   },
+   {
+    "layer": "weather",
+    "label": {
+     "es": "Tiempo en Ciudad Bolívar (Open-Meteo)",
+     "en": "Weather in Ciudad Bolívar (Open-Meteo)"
+    },
+    "text": {
+     "es": "Ciudad Bolívar: Parcialmente nublado, 25 °C, ráfagas de 6 km/h",
+     "en": "Ciudad Bolívar: 25 °C, gusts 6 km/h"
+    },
+    "figures": {
+     "temperatureC": 25.2,
+     "apparentC": 31,
+     "precipitationMmH": 0,
+     "gustsKmh": 5.8,
+     "weatherCode": 2,
+     "next24hPrecipMm": 0
+    },
+    "observedAt": 1790659800000,
+    "fetchedAt": 1790660371369,
+    "basis": "quote",
+    "computed": false,
+    "method": null,
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": "open-meteo-weather",
+     "name": "Tiempo en las capitales (modelo)",
+     "sourceUrl": "https://open-meteo.com/",
+     "licence": "cc-by-4.0-open-meteo",
+     "attribution": "Weather data by Open-Meteo.com"
+    },
+    "stale": true
+   },
+   {
+    "layer": "fires",
+    "label": {
+     "es": "Focos de calor (NASA FIRMS, VIIRS)",
+     "en": "Heat detections (NASA FIRMS, VIIRS)"
+    },
+    "text": {
+     "es": "52 detecciones en 24 h (52 probables incendios; 0 en fuentes de calor persistentes)",
+     "en": "52 detections in 24 h (52 likely fires; 0 at persistent heat sources)"
+    },
+    "figures": {
+     "last24h": 52,
+     "last48h": 59,
+     "likelyFires24h": 52,
+     "persistent24h": 0
+    },
+    "observedAt": 1790619180000,
+    "fetchedAt": 1790660371321,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Conteo de detecciones VIIRS en el estado; las de fuentes persistentes (mechurrios, industria) se restan de los probables incendios (calculado por Vigía).",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": "firms-fires",
+     "name": "Focos de calor (NASA FIRMS, VIIRS NOAA-20)",
+     "sourceUrl": "https://firms.modaps.eosdis.nasa.gov/map/",
+     "licence": "nasa-firms-open",
+     "attribution": "NASA FIRMS"
+    },
+    "stale": true
+   },
+   {
+    "layer": "quakes",
+    "label": {
+     "es": "Sismos en 30 días (USGS y FUNVISIS)",
+     "en": "Quakes in 30 days (USGS and FUNVISIS)"
+    },
+    "text": {
+     "es": "Ningún sismo registrado en 30 días",
+     "en": "No quake recorded in 30 days"
+    },
+    "figures": {
+     "quakes30d": 0,
+     "strongestMag": null,
+     "newestAt": null
+    },
+    "observedAt": null,
+    "fetchedAt": null,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Conteo de los sismos del panel (USGS y FUNVISIS emparejados) con epicentro en este lugar (calculado por Vigía).",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": null,
+     "name": "USGS y FUNVISIS",
+     "sourceUrl": null,
+     "licence": "vigia-derived",
+     "attribution": "Calculado por Vigía a partir de las fuentes citadas"
+    },
+    "stale": true
+   },
+   {
+    "layer": "news",
+    "label": {
+     "es": "Titulares que lo nombran",
+     "en": "Headlines naming it"
+    },
+    "text": {
+     "es": "35 titulares en 48 h",
+     "en": "35 headlines in 48 h"
+    },
+    "figures": {
+     "headlines48h": 35
+    },
+    "observedAt": 1790650238000,
+    "fetchedAt": 1790650372618,
+    "basis": "report",
+    "computed": true,
+    "method": "Entradas de los feeds de medios vinculadas por el etiquetador de palabras clave o por nombre (ubicación por palabra clave), contadas por Vigía; un medio con dos feeds puede contar dos veces el mismo titular.",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": null,
+     "name": "Medios (titulares)",
+     "sourceUrl": "https://acn.com.ve/rescatan-tres-victimas-secuestro-virtual-extorsion/?utm_source=rss&utm_medium=rss&utm_campaign=rescatan-tres-victimas-secuestro-virtual-extorsion",
+     "licence": "vigia-derived",
+     "attribution": "Calculado por Vigía a partir de las fuentes citadas"
+    },
+    "stale": true
+   },
+   {
+    "layer": "lightning",
+    "label": {
+     "es": "Rayos detectados (GOES-19 GLM)",
+     "en": "Lightning detected (GOES-19 GLM)"
+    },
+    "text": {
+     "es": "1.783 destellos en 24 h (0 en la última hora)",
+     "en": "1,783 flashes in 24 h (0 in the last hour)"
+    },
+    "figures": {
+     "flashes24h": 1783,
+     "flashes1h": 0,
+     "windowsWithFlashes24h": 4
+    },
+    "observedAt": 1790649900000,
+    "fetchedAt": 1790651379725,
+    "basis": "measurement",
+    "computed": true,
+    "method": "Destellos de buena calidad que GOES-19 GLM detectó en ventanas de 15 minutos: el conteo del estado, la suma de las celdas de 0.25° cuyo centro cae en el municipio, o la celda que contiene la instalación; sumados por Vigía. GLM detecta la mayoría de los rayos, no todos.",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": "goes-glm",
+     "name": "Rayos: GOES-19 GLM (NOAA)",
+     "sourceUrl": "https://registry.opendata.aws/noaa-goes/",
+     "licence": "noaa-open-data-glm",
+     "attribution": "Datos: NOAA, GOES-19 GLM (Geostationary Lightning Mapper)"
+    },
+    "stale": true
+   },
+   {
+    "layer": "gdelt",
+    "label": {
+     "es": "Artículos codificados por GDELT (24 h)",
+     "en": "Articles coded by GDELT (24 h)"
+    },
+    "text": {
+     "es": "1 artículo de la prensa mundial que GDELT sitúa aquí en 24 h",
+     "en": "1 world press article GDELT places here in 24 h"
+    },
+    "figures": {
+     "articles24h": 1
+    },
+    "observedAt": 1790639100000,
+    "fetchedAt": 1790651167216,
+    "basis": "report",
+    "computed": true,
+    "method": "Artículos que la codificación automática de GDELT sitúa en este lugar (su propia geocodificación), contados por Vigía: cuánto escribió la prensa, no eventos verificados.",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": "gdelt-ve",
+     "name": "GDELT: noticias del mundo codificadas sobre Venezuela (cada 15 min)",
+     "sourceUrl": "https://www.elespectador.com/judicial/choque-de-versiones-en-caso-de-miguel-uribe-sobre-posibles-infiltraciones-en-su-esquema-de-seguridad/",
+     "licence": "gdelt-open",
+     "attribution": "The GDELT Project (gdeltproject.org), codificación automática de noticias"
+    },
+    "stale": true
+   },
+   {
+    "layer": "broadcast",
+    "label": {
+     "es": "Canales de TV y radios del directorio",
+     "en": "TV channels and radio stations in the directory"
+    },
+    "text": {
+     "es": "0 canales de TV y 5 radios que atienden este estado (iptv-org y Radio Browser)",
+     "en": "0 TV channels and 5 radio stations serving this state (iptv-org and Radio Browser)"
+    },
+    "figures": {
+     "tvChannels": 0,
+     "radioStations": 5
+    },
+    "observedAt": null,
+    "fetchedAt": null,
+    "basis": "report",
+    "computed": true,
+    "method": "Entradas del directorio de TV y radio (solo las que Vigía reproduce) cuyo listado nombra este estado o cuyo sitio es el del medio, contadas por Vigía. Ver timeline con kinds=broadcast.",
+    "scope": {
+     "id": "ve.bolivar",
+     "type": "state",
+     "kind": null,
+     "name": {
+      "es": "Bolívar",
+      "en": "Bolívar"
+     },
+     "short": null,
+     "href": "/api/v1/entities/ve.bolivar"
+    },
+    "source": {
+     "feed": null,
+     "name": "iptv-org y Radio Browser",
+     "sourceUrl": null,
+     "licence": "vigia-derived",
+     "attribution": "Calculado por Vigía a partir de las fuentes citadas"
+    },
+    "stale": false
+   }
+  ],
+  "incidents": [],
+  "stories": [
+   {
+    "title": "Rescatan a tres víctimas de secuestro virtual y extorsión",
+    "url": "https://acn.com.ve/rescatan-tres-victimas-secuestro-virtual-extorsion/?utm_source=rss&utm_medium=rss&utm_campaign=rescatan-tres-victimas-secuestro-virtual-extorsion",
+    "at": 1790650238000,
+    "fetchedAt": 1790650372618,
+    "outlet": {
+     "id": "outlet.acn",
+     "type": "outlet",
+     "kind": "commercial",
+     "name": {
+      "es": "Agencia Carabobeña de Noticias (Carabobo)",
+      "en": "Agencia Carabobeña de Noticias (Carabobo)"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.acn"
+    },
+    "outletName": "Agencia Carabobeña de Noticias (Carabobo)",
+    "storyId": "2q2re5dzcog13",
+    "outlets": 1,
+    "rule": "text-place",
+    "confidence": 0.75
+   },
+   {
+    "title": "#Guayana | 🚧 Bolívar | Trabajadores trancan carretera nacional: exigen acelerar la transición en Venezuela.",
+    "url": "https://t.me/elpitazo/58738",
+    "at": 1790644740000,
+    "fetchedAt": 1790646368520,
+    "outlet": {
+     "id": "outlet.el-pitazo",
+     "type": "outlet",
+     "kind": "independent",
+     "name": {
+      "es": "El Pitazo",
+      "en": "El Pitazo"
+     },
+     "short": null,
+     "href": "/api/v1/entities/outlet.el-pitazo"
+    },
+    "outletName": "El Pitazo",
+    "storyId": "2v4zm1uinzr1t",
+    "outlets": 1,
+    "rule": "text-place",
+    "confidence": 0.85
+   }
+  ],
+  "nearby": {
+   "rule": {
+    "es": "Instalaciones dentro de este lugar (punto en polígono), de la más cercana a la más lejana de su punto de referencia; a igual distancia, por tipo",
+    "en": "Facilities inside this place (point in polygon), nearest to its reference point first; at the same distance, by kind"
+   },
+   "order": "distance",
+   "byKind": {
+    "airport": 16,
+    "hospital": 45,
+    "gas-field": 1,
+    "power-plant": 9,
+    "dam": 22,
+    "reservoir": 19,
+    "fuel-depot": 1,
+    "port": 1,
+    "substation": 45
+   },
+   "items": [
+    {
+     "entity": {
+      "id": "infra.aeropuerto-caj",
+      "type": "infrastructure",
+      "kind": "airport",
+      "name": {
+       "es": "Aeropuerto Canaima",
+       "en": "Canaima Airport"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.aeropuerto-caj"
+     },
+     "km": 51.2,
+     "relation": "inside"
+    },
+    {
+     "entity": {
+      "id": "infra.aeropuerto-urm",
+      "type": "infrastructure",
+      "kind": "airport",
+      "name": {
+       "es": "Aeropuerto Uriman",
+       "en": "Uriman Airport"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.aeropuerto-urm"
+     },
+     "km": 112.2,
+     "relation": "inside"
+    },
+    {
+     "entity": {
+      "id": "infra.embalse-de-kapaure",
+      "type": "infrastructure",
+      "kind": "reservoir",
+      "name": {
+       "es": "Embalse de Kapaure",
+       "en": "Embalse de Kapaure"
+      },
+      "short": null,
+      "href": "/api/v1/entities/infra.embalse-de-kapaure"
+     },
+     "km": 115,
+     "relation": "inside"
+    }
+   ],
+   "truncated": true
+  },
+  "population": {
+   "census2011": {
+    "people": 1413115,
+    "source": "Instituto Nacional de Estadística (INE) Venezuela, censo 2011, vía OCHA COD-PS (HDX)",
+    "licence": "CC BY-IGO 3.0",
+    "note": "Censo de 2011 (INE), la última cifra oficial por municipio: no refleja la emigración posterior."
+   },
+   "worldpop2026": {
+    "people": 2617702,
+    "source": "WorldPop (www.worldpop.org), University of Southampton; Global2 R2025A (CC BY 4.0)",
+    "licence": "CC BY 4.0",
+    "note": "Estimación modelada por WorldPop para 2026; no es un censo."
+   },
+   "computed": true,
+   "method": "Suma de sus 11 municipios en cada fuente (calculado por Vigía). Suma de las celdas de ~1 km de WorldPop 2026 cuyo centro cae en cada municipio o parroquia (límites COD-AB a resolución completa); las celdas costeras fuera de todo polígono van al más cercano a menos de 3 km. Es una estimación modelada, no un censo."
+  },
+  "anomalies": [],
+  "links": {
+   "timeline": "/api/v1/entities/ve.bolivar/timeline",
+   "rules": {
+    "es": [
+     "Los vínculos los hace el código, sin modelos: punto en polígono con los límites oficiales (COD-AB), códigos de la fuente (estado, ASN, proveedor), el medio de cada titular, y palabras clave.",
+     "Titulares: lugares que el etiquetador por palabra clave del panel de noticias encuentra con confianza de al menos 0,7 («ubicación por palabra clave»), en el título o, si el título no nombra ningún lugar, en el resumen; una fecha («el 23 de septiembre») no es un lugar. Una parroquia cuyo nombre comparten otros lugares del país (Catedral, La Pastora, San Agustín) cuenta solo si el mismo texto nombra su municipio o su estado. Instituciones e instalaciones: por sus nombres y siglas en una lista revisada a mano, solo en el título (confianza 0,9); «Asamblea Nacional de 2015» no es la Asamblea Nacional de hoy.",
+     "Incendios (NASA FIRMS): la parroquia, el municipio y el estado del píxel, y las instalaciones a menos de 2 km (plantas, refinerías, terminales, aeropuertos, represas), 1 km (subestaciones, depósitos de combustible, puertos) o 1 km de una línea de transmisión.",
+     "Sismos: el lugar del epicentro; si la magnitud es de al menos 4, las instalaciones a menos de 30 km. Es una distancia fija: no dice que haya daños ni que se sintiera.",
+     "Quemas de gas: la instalación a la que el adaptador asignó la detección (su propia regla de distancia).",
+     "Cortes de IODA: el país, el estado, o el proveedor y el ASN del evento. Gaceta Oficial: el órgano que publicó cada acto. Los bloqueos de VE sin Filtro se muestran en el ahora de cada proveedor, no en su cronología: la lista se republica entera y no fecha cada bloqueo. Todo hecho medido en un estado, y cada incidente, también entra en la cronología del país; los titulares no.",
+     "Reportes de usuarios: cada conteo publicado (uno por hora por municipio o estado y servicio) se vincula al municipio para el que se reportó, o al estado por su suma; nunca al país; nada por debajo del mínimo de conexiones distintas se publica.",
+     "GDELT: el lugar que da su propia geocodificación automática (confianza 0,5, «codificación automática de GDELT») y el medio dueño del sitio del artículo.",
+     "Rayos (GOES-19 GLM): cada ventana de 15 minutos se vincula a los estados con destellos, al municipio del centro de cada celda de 0,25° con destellos (confianza 0,5: una celda mide unos 28 km) y a las plantas, subestaciones, refinerías, terminales, puertos, aeropuertos y represas dentro de esas celdas. La red de transmisión no: sus líneas cruzan decenas de celdas.",
+     "Canales de TV y radios: los estados que el directorio dice que atienden, y el medio cuando el sitio del canal es el suyo.",
+     "OFAC: las designaciones y exclusiones de un órgano del Estado venezolano (por el número de registro de OFAC, en una lista revisada a mano) y las instituciones que nombra el cargo de un funcionario público identificado (su título en OFAC o su cargo en Wikidata, confianza 0,9). Licencias generales, avisos de OFAC y documentos del Federal Register: las instituciones que nombra su título. Cargos de Wikidata: la institución que ocupa el cargo, o el estado de una gobernación. Intervenciones cambiarias: el BCV. Mercados de predicción: el país.",
+     "Por omisión la cronología trae hechos; los artículos de GDELT, los rayos, los canales y radios, los cargos y los mercados se piden con kinds (gdelt, lightning, broadcast, office, market).",
+     "Plumas de metano (Carbon Mapper): el lugar de la pluma y la instalación que le asignó el adaptador (a menos de 3 km de su contorno o de un mechurrio).",
+     "Inundaciones (NASA MODIS): cada estado con al menos 10 km² y cada municipio con al menos 5 km² clasificados como «inundación» ese día (la «inundación recurrente» no cuenta).",
+     "Alertas de bosque (Global Forest Watch): cada estado con al menos 100 ha y cada municipio oficial con al menos 50 ha de alertas en bosque natural de confianza alta o máxima en la semana; los municipios de GADM que no coinciden con uno oficial no se vinculan.",
+     "Buques por radar (Global Fishing Watch): las terminales y puertos de la zona fija vigilada, los días con detecciones. Cloudflare Radar: los estados que nombra cada nota de corte (o el país) y los ASN de sus redes.",
+     "Vuelos (adsb.lol): cada vuelo internacional de aerolínea visto, a los aeropuertos venezolanos de su ruta publicada, si la ruta pasa cerca de donde se vio el avión (los domésticos y los que sobrevuelan solo se cuentan en el panel)."
+    ],
+    "en": [
+     "Links are made by code, with no model: point in polygon on the official boundaries (COD-AB), codes in the source (state, ASN, ISP), each headline's outlet, and keywords.",
+     "Headlines: places the news panel's keyword tagger finds with confidence of at least 0.7 (\"location by keyword\"), in the title or, when the title names no place, in the summary; a date (\"el 23 de septiembre\") is not a place. A parish whose name other places in the country share (Catedral, La Pastora, San Agustín) counts only when the same text names its municipality or state. Institutions and facilities: by their names and acronyms from a hand-checked list, in the title only (confidence 0.9); \"Asamblea Nacional de 2015\" is not today's National Assembly.",
+     "Fires (NASA FIRMS): the pixel's parish, municipality and state, and facilities within 2 km (plants, refineries, terminals, airports, dams), 1 km (substations, fuel depots, ports) or 1 km of a transmission line.",
+     "Quakes: the epicentre's place; at magnitude 4 or more, facilities within 30 km. A fixed distance: it does not say anything was damaged or felt.",
+     "Gas flares: the facility the adapter assigned the detection to (its own distance rule).",
+     "IODA outages: the country, the state, or the ISP and the event's ASN. Official Gazette: the organ that published each act. VE sin Filtro's blocks show in each ISP's now block, not in its timeline: the list is republished whole and does not date each block. Every event measured in a state, and every incident, is also in the country's timeline; headlines are not.",
+     "User reports: each published count (one per hour per municipality or state and service) links the municipality it was reported for, or the state for its sum; never the country; nothing below the minimum of distinct connections is ever published.",
+     "GDELT: the place its own automatic geocoding gives (confidence 0.5, \"GDELT's automatic coding\") and the outlet whose site published the article.",
+     "Lightning (GOES-19 GLM): each 15-minute window links to the states with flashes, the municipality of the centre of each 0.25° cell with flashes (confidence 0.5: a cell is ~28 km wide) and the plants, substations, refineries, terminals, ports, airports and dams inside those cells. Not the transmission grid: its lines cross dozens of cells.",
+     "TV channels and radio stations: the states the directory says they serve, and the outlet when the channel's site is its own.",
+     "OFAC: designations and removals of a Venezuelan state body (by OFAC's record number, from a hand-checked list) and the institutions a named public official's office names (the OFAC title or Wikidata position, confidence 0.9). General licences, OFAC notices and Federal Register documents: the institutions their titles name. Wikidata offices: the institution holding the office, or the state of a governorship. Exchange interventions: the BCV. Prediction markets: the country.",
+     "By default the timeline holds events; GDELT articles, lightning, channels and stations, offices and markets are asked for with kinds (gdelt, lightning, broadcast, office, market).",
+     "Methane plumes (Carbon Mapper): the plume's place and the facility the adapter assigned (within 3 km of its outline or of a flare site).",
+     "Floods (NASA MODIS): each state with at least 10 km² and each municipality with at least 5 km² classed as \"flood\" that day (recurring flood does not count).",
+     "Forest alerts (Global Forest Watch): each state with at least 100 ha and each official municipality with at least 50 ha of high or highest confidence alerts in natural forest that week; GADM municipalities that match no official one are not linked.",
+     "Ships by radar (Global Fishing Watch): the terminals and ports of the fixed area watched, on days with detections. Cloudflare Radar: the states each outage note names (or the country) and its networks' ASNs.",
+     "Flights (adsb.lol): each international airline flight seen, to the Venezuelan airports of its published route, when the route passes near where the aircraft was seen (domestic flights and overflights are only counted in the panel)."
+    ]
+   },
+   "backlog": 0
+  },
+  "asOf": 1790703785989
+ }
+}

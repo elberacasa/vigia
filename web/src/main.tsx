@@ -6,7 +6,7 @@ import "./styles/live.css";
 import "./styles/map.css";
 import "./styles/honesty.css";
 import "./styles/custom-base.css";
-import { App } from "./App.tsx";
+import { App, isDesk, loadWorkstation } from "./App.tsx";
 import { start } from "./lib/data.ts";
 
 /** The built page preloads the app's stylesheet without blocking the first paint (scripts/build-web.ts); apply it. */
@@ -27,7 +27,9 @@ function stylesReady(): Promise<void> {
 
 const root = document.getElementById("app");
 const started = root ? start() : Promise.resolve();
-const rendered = stylesReady().then(() => {
+// On a desk the workstation chunk is fetched with the stylesheet, and the static shell stays until both are in.
+const desk = isDesk() ? loadWorkstation().catch(() => {}) : Promise.resolve();
+const rendered = Promise.all([stylesReady(), desk]).then(() => {
 	if (!root) return;
 	// The static shell in index.html is only a placeholder; start from an empty root so Preact never reuses it.
 	root.replaceChildren();

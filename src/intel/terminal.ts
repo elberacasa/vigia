@@ -12,6 +12,7 @@ import type { ConnectivityView, PlaceStatus } from "../panels/connectivity.ts";
 import type { IncidentsView } from "../panels/incidents.ts";
 import type { MoneyView } from "../panels/money.ts";
 import type { QuakesView } from "../panels/quakes.ts";
+import { FAMILY_NAMES } from "./incidents.ts";
 import { clean } from "./text.ts";
 
 export const WIDTH = 80;
@@ -251,15 +252,10 @@ export function renderReport(input: ReportInput): string {
 		const active = incidents.incidents.filter((i) => i.status === "active");
 		const agreed = active.filter((i) => !i.reportsOnly);
 		const pressOnly = active.filter((i) => i.reportsOnly);
-		const names: Record<string, string> = {
-			ioda: "IODA",
-			"ripe-atlas": "RIPE Atlas",
-			viirs: "NASA",
-			usgs: "USGS",
-			funvisis: "FUNVISIS",
-			prensa: t("prensa", "press"),
-			gdacs: "GDACS",
-		};
+		// Every family by its name (never a raw id such as "camaras"), from the incidents' own table.
+		const names: Record<string, string> = Object.fromEntries(
+			Object.entries(FAMILY_NAMES).map(([f, n]) => [f, l === "es" ? n.es : n.en]),
+		);
 		const caracasDate = (at: number) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ }).format(at);
 		// The start time alone is ambiguous for an incident that started before today (Caracas time).
 		const since = (at: number) =>

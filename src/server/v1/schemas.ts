@@ -255,3 +255,418 @@ export const ErrorResponse = z
 		code: z.string().optional(),
 	})
 	.meta({ description: "Error: un mensaje claro en español." });
+
+// ——— entities (src/ontology/view.ts holds the same shapes as plain types for the client) ———
+
+const EntityType = z
+	.enum([
+		"country",
+		"state",
+		"municipality",
+		"parish",
+		"infrastructure",
+		"network",
+		"outlet",
+		"institution",
+		"camera",
+	])
+	.meta({ description: "Tipo de entidad." });
+
+const FigureValue = z.union([z.number(), z.string(), z.boolean(), z.null()]);
+
+export const EntityRef = z
+	.object({
+		id: z.string().meta({
+			description: "Identificador estable y legible: ve.zulia.maracaibo, infra.planta-centro, asn.8048…",
+		}),
+		type: EntityType,
+		kind: z.string().nullable().meta({
+			description: "Subtipo: tipo de instalación, isp/asn, postura del medio o tipo de institución.",
+		}),
+		name: Bilingual,
+		short: z.string().nullable(),
+		href: z.string().meta({ description: "Ruta de la entidad en la API." }),
+	})
+	.meta({ description: "Referencia a una entidad." });
+
+const DatasetRef = z
+	.object({
+		id: z.string(),
+		name: z.string(),
+		url: z.string(),
+		licence: z.object({ id: z.string(), name: z.string(), url: z.string() }),
+		attribution: z.string(),
+		retrieved: z.string(),
+	})
+	.meta({ description: "De dónde vienen los datos de la entidad misma, con su licencia." });
+
+export const EntityDetail = EntityRef.extend({
+	aliases: z.array(z.string()),
+	point: z.object({ lat: z.number(), lon: z.number() }).nullable(),
+	geometry: z
+		.string()
+		.nullable()
+		.meta({ description: "Dónde está su geometría (cod-ab:VE0101, osm:way/…)." }),
+	codes: z
+		.record(z.string(), z.string())
+		.meta({ description: "Códigos externos: código P, ISO, ASN, IATA, OSM…" }),
+	attributes: z.record(z.string(), JsonValue),
+	related: z.array(
+		z.object({ rel: z.enum(["operator", "network-of", "publishes", "attached-to"]), entity: EntityRef }),
+	),
+	dataset: DatasetRef,
+}).meta({ description: "Una entidad con sus atributos y la fuente de sus datos." });
+
+const FigureSource = z.object({
+	feed: z.string().nullable().meta({ description: "Fuente (adaptador); null si la cifra suma varias." }),
+	name: z.string(),
+	sourceUrl: z.string().nullable(),
+	licence: z.string(),
+	attribution: z.string(),
+});
+
+export const NowItem = z
+	.object({
+		layer: z.string(),
+		scope: EntityRef.meta({
+			description:
+				"La entidad de la que habla la cifra: esta, o un ancestro si la fuente mide a nivel de estado.",
+		}),
+		label: Bilingual,
+		text: Bilingual,
+		figures: z.record(z.string(), FigureValue),
+		source: FigureSource,
+		observedAt: msOrNull("Cuándo la fuente dice que es cierto"),
+		fetchedAt: msOrNull("Cuándo Vigía lo recibió"),
+		stale: z
+			.boolean()
+			.meta({ description: "La fuente superó su presupuesto de frescura, o el dato es viejo." }),
+		basis: z.enum(["measurement", "official", "quote", "report", "derived"]),
+		computed: z.boolean().meta({ description: "true: calculado por Vigía (conteo, suma, comparación)." }),
+		method: z.string().nullable(),
+	})
+	.meta({ description: "Una señal viva sobre la entidad, con su fuente, horas y frescura." });
+
+const PopulationView = z
+	.object({
+		census2011: z
+			.object({ people: z.number(), source: z.string(), licence: z.string(), note: z.string() })
+			.nullable(),
+		worldpop2026: z
+			.object({ people: z.number(), source: z.string(), licence: z.string(), note: z.string() })
+			.nullable(),
+		computed: z.boolean(),
+		method: z.string(),
+	})
+	.meta({ description: "Población según dos fuentes, lado a lado (nunca mezcladas)." });
+
+const PopulationInAreaView = z
+	.object({
+		area: Bilingual,
+		people: z.number(),
+		radii: z.array(z.object({ km: z.number(), people: z.number() })).nullable(),
+		basis: z.literal("estimate"),
+		source: z.string(),
+		licence: z.string(),
+		note: z.string(),
+		computed: z.literal(true),
+		method: z.string(),
+		caveat: Bilingual,
+	})
+	.meta({
+		description:
+			"Personas que viven en el área de un incidente corroborado: una estimación modelada (WorldPop) calculada por Vigía; nunca personas afectadas ni sin servicio.",
+	});
+
+const IncidentBrief = z.object({
+	id: z.string(),
+	kind: z.string(),
+	title: Bilingual,
+	status: z.enum(["active", "ended"]),
+	tier: z.enum(["incident", "watch"]),
+	corroboration: z.number().int(),
+	families: z.array(z.string()),
+	reportsOnly: z.boolean(),
+	startAt: z.number().int(),
+	lastEvidenceAt: z.number().int(),
+	scope: EntityRef.nullable(),
+	populationInArea: PopulationInAreaView.nullable(),
+	href: z.string(),
+});
+
+const StoryBrief = z.object({
+	title: z.string(),
+	url: z.string(),
+	at: z.number().int(),
+	fetchedAt: z.number().int(),
+	outlet: EntityRef.nullable(),
+	outletName: z.string(),
+	storyId: z.string().nullable(),
+	outlets: z.number().int(),
+	rule: z.string().meta({ description: "Cómo se vinculó (text-place = ubicación por palabra clave)." }),
+	confidence: z.number(),
+});
+
+const NearbyItem = z.object({
+	entity: EntityRef,
+	km: z.number(),
+	relation: z.enum(["inside", "near"]),
+});
+
+const LinkRules = z.object({ es: z.array(z.string()), en: z.array(z.string()) });
+
+const ExplainedBy = z
+	.object({ id: z.string(), title: Bilingual, tier: z.enum(["incident", "watch"]), href: z.string() })
+	.nullable()
+	.meta({ description: "Un incidente abierto (o recién terminado) en el mismo lugar que ya lo explica." });
+
+const AnomalyMember = z.object({
+	entity: EntityRef,
+	changePct: z.number().nullable(),
+	score: z.number(),
+	onsetAt: z.number().int(),
+	observedAt: z.number().int(),
+	explainedBy: ExplainedBy,
+});
+
+export const AnomalyItem = z
+	.object({
+		id: z.string(),
+		title: Bilingual,
+		entity: EntityRef,
+		metric: z.object({
+			id: z.string(),
+			label: Bilingual,
+			unit: Bilingual.nullable(),
+			class: z
+				.string()
+				.meta({ description: "Ritmo de la línea base: connectivity, night, change, level, count, hourly." }),
+		}),
+		direction: z.enum(["up", "down"]),
+		value: z.number().nullable().meta({
+			description:
+				"El dato más reciente, en la unidad de la métrica; null en fuentes cuyos términos no permiten redistribuir sus datos (IODA).",
+		}),
+		baseline: z.number().nullable().meta({ description: "Lo que la línea base espera; null como value." }),
+		changePct: z.number().nullable(),
+		score: z.number().meta({ description: "z robusta con signo; la lista se ordena por su valor absoluto." }),
+		tail: z
+			.number()
+			.nullable()
+			.meta({ description: "Solo conteos: P(X ≥ valor) de Poisson con la línea base." }),
+		window: z.object({
+			text: Bilingual,
+			points: z.number().int(),
+			from: msOrNull("Inicio de la ventana de la línea base"),
+			to: msOrNull("Fin de la ventana de la línea base"),
+		}),
+		rule: Bilingual,
+		source: FigureSource,
+		observedAt: z.number().int(),
+		fetchedAt: msOrNull("Cuándo Vigía lo recibió"),
+		ageMs: z.number().int(),
+		explainedBy: ExplainedBy,
+		figures: z.record(z.string(), FigureValue),
+		members: z.array(AnomalyMember).nullable().meta({
+			description:
+				"Hecho regional: estados cuyas caídas empezaron juntas, cada uno con su propia cifra (nunca una combinada).",
+		}),
+		groupId: z
+			.string()
+			.nullable()
+			.meta({ description: "En una lectura por estado: el hecho regional que la agrupa." }),
+		reverted: z
+			.object({
+				afterSteps: z.number().int(),
+				at: z.number().int(),
+				date: z.string(),
+				value: z.number().nullable(),
+				text: Bilingual,
+			})
+			.nullable()
+			.meta({
+				description: "La serie publicada deshizo este movimiento N datos después (un hecho de la serie).",
+			}),
+		computed: z.literal(true),
+		method: z.string(),
+		basis: z.literal("derived"),
+	})
+	.meta({
+		description: "Una lectura inusual frente a su propia historia, calculada por Vigía con una regla fija.",
+	});
+
+const ClassCount = z.object({
+	series: z.number().int(),
+	judged: z.number().int(),
+	unusual: z.number().int(),
+});
+
+export const AnomaliesResponse = envelope({
+	asOf: z.number().int(),
+	version: z.number().int(),
+	items: z.array(AnomalyItem),
+	truncated: z.boolean(),
+	grouped: z.array(AnomalyItem),
+	counts: z.object({
+		series: z.number().int(),
+		judged: z.number().int(),
+		unusual: z.number().int(),
+		explained: z.number().int(),
+		regions: z.number().int(),
+		grouped: z.number().int(),
+		reverted: z.number().int(),
+		thin: z.number().int(),
+		stale: z.number().int(),
+		weak: z.number().int(),
+		byClass: z.record(z.string(), ClassCount),
+		judgedByEntity: z.record(z.string(), z.number().int()),
+	}),
+	rules: LinkRules,
+});
+
+export const EntityResponse = envelope({
+	entity: EntityDetail,
+	parents: z.array(EntityRef).meta({ description: "Ancestros, del más cercano al país." }),
+	children: z.object({
+		total: z.number().int(),
+		byType: z.record(z.string(), z.number().int()),
+		items: z.array(EntityRef),
+		truncated: z.boolean(),
+	}),
+	now: z.array(NowItem),
+	incidents: z.array(IncidentBrief),
+	stories: z.array(StoryBrief),
+	nearby: z.object({
+		rule: Bilingual,
+		order: z.enum(["distance", "kind"]).meta({
+			description:
+				"distance: la más cercana al punto de la entidad primero (a igual distancia, por tipo); kind: por tipo, cuando la entidad no tiene punto propio.",
+		}),
+		byKind: z.record(z.string(), z.number().int()),
+		items: z.array(NearbyItem),
+		truncated: z.boolean(),
+	}),
+	population: PopulationView.nullable(),
+	anomalies: z.array(AnomalyItem).meta({
+		description: "Lo inusual ahora sobre la entidad o un ancestro (su estado), mayor puntuación primero.",
+	}),
+	anomaliesJudged: z.number().int().meta({
+		description:
+			"Series juzgadas ahora sobre la entidad o su estado; 0 = sin datos para juzgar, no «nada inusual».",
+	}),
+	links: z.object({
+		timeline: z.string(),
+		rules: LinkRules,
+		backlog: z.number().int().meta({ description: "Observaciones archivadas aún sin vincular." }),
+	}),
+	asOf: z.number().int(),
+});
+
+const TimelineItem = z.object({
+	at: z.number().int(),
+	kind: z.string(),
+	title: Bilingual,
+	source: FigureSource,
+	url: z.string(),
+	observedAt: z.number().int(),
+	fetchedAt: z.number().int(),
+	rule: z.string(),
+	confidence: z.number(),
+	km: z.number().nullable(),
+	figures: z
+		.record(z.string(), FigureValue)
+		.nullable()
+		.meta({ description: "Solo de fuentes cuyos términos permiten pasar sus cifras; null en las demás." }),
+});
+
+export const TimelineResponse = envelope({
+	entity: EntityRef,
+	from: z.number().int(),
+	to: z.number().int(),
+	items: z.array(TimelineItem),
+	truncated: z.boolean(),
+	rules: LinkRules,
+	backlog: z.number().int(),
+});
+
+export const EntitySearchResponse = envelope({
+	query: z.string(),
+	type: EntityType.nullable(),
+	truncated: z.boolean().meta({ description: "Hay más resultados que limit." }),
+	results: z.array(
+		z.object({ entity: EntityRef, parent: EntityRef.nullable(), score: z.number(), matched: z.string() }),
+	),
+});
+
+export const LocateResponse = envelope({
+	lat: z.number(),
+	lon: z.number(),
+	places: z.array(EntityRef),
+	how: z.enum(["inside", "lake", "outside"]),
+	near: z.array(NearbyItem),
+	radiusKm: z.number(),
+});
+
+// ——— stills: the time machine's pictures (src/panels/stills.ts holds the same shapes) ———
+
+export const StillImage = z
+	.object({
+		url: z.string().meta({ description: "Imagen en este mismo servidor (/api/blobs/…)." }),
+		width: z.number().int(),
+		height: z.number().int(),
+		takenAt: ms("Cuándo Vigía tomó o leyó la imagen"),
+		source: z.enum(["tv-frame", "youtube-thumbnail", "youtube-cover", "camera"]),
+		labelEs: z.string(),
+		labelEn: z.string(),
+	})
+	.meta({
+		description: "Una imagen fija con su hora. Pasada la retención de su fuente, la URL responde 404.",
+	});
+
+const CameraStatus = z.enum(["live", "frozen", "down", "stale", "no-stills", "locked", "unmeasured"]);
+
+export const StillsResponse = envelope({
+	at: ms("El momento pedido"),
+	tv: z.array(
+		z.object({
+			entry: z.string(),
+			channel: z.string(),
+			name: z.string(),
+			image: StillImage.nullable(),
+			whyEs: z.string().nullable(),
+		}),
+	),
+	youtube: z.array(z.object({ channel: z.string(), name: z.string(), image: StillImage.nullable() })),
+	cameras: z.array(
+		z.object({
+			id: z.string(),
+			entity: z.string().nullable(),
+			name: Bilingual,
+			lat: z.number(),
+			lon: z.number(),
+			headingDeg: z.number().nullable(),
+			status: CameraStatus,
+			image: StillImage.nullable(),
+			night: z.object({ status: z.string(), ratio: z.number().nullable() }),
+		}),
+	),
+	rulesEs: z.string(),
+	rulesEn: z.string(),
+});
+
+export const CameraStillsResponse = envelope({
+	camera: z.string(),
+	from: ms("Desde"),
+	to: ms("Hasta"),
+	truncated: z.boolean(),
+	stills: z.array(
+		z.object({
+			url: z.string().nullable(),
+			takenAt: ms("Cuándo Vigía la tomó"),
+			reason: z.string().nullable().meta({ description: "Por qué esa ronda no tiene imagen." }),
+			night: z.boolean(),
+			lit: z.number().nullable().meta({ description: "Parte de la zona de luces encendida (0–1)." }),
+			lumaMean: z.number().nullable(),
+		}),
+	),
+});

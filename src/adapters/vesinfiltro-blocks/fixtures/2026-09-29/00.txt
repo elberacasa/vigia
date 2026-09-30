@@ -1,0 +1,5 @@
+// The one place that says which data file the site uses and when it was updated.
+// Edit both values when a new CSV goes live; app.js, the download links, the hero
+// date, the FAQ, scripts/apply-sheet-export.py and social/ all read them from here.
+// Keep it a single JSON object literal: the Python tools parse it.
+window.VSF_DATA = {"file": "static/blocking-data-2026-09-29.csv", "updated": "2026-09-29"};

@@ -1,7 +1,9 @@
+import { computed } from "@preact/signals";
 import { useState } from "preact/hooks";
 import { topClusters } from "../lib/clusters.ts";
 import { addStyles } from "../lib/css.ts";
 import { now, panels } from "../lib/data.ts";
+import { checksByStoryUrl, type FactCheckView } from "../lib/factchecks.ts";
 import { ago, clock, stamp, TZ } from "../lib/format.ts";
 import { lang, t } from "../lib/i18n.ts";
 import { PANEL_META } from "../lib/panel-meta.ts";
@@ -10,12 +12,14 @@ import { useFresh } from "../lib/seen.ts";
 import { stateName } from "../lib/states.ts";
 import { newsTopic, TOPICS, type Topic } from "../lib/topics.ts";
 import { selectedState } from "../map/view.ts";
+import newsxCss from "../styles/newsx.css?inline";
 import panelsCss from "../styles/panels.css?inline";
 import { MineFoot, MineTag, NewsFilterChip, NewsSourceTabs, newsViewId } from "../ui/custom/NewsMine.tsx";
 import { NewPill, NewTag } from "../ui/Digits.tsx";
 import { Panel } from "../ui/Panel.tsx";
 
 addStyles(panelsCss);
+addStyles(newsxCss);
 
 export type { Topic };
 
@@ -45,6 +49,8 @@ const GENRE: Record<string, { es: string; en: string }> = {
 interface StoryOutlet {
 	id: string;
 	name: string;
+	/** Read through Google News (the outlet blocks feed readers): said next to its name. */
+	via?: "google-news";
 	stance: string;
 	genre?: string;
 	region: string;
@@ -105,6 +111,9 @@ function Outlets({ story }: { story: Story }) {
 					<li key={o.url}>
 						<a href={o.url} target="_blank" rel="noopener noreferrer">
 							<strong>{o.name}</strong>
+							{o.via === "google-news" ? (
+								<span class="via">{t("vía Google Noticias", "via Google News")}</span>
+							) : null}
 							<span class="stance">
 								{STANCE[o.stance]?.[l] ?? o.stance}
 								{o.genre && GENRE[o.genre] ? ` · ${GENRE[o.genre]?.[l]}` : ""}
@@ -126,6 +135,33 @@ function Place({ story }: { story: Story }) {
 		</span>
 	);
 }
+
+/**
+ * A fact-check whose possible relation is this story (a word match computed by the server, never a confirmation).
+ * The check's verdict is never shown here: it rates a claim the checker saw, not this outlet's story (a story can be
+ * the very report that debunked it). Only the link, newest check first, and the words that tie them.
+ */
+function Checked({ story }: { story: Story }) {
+	const index = checkIndex.value;
+	const checks = [story.url, ...story.outlets.map((o) => o.url)]
+		.flatMap((u) => index.get(u) ?? [])
+		.sort((x, y) => y.at - x.at);
+	const f = checks[0];
+	if (!f) return null;
+	return (
+		<p class="story__check">
+			{t(
+				"Un verificador publicó sobre un tema posiblemente relacionado (coincidencia de palabras): ",
+				"A fact-checker published on a possibly related subject (word match): ",
+			)}
+			<a href={f.url} target="_blank" rel="noopener noreferrer">
+				{f.checkerName}
+			</a>
+		</p>
+	);
+}
+
+const checkIndex = computed(() => checksByStoryUrl(panels.value.desmentidos as FactCheckView | undefined));
 
 /** The top of the panel: one card per heavily covered story, with a coverage meter of one block per outlet. */
 function ClusterCard({
@@ -165,6 +201,9 @@ function ClusterCard({
 						{t("primero", "first")}:{" "}
 						<span class="data">{first.dateMissing ? t("sin fecha", "no date") : when(first.at)}</span>{" "}
 						{first.name}
+						{first.via === "google-news" ? (
+							<span class="via"> {t("vía Google Noticias", "via Google News")}</span>
+						) : null}
 					</span>
 				) : null}
 				<Place story={story} />
@@ -174,6 +213,7 @@ function ClusterCard({
 						: t(`Ver los ${story.outletCount} medios`, `See all ${story.outletCount} outlets`)}
 				</button>
 			</div>
+			<Checked story={story} />
 			{open ? <Outlets story={story} /> : null}
 		</li>
 	);
@@ -201,6 +241,9 @@ function StoryRow({ story, fresh }: { story: Story; fresh: boolean }) {
 				</span>
 				<span>
 					{first?.name}
+					{first?.via === "google-news" ? (
+						<span class="via"> {t("vía Google Noticias", "via Google News")}</span>
+					) : null}
 					{others > 0 ? t(` y ${others} más`, ` and ${others} more`) : ""}
 				</span>
 				<Place story={story} />
@@ -214,6 +257,7 @@ function StoryRow({ story, fresh }: { story: Story; fresh: boolean }) {
 					</button>
 				) : null}
 			</div>
+			<Checked story={story} />
 			{open ? <Outlets story={story} /> : null}
 		</li>
 	);

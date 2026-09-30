@@ -84,10 +84,20 @@ const ID_PATTERNS: readonly RegExp[] = [
 	/\b\d{1,3}\.\d{3}\.\d{3}\b/gu,
 ];
 
+/**
+ * The labelled forms only (cédula, C.I., RIF, pasaporte, Inpreabogado, a lettered V-/E-/J-/G- number): what news text
+ * may carry about a person. Not the bare dotted 7-to-9-digit numbers the Gaceta rule also strips, which in headlines
+ * are money and population figures ("Bs 2.839.145 millones").
+ */
+const LABELLED_ID_PATTERNS: readonly RegExp[] = ID_PATTERNS.slice(0, 4);
+
 /** Removes every identity-number pattern; returns the text and whether anything was removed. */
-export function stripIds(s: string): { text: string; found: boolean } {
+export function stripIds(
+	s: string,
+	patterns: readonly RegExp[] = ID_PATTERNS,
+): { text: string; found: boolean } {
 	let out = s;
-	for (const re of ID_PATTERNS) out = out.replace(re, " ");
+	for (const re of patterns) out = out.replace(re, " ");
 	const found = out !== s;
 	if (!found) return { text: s, found };
 	return {
@@ -100,6 +110,11 @@ export function stripIds(s: string): { text: string; found: boolean } {
 			.trim(),
 		found,
 	};
+}
+
+/** stripIds with the labelled forms only (news text: headlines, summaries, posts). */
+export function stripLabelledIds(s: string): { text: string; found: boolean } {
+	return stripIds(s, LABELLED_ID_PATTERNS);
 }
 
 // ---------------------------------------------------------------------------------------------------------

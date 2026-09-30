@@ -137,6 +137,9 @@ test("every v1 JSON route answers in the shape its OpenAPI schema documents", as
 		["/api/v1/sources/open-feed/series", S.SeriesListResponse],
 		[`/api/v1/sources/open-feed/series/usd?from=${T0 - 2 * 86_400_000}`, S.SeriesResponse],
 		["/api/v1/archive/digests", S.DigestsResponse],
+		["/api/v1/stills", S.StillsResponse],
+		[`/api/v1/stills?at=${T0 - 86_400_000}`, S.StillsResponse],
+		["/api/v1/cameras/charallave-oeste/stills", S.CameraStillsResponse],
 	];
 	for (const [path, schema] of cases) {
 		const res = await get(path);
@@ -548,4 +551,61 @@ test("exported figures carry no floating-point noise but keep published precisio
 	expect(tidy(972.648677)).toBe(972.648677);
 	expect(tidy(855.6625)).toBe(855.6625);
 	expect(tidy(7_640_872)).toBe(7_640_872);
+});
+
+test("per-mode defaults: a personal-reader feed is noted on locally and explained as off on a public mirror", async () => {
+	const why = { es: "solo en un lector personal", en: "personal reader only" };
+	const personal: Adapter = {
+		...adapter("personal-feed", true),
+		note: why,
+		defaultIn: { local: true, public: false },
+	};
+	const make = (mode: "local" | "public") => {
+		const store = new Store(":memory:");
+		const http: HttpLike = {
+			request: async () => ({ url: "", status: 200, contentType: "", body: "", fetchedAt: 0 }),
+		};
+		const keys: KeyStore = {
+			get: () => undefined,
+			has: () => false,
+			set: () => {},
+			remove: () => {},
+			origin: () => null,
+		};
+		return createApp({
+			store,
+			scheduler: new Scheduler([personal], { store, http, key: () => undefined }),
+			adapters: [personal],
+			keys,
+			keySpecs: [],
+			panels: new PanelCache([], store),
+			http,
+			version: "test",
+			sessionToken: TOKEN,
+			deploy: { mode },
+		});
+	};
+	const meta = async (mode: "local" | "public") => {
+		const res = await make(mode).fetch(
+			new Request("http://localhost:7722/api/meta", { headers: { host: "localhost:7722" } }),
+			"127.0.0.1",
+		);
+		const body = (await res.json()) as { feeds: { id: string; optIn: unknown; note: unknown }[] };
+		return body.feeds.find((f) => f.id === "personal-feed");
+	};
+	expect(await meta("local")).toMatchObject({ optIn: null, note: why });
+	expect(await meta("public")).toMatchObject({ optIn: why, note: null });
+});
+
+test("stills: a moment outside the last 400 days is clamped to them; nonsense and unknown cameras are refused", async () => {
+	const { get } = setup();
+	const future = (await (await get("/api/v1/stills?at=9000000000000000")).json()) as {
+		at: number;
+		generatedAt: number;
+	};
+	expect(future.at).toBe(future.generatedAt);
+	expect((await get("/api/v1/stills?at=ayer")).status).toBe(400);
+	expect((await get("/api/v1/cameras/charallave-oeste/stills?limit=muchas")).status).toBe(400);
+	expect((await get("/api/v1/cameras/no-existe/stills")).status).toBe(404);
+	expect((await get("/api/v1/cameras/..%2F..%2Fetc/stills")).status).toBe(404);
 });

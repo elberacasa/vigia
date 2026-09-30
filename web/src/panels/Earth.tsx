@@ -4,6 +4,8 @@ import { now, panels } from "../lib/data.ts";
 import { ago, int, num, stamp } from "../lib/format.ts";
 import { lang, t } from "../lib/i18n.ts";
 import { PANEL_META } from "../lib/panel-meta.ts";
+import { stateName } from "../lib/states.ts";
+import { selectedState, selectState } from "../map/view.ts";
 import panelsCss from "../styles/panels.css?inline";
 import { Panel } from "../ui/Panel.tsx";
 import { SourceTag } from "../ui/Source.tsx";
@@ -192,10 +194,65 @@ export interface FiresView {
 	attribution: string;
 }
 
+/**
+ * The selected place's own heat detections (linked selection): its counts from the same computation as the national
+ * ones, and its strongest detections; the national figures above stay national and the chip says so.
+ */
+function FiresHere({ view, iso }: { view: FiresView; iso: string }) {
+	const l = lang.value;
+	const row = view.byState.find((s) => s.stateIso === iso);
+	const points = view.strongest.filter((p) => p.stateIso === iso).slice(0, 5);
+	return (
+		<section class="here" aria-label={t(`Incendios en ${stateName(iso)}`, `Fires in ${stateName(iso)}`)}>
+			<div class="news-controls">
+				<button type="button" class="filter-chip is-on" onClick={() => selectState(null)}>
+					{stateName(iso)} ✕
+				</button>
+				<span class="note">
+					{t(
+						"Abajo, este estado; las cifras de arriba son de todo el país.",
+						"Below, this state; the figures above are for the whole country.",
+					)}
+				</span>
+			</div>
+			{row ? (
+				<p class="here__line">
+					<strong class="data">{int(row.likelyFires24h, l)}</strong>{" "}
+					{t("probables incendios en 24 h", "likely fires in 24 h")} ·{" "}
+					<span class="data">{int(row.persistent24h, l)}</span> {t("persistentes", "persistent")} ·{" "}
+					<span class="data">{int(row.last48h, l)}</span> {t("detecciones en 48 h", "detections in 48 h")}
+				</p>
+			) : (
+				<p class="empty">
+					{t(
+						`Ninguna detección de calor en ${stateName(iso)} en 48 h.`,
+						`No heat detection in ${stateName(iso)} in 48 h.`,
+					)}
+				</p>
+			)}
+			{points.length ? (
+				<ul class="here__list">
+					{points.map((p) => (
+						<li key={`${p.at}|${p.lat}|${p.lon}`}>
+							<a href={p.url} target="_blank" rel="noopener noreferrer">
+								{p.placeEs}
+							</a>
+							<span class="note data">
+								{stamp(p.at, l, now.value)} · {num(p.frpMW, 1, l)} MW
+							</span>
+						</li>
+					))}
+				</ul>
+			) : null}
+		</section>
+	);
+}
+
 export function FiresPanel() {
 	const view = panels.value.fires as FiresView | undefined;
 	const l = lang.value;
 	const v = view?.venezuela;
+	const iso = selectedState.value;
 	return (
 		<Panel
 			id="incendios"
@@ -231,11 +288,12 @@ export function FiresPanel() {
 							<span class="note">{t("incluye persistentes", "incl. persistent")}</span>
 						</div>
 					</div>
+					{iso ? <FiresHere view={view} iso={iso} /> : null}
 					<ul class="bars">
 						{view.topStates.map((s) => {
 							const max = view.topStates[0]?.likelyFires24h || 1;
 							return (
-								<li key={s.stateIso}>
+								<li key={s.stateIso} class={s.stateIso === iso ? "is-sel" : undefined}>
 									<span class="bars__label">{s.stateName}</span>
 									<span class="bars__track">
 										<span class="bars__fill" style={{ width: `${(s.likelyFires24h / max) * 100}%` }} />

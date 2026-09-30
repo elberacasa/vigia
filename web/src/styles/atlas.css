@@ -1087,7 +1087,7 @@ button.hbar__item[aria-pressed="true"] {
 }
 .fsheet__kicker {
 	margin: 0;
-	color: var(--signal);
+	color: var(--text-3);
 }
 .fsheet__title {
 	margin: var(--s-1) 0 0;

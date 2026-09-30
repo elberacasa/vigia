@@ -6,6 +6,7 @@ import { lang, t } from "../lib/i18n.ts";
 import pagesCss from "../styles/pages.css?inline";
 import panelsCss from "../styles/panels.css?inline";
 import { send } from "../ui/custom/api.ts";
+import { DataSaverSection, FfmpegSection } from "../ui/DataSaver.tsx";
 import { StateBadge } from "../ui/Source.tsx";
 
 addStyles(panelsCss);
@@ -418,6 +419,14 @@ export function GuidePage() {
 					</details>
 				</section>
 			) : null}
+
+			<section class="guide__step" id="conexion">
+				<DataSaverSection variant="guide" />
+			</section>
+
+			<section class="guide__step" id="ffmpeg">
+				<FfmpegSection />
+			</section>
 
 			<section class="guide__step">
 				<h2 class="guide__step-title">

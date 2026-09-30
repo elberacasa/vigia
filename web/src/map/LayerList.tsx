@@ -9,14 +9,29 @@ import type { FiresView } from "../panels/Earth.tsx";
 import type { SatelliteView } from "../panels/Imagery.tsx";
 import type { NewsView } from "../panels/News.tsx";
 import type { QuakesView } from "../panels/Quakes.tsx";
-import { FlareLegend, FlareRow } from "./FlareLayer.tsx";
+import {
+	CameraLegend,
+	CrowdLegend,
+	FacilityLegend,
+	FlareLegend,
+	FloodLegend,
+	LightningLegend,
+	MoreRows,
+	PlumeLegend,
+} from "./LayerRows.tsx";
 import { QuakeLegend } from "./QuakeLayer.tsx";
 import {
 	type Shading,
 	setLayer,
 	shading,
+	showCameras,
+	showCrowd,
+	showFacilities,
 	showFires,
 	showFlares,
+	showFloods,
+	showLightning,
+	showPlumes,
 	showQuakes,
 	toggleFires,
 	toggleQuakes,
@@ -217,7 +232,7 @@ export function LayerList(props: { legend: ComponentChildren; unit: number; foot
 						age={firesLocked ? null : feedAge("firms-fires")}
 						locked={firesLocked ? { text: t("necesita clave", "needs a key"), href: "guide" } : null}
 					/>
-					<FlareRow />
+					<MoreRows />
 				</ul>
 			</fieldset>
 			<div class="layers__legend">
@@ -229,6 +244,12 @@ export function LayerList(props: { legend: ComponentChildren; unit: number; foot
 					</div>
 				) : null}
 				{showFlares.value ? <FlareLegend /> : null}
+				{showLightning.value ? <LightningLegend /> : null}
+				{showFacilities.value ? <FacilityLegend /> : null}
+				{showCameras.value ? <CameraLegend /> : null}
+				{showCrowd.value ? <CrowdLegend /> : null}
+				{showFloods.value ? <FloodLegend /> : null}
+				{showPlumes.value ? <PlumeLegend /> : null}
 			</div>
 			{props.footer}
 		</nav>

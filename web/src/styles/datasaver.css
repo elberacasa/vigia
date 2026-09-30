@@ -1,0 +1,239 @@
+/* "Conexión limitada" and the guide's ffmpeg item: loaded with ui/DataSaver.tsx (lib/css.ts), never in the first load. */
+
+/* Phones keep the full-width bottom sheet (app.css). */
+@media (min-width: 641px) {
+	.sheet--saver {
+		width: min(640px, calc(100vw - 24px));
+	}
+}
+.ds-choices {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: var(--s-3);
+	margin-top: var(--s-5);
+}
+.ds-choice {
+	display: grid;
+	/* Name, what it does (one or two lines), then the figure on the same line in both cards. */
+	grid-template-rows: auto 1fr auto auto;
+	gap: 4px;
+	padding: var(--s-4);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-panel);
+	background: var(--surface-0);
+	color: var(--text);
+	text-align: left;
+	transition: border-color var(--t-fast) var(--ease-out);
+}
+.ds-choice:hover:not(:disabled) {
+	border-color: var(--accent);
+}
+.ds-choice:disabled {
+	opacity: 0.7;
+}
+.ds-choice__name {
+	font-weight: 700;
+	font-size: var(--fs-md);
+}
+.ds-choice__what {
+	font-size: var(--fs-sm);
+	color: var(--text-2);
+}
+.ds-choice__mb {
+	margin-top: var(--s-2);
+	font-size: var(--fs-2xl);
+	font-variant-numeric: tabular-nums;
+	line-height: 1.1;
+}
+.ds-choice__unit {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.ds-what {
+	margin-top: var(--s-4);
+	font-size: var(--fs-sm);
+}
+.ds-what summary {
+	cursor: pointer;
+	color: var(--text-2);
+}
+.ds-foot {
+	margin: var(--s-4) 0 0;
+}
+.ds-error {
+	margin: var(--s-3) 0 0;
+	color: var(--alert);
+	font-size: var(--fs-sm);
+}
+
+/* The section in Personalizar and in the guide. */
+.ds {
+	display: grid;
+	gap: var(--s-3);
+}
+.ds .note {
+	margin: 0;
+}
+.ds-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: var(--s-4);
+}
+.ds-row .guide__step-title {
+	margin-bottom: var(--s-2);
+}
+.ds-switch {
+	width: 46px;
+	height: 26px;
+	margin-top: 2px;
+	border-radius: var(--r-pill);
+	background: var(--surface-3);
+	border: 1px solid var(--line-strong);
+	position: relative;
+	flex: none;
+	transition: background var(--t) var(--ease-out);
+}
+.ds-switch::after {
+	content: "";
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: var(--text-2);
+	transition: transform var(--t) var(--ease-out);
+}
+.ds-switch.is-on {
+	background: var(--accent);
+	border-color: var(--accent);
+}
+.ds-switch.is-on::after {
+	transform: translateX(20px);
+	background: var(--text-inverse);
+}
+.ds-switch:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Figure strip (DESIGN.md): each cell draws its own hairlines right and below; the strip clips the outer ones. */
+.ds-figs {
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	overflow: hidden;
+}
+.ds-fig {
+	padding: var(--s-2) var(--s-3);
+	box-shadow:
+		1px 0 0 var(--line),
+		0 1px 0 var(--line);
+}
+.ds-fig dt {
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--text-3);
+}
+.ds-fig dd {
+	margin: 2px 0 0;
+}
+.ds-fig dd.data {
+	font-size: var(--fs-lg);
+	font-variant-numeric: tabular-nums;
+}
+.ds-fig__sub {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}
+.ds-sub {
+	margin: var(--s-2) 0 0;
+	color: var(--text-3);
+	font-size: var(--fs-2xs);
+}
+.ds-heavy {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: var(--fs-sm);
+}
+.ds-heavy li {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 2px var(--s-3);
+	padding: 6px 0;
+	border-top: 1px solid var(--line);
+}
+.ds-heavy__mb {
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+.ds-heavy__state {
+	grid-column: 1 / -1;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+}
+.ds-heavy--compact li {
+	padding: 4px 0;
+}
+
+/* ffmpeg in the guide. */
+.ds-ffmpeg__state {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--s-2);
+	margin: 0;
+	font-size: var(--fs-sm);
+}
+.ds-ffmpeg__state .link-button {
+	margin-left: 0;
+}
+.ds-mark {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	border: 2px solid var(--text-3);
+	flex: none;
+}
+.ds-mark--ok {
+	border-color: var(--ok);
+	background: var(--ok);
+}
+.ds-install {
+	border-collapse: collapse;
+	font-size: var(--fs-sm);
+	width: 100%;
+}
+.ds-install th,
+.ds-install td {
+	text-align: left;
+	vertical-align: baseline;
+	padding: 6px var(--s-3) 6px 0;
+	border-top: 1px solid var(--line);
+}
+.ds-install th {
+	font-weight: 600;
+	white-space: nowrap;
+	width: 1%;
+}
+.ds-install code {
+	overflow-wrap: anywhere;
+}
+@media (max-width: 520px) {
+	.ds-install th,
+	.ds-install td {
+		display: block;
+		width: auto;
+		padding-right: 0;
+	}
+	.ds-install td {
+		border-top: 0;
+		padding-top: 0;
+	}
+}

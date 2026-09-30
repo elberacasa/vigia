@@ -1,7 +1,7 @@
 /**
  * First-load performance on a slow phone profile: `bun scripts/perf.ts [url]`.
  * Chrome DevTools throttling: 400 kbit/s down, 150 kbit/s up, 400 ms RTT (a busy 3G link), CPU 4× slower.
- * Reports first contentful paint, when the "Ahora" line appears (data on screen), transferred bytes, and a repeat
+ * Reports first contentful paint, when the priority list appears (data on screen; it replaced the "Ahora" line), transferred bytes, and a repeat
  * visit (service worker cache).
  */
 import { chromium } from "playwright-core";
@@ -9,7 +9,13 @@ import { chromium } from "playwright-core";
 const url = process.argv[2] ?? "http://localhost:7722/";
 const browser = await chromium.launch({ args: ["--disable-gpu"] });
 try {
-	const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+	// PERF_VIEW=desk measures the desk's workstation (1440×900, its shell is a chunk of its own) on the same link.
+	const desk = process.env.PERF_VIEW === "desk";
+	const context = await browser.newContext(
+		desk
+			? { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 }
+			: { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 },
+	);
 	for (const visit of ["first", "repeat"] as const) {
 		const page = await context.newPage();
 		const cdp = await context.newCDPSession(page);
@@ -27,7 +33,11 @@ try {
 		});
 		const t0 = Date.now();
 		await page.goto(url, { waitUntil: "commit" });
-		await page.locator(".ahora__text").first().waitFor({ timeout: 60_000 });
+		// PERF_WAIT overrides the "data on screen" marker (".ahora__text" measures a client from before 2026-09-28).
+		await page
+			.locator(process.env.PERF_WAIT ?? '.prio__list, .prio__empty[data-state="stale"]')
+			.first()
+			.waitFor({ timeout: 60_000 });
 		const dataMs = Date.now() - t0;
 		const fcp = await page.evaluate(
 			() => performance.getEntriesByName("first-contentful-paint")[0]?.startTime ?? null,

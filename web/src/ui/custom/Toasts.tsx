@@ -6,7 +6,7 @@ import { ago } from "../../lib/format.ts";
 import { lang, t } from "../../lib/i18n.ts";
 import { isPanelId, reveal } from "../../lib/layout.ts";
 import css from "../../styles/custom-toast.css?inline";
-import { safeHref } from "./Entry.tsx";
+import { safeHref } from "./href.ts";
 import { notify } from "./notify.ts";
 
 addStyles(css);

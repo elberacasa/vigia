@@ -1,0 +1,2163 @@
+{
+	"builtAt": "2026-09-29",
+	"method": "majority of pixels on the level-7 flood frame (≈490 m), GADM 4.1 against COD-AB; share = matched pixels ÷ GADM pixels; covers = matched pixels ÷ official pixels; linked when share ≥ minShare and (same name or covers ≥ minShare)",
+	"source": "GADM 4.1 (gadm41_VEN_2.json, SHA-256 9a38113b4731bc3df1ea9b4270752cd5e368114bff0b47fe17aa4c2fd08079c6)",
+	"minShare": 0.8,
+	"states": {
+		"1": {
+			"state": "VE-Z",
+			"share": 0.973,
+			"gadmName": "Amazonas"
+		},
+		"2": {
+			"state": "VE-B",
+			"share": 0.933,
+			"gadmName": "Anzoátegui"
+		},
+		"3": {
+			"state": "VE-C",
+			"share": 0.972,
+			"gadmName": "Apure"
+		},
+		"4": {
+			"state": "VE-D",
+			"share": 0.914,
+			"gadmName": "Aragua"
+		},
+		"5": {
+			"state": "VE-E",
+			"share": 0.948,
+			"gadmName": "Barinas"
+		},
+		"6": {
+			"state": "VE-F",
+			"share": 0.991,
+			"gadmName": "Bolívar"
+		},
+		"7": {
+			"state": "VE-G",
+			"share": 0.841,
+			"gadmName": "Carabobo"
+		},
+		"8": {
+			"state": "VE-H",
+			"share": 0.908,
+			"gadmName": "Cojedes"
+		},
+		"9": {
+			"state": "VE-Y",
+			"share": 0.912,
+			"gadmName": "DeltaAmacuro"
+		},
+		"10": {
+			"state": "VE-W",
+			"share": 0.845,
+			"gadmName": "DependenciasFederales"
+		},
+		"11": {
+			"state": "VE-A",
+			"share": 0.864,
+			"gadmName": "DistritoCapital"
+		},
+		"12": {
+			"state": "VE-I",
+			"share": 0.993,
+			"gadmName": "Falcón"
+		},
+		"13": {
+			"state": "VE-J",
+			"share": 0.948,
+			"gadmName": "Guárico"
+		},
+		"14": {
+			"state": "VE-K",
+			"share": 0.937,
+			"gadmName": "Lara"
+		},
+		"15": {
+			"state": "VE-L",
+			"share": 0.908,
+			"gadmName": "Mérida"
+		},
+		"16": {
+			"state": "VE-M",
+			"share": 0.971,
+			"gadmName": "Miranda"
+		},
+		"17": {
+			"state": "VE-N",
+			"share": 0.938,
+			"gadmName": "Monagas"
+		},
+		"18": {
+			"state": "VE-O",
+			"share": 0.952,
+			"gadmName": "NuevaEsparta"
+		},
+		"19": {
+			"state": "VE-P",
+			"share": 0.873,
+			"gadmName": "Portuguesa"
+		},
+		"20": {
+			"state": "VE-R",
+			"share": 0.961,
+			"gadmName": "Sucre"
+		},
+		"21": {
+			"state": "VE-S",
+			"share": 0.891,
+			"gadmName": "Táchira"
+		},
+		"22": {
+			"state": "VE-T",
+			"share": 0.948,
+			"gadmName": "Trujillo"
+		},
+		"23": {
+			"state": "VE-X",
+			"share": 0.947,
+			"gadmName": "Vargas"
+		},
+		"24": {
+			"state": "VE-U",
+			"share": 0.84,
+			"gadmName": "Yaracuy"
+		},
+		"25": {
+			"state": "VE-V",
+			"share": 0.985,
+			"gadmName": "Zulia"
+		}
+	},
+	"municipalities": {
+		"1.1": {
+			"municipality": "VE0201",
+			"share": 0.934,
+			"covers": 0.891,
+			"gadmName": "AltoOrinoco"
+		},
+		"1.2": {
+			"municipality": null,
+			"share": 0.783,
+			"covers": 0.914,
+			"gadmName": "Atabapo"
+		},
+		"1.3": {
+			"municipality": "VE0203",
+			"share": 0.922,
+			"covers": 0.911,
+			"gadmName": "Atures"
+		},
+		"1.4": {
+			"municipality": "VE0204",
+			"share": 0.851,
+			"covers": 0.912,
+			"gadmName": "Autana"
+		},
+		"1.5": {
+			"municipality": "VE0206",
+			"share": 0.865,
+			"covers": 0.832,
+			"gadmName": "Manapiare"
+		},
+		"1.6": {
+			"municipality": null,
+			"share": 0.714,
+			"covers": 0.979,
+			"gadmName": "Maroa"
+		},
+		"1.7": {
+			"municipality": "VE0207",
+			"share": 0.96,
+			"covers": 0.871,
+			"gadmName": "RíoNegro"
+		},
+		"2.1": {
+			"municipality": null,
+			"share": 0.665,
+			"covers": 0.799,
+			"gadmName": "Anaco"
+		},
+		"2.2": {
+			"municipality": null,
+			"share": 0.765,
+			"covers": 0.818,
+			"gadmName": "Aragua"
+		},
+		"2.3": {
+			"municipality": "VE0318",
+			"share": 0.822,
+			"covers": 0.894,
+			"gadmName": "Bolívar"
+		},
+		"2.4": {
+			"municipality": "VE0312",
+			"share": 0.95,
+			"covers": 0.95,
+			"gadmName": "Bruzual"
+		},
+		"2.5": {
+			"municipality": "VE0309",
+			"share": 0.943,
+			"covers": 0.858,
+			"gadmName": "Cajigal"
+		},
+		"2.6": {
+			"municipality": null,
+			"share": 0.755,
+			"covers": 0.776,
+			"gadmName": "Carvajal"
+		},
+		"2.7": {
+			"municipality": "VE0303",
+			"share": 0.875,
+			"covers": 0.694,
+			"gadmName": "FernandodePeñalver"
+		},
+		"2.8": {
+			"municipality": "VE0313",
+			"share": 0.936,
+			"covers": 0.897,
+			"gadmName": "Freites"
+		},
+		"2.9": {
+			"municipality": null,
+			"share": 0.703,
+			"covers": 0.859,
+			"gadmName": "GeneralSirArthurMcGregor"
+		},
+		"2.10": {
+			"municipality": null,
+			"share": 0.797,
+			"covers": 0.9,
+			"gadmName": "Guanipa"
+		},
+		"2.11": {
+			"municipality": null,
+			"share": 0.719,
+			"covers": 0.909,
+			"gadmName": "Guanta"
+		},
+		"2.12": {
+			"municipality": "VE0307",
+			"share": 0.868,
+			"covers": 0.894,
+			"gadmName": "Independencia"
+		},
+		"2.13": {
+			"municipality": null,
+			"share": 0.257,
+			"covers": 0.346,
+			"gadmName": "Isla"
+		},
+		"2.14": {
+			"municipality": null,
+			"share": 0.753,
+			"covers": 0.837,
+			"gadmName": "Libertad"
+		},
+		"2.15": {
+			"municipality": null,
+			"share": 0.35,
+			"covers": 0.09,
+			"gadmName": "Lic.DiegoBautistaUrban"
+		},
+		"2.16": {
+			"municipality": "VE0305",
+			"share": 0.815,
+			"covers": 0.842,
+			"gadmName": "Miranda"
+		},
+		"2.17": {
+			"municipality": "VE0310",
+			"share": 0.858,
+			"covers": 0.868,
+			"gadmName": "Monagas"
+		},
+		"2.18": {
+			"municipality": null,
+			"share": 0.557,
+			"covers": 0.735,
+			"gadmName": "Píritu"
+		},
+		"2.19": {
+			"municipality": null,
+			"share": 0.678,
+			"covers": 0.715,
+			"gadmName": "SanJuandeCapistrano"
+		},
+		"2.20": {
+			"municipality": null,
+			"share": 0.634,
+			"covers": 0.587,
+			"gadmName": "SantaAna"
+		},
+		"2.21": {
+			"municipality": null,
+			"share": 0.735,
+			"covers": 0.643,
+			"gadmName": "SimónRodríguez"
+		},
+		"2.22": {
+			"municipality": "VE0308",
+			"share": 0.809,
+			"covers": 0.84,
+			"gadmName": "Sotillo"
+		},
+		"3.1": {
+			"municipality": "VE0401",
+			"share": 0.92,
+			"covers": 0.956,
+			"gadmName": "Achaguas"
+		},
+		"3.2": {
+			"municipality": null,
+			"share": 0.572,
+			"covers": 0.38,
+			"gadmName": "Biruaca"
+		},
+		"3.3": {
+			"municipality": "VE0403",
+			"share": 0.875,
+			"covers": 0.984,
+			"gadmName": "Muñoz"
+		},
+		"3.4": {
+			"municipality": "VE0404",
+			"share": 0.955,
+			"covers": 0.915,
+			"gadmName": "Páez"
+		},
+		"3.5": {
+			"municipality": "VE0405",
+			"share": 0.977,
+			"covers": 0.888,
+			"gadmName": "PedroCamejo"
+		},
+		"3.6": {
+			"municipality": "VE0406",
+			"share": 0.942,
+			"covers": 0.944,
+			"gadmName": "RómuloGallegos"
+		},
+		"3.7": {
+			"municipality": null,
+			"share": 0.772,
+			"covers": 0.954,
+			"gadmName": "SanFernando"
+		},
+		"4.1": {
+			"municipality": null,
+			"share": 0.883,
+			"covers": 0.118,
+			"gadmName": "Bolívar"
+		},
+		"4.2": {
+			"municipality": "VE0502",
+			"share": 0.895,
+			"covers": 0.855,
+			"gadmName": "Camatagua"
+		},
+		"4.3": {
+			"municipality": null,
+			"share": 0.437,
+			"covers": 0.51,
+			"gadmName": "FranciscoLinares"
+		},
+		"4.4": {
+			"municipality": null,
+			"share": 0.692,
+			"covers": 0.478,
+			"gadmName": "Girardot"
+		},
+		"4.5": {
+			"municipality": null,
+			"share": 0.974,
+			"covers": 0.264,
+			"gadmName": "JoséAngelLamas"
+		},
+		"4.6": {
+			"municipality": null,
+			"share": 0.505,
+			"covers": 0.508,
+			"gadmName": "JoséFélixRibas"
+		},
+		"4.7": {
+			"municipality": null,
+			"share": 0.338,
+			"covers": 0.26,
+			"gadmName": "JoséRRevenga"
+		},
+		"4.8": {
+			"municipality": null,
+			"share": 0.391,
+			"covers": 0.741,
+			"gadmName": "Libertador"
+		},
+		"4.9": {
+			"municipality": null,
+			"share": 0.841,
+			"covers": 0.203,
+			"gadmName": "MarioBriceñoIragorry"
+		},
+		"4.10": {
+			"municipality": null,
+			"share": 0.759,
+			"covers": 0.701,
+			"gadmName": "OcumaredelaCostadeOro"
+		},
+		"4.11": {
+			"municipality": null,
+			"share": 0.761,
+			"covers": 0.761,
+			"gadmName": "SanCasimiro"
+		},
+		"4.12": {
+			"municipality": null,
+			"share": 0.759,
+			"covers": 0.681,
+			"gadmName": "SanSebastián"
+		},
+		"4.13": {
+			"municipality": null,
+			"share": 0.53,
+			"covers": 0.488,
+			"gadmName": "SantiagoMariño"
+		},
+		"4.14": {
+			"municipality": null,
+			"share": 0.53,
+			"covers": 0.126,
+			"gadmName": "SantosMichelena"
+		},
+		"4.15": {
+			"municipality": null,
+			"share": 0.655,
+			"covers": 0.137,
+			"gadmName": "Sucre"
+		},
+		"4.16": {
+			"municipality": null,
+			"share": 0.496,
+			"covers": 0.451,
+			"gadmName": "Tovar"
+		},
+		"4.17": {
+			"municipality": "VE0515",
+			"share": 0.906,
+			"covers": 0.889,
+			"gadmName": "Urdaneta"
+		},
+		"4.18": {
+			"municipality": null,
+			"share": 0.729,
+			"covers": 0.736,
+			"gadmName": "Zamora"
+		},
+		"5.1": {
+			"municipality": null,
+			"share": 0.71,
+			"covers": 0.504,
+			"gadmName": "AlbertoArveloTorrealba"
+		},
+		"5.2": {
+			"municipality": "VE0612",
+			"share": 0.837,
+			"covers": 0.705,
+			"gadmName": "AndresEloyBlanco"
+		},
+		"5.3": {
+			"municipality": "VE0602",
+			"share": 0.917,
+			"covers": 0.808,
+			"gadmName": "AntonioJosédeSucre"
+		},
+		"5.4": {
+			"municipality": "VE0603",
+			"share": 0.894,
+			"covers": 0.831,
+			"gadmName": "Arismendi"
+		},
+		"5.5": {
+			"municipality": "VE0604",
+			"share": 0.805,
+			"covers": 0.832,
+			"gadmName": "Barinas"
+		},
+		"5.6": {
+			"municipality": "VE0605",
+			"share": 0.864,
+			"covers": 0.728,
+			"gadmName": "Bolívar"
+		},
+		"5.7": {
+			"municipality": null,
+			"share": 0.646,
+			"covers": 0.734,
+			"gadmName": "CruzParedes"
+		},
+		"5.8": {
+			"municipality": "VE0607",
+			"share": 0.887,
+			"covers": 0.968,
+			"gadmName": "EzequielZamora"
+		},
+		"5.9": {
+			"municipality": null,
+			"share": 0.673,
+			"covers": 0.685,
+			"gadmName": "Obispos"
+		},
+		"5.10": {
+			"municipality": "VE0609",
+			"share": 0.853,
+			"covers": 0.932,
+			"gadmName": "Pedraza"
+		},
+		"5.11": {
+			"municipality": "VE0610",
+			"share": 0.855,
+			"covers": 0.792,
+			"gadmName": "Rojas"
+		},
+		"5.12": {
+			"municipality": "VE0611",
+			"share": 0.909,
+			"covers": 0.876,
+			"gadmName": "Sosa"
+		},
+		"6.1": {
+			"municipality": "VE0707",
+			"share": 0.856,
+			"covers": 0.833,
+			"gadmName": "Angostura"
+		},
+		"6.2": {
+			"municipality": null,
+			"share": 0.738,
+			"covers": 0.694,
+			"gadmName": "Caroní"
+		},
+		"6.3": {
+			"municipality": "VE0702",
+			"share": 0.908,
+			"covers": 0.916,
+			"gadmName": "Cedeño"
+		},
+		"6.4": {
+			"municipality": null,
+			"share": 0.857,
+			"covers": 0.059,
+			"gadmName": "ElCallao"
+		},
+		"6.5": {
+			"municipality": "VE0704",
+			"share": 0.976,
+			"covers": 0.868,
+			"gadmName": "GranSabana"
+		},
+		"6.6": {
+			"municipality": null,
+			"share": 0.943,
+			"covers": 0.726,
+			"gadmName": "Heres"
+		},
+		"6.7": {
+			"municipality": null,
+			"share": 0.493,
+			"covers": 0.484,
+			"gadmName": "PadrePedroChien"
+		},
+		"6.8": {
+			"municipality": null,
+			"share": 0.596,
+			"covers": 0.717,
+			"gadmName": "Piar"
+		},
+		"6.9": {
+			"municipality": null,
+			"share": 0.487,
+			"covers": 0.132,
+			"gadmName": "Roscio"
+		},
+		"6.10": {
+			"municipality": "VE0709",
+			"share": 0.953,
+			"covers": 0.647,
+			"gadmName": "Sifontes"
+		},
+		"6.11": {
+			"municipality": "VE0710",
+			"share": 0.818,
+			"covers": 0.838,
+			"gadmName": "Sucre"
+		},
+		"7.1": {
+			"municipality": null,
+			"share": 0.442,
+			"covers": 0.435,
+			"gadmName": "Bejuma"
+		},
+		"7.2": {
+			"municipality": "VE0802",
+			"share": 0.817,
+			"covers": 0.888,
+			"gadmName": "CarlosArevalo"
+		},
+		"7.3": {
+			"municipality": null,
+			"share": 0.464,
+			"covers": 0.787,
+			"gadmName": "DiegoIbarra"
+		},
+		"7.4": {
+			"municipality": null,
+			"share": 0.526,
+			"covers": 0.549,
+			"gadmName": "Guacara"
+		},
+		"7.5": {
+			"municipality": null,
+			"share": 0.664,
+			"covers": 0.52,
+			"gadmName": "JuanJoséMora"
+		},
+		"7.6": {
+			"municipality": null,
+			"share": 0.085,
+			"covers": 0.115,
+			"gadmName": "LagoValencia"
+		},
+		"7.7": {
+			"municipality": null,
+			"share": 0.749,
+			"covers": 0.475,
+			"gadmName": "Libertador"
+		},
+		"7.8": {
+			"municipality": null,
+			"share": 0.536,
+			"covers": 0.653,
+			"gadmName": "LosGuayos"
+		},
+		"7.9": {
+			"municipality": null,
+			"share": 0.406,
+			"covers": 0.142,
+			"gadmName": "Miranda"
+		},
+		"7.10": {
+			"municipality": null,
+			"share": 0.679,
+			"covers": 0.18,
+			"gadmName": "Montalbán"
+		},
+		"7.11": {
+			"municipality": null,
+			"share": 0.594,
+			"covers": 0.393,
+			"gadmName": "Naguanagua"
+		},
+		"7.12": {
+			"municipality": "VE0811",
+			"share": 0.856,
+			"covers": 0.652,
+			"gadmName": "PuertoCabello"
+		},
+		"7.13": {
+			"municipality": null,
+			"share": 0.487,
+			"covers": 0.33,
+			"gadmName": "SanDiego"
+		},
+		"7.14": {
+			"municipality": null,
+			"share": 0.646,
+			"covers": 0.634,
+			"gadmName": "SanJoaquín"
+		},
+		"7.15": {
+			"municipality": null,
+			"share": 0.769,
+			"covers": 0.667,
+			"gadmName": "Valencia"
+		},
+		"8.1": {
+			"municipality": null,
+			"share": 0.554,
+			"covers": 0.679,
+			"gadmName": "Anzoátegui"
+		},
+		"8.2": {
+			"municipality": null,
+			"share": 0.717,
+			"covers": 0.674,
+			"gadmName": "EzequielZomora"
+		},
+		"8.3": {
+			"municipality": null,
+			"share": 0.566,
+			"covers": 0.484,
+			"gadmName": "Falcón"
+		},
+		"8.4": {
+			"municipality": "VE0903",
+			"share": 0.816,
+			"covers": 0.879,
+			"gadmName": "Girardot"
+		},
+		"8.5": {
+			"municipality": null,
+			"share": 0.82,
+			"covers": 0.368,
+			"gadmName": "LimaBlanco"
+		},
+		"8.6": {
+			"municipality": "VE0905",
+			"share": 0.873,
+			"covers": 0.874,
+			"gadmName": "PaodeSanJuanBautista"
+		},
+		"8.7": {
+			"municipality": null,
+			"share": 0.485,
+			"covers": 0.571,
+			"gadmName": "Ricaurte"
+		},
+		"8.8": {
+			"municipality": null,
+			"share": 0.484,
+			"covers": 0.508,
+			"gadmName": "RomuloGallegos"
+		},
+		"8.9": {
+			"municipality": null,
+			"share": 0.554,
+			"covers": 0.573,
+			"gadmName": "Tinaco"
+		},
+		"9.1": {
+			"municipality": "VE1001",
+			"share": 0.921,
+			"covers": 0.904,
+			"gadmName": "AntonioDiaz"
+		},
+		"9.2": {
+			"municipality": null,
+			"share": 0.582,
+			"covers": 0.745,
+			"gadmName": "Casacoima"
+		},
+		"9.3": {
+			"municipality": null,
+			"share": 0.704,
+			"covers": 0.967,
+			"gadmName": "Pedernales"
+		},
+		"9.4": {
+			"municipality": "VE1004",
+			"share": 0.899,
+			"covers": 0.921,
+			"gadmName": "Tucupita"
+		},
+		"10.1": {
+			"municipality": null,
+			"share": 0,
+			"covers": 0,
+			"gadmName": "DependenciasFederales"
+		},
+		"11.1": {
+			"municipality": "VE0101",
+			"share": 0.864,
+			"covers": 0.76,
+			"gadmName": "Libertador"
+		},
+		"12.1": {
+			"municipality": "VE1101",
+			"share": 0.951,
+			"covers": 0.871,
+			"gadmName": "Acosta"
+		},
+		"12.2": {
+			"municipality": "VE1121",
+			"share": 0.85,
+			"covers": 0.815,
+			"gadmName": "Bolívar"
+		},
+		"12.3": {
+			"municipality": "VE1103",
+			"share": 0.874,
+			"covers": 0.893,
+			"gadmName": "Buchivacoa"
+		},
+		"12.4": {
+			"municipality": "VE1104",
+			"share": 0.898,
+			"covers": 0.8,
+			"gadmName": "CaciqueManaure"
+		},
+		"12.5": {
+			"municipality": "VE1105",
+			"share": 0.928,
+			"covers": 0.975,
+			"gadmName": "Carirubana"
+		},
+		"12.6": {
+			"municipality": null,
+			"share": 0.786,
+			"covers": 0.804,
+			"gadmName": "Colina"
+		},
+		"12.7": {
+			"municipality": null,
+			"share": 0.795,
+			"covers": 0.91,
+			"gadmName": "Dabajuro"
+		},
+		"12.8": {
+			"municipality": "VE1108",
+			"share": 0.895,
+			"covers": 0.919,
+			"gadmName": "Democracia"
+		},
+		"12.9": {
+			"municipality": "VE1109",
+			"share": 0.984,
+			"covers": 0.896,
+			"gadmName": "Falcón"
+		},
+		"12.10": {
+			"municipality": "VE1110",
+			"share": 0.871,
+			"covers": 0.755,
+			"gadmName": "Federación"
+		},
+		"12.11": {
+			"municipality": "VE1111",
+			"share": 0.933,
+			"covers": 0.836,
+			"gadmName": "Jacura"
+		},
+		"12.12": {
+			"municipality": "VE1112",
+			"share": 0.876,
+			"covers": 0.946,
+			"gadmName": "LosTanques"
+		},
+		"12.13": {
+			"municipality": "VE1113",
+			"share": 0.986,
+			"covers": 0.899,
+			"gadmName": "Mauroa"
+		},
+		"12.14": {
+			"municipality": "VE1114",
+			"share": 0.961,
+			"covers": 0.917,
+			"gadmName": "Miranda"
+		},
+		"12.15": {
+			"municipality": "VE1115",
+			"share": 0.869,
+			"covers": 0.825,
+			"gadmName": "MonseñorIturriza"
+		},
+		"12.16": {
+			"municipality": "VE1116",
+			"share": 0.889,
+			"covers": 0.442,
+			"gadmName": "PalmaSola"
+		},
+		"12.17": {
+			"municipality": "VE1117",
+			"share": 0.889,
+			"covers": 0.872,
+			"gadmName": "Petit"
+		},
+		"12.18": {
+			"municipality": "VE1118",
+			"share": 0.9,
+			"covers": 0.895,
+			"gadmName": "Píritu"
+		},
+		"12.19": {
+			"municipality": null,
+			"share": 0.753,
+			"covers": 0.758,
+			"gadmName": "SanFrancisco"
+		},
+		"12.20": {
+			"municipality": "VE1120",
+			"share": 0.931,
+			"covers": 0.789,
+			"gadmName": "Silva"
+		},
+		"12.21": {
+			"municipality": null,
+			"share": 0.751,
+			"covers": 0.764,
+			"gadmName": "Sucre"
+		},
+		"12.22": {
+			"municipality": null,
+			"share": 0.729,
+			"covers": 0.917,
+			"gadmName": "Tocópero"
+		},
+		"12.23": {
+			"municipality": "VE1123",
+			"share": 0.815,
+			"covers": 0.745,
+			"gadmName": "Unión"
+		},
+		"12.24": {
+			"municipality": "VE1124",
+			"share": 0.938,
+			"covers": 0.823,
+			"gadmName": "Urumaco"
+		},
+		"12.25": {
+			"municipality": "VE1125",
+			"share": 0.803,
+			"covers": 0.828,
+			"gadmName": "Zamora"
+		},
+		"13.1": {
+			"municipality": null,
+			"share": 0.734,
+			"covers": 0.664,
+			"gadmName": "Camaguán"
+		},
+		"13.2": {
+			"municipality": "VE1202",
+			"share": 0.825,
+			"covers": 0.945,
+			"gadmName": "Chaguaramas"
+		},
+		"13.3": {
+			"municipality": null,
+			"share": 0.79,
+			"covers": 0.643,
+			"gadmName": "ElSocorro"
+		},
+		"13.4": {
+			"municipality": "VE1205",
+			"share": 0.864,
+			"covers": 0.941,
+			"gadmName": "Infante"
+		},
+		"13.5": {
+			"municipality": "VE1206",
+			"share": 0.886,
+			"covers": 0.881,
+			"gadmName": "LasMercedes"
+		},
+		"13.6": {
+			"municipality": "VE1207",
+			"share": 0.887,
+			"covers": 0.876,
+			"gadmName": "Mellado"
+		},
+		"13.7": {
+			"municipality": "VE1208",
+			"share": 0.882,
+			"covers": 0.971,
+			"gadmName": "Miranda"
+		},
+		"13.8": {
+			"municipality": "VE1209",
+			"share": 0.889,
+			"covers": 0.967,
+			"gadmName": "Monagas"
+		},
+		"13.9": {
+			"municipality": "VE1210",
+			"share": 0.861,
+			"covers": 0.959,
+			"gadmName": "Ortíz"
+		},
+		"13.10": {
+			"municipality": null,
+			"share": 0.776,
+			"covers": 0.929,
+			"gadmName": "Ribas"
+		},
+		"13.11": {
+			"municipality": "VE1212",
+			"share": 0.897,
+			"covers": 0.828,
+			"gadmName": "Roscio"
+		},
+		"13.12": {
+			"municipality": "VE1204",
+			"share": 0.946,
+			"covers": 0.736,
+			"gadmName": "SanGerónimodeGuayabal"
+		},
+		"13.13": {
+			"municipality": "VE1213",
+			"share": 0.934,
+			"covers": 0.899,
+			"gadmName": "SanJosédeGuaribe"
+		},
+		"13.14": {
+			"municipality": null,
+			"share": 0.722,
+			"covers": 0.725,
+			"gadmName": "SantaMaríadeIpire"
+		},
+		"13.15": {
+			"municipality": null,
+			"share": 0.685,
+			"covers": 0.765,
+			"gadmName": "Zaraza"
+		},
+		"14.1": {
+			"municipality": null,
+			"share": 0.739,
+			"covers": 0.68,
+			"gadmName": "AndrésEloyBlanco"
+		},
+		"14.2": {
+			"municipality": null,
+			"share": 0.597,
+			"covers": 0.642,
+			"gadmName": "Crespo"
+		},
+		"14.3": {
+			"municipality": "VE1303",
+			"share": 0.849,
+			"covers": 0.875,
+			"gadmName": "Iribarren"
+		},
+		"14.4": {
+			"municipality": null,
+			"share": 0.775,
+			"covers": 0.885,
+			"gadmName": "Jiménez"
+		},
+		"14.5": {
+			"municipality": "VE1305",
+			"share": 0.83,
+			"covers": 0.795,
+			"gadmName": "Morán"
+		},
+		"14.6": {
+			"municipality": null,
+			"share": 0.469,
+			"covers": 0.536,
+			"gadmName": "Palavecino"
+		},
+		"14.7": {
+			"municipality": null,
+			"share": 0.616,
+			"covers": 0.611,
+			"gadmName": "SimónPlanas"
+		},
+		"14.8": {
+			"municipality": "VE1308",
+			"share": 0.96,
+			"covers": 0.907,
+			"gadmName": "Torres"
+		},
+		"14.9": {
+			"municipality": "VE1309",
+			"share": 0.863,
+			"covers": 0.832,
+			"gadmName": "Urdaneta"
+		},
+		"15.1": {
+			"municipality": "VE1401",
+			"share": 0.805,
+			"covers": 0.893,
+			"gadmName": "AlbertoAdriani"
+		},
+		"15.2": {
+			"municipality": null,
+			"share": 0.762,
+			"covers": 0.837,
+			"gadmName": "AndrésBello"
+		},
+		"15.3": {
+			"municipality": null,
+			"share": 0.719,
+			"covers": 0.91,
+			"gadmName": "AntonioPintoSalinas"
+		},
+		"15.4": {
+			"municipality": "VE1404",
+			"share": 0.836,
+			"covers": 0.849,
+			"gadmName": "Aricagua"
+		},
+		"15.5": {
+			"municipality": "VE1405",
+			"share": 0.923,
+			"covers": 0.842,
+			"gadmName": "ArzobispoChacón"
+		},
+		"15.6": {
+			"municipality": null,
+			"share": 0.658,
+			"covers": 0.882,
+			"gadmName": "CampoElías"
+		},
+		"15.7": {
+			"municipality": null,
+			"share": 0.575,
+			"covers": 0.929,
+			"gadmName": "CaraccioloParraOlmedo"
+		},
+		"15.8": {
+			"municipality": null,
+			"share": 0.693,
+			"covers": 0.644,
+			"gadmName": "CardenalQuintero"
+		},
+		"15.9": {
+			"municipality": null,
+			"share": 0.748,
+			"covers": 0.872,
+			"gadmName": "Guaraque"
+		},
+		"15.10": {
+			"municipality": null,
+			"share": 0.521,
+			"covers": 0.112,
+			"gadmName": "JulioCésarSalas"
+		},
+		"15.11": {
+			"municipality": null,
+			"share": 0.676,
+			"covers": 0.756,
+			"gadmName": "JustoBriceño"
+		},
+		"15.12": {
+			"municipality": null,
+			"share": 0.763,
+			"covers": 0.786,
+			"gadmName": "Libertador"
+		},
+		"15.13": {
+			"municipality": null,
+			"share": 0.712,
+			"covers": 0.807,
+			"gadmName": "Miranda"
+		},
+		"15.14": {
+			"municipality": null,
+			"share": 0.76,
+			"covers": 0.801,
+			"gadmName": "ObispoRamosdeLora"
+		},
+		"15.15": {
+			"municipality": null,
+			"share": 0.722,
+			"covers": 0.72,
+			"gadmName": "PadreNoguera"
+		},
+		"15.16": {
+			"municipality": null,
+			"share": 0.475,
+			"covers": 0.741,
+			"gadmName": "PuebloLlano"
+		},
+		"15.17": {
+			"municipality": "VE1417",
+			"share": 0.805,
+			"covers": 0.757,
+			"gadmName": "Rangel"
+		},
+		"15.18": {
+			"municipality": "VE1418",
+			"share": 0.907,
+			"covers": 0.699,
+			"gadmName": "RivasDavila"
+		},
+		"15.19": {
+			"municipality": "VE1419",
+			"share": 0.854,
+			"covers": 0.6,
+			"gadmName": "SantosMarquina"
+		},
+		"15.20": {
+			"municipality": "VE1420",
+			"share": 0.892,
+			"covers": 0.743,
+			"gadmName": "Sucre"
+		},
+		"15.21": {
+			"municipality": null,
+			"share": 0.754,
+			"covers": 0.764,
+			"gadmName": "Tovar"
+		},
+		"15.22": {
+			"municipality": null,
+			"share": 0.545,
+			"covers": 0.841,
+			"gadmName": "TulioFebresCordero"
+		},
+		"15.23": {
+			"municipality": "VE1423",
+			"share": 0.821,
+			"covers": 0.744,
+			"gadmName": "Zea"
+		},
+		"16.1": {
+			"municipality": "VE1501",
+			"share": 0.96,
+			"covers": 0.913,
+			"gadmName": "Acevedo"
+		},
+		"16.2": {
+			"municipality": "VE1502",
+			"share": 0.85,
+			"covers": 0.879,
+			"gadmName": "AndrésBello"
+		},
+		"16.3": {
+			"municipality": null,
+			"share": 0.437,
+			"covers": 0.419,
+			"gadmName": "Baruta"
+		},
+		"16.4": {
+			"municipality": "VE1504",
+			"share": 0.906,
+			"covers": 0.952,
+			"gadmName": "Brión"
+		},
+		"16.5": {
+			"municipality": "VE1505",
+			"share": 0.827,
+			"covers": 0.985,
+			"gadmName": "Buroz"
+		},
+		"16.6": {
+			"municipality": null,
+			"share": 0.457,
+			"covers": 0.34,
+			"gadmName": "Carrizal"
+		},
+		"16.7": {
+			"municipality": null,
+			"share": 0.582,
+			"covers": 0.071,
+			"gadmName": "Chacao"
+		},
+		"16.8": {
+			"municipality": null,
+			"share": 0.799,
+			"covers": 0.64,
+			"gadmName": "CristóbalRojas"
+		},
+		"16.9": {
+			"municipality": null,
+			"share": 0.672,
+			"covers": 0.537,
+			"gadmName": "ElHatillo"
+		},
+		"16.10": {
+			"municipality": null,
+			"share": 0.802,
+			"covers": 0.692,
+			"gadmName": "Guaicaipuro"
+		},
+		"16.11": {
+			"municipality": "VE1511",
+			"share": 0.834,
+			"covers": 0.771,
+			"gadmName": "Independencia"
+		},
+		"16.12": {
+			"municipality": null,
+			"share": 0.757,
+			"covers": 0.78,
+			"gadmName": "Lander"
+		},
+		"16.13": {
+			"municipality": null,
+			"share": 0.624,
+			"covers": 0.502,
+			"gadmName": "LosSalias"
+		},
+		"16.14": {
+			"municipality": "VE1514",
+			"share": 0.899,
+			"covers": 0.89,
+			"gadmName": "Páez"
+		},
+		"16.15": {
+			"municipality": "VE1515",
+			"share": 0.86,
+			"covers": 0.845,
+			"gadmName": "PazCastillo"
+		},
+		"16.16": {
+			"municipality": "VE1516",
+			"share": 0.936,
+			"covers": 0.871,
+			"gadmName": "PedroGual"
+		},
+		"16.17": {
+			"municipality": null,
+			"share": 0.75,
+			"covers": 0.812,
+			"gadmName": "Plaza"
+		},
+		"16.18": {
+			"municipality": null,
+			"share": 0.577,
+			"covers": 0.55,
+			"gadmName": "SimónBolívar"
+		},
+		"16.19": {
+			"municipality": null,
+			"share": 0.737,
+			"covers": 0.691,
+			"gadmName": "Sucre"
+		},
+		"16.20": {
+			"municipality": null,
+			"share": 0.73,
+			"covers": 0.749,
+			"gadmName": "Urdaneta"
+		},
+		"16.21": {
+			"municipality": "VE1521",
+			"share": 0.923,
+			"covers": 0.817,
+			"gadmName": "Zamora"
+		},
+		"17.1": {
+			"municipality": null,
+			"share": 0.767,
+			"covers": 0.925,
+			"gadmName": "Acosta"
+		},
+		"17.2": {
+			"municipality": "VE1602",
+			"share": 0.955,
+			"covers": 0.788,
+			"gadmName": "Aguasay"
+		},
+		"17.3": {
+			"municipality": null,
+			"share": 0.63,
+			"covers": 0.787,
+			"gadmName": "Bolívar"
+		},
+		"17.4": {
+			"municipality": null,
+			"share": 0.754,
+			"covers": 0.954,
+			"gadmName": "Caripe"
+		},
+		"17.5": {
+			"municipality": "VE1605",
+			"share": 0.938,
+			"covers": 0.915,
+			"gadmName": "Cedeño"
+		},
+		"17.6": {
+			"municipality": "VE1606",
+			"share": 0.905,
+			"covers": 0.912,
+			"gadmName": "EzequielZamora"
+		},
+		"17.7": {
+			"municipality": null,
+			"share": 0.733,
+			"covers": 0.837,
+			"gadmName": "Libertador"
+		},
+		"17.8": {
+			"municipality": "VE1608",
+			"share": 0.909,
+			"covers": 0.962,
+			"gadmName": "Maturín"
+		},
+		"17.9": {
+			"municipality": "VE1609",
+			"share": 0.975,
+			"covers": 0.859,
+			"gadmName": "Piar"
+		},
+		"17.10": {
+			"municipality": null,
+			"share": 0.786,
+			"covers": 0.828,
+			"gadmName": "Punceres"
+		},
+		"17.11": {
+			"municipality": null,
+			"share": 0.71,
+			"covers": 0.963,
+			"gadmName": "SantaBarbara"
+		},
+		"17.12": {
+			"municipality": null,
+			"share": 0.542,
+			"covers": 0.511,
+			"gadmName": "Sotillo"
+		},
+		"17.13": {
+			"municipality": null,
+			"share": 0.605,
+			"covers": 0.621,
+			"gadmName": "Uracoa"
+		},
+		"18.1": {
+			"municipality": "VE1701",
+			"share": 0.879,
+			"covers": 0.707,
+			"gadmName": "AntolíndelCampo"
+		},
+		"18.2": {
+			"municipality": "VE1702",
+			"share": 0.811,
+			"covers": 0.723,
+			"gadmName": "Arismendi"
+		},
+		"18.3": {
+			"municipality": null,
+			"share": 0.794,
+			"covers": 0.851,
+			"gadmName": "Díaz"
+		},
+		"18.4": {
+			"municipality": null,
+			"share": 0.757,
+			"covers": 0.767,
+			"gadmName": "García"
+		},
+		"18.5": {
+			"municipality": null,
+			"share": 0.787,
+			"covers": 0.75,
+			"gadmName": "Gómez"
+		},
+		"18.6": {
+			"municipality": null,
+			"share": 0.76,
+			"covers": 0.807,
+			"gadmName": "IsladeCoche"
+		},
+		"18.7": {
+			"municipality": "VE1706",
+			"share": 0.925,
+			"covers": 0.656,
+			"gadmName": "Maneiro"
+		},
+		"18.8": {
+			"municipality": null,
+			"share": 0.542,
+			"covers": 0.743,
+			"gadmName": "Marcano"
+		},
+		"18.9": {
+			"municipality": null,
+			"share": 0.657,
+			"covers": 0.585,
+			"gadmName": "Mariño"
+		},
+		"18.10": {
+			"municipality": null,
+			"share": 0.608,
+			"covers": 0.971,
+			"gadmName": "PeninsuladeMacanao"
+		},
+		"18.11": {
+			"municipality": null,
+			"share": 0.712,
+			"covers": 0.097,
+			"gadmName": "Tubores"
+		},
+		"19.1": {
+			"municipality": null,
+			"share": 0.523,
+			"covers": 0.531,
+			"gadmName": "AguaBlanca"
+		},
+		"19.2": {
+			"municipality": null,
+			"share": 0.532,
+			"covers": 0.53,
+			"gadmName": "Araure"
+		},
+		"19.3": {
+			"municipality": null,
+			"share": 0.551,
+			"covers": 0.572,
+			"gadmName": "Esteller"
+		},
+		"19.4": {
+			"municipality": null,
+			"share": 0.768,
+			"covers": 0.833,
+			"gadmName": "Guanare"
+		},
+		"19.5": {
+			"municipality": null,
+			"share": 0.736,
+			"covers": 0.969,
+			"gadmName": "Guanarito"
+		},
+		"19.6": {
+			"municipality": null,
+			"share": 0.719,
+			"covers": 0.577,
+			"gadmName": "MonseñorJoséVicentedeUnda"
+		},
+		"19.7": {
+			"municipality": null,
+			"share": 0.656,
+			"covers": 0.773,
+			"gadmName": "Ospino"
+		},
+		"19.8": {
+			"municipality": null,
+			"share": 0.351,
+			"covers": 0.358,
+			"gadmName": "Páez"
+		},
+		"19.9": {
+			"municipality": "VE1809",
+			"share": 0.806,
+			"covers": 0.839,
+			"gadmName": "Papelón"
+		},
+		"19.10": {
+			"municipality": null,
+			"share": 0.67,
+			"covers": 0.826,
+			"gadmName": "SanGenarodeBoconoito"
+		},
+		"19.11": {
+			"municipality": null,
+			"share": 0.52,
+			"covers": 0.098,
+			"gadmName": "SanRafaeldeOnoto"
+		},
+		"19.12": {
+			"municipality": null,
+			"share": 0.725,
+			"covers": 0.75,
+			"gadmName": "SantaRosalía"
+		},
+		"19.13": {
+			"municipality": null,
+			"share": 0.611,
+			"covers": 0.615,
+			"gadmName": "Sucre"
+		},
+		"19.14": {
+			"municipality": null,
+			"share": 0.684,
+			"covers": 0.726,
+			"gadmName": "Turén"
+		},
+		"20.1": {
+			"municipality": null,
+			"share": 0.589,
+			"covers": 0.551,
+			"gadmName": "AndrésEloyBlanco"
+		},
+		"20.2": {
+			"municipality": null,
+			"share": 0.741,
+			"covers": 0.604,
+			"gadmName": "AndrésMata"
+		},
+		"20.3": {
+			"municipality": "VE1903",
+			"share": 0.859,
+			"covers": 0.845,
+			"gadmName": "Arismendi"
+		},
+		"20.4": {
+			"municipality": "VE1904",
+			"share": 0.963,
+			"covers": 0.846,
+			"gadmName": "Benítez"
+		},
+		"20.5": {
+			"municipality": null,
+			"share": 0.605,
+			"covers": 0.665,
+			"gadmName": "Bermúdez"
+		},
+		"20.6": {
+			"municipality": "VE1906",
+			"share": 0.845,
+			"covers": 0.967,
+			"gadmName": "Bolívar"
+		},
+		"20.7": {
+			"municipality": null,
+			"share": 0.799,
+			"covers": 0.854,
+			"gadmName": "Cajigal"
+		},
+		"20.8": {
+			"municipality": "VE1908",
+			"share": 0.952,
+			"covers": 0.965,
+			"gadmName": "CruzSalmerónAcosta"
+		},
+		"20.9": {
+			"municipality": "VE1909",
+			"share": 0.87,
+			"covers": 0.819,
+			"gadmName": "Libertador"
+		},
+		"20.10": {
+			"municipality": "VE1910",
+			"share": 0.827,
+			"covers": 0.86,
+			"gadmName": "Mariño"
+		},
+		"20.11": {
+			"municipality": "VE1911",
+			"share": 0.955,
+			"covers": 0.914,
+			"gadmName": "Mejía"
+		},
+		"20.12": {
+			"municipality": "VE1912",
+			"share": 0.833,
+			"covers": 0.932,
+			"gadmName": "Montes"
+		},
+		"20.13": {
+			"municipality": "VE1913",
+			"share": 0.89,
+			"covers": 0.909,
+			"gadmName": "Ribero"
+		},
+		"20.14": {
+			"municipality": "VE1914",
+			"share": 0.862,
+			"covers": 0.939,
+			"gadmName": "Sucre"
+		},
+		"20.15": {
+			"municipality": "VE1915",
+			"share": 0.952,
+			"covers": 0.804,
+			"gadmName": "Valdez"
+		},
+		"21.1": {
+			"municipality": null,
+			"share": 0.602,
+			"covers": 0.917,
+			"gadmName": "AndrésBello"
+		},
+		"21.2": {
+			"municipality": null,
+			"share": 0.578,
+			"covers": 0.604,
+			"gadmName": "AntonioRómuloCosta"
+		},
+		"21.3": {
+			"municipality": "VE2003",
+			"share": 0.806,
+			"covers": 0.965,
+			"gadmName": "Ayacucho"
+		},
+		"21.4": {
+			"municipality": "VE2004",
+			"share": 0.889,
+			"covers": 0.856,
+			"gadmName": "Bolívar"
+		},
+		"21.5": {
+			"municipality": null,
+			"share": 0.579,
+			"covers": 0.73,
+			"gadmName": "Cárdenas"
+		},
+		"21.6": {
+			"municipality": "VE2006",
+			"share": 0.81,
+			"covers": 0.621,
+			"gadmName": "Córdoba"
+		},
+		"21.7": {
+			"municipality": null,
+			"share": 0.704,
+			"covers": 0.725,
+			"gadmName": "FernándezFeo"
+		},
+		"21.8": {
+			"municipality": null,
+			"share": 0.683,
+			"covers": 0.759,
+			"gadmName": "FranciscodeMiranda"
+		},
+		"21.9": {
+			"municipality": null,
+			"share": 0.561,
+			"covers": 0.835,
+			"gadmName": "GarcíadeHevia"
+		},
+		"21.10": {
+			"municipality": null,
+			"share": 0.455,
+			"covers": 0.114,
+			"gadmName": "Guasimos"
+		},
+		"21.11": {
+			"municipality": null,
+			"share": 0.638,
+			"covers": 0.204,
+			"gadmName": "Independencia"
+		},
+		"21.12": {
+			"municipality": null,
+			"share": 0.684,
+			"covers": 0.811,
+			"gadmName": "Jauregui"
+		},
+		"21.13": {
+			"municipality": null,
+			"share": 0.671,
+			"covers": 0.892,
+			"gadmName": "JoséMaríaVargas"
+		},
+		"21.14": {
+			"municipality": "VE2014",
+			"share": 0.862,
+			"covers": 0.816,
+			"gadmName": "Junín"
+		},
+		"21.15": {
+			"municipality": null,
+			"share": 0.771,
+			"covers": 0.468,
+			"gadmName": "Libertad"
+		},
+		"21.16": {
+			"municipality": null,
+			"share": 0.774,
+			"covers": 0.72,
+			"gadmName": "Libertador"
+		},
+		"21.17": {
+			"municipality": null,
+			"share": 0.665,
+			"covers": 0.957,
+			"gadmName": "Lobatera"
+		},
+		"21.18": {
+			"municipality": null,
+			"share": 0.78,
+			"covers": 0.764,
+			"gadmName": "Michelena"
+		},
+		"21.19": {
+			"municipality": null,
+			"share": 0.497,
+			"covers": 0.082,
+			"gadmName": "Panamericano"
+		},
+		"21.20": {
+			"municipality": "VE2020",
+			"share": 0.926,
+			"covers": 0.852,
+			"gadmName": "PedroMaríaUreña"
+		},
+		"21.21": {
+			"municipality": "VE2021",
+			"share": 0.878,
+			"covers": 0.761,
+			"gadmName": "RafaelUrdaneta"
+		},
+		"21.22": {
+			"municipality": "VE2022",
+			"share": 0.88,
+			"covers": 0.746,
+			"gadmName": "SamuelDarioMaldonado"
+		},
+		"21.23": {
+			"municipality": null,
+			"share": 0.644,
+			"covers": 0.811,
+			"gadmName": "SanCristóbal"
+		},
+		"21.24": {
+			"municipality": null,
+			"share": 0.644,
+			"covers": 0.668,
+			"gadmName": "SanJudasTadeo"
+		},
+		"21.25": {
+			"municipality": null,
+			"share": 0.609,
+			"covers": 0.821,
+			"gadmName": "Seboruco"
+		},
+		"21.26": {
+			"municipality": null,
+			"share": 0.486,
+			"covers": 0.064,
+			"gadmName": "SimónRodriguez"
+		},
+		"21.27": {
+			"municipality": null,
+			"share": 0.75,
+			"covers": 0.826,
+			"gadmName": "Sucre"
+		},
+		"21.28": {
+			"municipality": null,
+			"share": 0.42,
+			"covers": 0.626,
+			"gadmName": "Torbes"
+		},
+		"21.29": {
+			"municipality": "VE2028",
+			"share": 0.808,
+			"covers": 0.791,
+			"gadmName": "Uribante"
+		},
+		"22.1": {
+			"municipality": "VE2101",
+			"share": 0.891,
+			"covers": 0.616,
+			"gadmName": "AndrésBello"
+		},
+		"22.2": {
+			"municipality": "VE2102",
+			"share": 0.808,
+			"covers": 0.784,
+			"gadmName": "Boconó"
+		},
+		"22.3": {
+			"municipality": null,
+			"share": 0.721,
+			"covers": 0.744,
+			"gadmName": "Bolívar"
+		},
+		"22.4": {
+			"municipality": null,
+			"share": 0.651,
+			"covers": 0.617,
+			"gadmName": "Candelaria"
+		},
+		"22.5": {
+			"municipality": null,
+			"share": 0.759,
+			"covers": 0.779,
+			"gadmName": "Carache"
+		},
+		"22.6": {
+			"municipality": null,
+			"share": 0.485,
+			"covers": 0.518,
+			"gadmName": "Escuque"
+		},
+		"22.7": {
+			"municipality": null,
+			"share": 0.819,
+			"covers": 0.648,
+			"gadmName": "JoséFelipeMárquezCañizalez"
+		},
+		"22.8": {
+			"municipality": null,
+			"share": 0.625,
+			"covers": 0.024,
+			"gadmName": "JuanVicenteCamposElías"
+		},
+		"22.9": {
+			"municipality": "VE2109",
+			"share": 0.98,
+			"covers": 0.838,
+			"gadmName": "LaCeiba"
+		},
+		"22.10": {
+			"municipality": null,
+			"share": 0.63,
+			"covers": 0.644,
+			"gadmName": "Miranda"
+		},
+		"22.11": {
+			"municipality": null,
+			"share": 0.589,
+			"covers": 0.736,
+			"gadmName": "MonteCarmelo"
+		},
+		"22.12": {
+			"municipality": null,
+			"share": 0.587,
+			"covers": 0.567,
+			"gadmName": "Motatán"
+		},
+		"22.13": {
+			"municipality": null,
+			"share": 0.594,
+			"covers": 0.647,
+			"gadmName": "Pampán"
+		},
+		"22.14": {
+			"municipality": null,
+			"share": 0.658,
+			"covers": 0.149,
+			"gadmName": "Pampanito"
+		},
+		"22.15": {
+			"municipality": null,
+			"share": 0.474,
+			"covers": 0.439,
+			"gadmName": "RafaelRangel"
+		},
+		"22.16": {
+			"municipality": null,
+			"share": 0.601,
+			"covers": 0.614,
+			"gadmName": "SanRafaeldeCarvajal"
+		},
+		"22.17": {
+			"municipality": null,
+			"share": 0.556,
+			"covers": 0.559,
+			"gadmName": "Sucre"
+		},
+		"22.18": {
+			"municipality": null,
+			"share": 0.711,
+			"covers": 0.635,
+			"gadmName": "Trujillo"
+		},
+		"22.19": {
+			"municipality": null,
+			"share": 0.667,
+			"covers": 0.705,
+			"gadmName": "Urdaneta"
+		},
+		"22.20": {
+			"municipality": null,
+			"share": 0.664,
+			"covers": 0.647,
+			"gadmName": "Valera"
+		},
+		"23.1": {
+			"municipality": "VE2401",
+			"share": 0.947,
+			"covers": 0.804,
+			"gadmName": "Vargas"
+		},
+		"24.1": {
+			"municipality": null,
+			"share": 0.515,
+			"covers": 0.331,
+			"gadmName": "ArístidesBastidas"
+		},
+		"24.2": {
+			"municipality": null,
+			"share": 0.663,
+			"covers": 0.786,
+			"gadmName": "Bolívar"
+		},
+		"24.3": {
+			"municipality": null,
+			"share": 0.379,
+			"covers": 0.755,
+			"gadmName": "Bruzual"
+		},
+		"24.4": {
+			"municipality": null,
+			"share": 0.986,
+			"covers": 0.254,
+			"gadmName": "Cocorote"
+		},
+		"24.5": {
+			"municipality": null,
+			"share": 0.837,
+			"covers": 0.211,
+			"gadmName": "Independencia"
+		},
+		"24.6": {
+			"municipality": null,
+			"share": 0.65,
+			"covers": 0.233,
+			"gadmName": "JoséAntonioPáez"
+		},
+		"24.7": {
+			"municipality": null,
+			"share": 0.63,
+			"covers": 0.05,
+			"gadmName": "LaTrinidad"
+		},
+		"24.8": {
+			"municipality": null,
+			"share": 0.528,
+			"covers": 0.544,
+			"gadmName": "ManuelMonge"
+		},
+		"24.9": {
+			"municipality": null,
+			"share": 0.728,
+			"covers": 0.743,
+			"gadmName": "Nirgua"
+		},
+		"24.10": {
+			"municipality": null,
+			"share": 0.332,
+			"covers": 0.449,
+			"gadmName": "Peña"
+		},
+		"24.11": {
+			"municipality": null,
+			"share": 0.667,
+			"covers": 0.248,
+			"gadmName": "SanFelipe"
+		},
+		"24.12": {
+			"municipality": null,
+			"share": 0.466,
+			"covers": 0.824,
+			"gadmName": "Sucre"
+		},
+		"24.13": {
+			"municipality": null,
+			"share": 0.721,
+			"covers": 0.29,
+			"gadmName": "Urachiche"
+		},
+		"24.14": {
+			"municipality": null,
+			"share": 0.662,
+			"covers": 0.605,
+			"gadmName": "Veroes"
+		},
+		"25.1": {
+			"municipality": null,
+			"share": 0.744,
+			"covers": 0.917,
+			"gadmName": "AlmirantePadilla"
+		},
+		"25.2": {
+			"municipality": "VE2302",
+			"share": 0.902,
+			"covers": 0.911,
+			"gadmName": "Baralt"
+		},
+		"25.3": {
+			"municipality": "VE2303",
+			"share": 0.821,
+			"covers": 0.845,
+			"gadmName": "Cabimas"
+		},
+		"25.4": {
+			"municipality": null,
+			"share": 0.791,
+			"covers": 0.887,
+			"gadmName": "Catatumbo"
+		},
+		"25.5": {
+			"municipality": "VE2305",
+			"share": 0.951,
+			"covers": 0.842,
+			"gadmName": "Colón"
+		},
+		"25.6": {
+			"municipality": "VE2306",
+			"share": 0.87,
+			"covers": 0.96,
+			"gadmName": "FranciscoJavierPulgar"
+		},
+		"25.7": {
+			"municipality": "VE2315",
+			"share": 0.976,
+			"covers": 0.869,
+			"gadmName": "Guajira"
+		},
+		"25.8": {
+			"municipality": "VE2307",
+			"share": 0.906,
+			"covers": 0.868,
+			"gadmName": "JesúsEnriqueLossada"
+		},
+		"25.9": {
+			"municipality": "VE2308",
+			"share": 0.978,
+			"covers": 0.8,
+			"gadmName": "JesúsMaríaSemprún"
+		},
+		"25.10": {
+			"municipality": "VE2309",
+			"share": 0.927,
+			"covers": 0.945,
+			"gadmName": "LaCañadadeUrdaneta"
+		},
+		"25.11": {
+			"municipality": "VE2310",
+			"share": 0.87,
+			"covers": 0.961,
+			"gadmName": "Lagunillas"
+		},
+		"25.12": {
+			"municipality": "VE2311",
+			"share": 0.953,
+			"covers": 0.967,
+			"gadmName": "MachiquesdePerijá"
+		},
+		"25.13": {
+			"municipality": "VE2312",
+			"share": 0.92,
+			"covers": 0.917,
+			"gadmName": "Mara"
+		},
+		"25.14": {
+			"municipality": "VE2313",
+			"share": 0.871,
+			"covers": 0.775,
+			"gadmName": "Maracaibo"
+		},
+		"25.15": {
+			"municipality": "VE2314",
+			"share": 0.922,
+			"covers": 0.937,
+			"gadmName": "Miranda"
+		},
+		"25.16": {
+			"municipality": "VE2316",
+			"share": 0.875,
+			"covers": 0.945,
+			"gadmName": "RosariodePerijá"
+		},
+		"25.17": {
+			"municipality": null,
+			"share": 0.737,
+			"covers": 0.638,
+			"gadmName": "SanFrancisco"
+		},
+		"25.18": {
+			"municipality": "VE2318",
+			"share": 0.851,
+			"covers": 0.845,
+			"gadmName": "SantaRita"
+		},
+		"25.19": {
+			"municipality": null,
+			"share": 0.71,
+			"covers": 0.944,
+			"gadmName": "SimónBolívar"
+		},
+		"25.20": {
+			"municipality": "VE2320",
+			"share": 0.936,
+			"covers": 0.585,
+			"gadmName": "Sucre"
+		},
+		"25.21": {
+			"municipality": "VE2321",
+			"share": 0.861,
+			"covers": 0.912,
+			"gadmName": "ValmoreRodríguez"
+		}
+	}
+}

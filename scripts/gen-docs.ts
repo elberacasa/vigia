@@ -47,8 +47,12 @@ function byLayer(adapters: readonly Adapter[]): Map<Layer, Adapter[]> {
 function access(a: Adapter): string {
 	const parts: string[] = [];
 	parts.push(a.keys.length === 0 ? "none" : `key: ${a.keys.map((k) => `\`${k}\``).join(", ")}`);
-	if (a.optIn) parts.push("opt-in");
-	if (a.note && !a.optIn) parts.push("on, noted");
+	if (a.defaultIn)
+		parts.push(
+			`${a.defaultIn.local ? "on" : "off"} locally, ${a.defaultIn.public ? "on" : "off"} on a public mirror`,
+		);
+	else if (a.optIn) parts.push("opt-in");
+	if (a.note && !a.optIn && !a.defaultIn) parts.push("on, noted");
 	return parts.join(", ");
 }
 
@@ -64,7 +68,8 @@ export function dataSourcesMarkdown(adapters: readonly Adapter[] = ADAPTERS): st
 		"- **Access**: `none` works with no key; `key` needs a free key the user adds in the setup guide (`/guia`);",
 		"  `opt-in` is off until the user turns it on (the guide explains why, e.g. terms that are unclear about automated",
 		"  access); `on, noted` is on by default with a note on how Vigía reads it (e.g. a feed the host's robots.txt",
-		"  excludes, read at a low rate by the project's decision), and the user can turn it off.",
+		"  excludes, read at a low rate by the project's decision), and the user can turn it off; `on locally, off on a",
+		"  public mirror` depends on the deployment mode (e.g. Google News, whose terms allow a personal reader only).",
 		"- **Raw rows**: whether the source's own rows are served by the raw API endpoints. `withheld` means the source's",
 		"  terms do not allow passing its data on, so only results Vigía derives from it are shown, with attribution.",
 		"- Data belongs to its publishers under the licences below; Vigía's own licence does not cover it.",
@@ -177,6 +182,36 @@ const BUNDLED_DATA: readonly { what: string; source: string; licence: string }[]
 	{
 		what: "Flare site locations used to match facilities (same file)",
 		source: "World Bank Global Flaring and Methane Reduction Partnership (GFMR)",
+		licence: "CC BY 4.0",
+	},
+	{
+		what: "Parish boundaries (src/ontology/data/parishes.geo.json)",
+		source: "Instituto Nacional de Estadística (INE) Venezuela, via OCHA COD-AB on HDX",
+		licence: "CC BY-IGO 3.0",
+	},
+	{
+		what: "Power plants, substations, transmission grid, refineries, dams, reservoirs and hospitals (src/ontology/data/infrastructure.json)",
+		source: "© OpenStreetMap contributors (https://www.openstreetmap.org/copyright)",
+		licence: "ODbL 1.0 (those records are a derived database under the same licence)",
+	},
+	{
+		what: "Airports (same file)",
+		source: "OurAirports (https://ourairports.com/data/)",
+		licence: "Public domain",
+	},
+	{
+		what: "Ports and terminals (same file)",
+		source: "International Monetary Fund, PortWatch (https://portwatch.imf.org)",
+		licence: "IMF terms: reuse with attribution (commercial reuse needs the IMF's permission)",
+	},
+	{
+		what: "Population per municipality, census 2011 (src/ontology/data/population.json)",
+		source: "Instituto Nacional de Estadística (INE) Venezuela, via OCHA COD-PS on HDX",
+		licence: "CC BY-IGO 3.0",
+	},
+	{
+		what: "Population 2026 per municipality and parish, and a 0.025° grid (same file)",
+		source: "WorldPop (www.worldpop.org), University of Southampton, Global2 R2025A",
 		licence: "CC BY 4.0",
 	},
 	{

@@ -1,6 +1,9 @@
 import { z } from "zod";
+import { blobKey } from "../../core/blobs.ts";
 import type { Adapter, FetchContext, Licence, Observation, RawResponse } from "../../core/types.ts";
 import { HttpError, SchemaError } from "../../core/types.ts";
+import { encodeJpeg } from "../../imaging/jpeg.ts";
+import { crop, decodeImage, dhash, downscale, lumaStats, type Rgba } from "../../imaging/raster.ts";
 import { TV_CHANNELS, type TvChannel } from "./channels.ts";
 
 /**
@@ -22,6 +25,12 @@ import { TV_CHANNELS, type TvChannel } from "./channels.ts";
  * resolves the live stream itself); only the measured state is missing, and the UI says so.
  *
  * What is stored is our own reading (state, video id, the stream's title and start time), never the page.
+ *
+ * Thumbnail: when a channel is live, the server also reads YouTube's live thumbnail of that video
+ * (`i.ytimg.com/vi/<id>/sddefault_live.jpg`, 640 × 480, ~31 KB, `cache-control: max-age=300`; YouTube renews it
+ * every few minutes and states no capture time), crops the letterbox bars, reduces it to 480 px and re-encodes it,
+ * and serves it from Vigía's own origin (`/api/blobs/youtube-live/<key>`), so a card shows what the channel is
+ * airing without the browser contacting YouTube. Dated by when Vigía read it, labelled "miniatura de YouTube".
  * Playing happens only in YouTube's official embedded player (youtube-nocookie.com), which YouTube's terms
  * permit for public videos whose owner allows embedding.
  */
@@ -171,12 +180,28 @@ export type YoutubeLive = {
 	readonly playabilityReason: string | null;
 	/** Why the state is "unknown", in a short stable code. */
 	readonly why: string | null;
+	/** YouTube's live thumbnail as Vigía stored it (only while live): blob key, size, when it was read. */
+	readonly thumb: YoutubeThumb | null;
+};
+
+export type YoutubeThumb = {
+	/** GET /api/blobs/youtube-live/<key>. */
+	readonly blob: string;
+	readonly width: number;
+	readonly height: number;
+	/** When Vigía read it (YouTube gives no capture time; its thumbnail is at most a few minutes old). */
+	readonly readAt: number;
+	/**
+	 * 64-bit difference hash. Many 24/7 channels set a fixed cover image as the live thumbnail (measured 2026-09-29:
+	 * DW, France 24, VPItv): the same hash an hour apart means a cover, not a frame (panels/cardimage.ts).
+	 */
+	readonly hash: string;
 };
 
 const VIDEO_ID = /^[\w-]{11}$/;
 
 /** Pure: the rule that turns one check into a state. */
-export function stateOf(check: LiveCheck, expected: TvChannel): Omit<YoutubeLive, "channel"> {
+export function stateOf(check: LiveCheck, expected: TvChannel): Omit<YoutubeLive, "channel" | "thumb"> {
 	const none = { videoId: null, title: null, startedAt: null, playability: null, playabilityReason: null };
 	if (check.error !== null) return { ...none, state: "unknown", why: check.error };
 	if (check.finalHost !== null && check.finalHost !== "www.youtube.com")
@@ -216,6 +241,76 @@ function failure(error: unknown): string {
 	return "network";
 }
 
+export const THUMB_PIPELINE = "youtube-thumb/1";
+const THUMB_WIDTH = 480;
+const VIDEO_ID_RE = /^[\w-]{11}$/;
+
+export function thumbUrl(videoId: string): string {
+	return `https://i.ytimg.com/vi/${videoId}/sddefault_live.jpg`;
+}
+
+/**
+ * Pure: YouTube's 4:3 thumbnail of a 16:9 stream has black bars above and below; crop them when they are there
+ * (flat and dark), keep the picture whole otherwise, then reduce to 480 px wide.
+ */
+export function trimThumb(image: Rgba): Rgba {
+	const bar = Math.round((image.height - (image.width * 9) / 16) / 2);
+	let out = image;
+	if (bar >= 4) {
+		const top = lumaStats(image, { x: 0, y: 0, w: 1, h: bar / image.height });
+		const bottom = lumaStats(image, { x: 0, y: 1 - bar / image.height, w: 1, h: bar / image.height });
+		if (top.mean < 12 && top.sd < 6 && bottom.mean < 12 && bottom.sd < 6)
+			out = crop(image, 0, bar, image.width, image.height - 2 * bar);
+	}
+	const width = Math.min(THUMB_WIDTH, out.width);
+	return downscale(out, width, Math.round((out.height * width) / out.width));
+}
+
+/** Read, clean and store the live thumbnail of `videoId`; null when anything fails (the card then shows the logo). */
+async function storeThumb(
+	channel: TvChannel,
+	videoId: string,
+	ctx: FetchContext,
+): Promise<YoutubeThumb | null> {
+	return (await readThumb(`y${Bun.hash(channel.id).toString(36)}`, videoId, ctx))?.thumb ?? null;
+}
+
+async function readThumb(
+	prefix: string,
+	videoId: string,
+	ctx: FetchContext,
+): Promise<{ thumb: YoutubeThumb } | null> {
+	const blobs = ctx.blobs;
+	if (!blobs || !VIDEO_ID_RE.test(videoId)) return null;
+	try {
+		const res = await ctx.http.request(thumbUrl(videoId), {
+			binary: true,
+			maxBytes: 1024 * 1024,
+			timeoutMs: 20_000,
+			hostGapMs: 1_000,
+			retries: 0,
+			headers: { accept: "image/jpeg" },
+			signal: ctx.signal,
+		});
+		const readAt = ctx.now();
+		const image = trimThumb(decodeImage(new Uint8Array(Buffer.from(res.body, "base64"))));
+		const jpeg = encodeJpeg(image, 72);
+		const name = `${prefix}-${Math.floor(readAt / 60_000).toString(36)}`;
+		const key = blobKey(name, jpeg, THUMB_PIPELINE);
+		blobs.put(key, jpeg, {
+			name,
+			contentType: "image/jpeg",
+			observedAt: readAt,
+			width: image.width,
+			height: image.height,
+		});
+		return { thumb: { blob: key, width: image.width, height: image.height, readAt, hash: dhash(image) } };
+	} catch (error) {
+		if (ctx.signal.aborted) throw error;
+		return null;
+	}
+}
+
 async function check(channel: TvChannel, ctx: FetchContext): Promise<LiveCheck> {
 	const at = ctx.now();
 	try {
@@ -243,7 +338,16 @@ async function check(channel: TvChannel, ctx: FetchContext): Promise<LiveCheck> 
 	}
 }
 
+const Thumb = z.object({
+	blob: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/),
+	width: z.number().int().positive().max(THUMB_WIDTH),
+	height: z.number().int().positive().max(THUMB_WIDTH),
+	readAt: z.number(),
+	hash: z.string().regex(/^[0-9a-f]{16}$/),
+});
+
 const Check = z.object({
+	thumb: Thumb.nullable().optional(),
 	channel: z.string(),
 	at: z.number(),
 	httpStatus: z.number().int().nullable(),
@@ -278,17 +382,21 @@ export const youtubeLive: Adapter<YoutubeLive> = {
 	intervalMs: 30 * 60_000,
 	// Two missed runs make it stale; the panel itself says "EN VIVO" only within 45 min of a check.
 	freshness: { fetchMs: 90 * 60_000, dataMs: 90 * 60_000 },
+	// Live thumbnails for a day (the time machine): 12 channels × 48 checks × ~20 KB at most.
+	blobs: { maxEntries: 800, maxBytes: 24 * 1024 * 1024, maxAgeMs: 24 * 3_600_000 },
 	// On by default since 2026-09-25 by the project's decision; same 30-min interval and pacing.
 	note: {
 		es:
 			"Cada 30 minutos Vigía abre la página pública «/live» de 12 canales de YouTube (unos 270 KB cada una, " +
 			"~150 MB al día) para saber cuáles transmiten en vivo. Los términos de YouTube restringen el acceso " +
-			"automatizado; Vigía la lee a ritmo bajo por decisión del proyecto. Apágala si prefieres ahorrar datos: " +
-			"los canales se pueden ver igual.",
+			"automatizado; Vigía la lee a ritmo bajo por decisión del proyecto. Cuando un canal transmite, lee también su " +
+			"miniatura en vivo (~31 KB) y la sirve reducida desde este equipo durante un día, para la tarjeta del canal. " +
+			"Apágala si prefieres ahorrar datos: los canales se pueden ver igual.",
 		en:
 			"Every 30 minutes Vigía opens the public “/live” page of 12 YouTube channels (about 270 KB each, ~150 MB " +
 			"a day) to learn which are live. YouTube's terms restrict automated access; Vigía reads it at a low rate " +
-			"by the project's decision. Turn it off to save data: the channels still play.",
+			"by the project's decision. When a channel is live it also reads its live thumbnail (~31 KB) and serves it, " +
+			"reduced, from this computer for a day, for the channel's card. Turn it off to save data: the channels still play.",
 	},
 
 	async fetch(ctx) {
@@ -296,11 +404,14 @@ export const youtubeLive: Adapter<YoutubeLive> = {
 		for (const channel of TV_CHANNELS) {
 			if (ctx.signal.aborted) break;
 			const record = await check(channel, ctx);
+			const state = stateOf(record, channel);
+			const thumb =
+				state.state === "live" && state.videoId ? await storeThumb(channel, state.videoId, ctx) : null;
 			out.push({
 				url: livePageUrl(channel.channelId),
 				status: 200,
 				contentType: CHECK_CONTENT_TYPE,
-				body: JSON.stringify(record),
+				body: JSON.stringify({ ...record, thumb }),
 				fetchedAt: ctx.now(),
 			});
 		}
@@ -322,7 +433,10 @@ export const youtubeLive: Adapter<YoutubeLive> = {
 			const c = parsed.data as LiveCheck;
 			const channel = TV_CHANNELS.find((x) => x.id === c.channel);
 			if (!channel) continue;
-			const value: YoutubeLive = { channel: channel.id, ...stateOf(c, channel) };
+			const state = stateOf(c, channel);
+			// A thumbnail is kept only with the live reading it was taken for.
+			const thumb = state.state === "live" ? (parsed.data.thumb ?? null) : null;
+			const value: YoutubeLive = { channel: channel.id, ...state, thumb };
 			out.push({
 				source: "youtube-live",
 				series: `yt:${channel.id}`,

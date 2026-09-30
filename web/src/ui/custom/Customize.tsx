@@ -1,7 +1,9 @@
 import "./style.ts";
 import { useEffect, useRef } from "preact/hooks";
 import { markAlertsRead, unreadAlerts } from "../../lib/alerts.ts";
+import { dataSaverAsk } from "../../lib/data.ts";
 import { t } from "../../lib/i18n.ts";
+import { ConnectionAsk } from "../DataSaver.tsx";
 import { AlertsTab } from "./AlertsTab.tsx";
 import { type CustomTab, closeCustomize, customizeTab } from "./open.ts";
 import { PanelsTab } from "./PanelsTab.tsx";
@@ -20,6 +22,16 @@ const TABS: { id: CustomTab; es: string; en: string }[] = [
 	{ id: "sources", es: "Mis fuentes", en: "My sources" },
 	{ id: "alerts", es: "Alertas", en: "Alerts" },
 ];
+
+/** What the first-load half mounts (Entry.tsx): the sheet, and the first-run connection question while asked. */
+export function CustomizeRoot() {
+	return (
+		<>
+			<CustomizeSheet />
+			{dataSaverAsk.value ? <ConnectionAsk /> : null}
+		</>
+	);
+}
 
 export function CustomizeSheet() {
 	const ref = useRef<HTMLDialogElement>(null);

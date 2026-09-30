@@ -1,20 +1,27 @@
-import { streamOrigins } from "../adapters/radio-streams/stations.ts";
 import type { AlertService } from "../alerts/service.ts";
 import type { KeyStore } from "../config/keys.ts";
 import { readCookie, sameToken, sessionCookieName } from "../config/session.ts";
+import { isHeavy } from "../core/bandwidth.ts";
 import { BLOB_KEY, BLOB_SOURCE, type BlobReader } from "../core/blobs.ts";
+import { defaultTexts } from "../core/defaults.ts";
 import { computeHealth, type FeedHealth } from "../core/health.ts";
 import type { Scheduler, SchedulerEvent } from "../core/scheduler.ts";
 import type { Store } from "../core/store.ts";
 import type { Adapter, HttpLike, Json } from "../core/types.ts";
+import { crowdRoute } from "../crowd/routes.ts";
+import type { CrowdService } from "../crowd/service.ts";
 import { chain } from "../intel/chain.ts";
+import { linker } from "../ontology/linker.ts";
+import { LinkIndex } from "../ontology/links-store.ts";
 import { atlasMeta } from "../sources/atlas-meta.ts";
 import type { KeySpec } from "../sources/keyspec.ts";
 import type { UserFeeds } from "../userfeeds/service.ts";
+import { type BandwidthDeps, ffmpegView, saverMeta, saverView } from "./bandwidth-routes.ts";
 import type { DeployConfig } from "./config.ts";
 import { customRoutes } from "./custom-routes.ts";
 import { createHistoryService } from "./history.ts";
 import { digestsRoute, evidenceRoute, incidentsRoute, terminalRoute, wantsText } from "./intel-routes.ts";
+import { pageCspSource, STATIC_CSP } from "./media-csp.ts";
 import { etagMatches, packLicences, strongEtag } from "./meta.ts";
 import { Metrics, routeFamily } from "./metrics.ts";
 import { apiDocsPage } from "./pages/api-docs.ts";
@@ -68,29 +75,34 @@ export interface AppDeps {
 	/** "Mis alertas": the rule engine's service (src/alerts). */
 	readonly alerts?: AlertService;
 	/**
+	 * Crowd reports (src/crowd): the one anonymous write, in both modes, with its own guard (src/crowd/routes.ts)
+	 * instead of the session cookie. Absent: its routes answer 404.
+	 */
+	readonly crowd?: CrowdService;
+	/**
 	 * Deployment (src/server/config.ts): "public" is a read-only mirror (every write refused, no token exchange, any
 	 * Host); `cors` opens /api/v1 to other origins; `metrics` says who may read /metrics. Defaults: local, off, loopback.
 	 */
 	readonly deploy?: Partial<Pick<DeployConfig, "mode" | "cors" | "metrics">>;
+	/** "Conexión limitada" (src/core/bandwidth.ts). Absent: the data-saver routes answer 404. */
+	readonly bandwidth?: BandwidthDeps;
 }
 
 /** Every write in public mode (docs/OPERATIONS.md). */
 export const PUBLIC_REFUSAL =
 	"Este Vigía es un espejo público de solo lectura: aquí no se pueden cambiar claves ni ajustes.";
 
+/** The data saver is fixed at start (`--data-saver`, VIGIA_DATA_SAVER): the page cannot change it. */
+export const SAVER_BY_FLAG =
+	"La conexión limitada la fija quien inició Vigía (--data-saver o VIGIA_DATA_SAVER); cámbiala ahí.";
+
 /** Shown by the UI as is when a write arrives without the session cookie. */
 export const SESSION_REFUSAL =
 	"Este navegador aún no tiene permiso para cambiar ajustes. En la terminal escribe «vigia enlace» y abre el enlace que muestra (solo hace falta una vez).";
 
-/**
- * "En vivo" (web/src/panels/LiveTv.tsx) is the only third-party content: YouTube's official player, framed from
- * youtube-nocookie.com only after a press, and the radio stations' own stream hosts in an <audio> element.
- */
-export const FRAME_SRC = "https://www.youtube-nocookie.com";
-export const MEDIA_SRC = ["'self'", ...streamOrigins()].join(" ");
-
 const SECURITY_HEADERS: Record<string, string> = {
-	"content-security-policy": `default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; frame-src ${FRAME_SRC}; media-src ${MEDIA_SRC}; frame-ancestors 'none'; base-uri 'none'; form-action 'self'`,
+	// Pages get the same policy plus the probed live TV and radio hosts (media-csp.ts).
+	"content-security-policy": STATIC_CSP,
 	"x-content-type-options": "nosniff",
 	"referrer-policy": "no-referrer",
 	"cross-origin-opener-policy": "same-origin",
@@ -140,6 +152,10 @@ export interface App {
 	closeStreams(): void;
 	/** Fills the connectivity history archive in the background (see HistoryService.warm). */
 	warmHistory(): Promise<number>;
+	/** Links newly archived observations to entities, a slice at a time (src/ontology/links-store.ts). */
+	syncLinks(): Promise<number>;
+	/** Drops the entity links of pruned observations, a slice at a time. */
+	pruneLinks(): Promise<void>;
 	/** Push any other event (e.g. a fired alert) to every open stream. */
 	notify(payload: Json): void;
 }
@@ -147,6 +163,10 @@ export interface App {
 /** Refusal for sources whose terms allow only derived results (see Licence.raw). */
 const NO_RAW =
 	"Los términos de esta fuente no permiten redistribuir sus datos; Vigía solo muestra resultados derivados.";
+
+/** Blob sources a public mirror does not serve: broadcasters' frames and YouTube thumbnails (logos and cameras
+ * whose operator allows a kept still are served). */
+const MIRROR_WITHHELD_BLOBS: ReadonlySet<string> = new Set(["tv-stills", "youtube-live"]);
 
 export function createApp(deps: AppDeps): App {
 	const now = deps.now ?? Date.now;
@@ -171,6 +191,34 @@ export function createApp(deps: AppDeps): App {
 			});
 		return warming;
 	};
+	// Entity links: derived from the archive, synced in slices off the request path (and topped up by requests).
+	const links = new LinkIndex(deps.store);
+	let linking: Promise<number> | null = null;
+	const syncLinks = (): Promise<number> => {
+		linking ??= (async () => {
+			let written = 0;
+			// Rows inserted while a pass runs are past its end: keep going until nothing is left.
+			while (links.backlog() > 0) {
+				for (const n of links.syncSteps()) {
+					written += n;
+					await new Promise<void>((resolve) => setImmediate(resolve));
+				}
+			}
+			return written;
+		})()
+			.catch((error: unknown) => {
+				console.error("[vigia] vínculos:", error instanceof Error ? error.message : error);
+				return 0;
+			})
+			.finally(() => {
+				linking = null;
+			});
+		return linking;
+	};
+	const pruneLinks = async (): Promise<void> => {
+		await linking;
+		for (const _ of links.pruneSteps()) await new Promise<void>((resolve) => setImmediate(resolve));
+	};
 	const streams = new Set<ReadableStreamDefaultController<Uint8Array>>();
 	/** Live streams: 6 per client (IPv6 by /64) and 1,000 in all, so no one client can hold every slot (review 4 M9). */
 	const streamSlots = new ConnectionCap(STREAMS_PER_CLIENT, STREAMS_GLOBAL);
@@ -187,6 +235,7 @@ export function createApp(deps: AppDeps): App {
 	const mode = deps.deploy?.mode ?? "local";
 	const metricsAccess = deps.deploy?.metrics ?? "loopback";
 	const metrics = new Metrics(now());
+	const pagePolicy = pageCspSource(deps.store, now);
 	// Personal features exist only on a user's own Vigía, never on a public read-only mirror.
 	const userFeeds = mode === "public" ? undefined : deps.userFeeds;
 	const alertsService = mode === "public" ? undefined : deps.alerts;
@@ -234,8 +283,8 @@ export function createApp(deps: AppDeps): App {
 			keys: a.keys,
 			intervalMs: a.intervalMs,
 			freshness: a.freshness,
-			optIn: a.optIn ?? null,
-			note: a.note ?? null,
+			// The default and its reason as they stand in this deployment mode (core/defaults.ts).
+			...defaultTexts(a, mode),
 			...atlas(a.id),
 		})),
 		...(includePrivate ? (userFeeds?.list() ?? []) : []).map((f) => {
@@ -274,6 +323,7 @@ export function createApp(deps: AppDeps): App {
 		mode,
 		cors: deps.deploy?.cors ?? false,
 		now,
+		links,
 	});
 
 	/** Streams of browsers that may see personal events (a fired alert); see privateOk. */
@@ -370,10 +420,20 @@ export function createApp(deps: AppDeps): App {
 		if (rest.length > 0 || !BLOB_SOURCE.test(source) || !BLOB_KEY.test(key) || !adapterById.has(source)) {
 			return problem(404, "Imagen desconocida.");
 		}
+		// A public mirror does not re-serve broadcasters' frames or YouTube's thumbnails to the world (whole-release
+		// review; decided 2026-09-29): a person's own Vigía shows them to its user, a mirror shows logos.
+		if (mode === "public" && MIRROR_WITHHELD_BLOBS.has(source))
+			return problem(404, "Imagen no disponible aquí.");
 		const found = deps.blobs?.read(source, key);
 		if (!found) return problem(404, "Imagen no encontrada.");
+		// A key names immutable bytes, but a source with a retention (stills: a day, three days) must not live on in
+		// caches past it: the browser and a CDN keep it no longer than the store does.
+		const retentionMs = adapterById.get(source)?.blobs?.maxAgeMs ?? null;
 		const headers = {
-			"cache-control": "public, max-age=31536000, immutable",
+			"cache-control":
+				retentionMs === null
+					? "public, max-age=31536000, immutable"
+					: `public, max-age=${Math.max(60, Math.floor(retentionMs / 1_000))}`,
 			etag: `"${found.meta.sha256}"`,
 			"cross-origin-resource-policy": "same-origin",
 		};
@@ -490,7 +550,12 @@ export function createApp(deps: AppDeps): App {
 
 			if (method === "GET" && path === "/api/meta") {
 				const personal = visible(request).personal;
-				const body = JSON.stringify({ version: deps.version, mode, ...packLicences(feedsMeta(personal)) });
+				const body = JSON.stringify({
+					version: deps.version,
+					mode,
+					...(deps.bandwidth ? { dataSaver: saverMeta(deps.bandwidth.state(), mode) } : {}),
+					...packLicences(feedsMeta(personal)),
+				});
 				const etag = strongEtag(body);
 				// The user's own feed list changes at a click: always revalidate it. Vigía's list changes on upgrade.
 				const headers = {
@@ -505,6 +570,16 @@ export function createApp(deps: AppDeps): App {
 			}
 			if (method === "GET" && path === "/api/health")
 				return json({ now: now(), feeds: health(visible(request).personal) });
+			if (method === "GET" && path === "/api/data-saver" && deps.bandwidth)
+				return json(saverView(deps.bandwidth, deps.adapters, deps.store, mode, now()));
+			if (method === "GET" && path === "/api/ffmpeg") {
+				// A fresh lookup runs `ffmpeg -version`: only on a person's own Vigía, asked by its own page. A public
+				// mirror says only whether it has one, never which version (a version is an attack surface to publish).
+				const view = ffmpegView(
+					url.searchParams.get("otra-vez") === "1" && mode === "local" && sameOriginRequest(request),
+				);
+				return json(mode === "public" ? { ...view, version: null, fromEnv: false } : view);
+			}
 			if (method === "GET" && path === "/api/panels") {
 				// ?only=a,b or ?except=a,b lets a slow phone fetch the small panels first and the heavy lists after.
 				const only = url.searchParams.get("only")?.split(",").filter(Boolean);
@@ -524,6 +599,9 @@ export function createApp(deps: AppDeps): App {
 				const value = visible(request).panel(id) ? deps.panels.get(id) : undefined;
 				return value === undefined ? problem(404, "Panel desconocido.") : json({ now: now(), panel: value });
 			}
+			// Crowd reports: anonymous, guarded and limited by their own rules (src/crowd/routes.ts).
+			const crowd = await crowdRoute(deps.crowd, request, path, ip, json);
+			if (crowd) return crowd;
 			if (method === "GET" && path === "/api/incidents") return incidentsRoute(deps, url, now());
 			if (method === "GET" && path === "/api/archive/digests") return digestsRoute(deps, url, now());
 			if (method === "GET" && path === "/api/evidence")
@@ -695,6 +773,25 @@ export function createApp(deps: AppDeps): App {
 				}
 			}
 
+			if (path === "/api/data-saver" && method === "POST") {
+				const refusal = allowWrite(request, ip);
+				if (refusal) return refusal;
+				if (!writeLimiter.take(ip)) return problem(429, "Demasiados intentos. Espera un minuto.");
+				const saver = deps.bandwidth;
+				if (!saver) return problem(404, "Ruta desconocida.");
+				const body: unknown = await request.json().catch(() => null);
+				if (!body || typeof body !== "object" || !("on" in body) || typeof body.on !== "boolean") {
+					return problem(400, 'Se espera {"on": true|false}.');
+				}
+				if (saver.state().source === "flag") return json({ error: SAVER_BY_FLAG, code: "flag" }, 409);
+				saver.set(body.on);
+				// Feeds the data saver held back start again now, not at their next slot.
+				if (!body.on)
+					for (const a of deps.adapters)
+						if (isHeavy(a.id, saver.machine()) && deps.scheduler.isEnabled(a)) deps.scheduler.trigger(a.id);
+				return json(saverView(saver, deps.adapters, deps.store, mode, now()));
+			}
+
 			const toggle = /^\/api\/feeds\/([\w.-]+)\/enabled$/.exec(path);
 			if (toggle?.[1] && method === "POST") {
 				const refusal = allowWrite(request, ip);
@@ -751,8 +848,10 @@ export function createApp(deps: AppDeps): App {
 					response = problem(500, "Error interno.");
 				}
 			}
+			const page = response.headers.get("content-type")?.startsWith("text/html") ?? false;
 			for (const [k, v] of Object.entries(SECURITY_HEADERS)) {
-				if (!response.headers.has(k)) response.headers.set(k, v);
+				if (!response.headers.has(k))
+					response.headers.set(k, page && k === "content-security-policy" ? pagePolicy() : v);
 			}
 			const out = await compress(request, response);
 			const path = parseUrl(request.url)?.pathname ?? "/";
@@ -780,6 +879,8 @@ export function createApp(deps: AppDeps): App {
 				);
 			// New IODA bins: archive the hours they settle, in the background, before anyone asks.
 			if (event.source === "ioda-states" && event.inserted > 0) void warmHistory();
+			// New events (headlines, quakes, fires…): link them to their places and institutions in the background.
+			if (event.inserted > 0 && linker().sources.has(event.source)) void syncLinks();
 			const panels = event.inserted > 0 ? deps.panels.invalidate(event.source) : [];
 			send(
 				{
@@ -795,6 +896,8 @@ export function createApp(deps: AppDeps): App {
 		},
 		health,
 		warmHistory,
+		syncLinks,
+		pruneLinks,
 		// Fired alerts are personal (only the user's browser), and a public mirror has none.
 		notify: (payload) => {
 			if (alertsService) send(payload, true);

@@ -290,6 +290,15 @@ test("review 4 H4: press is named, never counted as an independent measurement",
 	);
 	for (const t of [text(["ioda", "prensa"]), text(["ioda", "prensa"], "en")])
 		expect(t).not.toMatch(/fuentes independientes|independent sources/);
+	// User reports are named like the press, never counted as a measurement.
+	expect(text(["ioda", "usuarios"])).toBe(
+		"Posible apagón en Zulia (IODA y reportes de usuarios, última señal hace 20 min)",
+	);
+	expect(text(["ioda", "usuarios"])).not.toMatch(/mediciones/);
+	// Cloudflare Radar's notes are its attributed statements: named, never counted as a measurement.
+	expect(text(["ioda", "cloudflare"])).toBe(
+		"Posible apagón en Zulia (IODA y Cloudflare Radar, última señal hace 20 min)",
+	);
 });
 
 test("review 4 H4: a quiet incident says since when; past the active window it is not said", () => {
@@ -328,4 +337,38 @@ test("review 4 H4: the incident clause ages with its measured feeds, like every 
 	expect(clauseText(late, NOW, "es")).toBe(
 		"Posible apagón en Zulia (IODA, RIPE Atlas y prensa, última señal hace 20 min) (dato de hace 4 h)",
 	);
+});
+
+test("a felt quake that an active incident already names is said once, by the incident", () => {
+	const quakes = {
+		counts: { day: 1 },
+		items: [
+			{
+				at: NOW - 3_600_000,
+				maxMag: 4.3,
+				placeEs: "cerca de Delicias (Táchira)",
+				zone: "near",
+				feltSize: true,
+			},
+		],
+	};
+	const incident = (kind: string) => ({
+		incidents: [
+			{
+				kind,
+				title: { es: "Sismo M4,3 cerca de Delicias", en: "M4.3 quake near Delicias" },
+				status: "active",
+				reportsOnly: false,
+				families: ["usgs", "funvisis"],
+				lastEvidenceAt: NOW - 600_000,
+			},
+		],
+	});
+	const texts = (p: HeadlineInput) => headline(p, NOW, "es").map((c) => c.text);
+	expect(texts({ quakes }).some((t) => t.startsWith("Sismo M4,3 cerca de Delicias (Táchira)"))).toBe(true);
+	const once = texts({ quakes, incidents: incident("sismo") });
+	expect(once.filter((t) => t.startsWith("Sismo M4,3")).length).toBe(1);
+	// An outage incident does not silence the quake.
+	const both = texts({ quakes, incidents: incident("corte") });
+	expect(both.filter((t) => t.startsWith("Sismo M4,3")).length).toBe(2);
 });

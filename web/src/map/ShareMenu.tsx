@@ -45,7 +45,10 @@ export function ShareMenu({ mapCard }: { mapCard: () => Promise<Blob> }) {
 				aria-haspopup="menu"
 				onClick={() => setOpen(!open)}
 			>
-				<span aria-hidden="true">⤴</span> {t("Compartir", "Share")}
+				<svg class="ico" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+					<path d="M8 10V2.5M5 5.2 8 2.3l3 2.9M3.5 8.5v5h9v-5" />
+				</svg>{" "}
+				{t("Compartir", "Share")}
 			</button>
 			{open ? (
 				Sheet ? (

@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import { route } from "./router.ts";
+import { route, scrollToTop } from "./router.ts";
 
 /** The domain asked on /bloqueos?dominio=…, kept in sync with back/forward. */
 function queryDomain(): string {
@@ -16,5 +16,5 @@ export function openLookup(domain: string): void {
 	history.pushState(null, "", `/bloqueos${domain ? `?dominio=${encodeURIComponent(domain)}` : ""}`);
 	lookupDomain.value = domain;
 	route.value = "bloqueos";
-	window.scrollTo({ top: 0 });
+	scrollToTop();
 }

@@ -8,6 +8,11 @@ import type { Json } from "../core/types.ts";
 export interface Panel<V extends Json = Json> {
 	readonly id: string;
 	readonly sources: readonly string[];
+	/**
+	 * Served only when asked for by id (`/api/panels/<id>` or `?only=`), never in the bulk list: a large view a panel
+	 * body loads when it opens, so it never weighs on the first load.
+	 */
+	readonly onDemand?: boolean;
 	/** `read` gives another panel's cached view (the brief reuses the others instead of recomputing them). */
 	compute(store: Store, now: number, read?: PanelReader): V;
 }
@@ -69,6 +74,7 @@ export class PanelCache {
 		const out: Record<string, Json> = {};
 		for (const panel of this.panels) {
 			if ((only && !only.has(panel.id)) || except?.has(panel.id)) continue;
+			if (!only && panel.onDemand) continue;
 			const value = this.get(panel.id);
 			if (value !== undefined) out[panel.id] = value;
 		}

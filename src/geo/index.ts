@@ -175,6 +175,35 @@ export function locate(lat: number, lon: number): Located {
 }
 
 /**
+ * The municipality nearest to a point outside every municipal polygon, when one of its boundary vertices is within
+ * `maxKm` (the simplified coast leaves some coastal terminals and islets just outside): its code and the distance.
+ * Null when none is that close. Callers use `locate` first; this is only the fallback.
+ */
+export function nearestMunicipality(
+	lat: number,
+	lon: number,
+	maxKm: number,
+): { code: string; km: number } | null {
+	const pad = maxKm / 100;
+	let best: { code: string; km: number } | null = null;
+	for (const m of MUNICIPALITIES) {
+		const [a, b, c, d] = m.shape.bbox;
+		if (lon < a - pad || lon > c + pad || lat < b - pad || lat > d + pad) continue;
+		for (const poly of m.shape.polygons)
+			for (const [x = 0, y = 0] of poly[0] ?? []) {
+				const km = distanceKm(lat, lon, y, x);
+				if (km <= maxKm && (!best || km < best.km)) best = { code: m.code, km };
+			}
+	}
+	return best;
+}
+
+/** Every municipal unit by P-code, with its name and state P-code (OCHA's placeholder VE2501 included). */
+export function municipalities(): readonly { code: string; name: string; stateCode: string }[] {
+	return MUNICIPALITIES.map((m) => ({ code: m.code, name: m.name, stateCode: m.stateCode }));
+}
+
+/**
  * Distance from a point to a state, km: 0 inside it, else to the nearest vertex of its municipal boundaries (the
  * simplified boundaries' vertices are a few km apart, so this is approximate to about that). Null for an unknown state.
  */

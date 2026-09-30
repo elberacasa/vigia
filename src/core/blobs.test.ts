@@ -128,3 +128,34 @@ test("the byte cap never leaves holes: once reached, everything older goes", () 
 	// new (100) fits, mid-big (200) would exceed 250: it and the older small one both go.
 	expect(sink.list().map((m) => m.name)).toEqual(["new"]);
 });
+
+test("the in-memory listing follows this store's changes and another process's writes", async () => {
+	const dir = root();
+	const a = new BlobStore(dir);
+	const b = new BlobStore(dir);
+	const big = { maxEntries: 100, maxBytes: 100_000, maxAgeMs: null };
+	const sa = a.scope("s", big);
+	const sb = b.scope("s", big);
+	for (let i = 0; i < 5; i++)
+		sa.put(blobKey(`n${i}`, "x"), bytes(10), { name: `n${i}`, contentType: "image/png", observedAt: i });
+	expect(sa.list().map((m) => m.name)).toEqual(["n4", "n3", "n2", "n1", "n0"]);
+	// Another process adds one (after the file system's clock has ticked).
+	await Bun.sleep(30);
+	sb.put(blobKey("n9", "x"), bytes(10), { name: "n9", contentType: "image/png", observedAt: 9 });
+	expect(sa.list()[0]?.name).toBe("n9");
+	// This store replaces one by name: its listing changes without re-reading.
+	sa.put(blobKey("n9", "y"), bytes(11), { name: "n9", contentType: "image/png", observedAt: 9 });
+	expect(
+		sa
+			.list()
+			.filter((m) => m.name === "n9")
+			.map((m) => m.bytes),
+	).toEqual([11]);
+	await Bun.sleep(30);
+	expect(
+		sb
+			.list()
+			.filter((m) => m.name === "n9")
+			.map((m) => m.bytes),
+	).toEqual([11]);
+});

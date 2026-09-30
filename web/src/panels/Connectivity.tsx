@@ -5,8 +5,9 @@ import { ago, int, num } from "../lib/format.ts";
 import { lang, t } from "../lib/i18n.ts";
 import { PANEL_META } from "../lib/panel-meta.ts";
 import { useFresh } from "../lib/seen.ts";
+import { stateName } from "../lib/states.ts";
 import { levelLabel } from "../map/fills.ts";
-import { selectedState } from "../map/view.ts";
+import { selectedState, selectState } from "../map/view.ts";
 import panelsCss from "../styles/panels.css?inline";
 import { NewPill, NewTag } from "../ui/Digits.tsx";
 import { Panel } from "../ui/Panel.tsx";
@@ -65,6 +66,8 @@ export interface PlaceStatus {
 interface OutageEventItem {
 	id: string;
 	kind: "state" | "isp" | "country";
+	/** The place's code ("VE-G" for a state). */
+	key?: string;
 	name: string;
 	signal: string;
 	startAt: number;
@@ -195,6 +198,10 @@ export function ConnectivityPanel() {
 		(id) => eventAt.get(id),
 	);
 	const s = view?.summary;
+	// A place selected on the map (or anywhere) narrows the state list and the events to it; the verdict above and
+	// the operators stay national, and the chip says so.
+	const iso = selectedState.value;
+	const events = (view?.events ?? []).filter((e) => !iso || (e.kind === "state" && e.key === iso));
 	return (
 		<Panel
 			id="conectividad"
@@ -270,7 +277,7 @@ export function ConnectivityPanel() {
 							aria-selected={tab === "events"}
 							onClick={() => setTab("events")}
 						>
-							{t("Eventos", "Events")} <span class="data note">{view.events.length}</span>
+							{t("Eventos", "Events")} <span class="data note">{events.length}</span>
 						</button>
 						<button
 							type="button"
@@ -281,6 +288,24 @@ export function ConnectivityPanel() {
 							{t("Método", "Method")}
 						</button>
 					</div>
+					{iso && tab !== "method" ? (
+						<div class="news-controls">
+							<button type="button" class="filter-chip is-on" onClick={() => selectState(null)}>
+								{stateName(iso)} ✕
+							</button>
+							<span class="note">
+								{tab === "isps"
+									? t(
+											"Las operadoras cubren todo el país: esta lista no se filtra por estado.",
+											"Operators cover the whole country: this list is not filtered by state.",
+										)
+									: t(
+											"La lista muestra este estado; el resumen de arriba es de todo el país.",
+											"The list shows this state; the summary above is for the whole country.",
+										)}
+							</span>
+						</div>
+					) : null}
 					{tab === "states" || tab === "isps" ? (
 						<>
 							<p class="places__legend note">
@@ -290,8 +315,8 @@ export function ConnectivityPanel() {
 								<span>{t("peor señal ahora", "worst signal now")}</span>
 							</p>
 							{(() => {
-								const all = tab === "states" ? view.states : view.isps;
-								const shown = showAll ? all : all.filter(notable);
+								const all = tab === "states" ? view.states.filter((p) => !iso || p.id === iso) : view.isps;
+								const shown = showAll || (iso && tab === "states") ? all : all.filter(notable);
 								const hidden = all.length - shown.length;
 								return (
 									<>
@@ -300,7 +325,15 @@ export function ConnectivityPanel() {
 												<PlaceRow place={p} key={p.id} />
 											))}
 										</ul>
-										{hidden > 0 || showAll ? (
+										{tab === "states" && iso && !all.length ? (
+											<p class="empty">
+												{t(
+													`IODA no da señales para ${stateName(iso)}.`,
+													`IODA gives no signals for ${stateName(iso)}.`,
+												)}
+											</p>
+										) : null}
+										{(hidden > 0 || showAll) && !(iso && tab === "states") ? (
 											<button
 												type="button"
 												class="link-button places__more"
@@ -326,9 +359,9 @@ export function ConnectivityPanel() {
 						</>
 					) : null}
 					{tab === "events" ? (
-						view.events.length ? (
+						events.length ? (
 							<ul class="events">
-								{view.events.slice(0, 30).map((e) => (
+								{events.slice(0, 30).map((e) => (
 									<li key={e.id} class={freshEvents.has(e.id) ? "is-new" : undefined}>
 										<a href={e.url} target="_blank" rel="noopener noreferrer">
 											{freshEvents.has(e.id) ? <NewTag /> : null}
@@ -344,7 +377,12 @@ export function ConnectivityPanel() {
 							</ul>
 						) : (
 							<p class="empty">
-								{t("IODA no registra eventos en 7 días.", "IODA records no events in 7 days.")}
+								{iso
+									? t(
+											`IODA no registra eventos en ${stateName(iso)} en 7 días.`,
+											`IODA records no events in ${stateName(iso)} in 7 days.`,
+										)
+									: t("IODA no registra eventos en 7 días.", "IODA records no events in 7 days.")}
 							</p>
 						)
 					) : null}

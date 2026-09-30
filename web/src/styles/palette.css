@@ -25,8 +25,7 @@
 	}
 }
 .palette::backdrop {
-	background: rgb(3 5 9 / 0.6);
-	backdrop-filter: blur(3px);
+	background: rgb(3 5 9 / 0.62);
 }
 .palette__inner {
 	display: flex;
@@ -94,7 +93,7 @@
 }
 .palette__item.is-active {
 	background: var(--surface-3);
-	border-left-color: var(--signal);
+	border-left-color: var(--accent);
 }
 .palette__dot {
 	width: 8px;
@@ -195,4 +194,17 @@
 	.palette[open] {
 		animation: none;
 	}
+}
+
+/* An entity's type from the server's search ("Parroquia", "Planta eléctrica"). */
+.palette__badge {
+	flex: none;
+	padding: 1px 5px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-sm);
+	font-size: var(--fs-2xs);
+	font-weight: 650;
+	letter-spacing: 0.03em;
+	color: var(--text-2);
+	white-space: nowrap;
 }

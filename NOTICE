@@ -22,6 +22,7 @@ fast-sha256 1.3.0 (Unlicense) https://github.com/dchest/fast-sha256-js
 fast-xml-builder 1.3.1 (MIT) https://github.com/NaturalIntelligence/fast-xml-builder
 fast-xml-parser 5.11.1 (MIT) https://github.com/NaturalIntelligence/fast-xml-parser
 fflate 0.8.3 (MIT) https://101arrowz.github.io/fflate
+hls.js 1.7.3 (Apache-2.0) https://github.com/video-dev/hls.js
 iobuffer 6.0.1 (MIT) https://image-js.github.io/iobuffer/
 is-unsafe 2.0.2 (MIT) https://github.com/NaturalIntelligence/is-unsafe
 jpeg-js 0.4.4 (BSD-3-Clause) https://github.com/eugeneware/jpeg-js
@@ -60,6 +61,30 @@ Flare site locations used to match facilities (same file)
   Source: World Bank Global Flaring and Methane Reduction Partnership (GFMR)
   Licence: CC BY 4.0
 
+Parish boundaries (src/ontology/data/parishes.geo.json)
+  Source: Instituto Nacional de Estadística (INE) Venezuela, via OCHA COD-AB on HDX
+  Licence: CC BY-IGO 3.0
+
+Power plants, substations, transmission grid, refineries, dams, reservoirs and hospitals (src/ontology/data/infrastructure.json)
+  Source: © OpenStreetMap contributors (https://www.openstreetmap.org/copyright)
+  Licence: ODbL 1.0 (those records are a derived database under the same licence)
+
+Airports (same file)
+  Source: OurAirports (https://ourairports.com/data/)
+  Licence: Public domain
+
+Ports and terminals (same file)
+  Source: International Monetary Fund, PortWatch (https://portwatch.imf.org)
+  Licence: IMF terms: reuse with attribution (commercial reuse needs the IMF's permission)
+
+Population per municipality, census 2011 (src/ontology/data/population.json)
+  Source: Instituto Nacional de Estadística (INE) Venezuela, via OCHA COD-PS on HDX
+  Licence: CC BY-IGO 3.0
+
+Population 2026 per municipality and parish, and a 0.025° grid (same file)
+  Source: WorldPop (www.worldpop.org), University of Southampton, Global2 R2025A
+  Licence: CC BY 4.0
+
 Fonts Archivo and Chivo Mono (web/static/fonts)
   Source: The Archivo and Chivo Mono Project Authors (Omnibus-Type)
   Licence: SIL Open Font License 1.1 (web/static/fonts/OFL.txt)
@@ -80,7 +105,7 @@ BCV vía bcv-api: reproducción sin fines de lucro citando la fuente
 BCV: reproducción sin fines de lucro citando la fuente
   https://www.bcv.org.ve/terminos-condiciones
   Attribution: Fuente: Banco Central de Venezuela (bcv.org.ve)
-  Used by: bcv-official, bcv-history, bcv-inpc
+  Used by: bcv-official, bcv-history, bcv-inpc, bcv-liquidity, bcv-reserves, bcv-intervention
 
 Binance: términos de uso (prohíben el acceso automatizado; fuente opcional)
   https://www.binance.com/es/terms
@@ -112,6 +137,11 @@ CC BY 4.0 (FAO, términos de bases de datos)
   Attribution: Fuente: FAO, Índice de precios de los alimentos
   Used by: fao-ffpi
 
+CC BY 4.0 (Global Forest Watch, WRI)
+  https://www.globalforestwatch.org/terms/
+  Attribution: Global Forest Watch (WRI): alertas integradas (GLAD-L, GLAD-S2 de UMD; RADD de Wageningen; DIST-ALERT de UMD/OPERA). Sumas semanales calculadas por Vigía.
+  Used by: gfw-alerts
+
 CC BY 4.0 (Open-Meteo)
   https://open-meteo.com/en/licence
   Attribution: Weather data by Open-Meteo.com
@@ -121,6 +151,16 @@ CC BY-IGO (OCHA FTS)
   https://data.humdata.org/dataset/ven-requirements-and-funding-data
   Attribution: Fuente: OCHA, Financial Tracking Service (fts.unocha.org)
   Used by: ocha-fts
+
+CC BY-NC 4.0 (Cloudflare Radar)
+  https://developers.cloudflare.com/radar/
+  Attribution: Datos: Cloudflare Radar (CC BY-NC 4.0)
+  Used by: cloudflare-radar
+
+CC BY-NC 4.0 (Global Fishing Watch)
+  https://globalfishingwatch.org/our-apis/documentation#terms-of-use
+  Attribution: Detecciones SAR de buques: Global Fishing Watch (CC BY-NC 4.0), imágenes Copernicus Sentinel-1
+  Used by: gfw-vessels
 
 CC BY-NC-SA 3.0 IGO (OMS)
   https://www.who.int/about/policies/publishing/copyright
@@ -152,10 +192,20 @@ CC0 1.0 (Tor Metrics)
   Attribution: Datos: Tor Metrics, The Tor Project
   Used by: tor-metrics
 
+CC0 1.0 (Wikidata)
+  https://www.wikidata.org/wiki/Wikidata:Licensing
+  Attribution: Wikidata (CC0), editable por cualquiera
+  Used by: wikidata-officials
+
 Cifras publicadas por R4V (sin licencia en el sitio; sus datos en HDX son CC BY 4.0), con atribución
   https://data.humdata.org/organization/r4v
   Attribution: Fuente: R4V, Plataforma de Coordinación Interagencial para Refugiados y Migrantes de Venezuela
   Used by: r4v-figures
+
+Cuadro reducido de la señal pública de cada televisora, tomado por Vigía como referencia
+  https://github.com/iptv-org/iptv
+  Attribution: Imagen: señal de cada televisora; cuadro tomado por Vigía
+  Used by: tv-stills
 
 Datos abiertos de la NASA (sin restricciones de uso)
   https://www.earthdata.nasa.gov/data/tools/firms/faq
@@ -165,12 +215,27 @@ Datos abiertos de la NASA (sin restricciones de uso)
 Datos abiertos de NASA (GIBS/ESDIS)
   https://nasa-gibs.github.io/gibs-api-docs/
   Attribution: We acknowledge the use of imagery provided by services from NASA's Global Imagery Browse Services (GIBS), part of NASA's Earth Science Data and Information System (ESDIS).
-  Used by: gibs-nightlights
+  Used by: gibs-nightlights, modis-floods
+
+Dominio público (NOAA Open Data Dissemination)
+  https://www.noaa.gov/information-technology/open-data-dissemination
+  Attribution: Datos: NOAA, GOES-19 GLM (Geostationary Lightning Mapper)
+  Used by: goes-glm
 
 Dominio público (NOAA)
   https://www.noaa.gov/information-technology/open-data-dissemination
   Attribution: Imágenes: NOAA/NESDIS STAR
   Used by: goes-nsa, nhc-storms
+
+Dominio público (obra del gobierno de EE. UU.)
+  https://ofac.treasury.gov/
+  Attribution: Fuente: Oficina de Control de Activos Extranjeros (OFAC), Tesoro de EE. UU.
+  Used by: ofac-sdn, ofac-venezuela
+
+Dominio público (obra del gobierno de EE. UU.)
+  https://www.federalregister.gov/reader-aids/using-federalregister-gov/understanding-the-federal-register
+  Attribution: Fuente: Federal Register (Registro Federal de EE. UU.)
+  Used by: federal-register
 
 Dominio público (U.S. EIA y Junta de la Reserva Federal), redistribuido por FRED
   https://fred.stlouisfed.org/legal/
@@ -197,6 +262,26 @@ Estado medido por Vigía en páginas públicas de YouTube; reproducción con el 
   Attribution: Transmisiones: canales oficiales en YouTube
   Used by: youtube-live
 
+GDELT Project (uso libre con cita)
+  https://www.gdeltproject.org/about.html#termsofuse
+  Attribution: The GDELT Project (gdeltproject.org), codificación automática de noticias
+  Used by: gdelt-ve
+
+Imagen de cada cámara, de su operador; Vigía guarda una imagen fija reducida como referencia
+  https://vigia.live/fuentes
+  Attribution: Imagen: cada operador de cámara (ver la ficha de la cámara); imagen fija tomada por Vigía
+  Used by: public-cams
+
+iptv-org (dominio público, Unlicense); la señal es de cada televisora
+  https://github.com/iptv-org/api/blob/master/LICENSE
+  Attribution: Lista de canales: iptv-org (dominio público); cada señal pertenece a su televisora
+  Used by: iptv-ve, tv-logos
+
+Kalshi, términos de datos: solo uso personal y no comercial; prohíbe la extracción automatizada y la redistribución
+  https://kalshi-public-docs.s3.amazonaws.com/kalshi-data-terms-of-service.pdf
+  Attribution: Fuente: Kalshi (bolsa de contratos de eventos regulada por la CFTC; precios, no encuestas)
+  Used by: kalshi
+
 Medición propia de Vigía (CC0)
   https://creativecommons.org/publicdomain/zero/1.0/
   Attribution: Medición: Vigía, desde este equipo
@@ -206,6 +291,16 @@ Medición propia de Vigía (CC0); el audio es de cada emisora
   https://creativecommons.org/publicdomain/zero/1.0/
   Attribution: Medición: Vigía, desde este equipo; audio de cada emisora
   Used by: radio-streams
+
+Medición propia de Vigía (CC0); el audio es de cada emisora
+  https://creativecommons.org/publicdomain/zero/1.0/
+  Attribution: Medición: Vigía, desde este equipo; audio de cada emisora
+  Used by: radio-browser-probe
+
+Medición propia de Vigía (CC0); la señal es de cada televisora
+  https://creativecommons.org/publicdomain/zero/1.0/
+  Attribution: Medición: Vigía, desde este equipo; señal de cada televisora
+  Used by: iptv-ve-probe
 
 Obra del Gobierno de EE. UU. (dominio público)
   https://www.faa.gov/privacy
@@ -217,15 +312,35 @@ ODbL (Banco Central do Brasil, dados abertos)
   Attribution: Fuente: Banco Central do Brasil, PTAX
   Used by: bcb-ptax
 
+ODbL 1.0 (adsb.lol); rutas: VRS standing data (CC0)
+  https://api.adsb.lol/docs
+  Attribution: Aeronaves: adsb.lol (ODbL, red de receptores voluntarios); rutas: Virtual Radar Server standing data (CC0). Conteos calculados por Vigía.
+  Used by: adsb-flights
+
+Polymarket, API pública (sus términos no se pudieron leer: solo uso personal, sin redistribuir)
+  https://docs.polymarket.com/
+  Attribution: Fuente: Polymarket (mercado de predicción; precios entre apostadores, no encuestas)
+  Used by: polymarket
+
 Publicación oficial del MPPS, sin licencia publicada (cifras con atribución)
   https://mpps.gob.ve/boletines-epidemiologicos/
   Attribution: Fuente: Ministerio del Poder Popular para la Salud, Boletín Epidemiológico
   Used by: mpps-boletin
 
+Radio Browser (API y datos libres y abiertos); el audio es de cada emisora
+  https://api.radio-browser.info/
+  Attribution: Directorio: Radio Browser (radio-browser.info); cada señal pertenece a su emisora
+  Used by: radio-browser
+
 Sin licencia publicada (datos factuales, con atribución)
   http://www.funvisis.gob.ve/
   Attribution: Fuente: FUNVISIS (red sismológica nacional)
   Used by: funvisis-quakes
+
+Términos de Carbon Mapper (no comercial, con atribución, compartir igual)
+  https://carbonmapper.org/terms
+  Attribution: Fuente: Carbon Mapper (data.carbonmapper.org)
+  Used by: carbon-mapper
 
 Términos de RIPEstat: sin redistribución de los datos; solo resultados derivados con atribución
   https://www.ripe.net/about-us/legal/ripestat-service-terms-and-conditions
@@ -255,7 +370,7 @@ Texto oficial (sin protección de derecho de autor, Ley sobre el Derecho de Auto
 Titular y enlace (uso de lector de noticias)
   https://www.rssboard.org/rss-specification
   Attribution: Titulares y enlaces de cada medio; el contenido pertenece a su medio.
-  Used by: 256 sources
+  Used by: 286 sources
 
 Titulares y enlaces de ReliefWeb (el contenido es de cada organización)
   https://reliefweb.int/terms-conditions
@@ -271,6 +386,11 @@ Vista pública de un canal de Telegram (t.me/s): texto breve y enlace
   https://telegram.org/tos
   Attribution: Publicaciones públicas de cada canal en Telegram; el contenido pertenece a su canal.
   Used by: 10 sources
+
+Windy Webcams API (plan gratuito): lista y enlaces; las imágenes no se guardan ni se redistribuyen
+  https://api.windy.com/webcams/terms
+  Attribution: Webcams provided by windy.com — add a webcam
+  Used by: windy-webcams
 
 Yadio API: gratuita con atribución y enlace a yadio.io
   https://yadio.io/terms.html

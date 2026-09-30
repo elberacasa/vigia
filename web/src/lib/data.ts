@@ -50,6 +50,8 @@ export interface FeedHealth {
 /** /api/meta as sent: each licence once, keyed; a feed carries its licence's key (review 4 M7). */
 export interface PackedMeta {
 	version: string;
+	/** "Conexión limitada" (src/core/bandwidth.ts): on, and whether to ask on first run; absent on older servers. */
+	dataSaver?: { on: boolean; ask: boolean };
 	feeds: (Omit<FeedMeta, "licence"> & { licence: string | null })[];
 	licences: Record<string, FeedMeta["licence"]>;
 }
@@ -69,6 +71,14 @@ export const health = signal<FeedHealth[]>([]);
 export const panels = signal<Record<string, unknown>>({});
 export const connection = signal<"connecting" | "live" | "offline">("connecting");
 export const version = signal("");
+/** The server asks once, on a person's own Vigía, whether the connection is limited (ui/DataSaver.tsx). */
+export const dataSaverAsk = signal(false);
+
+/**
+ * The clock at 15-second steps: for lists whose words change by the minute ("hace 3 min"), so they are rebuilt four
+ * times a minute instead of every second (the priority list, the event log).
+ */
+export const tick = computed(() => Math.floor(now.value / 15_000) * 15_000);
 
 export const healthById = computed(() => new Map(health.value.map((h) => [h.id, h])));
 export const metaById = computed(() => new Map(meta.value.map((m) => [m.id, m])));
@@ -89,11 +99,53 @@ async function getJson<T>(path: string): Promise<T> {
 	return (await res.json()) as T;
 }
 
+/**
+ * Views the server sends only when asked (`Panel.onDemand` in src/server/panels.ts): the TV and radio directory, the
+ * GDELT day, the fact-checks. A panel asks for its view when it opens (`wantPanel`); until then a stream event about
+ * them fetches nothing, and they are not kept in the last-known cache (the directory alone is ~125 KB of JSON).
+ */
+export const ON_DEMAND: ReadonlySet<string> = new Set([
+	"mediadir",
+	"gdelt",
+	"desmentidos",
+	"monetary",
+	"sanctions",
+	"officials",
+	"predictions",
+	"lightning",
+	"crowd",
+	"anomalies",
+	"cameras",
+	"floods",
+	"forest",
+	"methane",
+	"vessels",
+	"radar",
+	"flights",
+]);
+/** On-demand views asked for in this visit: only these follow the stream. */
+const wanted = new Set<string>();
+const inflightOnDemand = new Map<string, Promise<void>>();
+
+/** Fetches an on-demand view once per visit (then the stream keeps it current). Rejects when it cannot be fetched. */
+export function wantPanel(id: string): Promise<void> {
+	wanted.add(id);
+	if (panels.peek()[id] !== undefined) return Promise.resolve();
+	let pending = inflightOnDemand.get(id);
+	if (!pending) {
+		pending = refreshPanels([id]).finally(() => inflightOnDemand.delete(id));
+		inflightOnDemand.set(id, pending);
+	}
+	return pending;
+}
+
 function remember(): void {
 	try {
+		const kept: Record<string, unknown> = {};
+		for (const [id, v] of Object.entries(panels.value)) if (!ON_DEMAND.has(id)) kept[id] = v;
 		localStorage.setItem(
 			CACHE_KEY,
-			JSON.stringify({ savedAt: serverNow(), panels: panels.value, health: health.value, meta: meta.value }),
+			JSON.stringify({ savedAt: serverNow(), panels: kept, health: health.value, meta: meta.value }),
 		);
 	} catch {
 		// Storage full or disabled: the app still works online.
@@ -110,7 +162,7 @@ function restore(): void {
 			health: FeedHealth[];
 			meta: FeedMeta[];
 		};
-		panels.value = saved.panels;
+		panels.value = Object.fromEntries(Object.entries(saved.panels).filter(([id]) => !ON_DEMAND.has(id)));
 		health.value = saved.health;
 		meta.value = saved.meta;
 	} catch {
@@ -128,14 +180,16 @@ export async function refreshPanels(ids?: readonly string[]): Promise<void> {
 		const heavy = await getJson<{ panels: Record<string, unknown> }>(HEAVY_PANELS_URL);
 		panels.value = { ...panels.value, ...heavy.panels };
 	} else {
-		const next = { ...panels.value };
+		const got: Record<string, unknown> = {};
 		await Promise.all(
 			ids.map(async (id) => {
 				const res = await getJson<{ panel: unknown }>(`/api/panels/${encodeURIComponent(id)}`);
-				next[id] = res.panel;
+				got[id] = res.panel;
 			}),
 		);
-		panels.value = next;
+		// Merged into the views as they are now, not as they were when the request left: two panels opening together
+		// (GDELT and Desmentidos) must not overwrite each other's answer.
+		panels.value = { ...panels.value, ...got };
 	}
 	remember();
 }
@@ -179,6 +233,7 @@ export async function start(): Promise<void> {
 			getJson<PackedMeta>(META_URL).then((m) => {
 				meta.value = unpackMeta(m);
 				version.value = m.version;
+				dataSaverAsk.value = m.dataSaver?.ask ?? false;
 			}),
 			refreshPanels(),
 			refreshHealth(),
@@ -196,7 +251,12 @@ function connect(): void {
 	source.onopen = () => {
 		const wasOffline = connection.value === "offline";
 		connection.value = "live";
-		if (wasOffline) void Promise.all([refreshPanels(), refreshHealth()]).catch(() => {});
+		if (wasOffline)
+			void Promise.all([
+				refreshPanels(),
+				refreshHealth(),
+				...(wanted.size ? [refreshPanels([...wanted])] : []),
+			]).catch(() => {});
 	};
 	// The browser retries by itself; until it reconnects, say plainly that what is on screen is not live.
 	source.onerror = () => {
@@ -210,7 +270,7 @@ function connect(): void {
 			return;
 		}
 		scheduleHealth();
-		for (const id of data.panels) pendingPanels.add(id);
+		for (const id of data.panels) if (!ON_DEMAND.has(id) || wanted.has(id)) pendingPanels.add(id);
 		schedulePanels();
 	};
 }

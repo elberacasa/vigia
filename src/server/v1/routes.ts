@@ -1,8 +1,14 @@
+import { defaultTexts } from "../../core/defaults.ts";
 import type { FeedHealth } from "../../core/health.ts";
 import type { Store, StoredObservation } from "../../core/store.ts";
 import type { Adapter, Json } from "../../core/types.ts";
 import { incidentHistory } from "../../intel/archive.ts";
 import { CHAIN_FORMAT, chain } from "../../intel/chain.ts";
+import type { EntityContext } from "../../ontology/entity-view.ts";
+import { linker } from "../../ontology/linker.ts";
+import { LinkIndex } from "../../ontology/links-store.ts";
+import { registry } from "../../ontology/registry.ts";
+import type { AnomaliesView, AnomalyItem } from "../../ontology/view.ts";
 import type { IncidentsView } from "../../panels/incidents.ts";
 import type { Mode } from "../config.ts";
 import type { ConnectivityHistory, HistoryService } from "../history.ts";
@@ -10,10 +16,12 @@ import type { PanelCache } from "../panels.ts";
 import { RateLimiter } from "../ratelimit.ts";
 import { decodeSegment } from "../uri.ts";
 import { type Cell, iso, toCsv } from "./csv.ts";
+import { entityRoutes } from "./entities.ts";
 import { type FigureRow, panelFigures } from "./figures.ts";
 import { type CorsPolicy, FirstSeen, fail, preflight, send, wantsCsv, weakEtag } from "./http.ts";
 import { OPERATIONS, openApiDocument } from "./openapi.ts";
 import { API_VERSION } from "./schemas.ts";
+import { stillsRoutes } from "./stills.ts";
 
 /**
  * The public read API, version 1 (`/api/v1/…`). Read-only, versioned, documented by an OpenAPI 3.1 document generated
@@ -33,15 +41,19 @@ export interface V1Deps {
 	readonly mode: Mode;
 	readonly cors: boolean;
 	readonly now: () => number;
+	/** The entity link index (src/ontology/links-store.ts); created over `store` when absent. */
+	readonly links?: LinkIndex;
 }
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
 const MAX_WINDOW_MS = 400 * DAY;
 const MAX_SERIES_ROWS = 5_000;
+const HEALTH_TTL_MS = 10_000;
 const NO_RAW =
 	"Los términos de esta fuente no permiten redistribuir sus datos; Vigía solo publica resultados derivados (paneles y cifras).";
 const SLOW = "Demasiadas solicitudes. Espera un momento.";
+const ANOMALY_CLASSES = ["connectivity", "night", "change", "level", "count", "hourly"];
 
 const OBS_HEADER = [
 	"source",
@@ -164,8 +176,13 @@ export function createV1(deps: V1Deps): V1Handler {
 		keys: [...a.keys],
 		intervalMs: a.intervalMs,
 		freshness: { fetchMs: a.freshness.fetchMs, dataMs: a.freshness.dataMs },
-		optIn: a.optIn ? { es: a.optIn.es, en: a.optIn.en } : null,
-		note: a.note ? { es: a.note.es, en: a.note.en } : null,
+		...(() => {
+			const t = defaultTexts(a, deps.mode);
+			return {
+				optIn: t.optIn ? { es: t.optIn.es, en: t.optIn.en } : null,
+				note: t.note ? { es: t.note.es, en: t.note.en } : null,
+			};
+		})(),
 		panels: panelsOf.get(a.id) ?? [],
 		rawAvailable: a.licence.raw !== false,
 	});
@@ -258,6 +275,53 @@ export function createV1(deps: V1Deps): V1Handler {
 		return Math.min(max, Math.max(min, Number(raw)));
 	};
 
+	const links = deps.links ?? new LinkIndex(deps.store);
+	/**
+	 * Feed health for the entity pages' stale flags, kept HEALTH_TTL_MS: computing it reads every feed's recent runs
+	 * (~40 ms for 313 feeds, measured 2026-09-28), which would otherwise be most of an entity request.
+	 */
+	let healthCache: { at: number; value: FeedHealth[] } | null = null;
+	const cachedHealth = (): FeedHealth[] => {
+		const t = deps.now();
+		if (!healthCache || t - healthCache.at > HEALTH_TTL_MS || t < healthCache.at)
+			healthCache = { at: t, value: deps.health() };
+		return healthCache.value;
+	};
+	const entityContext = (): EntityContext => ({
+		registry: registry(),
+		linker: linker(),
+		links,
+		store: deps.store,
+		panel: (id) => deps.panels.get(id),
+		health: cachedHealth,
+		adapters: adapterById,
+		figures: (feed) =>
+			deps.panels.panels
+				.filter((p) => p.sources.includes(feed))
+				.flatMap((p) => figuresOf(p.id) ?? [])
+				.filter((r) => r.feed === feed),
+		now: deps.now(),
+	});
+	const entities = entityRoutes(
+		{ context: entityContext, links, now: deps.now },
+		{
+			json: (request, resource, data, lastModified, maxAge, validated) =>
+				jsonAnswer(request, resource, data, lastModified, maxAge, validated ?? data),
+			fail: (status, message, extra) => fail(status, message, cors, extra),
+			intParam,
+		},
+	);
+
+	const stills = stillsRoutes(
+		{ store: deps.store, now: deps.now },
+		{
+			json: (request, resource, data, lastModified, maxAge, validated) =>
+				jsonAnswer(request, resource, data, lastModified, maxAge, validated ?? data),
+			fail: (status, message, extra) => fail(status, message, cors, extra),
+			intParam,
+		},
+	);
+
 	const counts = (health: readonly FeedHealth[]) => {
 		const out: Record<string, number> = {};
 		for (const h of health) out[h.state] = (out[h.state] ?? 0) + 1;
@@ -270,7 +334,8 @@ export function createV1(deps: V1Deps): V1Handler {
 		if (method !== "GET" && method !== "HEAD")
 			return fail(405, "La API pública es de solo lectura.", cors, { allow: "GET, HEAD, OPTIONS" });
 		const path = url.pathname.replace(/\/+$/, "") || "/";
-		const heavy = /\/(figures|series|history)(\/|$)/.test(path) || wantsCsv(request, url) ? 5 : 1;
+		const heavy =
+			/\/(figures|series|history|timeline|stills)(\/|$)/.test(path) || wantsCsv(request, url) ? 5 : 1;
 		if (!limiter.take(ip, heavy) || !everyone.take("all", heavy))
 			return fail(429, SLOW, cors, { "retry-after": "5" });
 		const format = url.searchParams.get("format");
@@ -346,6 +411,52 @@ export function createV1(deps: V1Deps): V1Handler {
 				path,
 				{ asOf: view.asOf, counts: view.counts, incidents: view.incidents, rules: view.rules },
 				null,
+			);
+		}
+		if (path === "/api/v1/anomalies") {
+			const view = deps.panels.get("anomalies") as AnomaliesView | undefined;
+			if (!view?.items)
+				return fail(503, "Lo inusual no está disponible ahora.", cors, { "retry-after": "30" });
+			const entity = url.searchParams.get("entity");
+			const cls = url.searchParams.get("class");
+			const explained = url.searchParams.get("explained");
+			const minRaw = url.searchParams.get("minScore");
+			const minScore = minRaw === null || minRaw === "" ? 0 : Number(minRaw);
+			const limit = intParam(url, "limit", 1, 100, 50);
+			if (entity !== null && !registry().get(entity)) return fail(404, "Entidad desconocida.", cors);
+			if (cls !== null && !ANOMALY_CLASSES.includes(cls))
+				return fail(400, `class debe ser una de: ${ANOMALY_CLASSES.join(", ")}.`, cors);
+			if (!Number.isFinite(minScore) || minScore < 0)
+				return fail(400, "minScore debe ser un número ≥ 0.", cors);
+			if (explained !== null && explained !== "0" && explained !== "1")
+				return fail(400, "explained debe ser 0 o 1.", cors);
+			if (limit === null) return fail(400, "limit debe ser un entero.", cors);
+			const within = (id: string) =>
+				entity === null ||
+				id === entity ||
+				registry()
+					.ancestors(id)
+					.some((a) => a.id === entity);
+			const keep = (i: AnomalyItem) =>
+				within(i.entity.id) &&
+				(cls === null || i.metric.class === cls) &&
+				Math.abs(i.score) >= minScore &&
+				(explained === null || (explained === "1") === (i.explainedBy !== null));
+			const items = view.items.filter(keep);
+			return jsonAnswer(
+				request,
+				`${path}${url.search}`,
+				{
+					...view,
+					items: items.slice(0, limit),
+					truncated: view.truncated || items.length > limit,
+					// Per-state readings folded into a regional item, under the same filters (a state's own drop).
+					grouped: (view.grouped ?? []).filter(keep),
+				},
+				null,
+				30,
+				// asOf moves on every recomputation; the readings are what a client revalidates.
+				{ items: items.slice(0, limit).map((i) => [i.id, i.score, i.explainedBy?.id ?? null]) },
 			);
 		}
 		if (path === "/api/v1/history/connectivity") {
@@ -528,6 +639,11 @@ export function createV1(deps: V1Deps): V1Handler {
 				{ source: series[1], series: name, rows: kept.map((o) => o.id), truncated },
 			);
 		}
+
+		const entity = entities(request, url, path);
+		if (entity) return entity;
+		const pictures = stills(request, url, path);
+		if (pictures) return pictures;
 
 		return fail(404, "Ruta desconocida. Consulta /api para ver la documentación.", cors);
 	};

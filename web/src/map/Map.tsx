@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/ho
 import { lang, t } from "../lib/i18n.ts";
 import { reducedMotion } from "../lib/prefs.ts";
 import { FRAME, NEIGHBOURS, STATES } from "./geometry.gen.ts";
-import { project } from "./project.ts";
+import { formatLonLat, pathBox, project, unproject } from "./project.ts";
 import { type Box, FULL, fitBox, MAX_ZOOM, zoomBox } from "./viewbox.ts";
 
 /**
@@ -106,6 +106,13 @@ export function VenezuelaMap(props: {
 	flashKey?: string | null;
 	/** Municipality code to outline in the selected state (e.g. from the search palette). */
 	highlight?: string | null;
+	/**
+	 * A press on land gives its position (the caller asks /api/v1/locate what is there). With it, pressing inside the
+	 * selected state keeps the selection (Esc, the sea or "← Venezuela" clear it).
+	 */
+	onPoint?: (lon: number, lat: number) => void;
+	/** Zoom to the highlighted municipality instead of its whole state (an entity page's inset). */
+	zoomToHighlight?: boolean;
 }) {
 	const svgRef = useRef<SVGSVGElement>(null);
 	const [box, setBox] = useState<Box>(FULL);
@@ -120,6 +127,17 @@ export function VenezuelaMap(props: {
 	const prevKey = useRef<string | null>(null);
 	const areas = useRef<Map<string, number>>(new Map());
 	const drag = useRef<{ x: number; y: number; box: Box; moved: boolean } | null>(null);
+	/** The pointer's position in degrees, written straight to the DOM (no re-render per mouse move). */
+	const coordRef = useRef<HTMLParagraphElement>(null);
+	const showCoord = (e: PointerEvent) => {
+		const svg = svgRef.current;
+		const out = coordRef.current;
+		const m = svg?.getScreenCTM();
+		if (!svg || !out || !m || e.pointerType !== "mouse") return;
+		const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+		const [lon, lat] = unproject(p.x, p.y);
+		out.textContent = formatLonLat(lon, lat, lang.value);
+	};
 	const suppressClick = useRef(false);
 
 	const k = box[2] / FRAME.width;
@@ -187,6 +205,12 @@ export function VenezuelaMap(props: {
 			alive = false;
 		};
 	}, [props.selected]);
+
+	useEffect(() => {
+		if (!props.zoomToHighlight || !props.highlight) return;
+		const m = munis.find((x) => x.code === props.highlight);
+		if (m) animateTo(fitBox(pathBox(m.d)));
+	}, [munis, props.highlight, props.zoomToHighlight]);
 
 	useEffect(
 		() => () => {
@@ -313,6 +337,7 @@ export function VenezuelaMap(props: {
 					drag.current = { x: e.clientX, y: e.clientY, box: boxRef.current, moved: false };
 				}}
 				onPointerMove={(e) => {
+					showCoord(e);
 					const d = drag.current;
 					const svg = svgRef.current;
 					if (!d || !svg) return;
@@ -329,6 +354,9 @@ export function VenezuelaMap(props: {
 					boxRef.current = next;
 					paint(next);
 				}}
+				onPointerLeave={() => {
+					if (coordRef.current) coordRef.current.textContent = "";
+				}}
 				onPointerUp={() => {
 					const d = drag.current;
 					drag.current = null;
@@ -344,8 +372,19 @@ export function VenezuelaMap(props: {
 					}
 				}}
 				onClick={(e) => {
+					const target = e.target as Element;
 					// A click on the sea is a mouse shortcut back to the country; Esc and "← Venezuela" do the same.
-					if (props.selected && (e.target as Element).classList.contains("map__sea")) select(null);
+					if (props.selected && target.classList.contains("map__sea")) {
+						select(null);
+						return;
+					}
+					// A press on land (a state or a municipality): where it was, for "what is here".
+					const land = target.classList.contains("map-state") || target.classList.contains("map-muni");
+					const m = svgRef.current?.getScreenCTM();
+					if (!props.onPoint || !land || !m || e.detail === 0) return;
+					const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+					const [lon, lat] = unproject(p.x, p.y);
+					props.onPoint(lon, lat);
 				}}
 			>
 				<title>{t("Mapa de Venezuela por estados", "Map of Venezuela by state")}</title>
@@ -394,7 +433,10 @@ export function VenezuelaMap(props: {
 								tabindex={0}
 								aria-label={`${s.name}${fill?.label ? `: ${fill.label}` : ""}`}
 								aria-pressed={selected}
-								onClick={() => select(selected ? null : s.iso)}
+								onClick={() => {
+									// With point picking, a second press inside the selected state picks a point instead.
+									if (!(selected && props.onPoint)) select(selected ? null : s.iso);
+								}}
 								onKeyDown={(e) => {
 									if (e.key === "Enter" || e.key === " ") {
 										e.preventDefault();
@@ -467,6 +509,7 @@ export function VenezuelaMap(props: {
 				</g>
 			</svg>
 			{props.banner ? <div class="map__banner">{props.banner}</div> : null}
+			<p class="map__coord mono" ref={coordRef} aria-hidden="true" />
 			{props.selected || zoomed ? (
 				<button
 					type="button"

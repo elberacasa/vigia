@@ -94,15 +94,6 @@
 .map.is-zoomed .map__svg:active {
 	cursor: grabbing;
 }
-/* Vignette: one gradient at the edge, over the geography, under the controls. */
-.map::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	background: radial-gradient(ellipse 72% 70% at 50% 46%, transparent 58%, var(--map-vignette) 100%);
-	z-index: 1;
-}
 .map__sea {
 	fill: var(--map-sea);
 }
@@ -135,12 +126,6 @@
 .map__states {
 	transition: filter var(--t) var(--ease-out);
 }
-/* Coastline glow on a wide map only (a filter costs on a cheap phone), and never while the view moves. */
-@container mapbody (min-width: 720px) {
-	.map:not(.is-moving) .map__states {
-		filter: drop-shadow(0 0 6px var(--map-glow));
-	}
-}
 .map-state {
 	fill: var(--map-land);
 	stroke: var(--map-border);
@@ -161,8 +146,12 @@
 .map-state:hover {
 	stroke: var(--text-3);
 }
-.map-state:focus-visible,
+/* Selection is the interactive accent; keyboard focus keeps the amber focus colour. */
 .map-state.is-selected {
+	stroke: var(--accent);
+	stroke-width: 2px;
+}
+.map-state:focus-visible {
 	stroke: var(--signal);
 	stroke-width: 2px;
 }
@@ -187,7 +176,7 @@
 	opacity: 0.55;
 }
 .map-state--signal {
-	fill: color-mix(in srgb, var(--signal) calc(var(--k, 0.5) * 55%), var(--map-land));
+	fill: color-mix(in srgb, var(--accent) calc(var(--k, 0.5) * 55%), var(--map-land));
 }
 .map.has-selection .map-state:not(.is-selected) {
 	opacity: 0.55;
@@ -203,7 +192,7 @@
 	fill: rgb(255 255 255 / 0.06);
 }
 .map.has-selection .map__states--outline .map-state.is-selected {
-	stroke: var(--signal);
+	stroke: var(--accent);
 }
 
 /* Municipalities of the selected state: thin outlines, fading in once they arrive. */
@@ -223,8 +212,8 @@
 	fill: rgb(20 24 31 / 0.05);
 }
 .map-muni-highlight {
-	fill: color-mix(in srgb, var(--signal) 18%, transparent);
-	stroke: var(--signal);
+	fill: color-mix(in srgb, var(--accent) 18%, transparent);
+	stroke: var(--accent);
 	stroke-width: 2px;
 	vector-effect: non-scaling-stroke;
 	pointer-events: none;
@@ -318,7 +307,7 @@
 }
 .map__back:hover,
 .map__zoom button:hover:not(:disabled) {
-	border-color: var(--signal);
+	border-color: var(--accent);
 }
 .map__zoom {
 	position: absolute;
@@ -352,6 +341,26 @@
 	cursor: default;
 	opacity: 0.6;
 }
+/* The pointer's latitude and longitude (mouse only): an instrument readout, top right, over the sea. */
+.map__coord {
+	position: absolute;
+	z-index: 2;
+	top: var(--s-2);
+	right: var(--s-3);
+	margin: 0;
+	font-size: var(--fs-2xs);
+	color: var(--text-3);
+	pointer-events: none;
+	white-space: nowrap;
+}
+.map__coord:empty {
+	display: none;
+}
+@media (hover: none) {
+	.map__coord {
+		display: none;
+	}
+}
 .map__hover {
 	position: absolute;
 	z-index: 2;
@@ -377,7 +386,7 @@
 	}
 }
 .map__hover.is-pinned {
-	border-color: var(--signal);
+	border-color: var(--accent);
 }
 .map__banner {
 	position: absolute;
@@ -391,7 +400,7 @@
 	margin: 0;
 	padding: 6px 12px;
 	border-radius: var(--r-pill);
-	background: var(--signal);
+	background: var(--accent);
 	color: var(--text-inverse);
 	font-size: var(--fs-sm);
 	font-weight: 600;
@@ -407,7 +416,7 @@
 	inset: 0;
 	z-index: 2;
 	pointer-events: none;
-	border: 2px solid var(--signal);
+	border: 2px solid var(--accent);
 }
 
 /* ---------- Point layers ---------- */
@@ -416,8 +425,8 @@
 	pointer-events: none;
 }
 .quake {
-	fill: color-mix(in srgb, var(--signal) 24%, transparent);
-	stroke: var(--signal);
+	fill: color-mix(in srgb, var(--data-quake) 24%, transparent);
+	stroke: var(--data-quake);
 	stroke-opacity: var(--o, 1);
 	stroke-width: 1.5px;
 	vector-effect: non-scaling-stroke;
@@ -425,7 +434,7 @@
 /* A new quake rings once: two rings expand and fade (1.6 s), then only the static circle stays. */
 .quake__ring {
 	fill: none;
-	stroke: var(--signal);
+	stroke: var(--data-quake);
 	stroke-width: 2px;
 	vector-effect: non-scaling-stroke;
 	transform-box: fill-box;
@@ -447,7 +456,7 @@
 	}
 }
 .fire-dot {
-	fill: var(--warn);
+	fill: var(--data-heat);
 	stroke: var(--map-halo);
 	stroke-width: 1px;
 	vector-effect: non-scaling-stroke;
@@ -525,7 +534,7 @@
 	);
 }
 .layer-row__swatch--signal {
-	background: linear-gradient(90deg, var(--map-land), var(--signal));
+	background: linear-gradient(90deg, var(--map-land), var(--accent));
 }
 .layer-row__swatch--light {
 	background: linear-gradient(135deg, #05070b, #fff1bf);
@@ -535,13 +544,13 @@
 }
 .layer-row__swatch--quakes {
 	border-radius: 50%;
-	border: 1.5px solid var(--signal);
-	background: color-mix(in srgb, var(--signal) 24%, transparent);
+	border: 1.5px solid var(--data-quake);
+	background: color-mix(in srgb, var(--data-quake) 24%, transparent);
 }
 .layer-row__swatch--fire {
 	border-radius: 50%;
 	border: 1px solid var(--map-halo);
-	background: var(--warn);
+	background: var(--data-heat);
 	transform: scale(0.75);
 }
 .layer-row.is-locked .layer-row__swatch {
@@ -575,9 +584,9 @@
 	color: var(--text);
 }
 .layer-row.is-on label {
-	background: var(--surface-2);
+	background: var(--surface-3);
 	color: var(--text);
-	box-shadow: inset 2px 0 0 var(--signal);
+	box-shadow: inset 2px 0 0 var(--accent);
 }
 .layer-row input:focus-visible ~ .layer-row__swatch {
 	box-shadow: var(--focus);
@@ -619,7 +628,7 @@
 .layer-row__unlock {
 	grid-area: age;
 	font-size: var(--fs-xs);
-	color: var(--signal);
+	color: var(--accent);
 	text-decoration: none;
 	white-space: nowrap;
 }
@@ -676,7 +685,7 @@
 	background: repeating-linear-gradient(45deg, var(--map-land) 0 2px, var(--surface-3) 2px 4px);
 }
 .map-legend__swatch--signal {
-	background: linear-gradient(90deg, var(--map-land), var(--signal));
+	background: linear-gradient(90deg, var(--map-land), var(--accent));
 	width: 24px;
 }
 .map-legend__swatch--light {
@@ -732,8 +741,8 @@
 	}
 	.layer-row.is-on label {
 		box-shadow: none;
-		border-color: var(--signal);
-		background: var(--signal-soft);
+		border-color: var(--accent);
+		background: var(--accent-soft);
 	}
 	.layer-row__age {
 		display: none;
@@ -742,7 +751,8 @@
 		padding-top: var(--s-2);
 	}
 	.layers__quakes {
-		grid-template-columns: auto 1fr;
+		/* minmax: the note wraps instead of widening the page (it ran 13 px past a 320 px phone). */
+		grid-template-columns: auto minmax(0, 1fr);
 		align-items: center;
 		gap: var(--s-2);
 	}
@@ -793,14 +803,14 @@
 	width: 100%;
 	height: 34px;
 	border-radius: var(--r-sm);
-	border: 1px solid color-mix(in srgb, var(--signal) 45%, var(--line-strong));
+	border: 1px solid var(--line-strong);
 	background: var(--surface-2);
 	color: var(--text);
 	cursor: pointer;
 }
 .share-menu__button:hover,
 .share-menu__button[aria-expanded="true"] {
-	border-color: var(--signal);
+	border-color: var(--accent);
 }
 .share-menu__sheet {
 	position: absolute;
@@ -870,34 +880,12 @@
 	}
 }
 
-/* ---------- In the wall ---------- */
-/* Wall at ≥ 1000 px (layout.css gives the map card the column's height): the map takes what the list, the history
-   strip and the header leave, the SVG fitting inside it. */
-.wall--wide .wall__map .mapview,
-.wall--mid .wall__map .mapview {
-	flex: 1;
-	min-height: 0;
-	grid-template-rows: minmax(0, 1fr);
-}
-.wall--wide .wall__map .mapview__stage,
-.wall--mid .wall__map .mapview__stage {
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-}
-.wall--wide .wall__map .layers,
-.wall--mid .wall__map .layers {
-	min-height: 0;
-	overflow-y: auto;
-	scrollbar-width: thin;
-}
-
 /* ---------- Gas flares (map/FlareLayer.tsx): a diamond per facility, static ---------- */
 .flare-mark {
 	cursor: default;
 }
 .flare {
-	fill: color-mix(in srgb, var(--signal) 70%, transparent);
+	fill: color-mix(in srgb, var(--data-heat) 70%, transparent);
 	stroke: var(--map-halo);
 	stroke-width: 1px;
 	vector-effect: non-scaling-stroke;
@@ -917,7 +905,7 @@
 .layer-row__swatch--flare {
 	border-radius: 1px;
 	border: 1px solid var(--map-halo);
-	background: color-mix(in srgb, var(--signal) 70%, transparent);
+	background: color-mix(in srgb, var(--data-heat) 70%, transparent);
 	transform: rotate(45deg) scale(0.7);
 }
 .layer-row__note {
@@ -940,4 +928,160 @@
 	align-items: center;
 	gap: 4px;
 	white-space: nowrap;
+}
+
+/* ---------- Lightning (map/LightningLayer.tsx): the last hour's GLM flashes on a 0.25° grid, static ---------- */
+.lightning-cell {
+	fill: var(--data-lightning);
+	stroke: none;
+}
+.layer-lightning {
+	pointer-events: none;
+}
+.layer-row__swatch--lightning {
+	border-radius: 1px;
+	border: 1px solid var(--map-border);
+	background: var(--data-lightning);
+}
+.layers__lightning {
+	display: grid;
+	gap: 2px;
+	margin-top: 6px;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+}
+.lightning-key {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* ---------- Facilities (map/FacilityLayer.tsx): ontology facilities by shape, and the transmission grid ---------- */
+.facility-mark {
+	cursor: pointer;
+}
+.facility {
+	fill: color-mix(in srgb, var(--data-infra) 22%, var(--map-land));
+	stroke: var(--data-infra);
+	stroke-width: 1.2px;
+	vector-effect: non-scaling-stroke;
+}
+.facility-hit {
+	fill: transparent;
+	stroke: none;
+	pointer-events: all;
+}
+.facility-mark:hover .facility {
+	fill: var(--data-infra);
+}
+.facility-mark.is-selected .facility {
+	fill: var(--accent);
+	stroke: var(--accent);
+}
+.facility-ring {
+	fill: none;
+	stroke: var(--accent);
+	stroke-width: 2px;
+	vector-effect: non-scaling-stroke;
+}
+.facility-pick {
+	pointer-events: none;
+}
+.facility-label {
+	fill: var(--text);
+	text-anchor: middle;
+	transform: translateY(calc(var(--u, 1.8) * 18px));
+	transform-box: fill-box;
+}
+.grid-line {
+	fill: none;
+	stroke: var(--data-infra);
+	stroke-opacity: 0.55;
+	stroke-width: 0.8px;
+	vector-effect: non-scaling-stroke;
+	stroke-linejoin: round;
+}
+.grid-line--400 {
+	stroke-width: 1.1px;
+}
+.grid-line--765 {
+	stroke-width: 1.6px;
+	stroke-opacity: 0.7;
+}
+.layer-row__swatch--facility {
+	border-radius: 1px;
+	border: 1.2px solid var(--data-infra);
+	background: color-mix(in srgb, var(--data-infra) 22%, transparent);
+	transform: scale(0.8);
+}
+.layers__facilities {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px 10px;
+	margin: 6px 0 0;
+	padding: 0;
+	border: 0;
+	font-size: var(--fs-xs);
+	color: var(--text-2);
+}
+.facility-key {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	min-height: 24px;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.facility-key input {
+	margin: 0;
+	accent-color: var(--accent);
+}
+.facility-key:not(.is-on) {
+	color: var(--text-3);
+}
+.layers__facilities .note {
+	flex-basis: 100%;
+	margin: 2px 0 0;
+}
+
+/* The point last pressed on the map (what the inspector locates), and an entity's own point on its page. */
+.pick-mark {
+	pointer-events: none;
+}
+.pick-mark__cross {
+	stroke: var(--accent);
+	stroke-width: 1.6px;
+	vector-effect: non-scaling-stroke;
+	fill: none;
+}
+.pick-mark__dot {
+	fill: var(--accent);
+	stroke: var(--map-halo);
+	stroke-width: 1px;
+	vector-effect: non-scaling-stroke;
+}
+/* Public cameras (a view fan) and user reports (a hatched, dashed outline: never a measured fill). */
+.layer-row__swatch--camera {
+	border: 0;
+	border-radius: 0;
+	background: var(--data-camera);
+	clip-path: polygon(50% 100%, 0 12%, 100% 12%);
+	opacity: 0.85;
+}
+.layer-row__swatch--crowd {
+	border: 1px dashed var(--text);
+	background: repeating-linear-gradient(
+		-45deg,
+		transparent 0 2px,
+		color-mix(in srgb, var(--text-2) 55%, transparent) 2px 3px
+	);
+}
+.layer-row__swatch--flood {
+	background: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.layer-row__swatch--plume {
+	border: 0;
+	border-radius: 0;
+	background: var(--data-heat);
+	clip-path: polygon(50% 100%, 0 8%, 100% 8%);
 }

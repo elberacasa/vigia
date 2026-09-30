@@ -2,6 +2,7 @@ import { expect, test } from "bun:test";
 import {
 	type FeedState,
 	feedCounts,
+	feedStateWord,
 	type HealthLite,
 	internetWord,
 	type MetaLite,
@@ -106,4 +107,18 @@ test("'sin caídas' only with the server's all-clear and a live feed (review 3, 
 		long: "2 estados con caída de señal · 12 de 25 con datos",
 		tone: "warn",
 	});
+});
+
+test("palette source rows: a monthly index within its budget is 'Al día', never 'En vivo · hace 59 d'", () => {
+	const monthly = { freshness: { dataMs: 70 * 86_400_000 } };
+	const tenMinutes = { freshness: { dataMs: 40 * 60_000 } };
+	const events = { freshness: { dataMs: null } };
+	expect(feedStateWord("ok", monthly, "es")).toBe("Al día");
+	expect(feedStateWord("ok", monthly, "en")).toBe("Up to date");
+	expect(feedStateWord("ok", tenMinutes, "es")).toBe("En vivo");
+	expect(feedStateWord("ok", events, "es")).toBe("En vivo");
+	expect(feedStateWord("stale", monthly, "es")).toBe("Con retraso");
+	expect(feedStateWord("stale", tenMinutes, "es")).toBe("Con retraso");
+	expect(feedStateWord("failing", monthly, "es")).toBe("Sin conexión con la fuente");
+	expect(feedStateWord("ok", undefined, "es")).toBe("En vivo");
 });

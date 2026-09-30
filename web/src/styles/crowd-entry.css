@@ -1,0 +1,33 @@
+/* The crowd report's entry buttons (ui/crowd/Buttons.tsx), loaded with them. */
+.report-cta {
+	display: flex;
+	align-items: center;
+	gap: var(--s-3);
+	width: 100%;
+	min-height: 48px;
+	padding: 8px var(--s-3);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	background: var(--surface-1);
+	color: var(--text);
+	text-align: left;
+}
+.report-cta:hover {
+	border-color: var(--accent);
+}
+.report-cta__icon {
+	flex: none;
+	color: var(--accent);
+}
+.report-cta__text {
+	display: grid;
+	gap: 1px;
+}
+.report-cta__main {
+	font-weight: 650;
+	font-size: var(--fs-md);
+}
+.report-cta__sub {
+	font-size: var(--fs-xs);
+	color: var(--text-3);
+}

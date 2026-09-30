@@ -14,7 +14,30 @@ test("defaults: local mode on loopback, CORS off, metrics for this machine, text
 		noFetch: false,
 		noOpen: false,
 		bcvApi: true,
+		crowd: true,
+		dataSaver: undefined,
 	});
+});
+
+test("data saver: --data-saver or VIGIA_DATA_SAVER=1 forces it on, =0 forces it off, unset leaves it to the user", () => {
+	expect(loadConfig([], {}).dataSaver).toBeUndefined();
+	expect(loadConfig(["--public"], {}).dataSaver).toBeUndefined();
+	expect(loadConfig(["--data-saver"], {}).dataSaver).toBe(true);
+	expect(loadConfig([], { VIGIA_DATA_SAVER: "1" }).dataSaver).toBe(true);
+	expect(loadConfig([], { VIGIA_DATA_SAVER: "0" }).dataSaver).toBe(false);
+	expect(loadConfig(["--data-saver"], { VIGIA_DATA_SAVER: "0" }).dataSaver).toBe(true);
+	expect(unknownOptions(["--data-saver"])).toEqual([]);
+	expect(() => loadConfig([], { VIGIA_DATA_SAVER: "a veces" })).toThrow(ConfigError);
+});
+
+test("crowd reports are on in both modes; --no-crowd or VIGIA_CROWD=0 turns them off", () => {
+	expect(loadConfig([], {}).crowd).toBe(true);
+	expect(loadConfig(["--public"], {}).crowd).toBe(true);
+	expect(loadConfig(["--no-crowd"], {}).crowd).toBe(false);
+	expect(loadConfig(["--public"], { VIGIA_CROWD: "0" }).crowd).toBe(false);
+	expect(loadConfig(["--no-crowd"], { VIGIA_CROWD: "1" }).crowd).toBe(false);
+	expect(unknownOptions(["--no-crowd"])).toEqual([]);
+	expect(() => loadConfig([], { VIGIA_CROWD: "quizás" })).toThrow(/VIGIA_CROWD debe ser 1 o 0/);
 });
 
 test("bcv-api is on by default on every deployment, public mirrors included; VIGIA_BCV_API=0 turns it off", () => {
@@ -88,7 +111,25 @@ test("the client address comes from X-Forwarded-For only behind a trusted local 
 	expect(clientAddress("172.32.0.1", "198.51.100.7", docker)).toBe("172.32.0.1");
 	expect(clientAddress("fd00::1", "198.51.100.9", docker)).toBe("198.51.100.9");
 	expect(() => loadConfig([], { VIGIA_TRUST_PROXY: "172.16.0.0/40" })).toThrow(/no es una dirección/);
+	expect(() => loadConfig([], { VIGIA_TRUST_PROXY: "fd00::/129" })).toThrow(/no es una dirección/);
 	expect(() => loadConfig([], { VIGIA_TRUST_PROXY: "proxy.local" })).toThrow(ConfigError);
+});
+
+test("X-Forwarded-For is walked from the right past every trusted proxy (a CDN in front of nginx); IPv6 ranges", () => {
+	const chain = loadConfig([], {
+		VIGIA_TRUST_PROXY: "loopback, 203.0.113.0/24, 2001:db8:cd::/48",
+	}).trustProxy;
+	// nginx on this machine, behind a CDN edge: the client is the first address that is not a declared proxy.
+	expect(clientAddress("127.0.0.1", "198.51.100.7, 203.0.113.44", chain)).toBe("198.51.100.7");
+	expect(clientAddress("127.0.0.1", "10.9.9.9, 198.51.100.7, 2001:db8:cd:1::5", chain)).toBe("198.51.100.7");
+	// Whatever the client wrote to the left of that is ignored.
+	expect(clientAddress("127.0.0.1", "1.2.3.4, 198.51.100.7, 203.0.113.44", chain)).toBe("198.51.100.7");
+	// Only proxies in the header: the last one examined (the crowd guard refuses it as "no client address").
+	expect(clientAddress("127.0.0.1", "203.0.113.44", chain)).toBe("203.0.113.44");
+	// A malformed hop stops at the peer.
+	expect(clientAddress("127.0.0.1", "198.51.100.7, bogus", chain)).toBe("127.0.0.1");
+	expect(clientAddress("2001:db8:cd:ffff::1", "198.51.100.9", chain)).toBe("198.51.100.9");
+	expect(clientAddress("2001:db8:ce::1", "198.51.100.9", chain)).toBe("2001:db8:ce::1");
 });
 
 test("JSON logs: one object per line, component from the [tag] prefix, never an address unless logged", () => {

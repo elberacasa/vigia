@@ -46,6 +46,8 @@ export interface HeadlineInput {
 	fires?: { venezuela: { last24h: number; persistent24h: number } };
 	incidents?: {
 		incidents: {
+			/** "sismo" or "corte" (the server's incident kinds). */
+			kind?: string;
 			title: { es: string; en: string };
 			status: string;
 			reportsOnly: boolean;
@@ -129,7 +131,9 @@ function build(p: HeadlineInput, now: number, lang: Lang, speaks: Speaks): Claus
 	const felt = (p.quakes?.items ?? [])
 		.filter((q) => q.zone !== "far" && q.feltSize && now - q.at < 24 * 3_600_000)
 		.sort((a, b) => b.maxMag - a.maxMag)[0];
-	if (felt) {
+	// A quake an active incident already names (with its sources) is not said twice.
+	const quakeIncident = incidents.slice(0, 2).some((i) => i.kind === "sismo");
+	if (felt && !quakeIncident) {
 		out.push({
 			text: es
 				? `Sismo M${num(felt.maxMag, 1, "es")} ${felt.placeEs}`
@@ -203,8 +207,18 @@ const FAMILY_NAMES: Record<string, { es: string; en: string; feeds: readonly str
 		funvisis: { es: "FUNVISIS", en: "FUNVISIS", feeds: ["funvisis-quakes"], measured: true },
 		gdacs: { es: "GDACS", en: "GDACS", feeds: ["gdacs-events"], measured: true },
 		prensa: { es: "prensa", en: "press", feeds: [], measured: false },
+		usuarios: { es: "reportes de usuarios", en: "user reports", feeds: ["vigia-crowd"], measured: false },
+		camaras: { es: "cámaras públicas", en: "public cameras", feeds: ["public-cams"], measured: false },
+		cloudflare: {
+			es: "Cloudflare Radar",
+			en: "Cloudflare Radar",
+			feeds: ["cloudflare-radar"],
+			measured: false,
+		},
 	};
 const FAMILY_ORDER = Object.keys(FAMILY_NAMES);
+/** Families that only join an incident others opened (src/intel/incidents.ts JOIN_ONLY). */
+const JOINING: readonly string[] = ["usuarios", "camaras", "cloudflare"];
 
 /**
  * "Posible apagón en Zulia (IODA y prensa, última señal hace 25 min)"; with measurements only, "(2 mediciones
@@ -216,7 +230,8 @@ function incidentClause(i: IncidentInput, now: number, lang: Lang): Clause {
 	const fams = FAMILY_ORDER.filter((f) => i.families.includes(f));
 	const unknown = [...new Set(i.families)].filter((f) => !FAMILY_NAMES[f]);
 	const names = [...fams.map((f) => FAMILY_NAMES[f]?.[lang] ?? f), ...unknown];
-	const measured = fams.filter((f) => FAMILY_NAMES[f]?.measured).length + unknown.length;
+	// An unknown family is named, never counted as a measurement (conservative: a new family must be declared above).
+	const measured = fams.filter((f) => FAMILY_NAMES[f]?.measured).length;
 	const who =
 		measured === names.length && measured >= 2
 			? es
@@ -236,7 +251,10 @@ function incidentClause(i: IncidentInput, now: number, lang: Lang): Clause {
 		text: `${es ? i.title.es : i.title.en} (${who}, ${when})`,
 		href: "#incidentes",
 		tone: "alert",
-		feeds: [...new Set(fams.flatMap((f) => FAMILY_NAMES[f]?.feeds ?? []))],
+		// A clause ages with the families that opened it; join-only evidence keeps nothing fresh (review minor).
+		feeds: [
+			...new Set(fams.filter((f) => !JOINING.includes(f)).flatMap((f) => FAMILY_NAMES[f]?.feeds ?? [])),
+		],
 	};
 }
 

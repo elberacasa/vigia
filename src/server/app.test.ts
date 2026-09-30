@@ -54,7 +54,7 @@ function setup(validate: KeySpec["validate"] = async () => null) {
 		version: "test",
 		sessionToken: TOKEN,
 	});
-	return { app, saved };
+	return { app, saved, store };
 }
 
 const post = (
@@ -145,6 +145,46 @@ test("CSP: frames only from youtube-nocookie, media only from self and the verif
 	expect(directives.get("frame-ancestors")).toEqual(["'none'"]);
 	expect(csp).not.toContain("youtube.com ");
 	expect(csp).not.toMatch(/\*/);
+});
+
+test("CSP: a page may play the hosts the live probes saw; API responses keep the short policy", async () => {
+	const { app, store } = setup();
+	const at = Date.now();
+	store.insert([
+		{
+			source: "iptv-ve-probe",
+			series: "tv:Demo.ve/SD/x",
+			sourceUrl: "https://tv.example.org/",
+			fetchedAt: at,
+			observedAt: at,
+			licence: "vigia-tv-probe-cc0",
+			value: {
+				key: "Demo.ve/SD/x",
+				channel: "Demo.ve",
+				state: "live",
+				reason: null,
+				cors: true,
+				origins: ["https://cdn.tv.example.org", "https://tv.example.org"],
+				https: true,
+				segmentKind: "ts",
+				programDateAgeMs: null,
+				bytes: 3000,
+				ms: 400,
+			},
+			confidence: 1,
+			basis: "measurement",
+		},
+	]);
+	const page = await app.fetch(new Request("http://localhost:7722/api"), "127.0.0.1");
+	expect(page.headers.get("content-type")).toStartWith("text/html");
+	const csp = page.headers.get("content-security-policy") ?? "";
+	expect(csp).toContain(
+		"media-src 'self' https://guri.tepuyserver.net https://tx.feyalegrianoticias.com blob: https://cdn.tv.example.org https://tv.example.org",
+	);
+	expect(csp).toContain("connect-src 'self' https://cdn.tv.example.org https://tv.example.org");
+	expect(csp).toContain("script-src 'self';");
+	const api = await app.fetch(new Request("http://localhost:7722/api/meta"), "127.0.0.1");
+	expect(api.headers.get("content-security-policy")).not.toContain("tv.example.org");
 });
 
 test("rate limits a flood from one client", async () => {
@@ -664,4 +704,53 @@ test("GET /api/session says whether this browser may change settings, and why no
 	expect(await (await get(COOKIE)).json()).toEqual({ canChange: true, why: null });
 	expect(await (await get(null)).json()).toEqual({ canChange: false, why: "session" });
 	expect(((await (await get(COOKIE, "192.168.1.9")).json()) as { why: string }).why).toBe("remote");
+});
+
+test("a public mirror does not re-serve TV frames or YouTube thumbnails (a person's own Vigía does)", async () => {
+	const dir = mkdtempSync(join(tmpdir(), "vigia-app-mirror-"));
+	try {
+		const store = new Store(":memory:");
+		const http: HttpLike = { request: async () => Promise.reject(new Error("offline")) };
+		const blobs = new BlobStore(dir);
+		const key = blobKey("frame", "src");
+		for (const source of ["tv-stills", "youtube-live", "goes-nsa"])
+			blobs
+				.scope(source, { maxEntries: 5, maxBytes: 1e6, maxAgeMs: null })
+				.put(key, new Uint8Array([0xff, 0xd8, 0xff, 0xd9]), {
+					name: "frame",
+					contentType: "image/jpeg",
+					observedAt: 1,
+				});
+		const adapters = ["tv-stills", "youtube-live", "goes-nsa"].map(
+			(id) => ({ ...(usgsQuakes as unknown as Adapter), id }) as Adapter,
+		);
+		const make = (mode: "local" | "public") =>
+			createApp({
+				store,
+				scheduler: new Scheduler([], { store, http, key: () => undefined }),
+				adapters,
+				keys: { get: () => undefined, has: () => false, set: () => {}, remove: () => {}, origin: () => null },
+				keySpecs: [],
+				panels: new PanelCache([], store),
+				http,
+				blobs,
+				version: "test",
+				sessionToken: TOKEN,
+				deploy: { mode },
+			});
+		const status = async (mode: "local" | "public", source: string) =>
+			(await make(mode).fetch(new Request(`http://localhost:7722/api/blobs/${source}/${key}`), "127.0.0.1"))
+				.status;
+		for (const source of ["tv-stills", "youtube-live"]) {
+			expect(await status("local", source)).toBe(200);
+			expect(await status("public", source)).toBe(404);
+		}
+		expect(await status("public", "goes-nsa")).toBe(200);
+		const ffmpeg = await (
+			await make("public").fetch(new Request("http://localhost:7722/api/ffmpeg"), "127.0.0.1")
+		).json();
+		expect(ffmpeg.version).toBeNull();
+	} finally {
+		rmSync(dir, { recursive: true, force: true });
+	}
 });

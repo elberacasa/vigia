@@ -1,5 +1,4 @@
 import { computed, signal } from "@preact/signals";
-import { density } from "./prefs.ts";
 
 /**
  * The wall's layout, saved per device (localStorage, key vigia:layout:v1): which panels are hidden, their order,
@@ -10,26 +9,43 @@ import { density } from "./prefs.ts";
 
 export const PANEL_IDS = [
 	"incidentes",
+	"inusual",
 	"dinero",
 	"conectividad",
 	"bolsillo",
+	"monetario",
 	"servicios",
+	"reportes",
 	"noticias",
+	"desmentidos",
 	"gaceta",
 	"sismos",
 	"clima",
+	"rayos",
 	"luces",
 	"incendios",
 	"alertas",
 	"satelite",
+	"inundaciones",
+	"bosque",
 	"petroleo",
 	"mercados",
 	"censura",
 	"red",
+	"cloudflare",
 	"energia",
+	"metano",
+	"buques",
+	"sanciones",
+	"cargos",
+	"apuestas",
 	"espacio-aereo",
+	"vuelos",
+	"gdelt",
 	"atencion",
 	"tv",
+	"camaras",
+	"radio",
 	"humanitario",
 ] as const;
 export type PanelId = (typeof PANEL_IDS)[number];
@@ -42,6 +58,15 @@ export function isPanelId(id: string): id is PanelId {
 
 const DEFAULT_COLUMN: Record<PanelId, Column> = {
 	incidentes: "right",
+	inusual: "right",
+	reportes: "left",
+	camaras: "right",
+	inundaciones: "left",
+	bosque: "left",
+	metano: "left",
+	buques: "left",
+	cloudflare: "left",
+	vuelos: "right",
 	dinero: "left",
 	bolsillo: "left",
 	servicios: "left",
@@ -62,7 +87,15 @@ const DEFAULT_COLUMN: Record<PanelId, Column> = {
 	"espacio-aereo": "right",
 	atencion: "right",
 	tv: "right",
+	radio: "right",
 	humanitario: "left",
+	monetario: "left",
+	desmentidos: "right",
+	rayos: "left",
+	sanciones: "right",
+	cargos: "right",
+	apuestas: "right",
+	gdelt: "right",
 };
 
 export interface Layout {
@@ -71,6 +104,8 @@ export interface Layout {
 	column: Record<PanelId, Column>;
 	hidden: PanelId[];
 	collapsed: Record<Form, Partial<Record<PanelId, boolean>>>;
+	/** On a desk, a panel moved to another column of its module: the index of that column (lib/modules.ts). */
+	deskColumn: Partial<Record<PanelId, number>>;
 }
 
 const KEY = "vigia:layout:v1";
@@ -83,6 +118,7 @@ function fresh(): Layout {
 		column: { ...DEFAULT_COLUMN },
 		hidden: [],
 		collapsed: { phone: {}, desk: {} },
+		deskColumn: {},
 	};
 }
 
@@ -128,7 +164,14 @@ export function repair(raw: unknown): Layout {
 			if (typeof v === "boolean") collapsed[form][id] = v;
 		}
 	}
-	return { v: 1, order, column, hidden, collapsed };
+	const deskColumn: Layout["deskColumn"] = {};
+	if (r.deskColumn && typeof r.deskColumn === "object") {
+		for (const id of PANEL_IDS) {
+			const c = (r.deskColumn as Record<string, unknown>)[id];
+			if (typeof c === "number" && Number.isInteger(c) && c >= 0 && c <= 2) deskColumn[id] = c;
+		}
+	}
+	return { v: 1, order, column, hidden, collapsed, deskColumn };
 }
 
 function load(): Layout {
@@ -169,6 +212,24 @@ for (const m of Object.values(mq)) m.addEventListener("change", () => (viewport.
 
 const form = computed<Form>(() => (viewport.value === "phone" ? "phone" : "desk"));
 
+/** The workstation (≥1000 px) arranges panels by module (ui/ws/). */
+export const isDesk = computed(() => viewport.value === "mid" || viewport.value === "wide");
+
+/** A panel's place on the desk: its module's shown columns, which one holds it, and its peers there. */
+export interface DeskPlacement {
+	col: number;
+	cols: number;
+	peers: PanelId[];
+	/** The module column a move to the neighbouring shown column lands in, or null at an edge. */
+	target: (by: -1 | 1) => number | null;
+}
+/** Set by the desk's shell (ui/ws/): the arrangement code lives in its chunk, never in a phone's first load. */
+export const deskHook: { placement: ((id: PanelId) => DeskPlacement | null) | null } = { placement: null };
+
+export function deskPlacement(id: PanelId): DeskPlacement | null {
+	return isDesk.value ? (deskHook.placement?.(id) ?? null) : null;
+}
+
 /**
  * Wall mode: every side panel shows its summary row and one panel at a time opens, rotating only among panels
  * whose summary is not normal. Null keeps everything still (all normal).
@@ -196,7 +257,6 @@ export function hiddenPanels(column?: Column): PanelId[] {
 
 /** Phones start with every panel collapsed into a summary row; desks start with everything open. */
 export function isCollapsed(id: PanelId): boolean {
-	if (density.value === "pared" && viewport.value !== "phone") return wallFocus.value !== id;
 	const saved = layout.value.collapsed[form.value][id];
 	return saved ?? form.value === "phone";
 }
@@ -223,7 +283,9 @@ export function movePanel(id: PanelId, by: -1 | 1): boolean {
 	const sameList = (other: PanelId) =>
 		!l.hidden.includes(other) &&
 		(viewport.value === "phone" || viewport.value === "narrow" || l.column[other] === l.column[id]);
-	const peers = l.order.filter(sameList);
+	// On the desk a panel moves among the panels of its module's column, as shown.
+	const desk = deskPlacement(id);
+	const peers = desk ? desk.peers : l.order.filter(sameList);
 	const at = peers.indexOf(id);
 	const target = peers[at + by];
 	if (at < 0 || !target) return false;
@@ -237,11 +299,22 @@ export function movePanel(id: PanelId, by: -1 | 1): boolean {
 }
 
 export function positionOf(id: PanelId): { at: number; of: number } {
+	const desk = deskPlacement(id);
+	if (desk) return { at: desk.peers.indexOf(id) + 1, of: desk.peers.length };
 	const l = layout.value;
 	const peers = visibleOrder.value.filter(
 		(other) => viewport.value === "phone" || viewport.value === "narrow" || l.column[other] === l.column[id],
 	);
 	return { at: peers.indexOf(id) + 1, of: peers.length };
+}
+
+/** Desk: moves a panel to the neighbouring column of its module; false when there is none. */
+export function moveDeskColumn(id: PanelId, by: -1 | 1): boolean {
+	const target = deskPlacement(id)?.target(by);
+	if (target === null || target === undefined) return false;
+	const l = layout.value;
+	save({ ...l, deskColumn: { ...l.deskColumn, [id]: target } });
+	return true;
 }
 
 export function moveToColumn(id: PanelId, column: Column): void {
@@ -283,18 +356,25 @@ export const layoutIsDefault = computed(() => JSON.stringify(layout.value) === J
 export function reveal(id: PanelId, focus = false): void {
 	const l = layout.value;
 	if (l.hidden.includes(id)) showPanel(id);
-	if (isCollapsed(id)) {
-		if (density.value === "pared" && viewport.value !== "phone") wallFocus.value = id;
-		else setCollapsed(id, false);
+	if (isCollapsed(id)) setCollapsed(id, false);
+	// The desk's workstation first opens the module that holds the panel (ui/ws/Workstation.tsx sets the hook).
+	if (revealHook.current?.(id)) {
+		requestAnimationFrame(() => requestAnimationFrame(() => scrollToPanel(id, focus)));
+		return;
 	}
-	requestAnimationFrame(() => {
-		const el = document.getElementById(id);
-		if (!el) return;
-		const still =
-			matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.motion;
-		el.scrollIntoView({ block: "start", behavior: still ? "auto" : "smooth" });
-		if (focus) document.getElementById(`${id}-toggle`)?.focus({ preventScroll: true });
-	});
+	requestAnimationFrame(() => scrollToPanel(id, focus));
+}
+
+/** Set by the desk shell: brings the panel's module forward; returns true when it handled the panel. */
+export const revealHook: { current: ((id: string) => boolean) | null } = { current: null };
+
+function scrollToPanel(id: PanelId, focus: boolean): void {
+	const el = document.getElementById(id);
+	if (!el) return;
+	const still =
+		matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.motion;
+	el.scrollIntoView({ block: "start", behavior: still ? "auto" : "smooth" });
+	if (focus) document.getElementById(`${id}-toggle`)?.focus({ preventScroll: true });
 }
 
 // In-page links to a panel (the Ahora sentence, the vital-sign tiles) also open it when it is collapsed or hidden.

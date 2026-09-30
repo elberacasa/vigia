@@ -1,12 +1,16 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { addStyles } from "../lib/css.ts";
 import { healthById, now, panels } from "../lib/data.ts";
+import { entityPath } from "../lib/entity-route.ts";
 import { ago, clock, stamp } from "../lib/format.ts";
 import { groupFreshness } from "../lib/fresh.ts";
 import { lang, t } from "../lib/i18n.ts";
+import { incidentFocus } from "../lib/keys.ts";
 import { viewport } from "../lib/layout.ts";
 import { PANEL_META } from "../lib/panel-meta.ts";
-import { selectedState } from "../map/view.ts";
+import { entityLink } from "../lib/router.ts";
+import { stateName } from "../lib/states.ts";
+import { selectedState, selectState } from "../map/view.ts";
 import incidentsCss from "../styles/incidents.css?inline";
 import panelsCss from "../styles/panels.css?inline";
 import { Panel } from "../ui/Panel.tsx";
@@ -16,7 +20,17 @@ addStyles(panelsCss);
 addStyles(incidentsCss);
 
 /** Mirrors src/panels/incidents.ts (the server is the source of truth; the client only formats). */
-type Family = "ioda" | "ripe-atlas" | "viirs" | "usgs" | "funvisis" | "prensa" | "gdacs";
+type Family =
+	| "ioda"
+	| "ripe-atlas"
+	| "viirs"
+	| "usgs"
+	| "funvisis"
+	| "prensa"
+	| "gdacs"
+	| "usuarios"
+	| "camaras"
+	| "cloudflare";
 interface Evidence {
 	id: string;
 	family: Family;
@@ -68,7 +82,37 @@ const FAMILY: Record<Family, { es: string; en: string; kind: "measure" | "report
 	funvisis: { es: "FUNVISIS", en: "FUNVISIS", kind: "measure" },
 	prensa: { es: "Prensa", en: "Press", kind: "report" },
 	gdacs: { es: "GDACS", en: "GDACS", kind: "context" },
+	usuarios: { es: "Reportes de usuarios", en: "User reports", kind: "report" },
+	camaras: {
+		es: "Cámaras públicas (brillo nocturno)",
+		en: "Public cameras (night brightness)",
+		kind: "measure",
+	},
+	cloudflare: { es: "Cloudflare Radar (tráfico)", en: "Cloudflare Radar (traffic)", kind: "report" },
 };
+
+/**
+ * An evidence row's link: the source's page in a new tab; for user reports and cameras, the server gives the
+ * entity's API address (`/api/v1/entities/ve.miranda.chacao`, `/api/v1/entities/cam.…`): the room opens its page
+ * instead of a JSON file.
+ */
+function EvidenceLink({ e }: { e: Evidence }) {
+	const l = lang.value;
+	const m = /^\/api\/v1\/entities\/([^/?#]+)$/.exec(e.url);
+	const id = m ? decodeURIComponent(m[1] as string) : null;
+	if (id && entityPath(id))
+		return (
+			<a class="evidence__text" {...entityLink(id)}>
+				{e[l]}
+			</a>
+		);
+	if (!/^https?:\/\//i.test(e.url)) return <span class="evidence__text">{e[l]}</span>;
+	return (
+		<a class="evidence__text" href={e.url} target="_blank" rel="noopener noreferrer">
+			{e[l]}
+		</a>
+	);
+}
 
 /**
  * Which sensor fired when: one row per family, a dot for a point in time (a headline, a quake), a bar for
@@ -138,6 +182,11 @@ function shareText(i: IncidentItem, l: "es" | "en"): string {
 	);
 }
 
+/** The element id of an incident's card or watch line, so it can be scrolled to by name. */
+export function incidentDomId(id: string): string {
+	return `incident-${id.replace(/[^\w-]/g, "_")}`;
+}
+
 function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number }) {
 	const l = lang.value;
 	const [copied, setCopied] = useState(false);
@@ -145,22 +194,32 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 	const active = incident.status === "active";
 	const tone = incident.reportsOnly ? "reports" : active ? "active" : "ended";
 	return (
-		<li class={`incident incident--${tone}`}>
+		<li class={`incident incident--${tone}`} id={incidentDomId(incident.id)}>
 			<div class="incident__head">
-				<h3 class="incident__title">
-					<span class={`incident__dot incident__dot--${tone}`} aria-hidden="true" />
-					{incident.title[l]}
-				</h3>
-				<span
-					class={`incident__strength incident__strength--${incident.reportsOnly ? "reports" : "measured"}`}
-				>
-					{incident.strength[l]}
-				</span>
+				{tone === "active" ? (
+					// Its state, not a severity: the rules that rank what matters live in the priority list.
+					<span class="sev sev--warn">
+						<svg viewBox="0 0 10 10" width="9" height="9" aria-hidden="true">
+							<path d="M5 .8 9.2 5 5 9.2.8 5Z" />
+						</svg>
+						{t("En curso", "Ongoing")}
+					</span>
+				) : (
+					<span class={`sev sev--${tone}`}>
+						<svg viewBox="0 0 10 10" width="9" height="9" aria-hidden="true">
+							{tone === "reports" ? <circle cx="5" cy="5" r="3.2" /> : <path d="M1.5 1.5h7v7h-7z" />}
+						</svg>
+						{tone === "reports" ? t("Sin verificar", "Unverified") : t("Terminado", "Ended")}
+					</span>
+				)}
+				<h3 class="incident__title">{incident.title[l]}</h3>
 			</div>
 			<p class="incident__when">
+				<span class="incident__strength">{incident.strength[l]}</span>
+				<span aria-hidden="true"> · </span>
 				{active ? (
 					<>
-						{t("Desde", "Since")} <span class="data">{stamp(incident.startAt, l)}</span> ·{" "}
+						{t("desde", "since")} <span class="data">{stamp(incident.startAt, l)}</span> ·{" "}
 						{t("última evidencia", "last evidence")}{" "}
 						<span class="data">{ago(now.value - incident.lastEvidenceAt, l)}</span>
 					</>
@@ -169,8 +228,8 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 						<span class="data">{stamp(incident.startAt, l)}</span> →{" "}
 						<span class="data">{clock(incident.lastEvidenceAt, l)}</span> ·{" "}
 						{t(
-							`terminado: sin evidencia nueva en ${Math.round((activeMs || 10_800_000) / 3_600_000)} h`,
-							`ended: no new evidence in ${Math.round((activeMs || 10_800_000) / 3_600_000)} h`,
+							`sin evidencia nueva en ${Math.round((activeMs || 10_800_000) / 3_600_000)} h`,
+							`no new evidence in ${Math.round((activeMs || 10_800_000) / 3_600_000)} h`,
 						)}
 					</>
 				)}
@@ -196,7 +255,7 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 				{incident.state ? (
 					<button
 						type="button"
-						class="link-button"
+						class="incident__act"
 						onClick={() => {
 							selectedState.value = incident.state;
 							document.getElementById("mapa")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -206,7 +265,7 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 					</button>
 				) : null}
 				<a
-					class="link-button"
+					class="incident__act"
 					href={`/api/evidence?incident=${encodeURIComponent(incident.id)}`}
 					download
 					title={t(
@@ -218,7 +277,7 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 				</a>
 				<button
 					type="button"
-					class="link-button"
+					class="incident__act"
 					onClick={() => {
 						const text = shareText(incident, l);
 						const done = () => {
@@ -240,9 +299,7 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 								<span class={`evidence__family evidence__family--${FAMILY[e.family].kind}`}>
 									{FAMILY[e.family][l]}
 								</span>
-								<a class="evidence__text" href={e.url} target="_blank" rel="noopener noreferrer">
-									{e[l]}
-								</a>
+								<EvidenceLink e={e} />
 							</li>
 						))}
 						{incident.evidenceTotal > incident.evidence.length ? (
@@ -267,9 +324,7 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 									<li key={e.id} class="evidence__item">
 										<span class="data evidence__time">{clock(e.at, l)}</span>
 										<span class="evidence__family evidence__family--context">{FAMILY[e.family][l]}</span>
-										<a class="evidence__text" href={e.url} target="_blank" rel="noopener noreferrer">
-											{e[l]}
-										</a>
+										<EvidenceLink e={e} />
 									</li>
 								))}
 							</ol>
@@ -282,11 +337,11 @@ function Card({ incident, activeMs }: { incident: IncidentItem; activeMs: number
 }
 
 /** One measured family alone: a line each, below the incidents, never styled or counted as an incident. */
-function Watches({ items }: { items: IncidentItem[] }) {
+function Watches({ items, open }: { items: IncidentItem[]; open?: boolean }) {
 	const l = lang.value;
 	if (!items.length) return null;
 	return (
-		<details class="incidents__group incidents__watches">
+		<details class="incidents__group incidents__watches" open={open}>
 			<summary>
 				{t("Señales sin corroborar", "Uncorroborated signals")} <span class="data">({items.length})</span>
 			</summary>
@@ -298,7 +353,7 @@ function Watches({ items }: { items: IncidentItem[] }) {
 			</p>
 			<ul class="watches">
 				{items.map((w) => (
-					<li key={w.id} class="watch">
+					<li key={w.id} class="watch" id={incidentDomId(w.id)}>
 						<span class="watch__title">{w.title[l]}</span>
 						<span class="watch__meta">
 							{w.families.map((f) => FAMILY[f][l]).join(", ")} ·{" "}
@@ -333,7 +388,7 @@ function Group(props: { title: string; items: IncidentItem[]; open?: boolean; ac
  * "No incident" is a claim of absence: it gives the age of the newest measured input (not the compute time), and
  * on late inputs it is not made at all (review 4, M2).
  */
-function NoneNote({ view }: { view: IncidentsView }) {
+function NoneNote({ view, iso }: { view: IncidentsView; iso: string | null }) {
 	const f = groupFreshness(view.feeds ?? [], healthById.value);
 	const age = f.lastAt ? ago(now.value - f.lastAt, lang.value) : null;
 	if (f.stale)
@@ -350,11 +405,12 @@ function NoneNote({ view }: { view: IncidentsView }) {
 						)}
 			</p>
 		);
+	const where = iso ? t(` en ${stateName(iso)}`, ` in ${stateName(iso)}`) : "";
 	return (
 		<p class="note incidents__none">
 			{t(
-				`Ninguna medición coincide ahora con otra fuente independiente${age ? ` (señales leídas ${age})` : ""}. No significa que no pase nada: mira los reportes y cada panel.`,
-				`No measurement agrees with another independent source right now${age ? ` (signals read ${age})` : ""}. It does not mean nothing is happening: see the reports and each panel.`,
+				`Ninguna medición coincide ahora con otra fuente independiente${where}${age ? ` (señales leídas ${age})` : ""}. No significa que no pase nada: mira los reportes y cada panel.`,
+				`No measurement agrees with another independent source${where} right now${age ? ` (signals read ${age})` : ""}. It does not mean nothing is happening: see the reports and each panel.`,
 			)}
 		</p>
 	);
@@ -363,11 +419,57 @@ function NoneNote({ view }: { view: IncidentsView }) {
 export function IncidentsPanel() {
 	const view = panels.value.incidents as IncidentsView | undefined;
 	const l = lang.value;
-	const measured = view?.incidents.filter((i) => i.status === "active" && !i.reportsOnly) ?? [];
-	const reports = view?.incidents.filter((i) => i.status === "active" && i.reportsOnly) ?? [];
-	const ended = view?.incidents.filter((i) => i.status === "ended") ?? [];
+	// A selected place narrows the lists to its incidents (linked selection); the chip says so and clears it.
+	const iso = selectedState.value;
+	const here = (i: IncidentItem) => !iso || i.state === iso;
+	const inPlace = view?.incidents.filter(here) ?? [];
+	const measured = inPlace.filter((i) => i.status === "active" && !i.reportsOnly);
+	const reports = inPlace.filter((i) => i.status === "active" && i.reportsOnly);
+	const ended = inPlace.filter((i) => i.status === "ended");
 	const [all, setAll] = useState(false);
 	const limit = all ? measured.length : viewport.value === "phone" ? 2 : 4;
+	// An incident asked for by name: shown (its group opened, the list unfolded, a filter that hid it moved to its
+	// state), then scrolled to and focused once the panel has been revealed.
+	const focus = incidentFocus.value;
+	// The incident last asked for keeps its folded group open after the request is done (else the group would close
+	// on the next render and take the focused card with it).
+	const [shown, setShown] = useState<string | null>(null);
+	const wanted = focus ?? shown;
+	const watches = (view?.watches ?? []).filter(here);
+	const has = (list: readonly IncidentItem[]) => wanted !== null && list.some((i) => i.id === wanted);
+	useEffect(() => {
+		if (!focus || !view) return;
+		const target = [...view.incidents, ...(view.watches ?? [])].find((i) => i.id === focus);
+		if (!target) {
+			incidentFocus.value = null;
+			return;
+		}
+		if (iso && target.state !== iso) {
+			selectState(target.state ?? null);
+			return;
+		}
+		const at = measured.findIndex((i) => i.id === focus);
+		if (at >= limit) {
+			setAll(true);
+			return;
+		}
+		setShown(focus);
+		// After jumpTo has revealed and scrolled to the panel (two frames, and a route change when on another page).
+		const timer = setTimeout(() => {
+			const el = document.getElementById(incidentDomId(focus));
+			incidentFocus.value = null;
+			if (!el) return;
+			el.setAttribute("tabindex", "-1");
+			el.scrollIntoView({ block: "center" });
+			el.focus({ preventScroll: true });
+			el.classList.remove("is-target");
+			void el.offsetWidth;
+			el.classList.add("is-target");
+			// The mark is a moment's cue, not a state: gone after a few seconds (reduced motion shows it still).
+			setTimeout(() => el.classList.remove("is-target"), 3_000);
+		}, 350);
+		return () => clearTimeout(timer);
+	}, [focus, view, iso, limit]);
 	return (
 		<Panel
 			id="incidentes"
@@ -397,6 +499,16 @@ export function IncidentsPanel() {
 				<p class="skeleton">…</p>
 			) : (
 				<>
+					{iso ? (
+						<div class="news-controls">
+							<button type="button" class="filter-chip is-on" onClick={() => selectState(null)}>
+								{stateName(iso)} ✕
+							</button>
+							<span class="note">
+								{t(`Solo los incidentes de ${stateName(iso)}.`, `Only the incidents in ${stateName(iso)}.`)}
+							</span>
+						</div>
+					) : null}
 					{measured.length ? (
 						<>
 							<ul class="incidents">
@@ -414,19 +526,20 @@ export function IncidentsPanel() {
 							) : null}
 						</>
 					) : (
-						<NoneNote view={view} />
+						<NoneNote view={view} iso={iso} />
 					)}
 					<Group
 						title={t("Solo reportes de prensa, sin medición", "Press reports only, no measurement")}
 						items={reports}
 						activeMs={view.activeMs}
-						open={measured.length === 0}
+						open={measured.length === 0 || has(reports)}
 					/>
-					<Watches items={view.watches ?? []} />
+					<Watches items={watches} open={has(watches)} />
 					<Group
 						title={t("Terminados en las últimas 48 h", "Ended in the last 48 h")}
 						items={ended}
 						activeMs={view.activeMs}
+						open={has(ended)}
 					/>
 				</>
 			)}

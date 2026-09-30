@@ -46,7 +46,7 @@
 	place-items: center;
 }
 .timeline-strip__play:hover:not(:disabled) {
-	border-color: var(--signal);
+	border-color: var(--accent);
 }
 .timeline-strip__status {
 	flex: 1;
@@ -58,7 +58,7 @@
 	font-size: var(--fs-xs);
 }
 .timeline-strip__past {
-	color: var(--signal);
+	color: var(--accent);
 	font-weight: 650;
 	font-size: var(--fs-sm);
 }
@@ -141,10 +141,10 @@
 	border-top-color: var(--text);
 }
 .timeline-strip.is-past .timeline-strip__cursor {
-	background: var(--signal);
+	background: var(--accent);
 }
 .timeline-strip.is-past .timeline-strip__cursor::before {
-	border-top-color: var(--signal);
+	border-top-color: var(--accent);
 }
 .timeline-strip__range {
 	position: absolute;
@@ -193,13 +193,17 @@
 .timeline-strip__axis a {
 	color: var(--text-3);
 	text-decoration: none;
+	/* A 24 px target (WCAG 2.5.8), without growing the strip: the link's box, not its text, is taller. */
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
 }
 .timeline-strip__axis a:hover {
 	color: var(--text-2);
 	text-decoration: underline;
 }
 .timeline-strip.is-past {
-	background: color-mix(in srgb, var(--signal) 7%, var(--surface-1));
+	background: color-mix(in srgb, var(--accent) 7%, var(--surface-1));
 }
 @container mapbody (max-width: 719px) {
 	/* On a phone the banner over the map carries the "Viendo" line; the strip keeps only its controls. */
